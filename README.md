@@ -16,8 +16,10 @@
 
 | Version | Classic | Remastered |
 | - | - | - |
+| 1.33.6 | [Download](https://github.com/dofera/dofedex/releases/download/1.33.6/dofus-1.33.6.zip) | [Download](https://github.com/dofera/dofedex/releases/download/1.33.6-remastered/dofus-1.33.6-remastered.zip) |
 | [1.33.5](https://www.dofus.com/fr/forum/1751-dofus-retro/2341225-maj-dofus-retro-1-33?page=1#entry12845973) | [Download](https://github.com/dofera/dofedex/releases/download/1.33.5/dofus-1.33.5.zip) | [Download](https://github.com/dofera/dofedex/releases/download/1.33.5-remastered/dofus-1.33.5-remastered.zip) |
 | 1.33.4 | [Download](https://github.com/dofera/dofedex/releases/download/1.33.4/dofus-1.33.4.zip) | [Download](https://github.com/dofera/dofedex/releases/download/1.33.4-remastered/dofus-1.33.4-remastered.zip) |
+| 1.33.3 | [Download](https://github.com/dofera/dofedex/releases/download/1.33.3/dofus-1.33.3.zip) | [Download](https://github.com/dofera/dofedex/releases/download/1.33.3-remastered/dofus-1.33.3-remastered.zip) |
 | 1.33.2 | [Download](https://github.com/dofera/dofedex/releases/download/1.33.2/dofus-1.33.2.zip) | [Download](https://github.com/dofera/dofedex/releases/download/1.33.2-remastered/dofus-1.33.2-remastered.zip) |
 | [1.33.1](https://www.dofus.com/fr/forum/1751-dofus-retro/2341225-maj-dofus-retro-1-33?page=1#entry12836429) | [Download](https://github.com/dofera/dofedex/releases/download/1.33.1/dofus-1.33.1.zip) | [Download](https://github.com/dofera/dofedex/releases/download/1.33.1-remastered/dofus-1.33.1-remastered.zip) |
 | [1.33.0](https://www.dofus.com/fr/forum/1751-dofus-retro/2341225-maj-dofus-retro-1-33) | [Download](https://github.com/dofera/dofedex/releases/download/1.33.0/dofus-1.33.0.zip) | [Download](https://github.com/dofera/dofedex/releases/download/1.33.0-remastered/dofus-1.33.0-remastered.zip) |
@@ -51,7 +53,7 @@
 | [1.27.1](https://www.dofus.com/fr/forum/1750-dofus/260877-patch-1-27-1-retour-boucliers) | Download |
 | [1.27.0](https://www.dofus.com/fr/forum/1750-dofus/242641-version-1-27) | [Download](https://github.com/dofera/dofedex/releases/download/1.27.0/dofus-1.27.0.zip) |
 | [1.26.0](https://www.dofus.com/fr/forum/1750-dofus/202463-version-1-26) | Download |
-| [1.25.0](https://www.dofus.com/fr/forum/1750-dofus/176947-version-1-25) | Download |
+| [1.25.0](https://www.dofus.com/fr/forum/1750-dofus/176947-version-1-25) | [Download](https://github.com/dofera/dofedex/releases/download/1.25.0/dofus-1.25.0.zip) |
 | [1.24.0](https://www.dofus.com/fr/forum/1750-dofus/151193-version-1-24) | [Download](https://github.com/dofera/dofedex/releases/download/1.24.0/dofus-1.24.0.zip) |
 | [1.23.0](https://www.dofus.com/fr/forum/1750-dofus/139210-nouvelle-version-1-23) | [Download](https://github.com/dofera/dofedex/releases/download/1.23.0/dofus-1.23.0.zip) |
 | [1.22.0](https://www.dofus.com/fr/forum/1750-dofus/132932-version-1-22-bientot-disponible) | [Download](https://github.com/dofera/dofedex/releases/download/1.22.0/dofus-1.22.0.zip) |
@@ -104,7 +106,8 @@
 
 ## Contributors
 
-- [Ygg](https://github.com/Yggdrasilife) (1.0.0)
+- [Jisagi](https://github.com/Jisagi) (1.25.0)
+- [Ygg](https://github.com/Yggdrasilife) (1.0.0 - 1.33.3)
 
 ## Contributing
 

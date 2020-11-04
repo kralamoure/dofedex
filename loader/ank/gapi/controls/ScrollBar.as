@@ -221,8 +221,7 @@ class ank.gapi.controls.ScrollBar extends ank.gapi.core.UIBasicComponent
 		this.setMovieClipColor(var3.down_mc.arrow_mc,var2.sbarrowcolor);
 		this.setMovieClipColor(var3.over_mc.bg_mc,var2.sbarrowbgcolor);
 		this.setMovieClipColor(var3.over_mc.arrow_mc,var2.sbarrowcolor);
-		§§enumerate(this._mcHolder.thumb_mc);
-		while((var var0 = §§enumeration()) != null)
+		for(var k in this._mcHolder.thumb_mc)
 		{
 			this.setMovieClipColor(this._mcHolder.thumb_mc[k],var2.sbthumbcolor);
 		}

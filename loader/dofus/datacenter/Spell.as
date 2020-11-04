@@ -215,7 +215,7 @@ class dofus.datacenter.Spell extends Object
 	function __get__effectsNormalHitWithArea()
 	{
 		var var2 = this.api.kernel.GameManager.getSpellEffects(this.getSpellLevelText(0),this._nID);
-		var var3 = new ank.utils.();
+		var var3 = new ank.utils.();
 		var var4 = 0;
 		var var5 = 0;
 		while(var5 < var2.length)
@@ -232,7 +232,7 @@ class dofus.datacenter.Spell extends Object
 	function __get__effectsCriticalHitWithArea()
 	{
 		var var2 = this.api.kernel.GameManager.getSpellEffects(this.getSpellLevelText(1),this._nID);
-		var var3 = new ank.utils.();
+		var var3 = new ank.utils.();
 		var var4 = this.effectsNormalHit.length;
 		var var5 = 0;
 		while(var5 < var2.length)
@@ -277,30 +277,29 @@ class dofus.datacenter.Spell extends Object
 		for(var k in var3)
 		{
 			var var4 = var3[k].element;
-			loop1:
-			switch(var4)
+			if((var var0 = var4) !== "N")
 			{
-				case "N":
-					var2.neutral = true;
-					break;
-				case "E":
-					var2.earth = true;
-					break;
-				default:
-					switch(null)
-					{
-						case "F":
-							var2.fire = true;
-							break loop1;
-						case "W":
-							var2.water = true;
-							break loop1;
-						case "A":
-							var2.air = true;
-							break loop1;
-						default:
-							var2.none = true;
-					}
+				switch(null)
+				{
+					case "E":
+						var2.earth = true;
+						break;
+					case "F":
+						var2.fire = true;
+						break;
+					case "W":
+						var2.water = true;
+						break;
+					case "A":
+						var2.air = true;
+						break;
+					default:
+						var2.none = true;
+				}
+			}
+			else
+			{
+				var2.neutral = true;
 			}
 		}
 		return var2;
@@ -315,7 +314,7 @@ class dofus.datacenter.Spell extends Object
 		this._nID = var2;
 		this._nLevel = var3;
 		this._nPosition = ank.utils.Compressor.decode64(var4);
-		if(this._nPosition > 24 || this._nPosition < 1)
+		if(this._nPosition > 29 || this._nPosition < 1)
 		{
 			this._nPosition = null;
 		}

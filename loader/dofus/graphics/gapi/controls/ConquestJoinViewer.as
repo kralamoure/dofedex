@@ -16,37 +16,33 @@ class dofus.graphics.gapi.controls.ConquestJoinViewer extends dofus.graphics.gap
 		{
 			return undefined;
 		}
-		if((var var0 = Number(var2)) !== 0)
+		switch(Number(var2))
 		{
-			switch(null)
-			{
-				case -1:
-					this._lblJoinFightDetails.text = this.api.lang.getText("CONQUEST_JOIN_FIGHT_NOFIGHT");
-					this._lblJoinFightDetails._visible = var0 = true;
-					this._lblJoinFight._visible = var0;
-					this._mcErrorBackground._visible = var0;
-					this._bNoUnsubscribe = true;
-					break;
-				case -2:
-					this._lblJoinFightDetails.text = this.api.lang.getText("CONQUEST_JOIN_FIGHT_INFIGHT");
-					this._lblJoinFightDetails._visible = var0 = true;
-					this._lblJoinFight._visible = var0;
-					this._mcErrorBackground._visible = var0;
-					this._bNoUnsubscribe = true;
-					break;
-				case -3:
-					this._lblJoinFightDetails.text = this.api.lang.getText("CONQUEST_JOIN_FIGHT_NONE");
-					this._lblJoinFightDetails._visible = var0 = true;
-					this._lblJoinFight._visible = var0;
-					this._mcErrorBackground._visible = var0;
-					this._bNoUnsubscribe = true;
-			}
-		}
-		else
-		{
-			this._lblJoinFightDetails._visible = var0 = false;
-			this._lblJoinFight._visible = var0;
-			this._mcErrorBackground._visible = var0;
+			case 0:
+				this._lblJoinFightDetails._visible = var0 = false;
+				this._lblJoinFight._visible = var0;
+				this._mcErrorBackground._visible = var0;
+				break;
+			case -1:
+				this._lblJoinFightDetails.text = this.api.lang.getText("CONQUEST_JOIN_FIGHT_NOFIGHT");
+				this._lblJoinFightDetails._visible = var0 = true;
+				this._lblJoinFight._visible = var0;
+				this._mcErrorBackground._visible = var0;
+				this._bNoUnsubscribe = true;
+				break;
+			case -2:
+				this._lblJoinFightDetails.text = this.api.lang.getText("CONQUEST_JOIN_FIGHT_INFIGHT");
+				this._lblJoinFightDetails._visible = var0 = true;
+				this._lblJoinFight._visible = var0;
+				this._mcErrorBackground._visible = var0;
+				this._bNoUnsubscribe = true;
+				break;
+			case -3:
+				this._lblJoinFightDetails.text = this.api.lang.getText("CONQUEST_JOIN_FIGHT_NONE");
+				this._lblJoinFightDetails._visible = var0 = true;
+				this._lblJoinFight._visible = var0;
+				this._mcErrorBackground._visible = var0;
+				this._bNoUnsubscribe = true;
 		}
 		return this.__get__error();
 	}

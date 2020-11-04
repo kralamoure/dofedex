@@ -44,10 +44,10 @@ class dofus.graphics.gapi.ui.ItemSelector extends dofus.graphics.gapi.core.Dofus
 	}
 	function initData()
 	{
-		this._eaItems = new ank.utils.();
+		this._eaItems = new ank.utils.();
 		this._tiQuantity.restrict = "0-9";
 		this._tiQuantity.text = "1";
-		var var2 = new ank.utils.();
+		var var2 = new ank.utils.();
 		var var3 = this.api.lang.getAllItemTypes();
 		for(var a in var3)
 		{
@@ -70,8 +70,8 @@ class dofus.graphics.gapi.ui.ItemSelector extends dofus.graphics.gapi.core.Dofus
 			var2[this._aTypes[k]] = true;
 		}
 		var var3 = this.api.lang.getItemUnics();
-		this._eaItems = new ank.utils.();
-		this._eaItemsOriginal = new ank.utils.();
+		this._eaItems = new ank.utils.();
+		this._eaItemsOriginal = new ank.utils.();
 		for(var k in var3)
 		{
 			var var4 = var3[k];
@@ -81,7 +81,7 @@ class dofus.graphics.gapi.ui.ItemSelector extends dofus.graphics.gapi.core.Dofus
 				{
 					var var5 = var4.n;
 					this._eaItems.push({id:k,name:var5.toUpperCase()});
-					this._eaItemsOriginal.push(new dofus.datacenter.(0,Number(k)));
+					this._eaItemsOriginal.push(new dofus.datacenter.(0,Number(k)));
 				}
 			}
 		}
@@ -90,7 +90,7 @@ class dofus.graphics.gapi.ui.ItemSelector extends dofus.graphics.gapi.core.Dofus
 	function searchItem(var2)
 	{
 		var var3 = var2.split(" ");
-		var var4 = new ank.utils.();
+		var var4 = new ank.utils.();
 		var var5 = new Object();
 		var var6 = 0;
 		var var7 = 0;
@@ -109,7 +109,7 @@ class dofus.graphics.gapi.ui.ItemSelector extends dofus.graphics.gapi.core.Dofus
 		{
 			if(var5[k] >= var6)
 			{
-				var4.push(new dofus.datacenter.(0,Number(k)));
+				var4.push(new dofus.datacenter.(0,Number(k)));
 			}
 		}
 		this._lst.dataProvider = var4;
@@ -141,14 +141,18 @@ class dofus.graphics.gapi.ui.ItemSelector extends dofus.graphics.gapi.core.Dofus
 			case "_btnCancel":
 				this.dispatchEvent({type:"cancel"});
 				this.callClose();
-			case "_btnSelect":
-				if(this._lst.selectedItem == undefined)
+				break;
+			default:
+				if(var0 !== "_btnSelect")
 				{
-					return undefined;
 				}
-				this.dispatchEvent({type:"select",ui:"ItemSelector",itemId:this._lst.selectedItem.unicID,itemQuantity:this._tiQuantity.text});
 				break;
 		}
+		if(this._lst.selectedItem == undefined)
+		{
+			return undefined;
+		}
+		this.dispatchEvent({type:"select",ui:"ItemSelector",itemId:this._lst.selectedItem.unicID,itemQuantity:this._tiQuantity.text});
 	}
 	function change(var2)
 	{

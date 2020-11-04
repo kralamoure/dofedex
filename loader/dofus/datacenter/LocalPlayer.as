@@ -22,11 +22,11 @@ class dofus.datacenter.LocalPlayer extends dofus.utils.ApiElement
 	{
 		this.SpellsManager = new dofus.managers.SpellsManager(this);
 		this.InteractionsManager = new dofus.managers.InteractionsManager(this,this.api);
-		this.Inventory = new ank.utils.();
-		this.ItemSets = new ank.utils.();
-		this.Jobs = new ank.utils.();
-		this.Spells = new ank.utils.();
-		this.Emotes = new ank.utils.();
+		this.Inventory = new ank.utils.();
+		this.ItemSets = new ank.utils.();
+		this.Jobs = new ank.utils.();
+		this.Spells = new ank.utils.();
+		this.Emotes = new ank.utils.();
 		this.clearSummon();
 		this._bCraftPublicMode = false;
 		this._bInParty = false;
@@ -61,6 +61,7 @@ class dofus.datacenter.LocalPlayer extends dofus.utils.ApiElement
 	function __set__Name(var2)
 	{
 		this._sName = String(var2);
+		this.dispatchEvent({type:"nameChanged",value:var2});
 		return this.__get__Name();
 	}
 	function __get__Name()
@@ -645,6 +646,19 @@ class dofus.datacenter.LocalPlayer extends dofus.utils.ApiElement
 	{
 		this.currentUseObject = null;
 	}
+	function canReceiveItems(var2, var3)
+	{
+		var var4 = !var3?this.maxWeight - this.currentWeight:this.mount.podsMax - this.mount.pods;
+		var var5 = 0;
+		var var6 = 0;
+		while(var6 < var2.length)
+		{
+			var var7 = var2[var6];
+			var5 = var5 + var7.weight * var7.Quantity;
+			var6 = var6 + 1;
+		}
+		return var5 <= var4;
+	}
 	function getPossibleItemReceiveQuantity(var2, var3)
 	{
 		var var4 = !var3?this.maxWeight - this.currentWeight:this.mount.podsMax - this.mount.pods;
@@ -675,6 +689,7 @@ class dofus.datacenter.LocalPlayer extends dofus.utils.ApiElement
 		{
 			this.setWeaponItem(var2);
 		}
+		this.Inventory.startNoEventDispatchsPeriod(dofus.Constants.DELAYED_INVENTORY_ITEMS_VISUAL_REFRESH);
 		this.Inventory.push(var2);
 	}
 	function updateItem(var2)
@@ -722,6 +737,7 @@ class dofus.datacenter.LocalPlayer extends dofus.utils.ApiElement
 		{
 			this.setWeaponItem();
 		}
+		this.Inventory.startNoEventDispatchsPeriod(dofus.Constants.DELAYED_INVENTORY_ITEMS_VISUAL_REFRESH);
 		this.Inventory.removeItems(var3.index,1);
 	}
 	function updateSpell(var2)
@@ -832,7 +848,7 @@ class dofus.datacenter.LocalPlayer extends dofus.utils.ApiElement
 	}
 	function clearEmotes()
 	{
-		this.Emotes = new ank.utils.();
+		this.Emotes = new ank.utils.();
 	}
 	function addEmote(var2)
 	{
@@ -844,7 +860,7 @@ class dofus.datacenter.LocalPlayer extends dofus.utils.ApiElement
 	}
 	function updateCloseCombat()
 	{
-		this.Spells[0] = new dofus.datacenter.(this._oWeaponItem,this._nGuild);
+		this.Spells[0] = new dofus.datacenter.(this._oWeaponItem,this._nGuild);
 	}
 	function setWeaponItem(var2)
 	{

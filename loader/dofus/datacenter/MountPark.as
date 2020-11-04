@@ -1,6 +1,6 @@
 class dofus.datacenter.MountPark extends Object
 {
-	function MountPark(nOwner, §\x02\x16§, §\x1e\x1e\x1c§, nItems, §\x1e\x13\x11§, §\x1e\x1a\x16§)
+	function MountPark(nOwner, §\x01\n§, §\x1e\x1d\x10§, nItems, §\x1e\x11\x1b§, §\x1e\x19\x07§)
 	{
 		super();
 		this.owner = nOwner;

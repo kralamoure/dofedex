@@ -4,12 +4,12 @@ class dofus.datacenter.MonsterGroup extends ank.battlefield.datacenter.Sprite
 	var _bAllDirections = false;
 	var _bForceWalk = true;
 	var _nAlignmentIndex = -1;
-	function MonsterGroup(sID, clipClass, §\x1e\x13\x14§, cellNum, §\x11\x1b§, bonus)
+	function MonsterGroup(sID, clipClass, §\x1e\x12\x01§, §\x13\x05§, §\x10\x1c§, bonus)
 	{
 		super();
 		this.api = _global.API;
 		this._nBonusValue = bonus;
-		this.initialize(sID,clipClass,var5,cellNum,var7,null);
+		this.initialize(sID,clipClass,var5,var6,var7,null);
 	}
 	function __set__name(var2)
 	{
@@ -80,6 +80,6 @@ class dofus.datacenter.MonsterGroup extends ank.battlefield.datacenter.Sprite
 	}
 	function __get__alignment()
 	{
-		return new dofus.datacenter.(this._nAlignmentIndex,0);
+		return new dofus.datacenter.(this._nAlignmentIndex,0);
 	}
 }

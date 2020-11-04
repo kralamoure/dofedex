@@ -90,20 +90,16 @@ class dofus.datacenter.Effect extends Object
 			case 165:
 				var3[0] = this.api.lang.getItemTypeText(this._nParam1).n;
 				break;
-			case 293:
-			case 294:
-			case 787:
-				var3[0] = this.api.lang.getSpellText(this._nParam1).n;
-				break;
-			case 601:
-				var var4 = this.api.lang.getMapText(this._nParam2);
-				var3[0] = this.api.lang.getMapSubAreaText(var4.sa).n;
-				var3[1] = var4.x;
-				var3[2] = var4.y;
-				break;
 			default:
 				switch(null)
 				{
+					case 787:
+					case 601:
+						var var4 = this.api.lang.getMapText(this._nParam2);
+						var3[0] = this.api.lang.getMapSubAreaText(var4.sa).n;
+						var3[1] = var4.x;
+						var3[2] = var4.y;
+						break loop0;
 					case 614:
 						var3[0] = this._nParam3;
 						var3[1] = this.api.lang.getJobText(this._nParam2).n;
@@ -111,35 +107,128 @@ class dofus.datacenter.Effect extends Object
 					case 615:
 						var3[2] = this.api.lang.getJobText(this._nParam3).n;
 						break loop0;
-					case 616:
-					case 624:
-						var3[2] = this.api.lang.getSpellText(this._nParam3).n;
-						break loop0;
-					case 699:
-						var3[0] = this.api.lang.getJobText(this._nParam1).n;
-						break loop0;
 					default:
 						switch(null)
 						{
-							case 628:
-							case 623:
-								var3[2] = this.api.lang.getMonstersText(this._nParam3).n;
+							case 616:
+							case 624:
+								var3[2] = this.api.lang.getSpellText(this._nParam3).n;
 								break loop0;
-							case 715:
-								var3[0] = this.api.lang.getMonstersSuperRaceText(this._nParam1).n;
-								break loop0;
-							case 716:
-								var3[0] = this.api.lang.getMonstersRaceText(this._nParam1).n;
-								break loop0;
-							case 717:
-								var3[0] = this.api.lang.getMonstersText(this._nParam1).n;
+							case 699:
+								var3[0] = this.api.lang.getJobText(this._nParam1).n;
 								break loop0;
 							default:
 								switch(null)
 								{
+									case 623:
+									case 715:
+										var3[0] = this.api.lang.getMonstersSuperRaceText(this._nParam1).n;
+										break loop0;
+									case 716:
+										var3[0] = this.api.lang.getMonstersRaceText(this._nParam1).n;
+										break loop0;
+									case 717:
+										var3[0] = this.api.lang.getMonstersText(this._nParam1).n;
+										break loop0;
+									default:
+										switch(null)
+										{
+											case 983:
+											case 806:
+												if(this._nParam2 == undefined && this._nParam3 == undefined)
+												{
+													var3[0] = this.api.lang.getText("NORMAL");
+												}
+												else
+												{
+													var3[0] = this._nParam2 <= 6?this._nParam3 <= 6?this.api.lang.getText("NORMAL"):this.api.lang.getText("LEAN"):this.api.lang.getText("FAT");
+												}
+												break loop0;
+											case 807:
+												if(this._nParam3 == undefined)
+												{
+													var3[0] = this.api.lang.getText("NO_LAST_MEAL");
+												}
+												else
+												{
+													var3[0] = this.api.lang.getItemUnicText(this._nParam3).n;
+												}
+												break loop0;
+											case 814:
+												var3[0] = this.api.lang.getItemUnicText(this._nParam3).n;
+												break loop0;
+											default:
+												switch(null)
+												{
+													case 951:
+													default:
+														if(var0 !== dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_RANGE)
+														{
+															if(var0 !== dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_RANGEABLE)
+															{
+																if(var0 !== dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_DMG)
+																{
+																	switch(null)
+																	{
+																		default:
+																			if(var0 !== dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_CAST_INTVL)
+																			{
+																				if(var0 !== dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_SET_INTVL)
+																				{
+																					loop7:
+																					switch(null)
+																					{
+																						default:
+																							if(var0 !== dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_NOLINEOFSIGHT)
+																							{
+																								if(var0 !== dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_MAXPERTURN)
+																								{
+																									switch(null)
+																									{
+																										case dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_MAXPERTARGET:
+																											break loop7;
+																										default:
+																											switch(null)
+																											{
+																												case 969:
+																													break;
+																												case 960:
+																													var3[2] = this.api.lang.getAlignment(this._nParam3).n;
+																													break;
+																												case 999:
+																											}
+																											break loop0;
+																										case 939:
+																										case 940:
+																											var var11 = new dofus.datacenter.(-1,Number(var3[2]),1,0,"",0);
+																											var3[2] = var11.name;
+																									}
+																								}
+																								break;
+																							}
+																							break;
+																						case dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_CC:
+																						case dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_CASTOUTLINE:
+																					}
+																					break;
+																				}
+																				break;
+																			}
+																			break;
+																		case dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_HEAL:
+																		case dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_AP_COST:
+																	}
+																}
+															}
+														}
+													case dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_AP_COST:
+														var3[0] = this.api.lang.getSpellText(Number(var3[0])).n;
+												}
+											case 950:
+												var3[2] = this.api.lang.getStateText(this._nParam3);
+										}
 									case 805:
 									case 808:
-									case 983:
 										this._nParam3 = this._nParam3 != undefined?this._nParam3:0;
 										var var5 = String(Math.floor(this._nParam2) / 100).split(".");
 										var var6 = Number(var5[0]);
@@ -147,107 +236,15 @@ class dofus.datacenter.Effect extends Object
 										var var8 = String(Math.floor(this._nParam3) / 100).split(".");
 										var var9 = Number(var8[0]);
 										var var10 = this._nParam3 - var9 * 100;
-										var3[0] = ank.utils.PatternDecoder.getDescription(this.api.lang.getConfigText("DATE_FORMAT"),[this._nParam1,new ank.utils.(var6 + 1).addLeftChar("0",2),new ank.utils.(var7).addLeftChar("0",2),var9,new ank.utils.(var10).addLeftChar("0",2)]);
-										break loop0;
-									case 806:
-										if(this._nParam2 == undefined && this._nParam3 == undefined)
-										{
-											var3[0] = this.api.lang.getText("NORMAL");
-										}
-										else
-										{
-											var3[0] = this._nParam2 <= 6?this._nParam3 <= 6?this.api.lang.getText("NORMAL"):this.api.lang.getText("LEAN"):this.api.lang.getText("FAT");
-										}
-										break loop0;
-									case 807:
-										if(this._nParam3 == undefined)
-										{
-											var3[0] = this.api.lang.getText("NO_LAST_MEAL");
-										}
-										else
-										{
-											var3[0] = this.api.lang.getItemUnicText(this._nParam3).n;
-										}
-										break loop0;
-									default:
-										switch(null)
-										{
-											case 814:
-												var3[0] = this.api.lang.getItemUnicText(this._nParam3).n;
-												break loop0;
-											case 950:
-											case 951:
-												var3[2] = this.api.lang.getStateText(this._nParam3);
-												break loop0;
-											default:
-												if(var0 !== dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_AP_COST)
-												{
-													switch(null)
-													{
-														default:
-															if(var0 !== dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_DMG)
-															{
-																if(var0 !== dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_HEAL)
-																{
-																	switch(null)
-																	{
-																		default:
-																			if(var0 !== dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_SET_INTVL)
-																			{
-																				if(var0 !== dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_CC)
-																				{
-																					if(var0 !== dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_CASTOUTLINE)
-																					{
-																						loop7:
-																						switch(null)
-																						{
-																							default:
-																								switch(null)
-																								{
-																									case dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_MAXPERTARGET:
-																										break loop7;
-																									default:
-																										switch(null)
-																										{
-																											case 940:
-																												break;
-																											case 960:
-																												var3[2] = this.api.lang.getAlignment(this._nParam3).n;
-																												break;
-																											case 999:
-																										}
-																										break loop0;
-																									case 939:
-																										var var11 = new dofus.datacenter.(-1,Number(var3[2]),1,0,"",0);
-																										var3[2] = var11.name;
-																								}
-																							case dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_NOLINEOFSIGHT:
-																							case dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_MAXPERTURN:
-																						}
-																						break;
-																					}
-																					break;
-																				}
-																				break;
-																			}
-																			break;
-																		case dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_AP_COST:
-																		case dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_CAST_INTVL:
-																	}
-																	break;
-																}
-																break;
-															}
-															break;
-														case dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_RANGE:
-														case dofus.managers.SpellsBoostsManager.ACTION_BOOST_SPELL_RANGEABLE:
-													}
-												}
-												var3[0] = this.api.lang.getSpellText(Number(var3[0])).n;
-										}
+										var3[0] = ank.utils.PatternDecoder.getDescription(this.api.lang.getConfigText("DATE_FORMAT"),[this._nParam1,new ank.utils.(var6 + 1).addLeftChar("0",2),new ank.utils.(var7).addLeftChar("0",2),var9,new ank.utils.(var10).addLeftChar("0",2)]);
 								}
+							case 628:
+								var3[2] = this.api.lang.getMonstersText(this._nParam3).n;
 						}
 				}
+			case 293:
+			case 294:
+				var3[0] = this.api.lang.getSpellText(this._nParam1).n;
 		}
 		if(this.api.lang.getEffectText(this._nType).j && this.api.kernel.OptionsManager.getOption("ViewDicesDammages"))
 		{

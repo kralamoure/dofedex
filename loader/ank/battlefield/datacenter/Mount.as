@@ -1,6 +1,6 @@
 class ank.battlefield.datacenter.Mount extends Object
 {
-	function Mount(§\x1e\x13\x14§, sChevauchorGfxFile)
+	function Mount(§\x1e\x12\x01§, sChevauchorGfxFile)
 	{
 		super();
 		this.gfxFile = var3;

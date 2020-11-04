@@ -4,6 +4,7 @@ class ank.battlefield.datacenter.Sprite extends Object
 	var bAnimLoop = false;
 	var _nChildIndex = -1;
 	var _nLastCellNum = -1;
+	var _nFutureCellNum = -1;
 	var _sDefaultAnimation = "static";
 	var _sStartAnimation = "static";
 	var _nSpeedModerator = 1;
@@ -12,25 +13,36 @@ class ank.battlefield.datacenter.Sprite extends Object
 	var _bForceWalk = false;
 	var _bForceRun = false;
 	var _bNoFlip = false;
+	var _bIsPendingClearing = false;
+	var _bUncarryingSprite = false;
 	var bInCreaturesMode = false;
 	function Sprite(var3, var4, var5, var6, var7)
 	{
 		super();
 		this.initialize(var3,var4,var5,var6,var7);
 	}
-	function initialize(sID, §\x0f\x12§, §\x1e\x13\x14§, §\b\x18§, §\x07\x10§)
+	function initialize(sID, §\x0e\x13§, §\x1e\x12\x01§, §\x07\x14§, §\x06\n§)
 	{
 		this.id = sID;
 		this.clipClass = var3;
 		this._sGfxFile = var4;
 		this._nCellNum = Number(var5);
 		this._nDirection = var6 != undefined?Number(var6):1;
-		this._oSequencer = new ank.utils.(1000);
+		this._oSequencer = new ank.utils.(1000);
 		this._bInMove = false;
 		this._bVisible = true;
 		this._bClear = false;
-		this._eoLinkedChilds = new ank.utils.();
+		this._eoLinkedChilds = new ank.utils.();
 		mx.events.EventDispatcher.initialize(this);
+	}
+	function __set__uncarryingSprite(var2)
+	{
+		this._bUncarryingSprite = var2;
+		return this.__get__uncarryingSprite();
+	}
+	function __get__uncarryingSprite()
+	{
+		return this._bUncarryingSprite;
 	}
 	function __get__hasChilds()
 	{
@@ -158,12 +170,36 @@ class ank.battlefield.datacenter.Sprite extends Object
 	}
 	function __set__isInMove(var2)
 	{
+		if(!var2)
+		{
+			this._nFutureCellNum = -1;
+			this._sMoveSpeedType = undefined;
+			this._sMoveAnimation = undefined;
+		}
 		this._bInMove = var2;
 		if(this.hasCarriedChild())
 		{
 			this.carriedChild.isInMove = var2;
 		}
 		return this.__get__isInMove();
+	}
+	function __get__moveSpeedType()
+	{
+		return this._sMoveSpeedType;
+	}
+	function __set__moveSpeedType(var2)
+	{
+		this._sMoveSpeedType = var2;
+		return this.__get__moveSpeedType();
+	}
+	function __get__moveAnimation()
+	{
+		return this._sMoveAnimation;
+	}
+	function __set__moveAnimation(var2)
+	{
+		this._sMoveAnimation = var2;
+		return this.__get__moveAnimation();
 	}
 	function __get__isClear()
 	{
@@ -187,6 +223,15 @@ class ank.battlefield.datacenter.Sprite extends Object
 		this._nLastCellNum = this._nCellNum != undefined?this._nCellNum:var2;
 		this._nCellNum = Number(var2);
 		return this.__get__cellNum();
+	}
+	function __get__futureCellNum()
+	{
+		return this._nFutureCellNum;
+	}
+	function __set__futureCellNum(var2)
+	{
+		this._nFutureCellNum = var2;
+		return this.__get__futureCellNum();
 	}
 	function __get__direction()
 	{
@@ -291,5 +336,14 @@ class ank.battlefield.datacenter.Sprite extends Object
 	function __get__isMounting()
 	{
 		return this._oMount != undefined;
+	}
+	function __get__isPendingClearing()
+	{
+		return this._bIsPendingClearing;
+	}
+	function __set__isPendingClearing(var2)
+	{
+		this._bIsPendingClearing = var2;
+		return this.__get__isPendingClearing();
 	}
 }

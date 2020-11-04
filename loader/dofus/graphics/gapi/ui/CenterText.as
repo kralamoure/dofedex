@@ -56,8 +56,8 @@ class dofus.graphics.gapi.ui.CenterText extends dofus.graphics.gapi.core.DofusAd
 			var5 = 0;
 		}
 		this._prgbGfxLoad._visible = true;
-		this._prgbGfxLoad["\x1e\f\x18"].text = var2;
-		this._prgbGfxLoad["\x1e\f\x17"].text = var5 + "%";
-		this._prgbGfxLoad["\x0b\x15"]._width = var5;
+		this._prgbGfxLoad["\x1e\n\x13"].text = var2;
+		this._prgbGfxLoad["\x1e\n\x12"].text = var5 + "%";
+		this._prgbGfxLoad["\n\x12"]._width = var5;
 	}
 }

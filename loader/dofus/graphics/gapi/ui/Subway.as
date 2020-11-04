@@ -32,13 +32,16 @@ class dofus.graphics.gapi.ui.Subway extends dofus.graphics.gapi.core.DofusAdvanc
 	}
 	function callClose()
 	{
-		switch(this._nType)
+		if((var var0 = this._nType) !== dofus.graphics.gapi.ui.Subway.SUBWAY_TYPE_SUBWAY)
 		{
-			case dofus.graphics.gapi.ui.Subway.SUBWAY_TYPE_SUBWAY:
-				this.api.network.Subway.leave();
-				break;
-			case dofus.graphics.gapi.ui.Subway.SUBWAY_TYPE_PRISM:
+			if(var0 === dofus.graphics.gapi.ui.Subway.SUBWAY_TYPE_PRISM)
+			{
 				this.api.network.Subway.prismLeave();
+			}
+		}
+		else
+		{
+			this.api.network.Subway.leave();
 		}
 		return true;
 	}
@@ -115,6 +118,9 @@ class dofus.graphics.gapi.ui.Subway extends dofus.graphics.gapi.core.DofusAdvanc
 			for(var a in this._eaData)
 			{
 				this.setCurrentTab(Number(a));
+				while(§§pop() != null)
+				{
+				}
 				return undefined;
 				
 				break;

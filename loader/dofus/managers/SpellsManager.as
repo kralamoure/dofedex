@@ -1,6 +1,6 @@
 class dofus.managers.SpellsManager
 {
-	function SpellsManager(var3)
+	function SpellsManager(var2)
 	{
 		this.initialize(var2);
 	}
@@ -190,7 +190,7 @@ class dofus.managers.SpellsManager
 		}
 		return {can:true};
 	}
-	function checkCanLaunchSpellOnCell(mapHandler, §\x1e\x19\n§, §\x13\x1d§, §\x1e\x16\x1b§)
+	function checkCanLaunchSpellOnCell(mapHandler, §\x1e\x17\x18§, §\x13\x04§, §\x1e\x15\x0b§)
 	{
 		var var6 = Number(this._localPlayerData.data.cellNum);
 		var var7 = Number(var4.mc.num);

@@ -139,12 +139,12 @@ class dofus.graphics.gapi.ui.GuildHouseRights extends dofus.graphics.gapi.core.D
 				this.validate();
 				break;
 			default:
-				if(var0 !== this._btnCancel)
+				switch(null)
 				{
-					break;
+					case this._btnClose:
+					case this._btnCancel:
+						this.unloadThis();
 				}
-			case this._btnClose:
-				this.unloadThis();
 		}
 	}
 }

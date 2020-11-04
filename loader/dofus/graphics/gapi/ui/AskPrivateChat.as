@@ -50,7 +50,7 @@ class dofus.graphics.gapi.ui.AskPrivateChat extends ank.gapi.ui.FlyWindow
 				break;
 			case "_btnSend":
 				var var3 = this._winBackground.content._txtMessage.text;
-				var3 = new ank.utils.(var3).replace(String.fromCharCode(13)," ");
+				var3 = new ank.utils.(var3).replace(String.fromCharCode(13)," ");
 				this.dispatchEvent({type:"send",message:var3,params:this.params});
 				this.unloadThis();
 				break;

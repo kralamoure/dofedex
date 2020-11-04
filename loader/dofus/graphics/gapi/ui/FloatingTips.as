@@ -39,7 +39,7 @@ class dofus.graphics.gapi.ui.FloatingTips extends dofus.graphics.gapi.core.Dofus
 	}
 	function __get__position()
 	{
-		return new com.ankamagames.types.(this._x,this._y);
+		return new com.ankamagames.types.(this._x,this._y);
 	}
 	function __set__position(var2)
 	{
@@ -68,6 +68,7 @@ class dofus.graphics.gapi.ui.FloatingTips extends dofus.graphics.gapi.core.Dofus
 		this._btnClose.addEventListener("click",this);
 		this._taTipsContent.addEventListener("href",this);
 		Mouse.addListener(this);
+		var myself = this;
 		this._winBackground.onPress = function()
 		{
 			myself.drag();
@@ -99,7 +100,7 @@ class dofus.graphics.gapi.ui.FloatingTips extends dofus.graphics.gapi.core.Dofus
 		this._x = var2;
 		this._y = var3;
 		this.snapWindow();
-		this.api.kernel.OptionsManager.setOption("FloatingTipsCoord",new com.ankamagames.types.(this._x,this._y));
+		this.api.kernel.OptionsManager.setOption("FloatingTipsCoord",new com.ankamagames.types.(this._x,this._y));
 	}
 	function snapWindow()
 	{

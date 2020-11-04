@@ -1,37 +1,19 @@
-if(!dofus.graphics.gapi.ui.Friends)
+class dofus.graphics.gapi.ui.Friends extends dofus.graphics.gapi.core.DofusAdvancedComponent
 {
-	if(!dofus)
-	{
-		_global.dofus = new Object();
-	}
-	if(!dofus.graphics)
-	{
-		_global.dofus.graphics = new Object();
-	}
-	if(!dofus.graphics.gapi)
-	{
-		_global.dofus.graphics.gapi = new Object();
-	}
-	if(!dofus.graphics.gapi.ui)
-	{
-		_global.dofus.graphics.gapi.ui = new Object();
-	}
-	dofus.graphics.gapi.ui.Friends = function()
+	static var CLASS_NAME = "Friends";
+	var _sCurrentTab = "Friends";
+	function Friends()
 	{
 		super();
-	} extends dofus.graphics.gapi.core.DofusAdvancedComponent;
-	var var1 = dofus.graphics.gapi.ui.Friends = function()
-	{
-		super();
-	}.prototype;
-	var1.__set__enemiesList = function __set__enemiesList(var2)
+	}
+	function __set__enemiesList(var2)
 	{
 		if(this._sCurrentTab != "Enemies")
 		{
 			return undefined;
 		}
-		var var3 = new ank.utils.();
-		var var4 = new ank.utils.();
+		var var3 = new ank.utils.();
+		var var4 = new ank.utils.();
 		var var5 = 0;
 		while(var5 < var2.length)
 		{
@@ -52,15 +34,15 @@ if(!dofus.graphics.gapi.ui.Friends)
 		this._dgOnLine.dataProvider = var3;
 		this._dgOffLine.dataProvider = var4;
 		return this.__get__enemiesList();
-	};
-	var1.__set__friendsList = function __set__friendsList(var2)
+	}
+	function __set__friendsList(var2)
 	{
 		if(this._sCurrentTab != "Friends")
 		{
 			return undefined;
 		}
-		var var3 = new ank.utils.();
-		var var4 = new ank.utils.();
+		var var3 = new ank.utils.();
+		var var4 = new ank.utils.();
 		var var5 = 0;
 		while(var5 < var2.length)
 		{
@@ -84,8 +66,8 @@ if(!dofus.graphics.gapi.ui.Friends)
 			this._dgOffLine.dataProvider = var4;
 		}
 		return this.__get__friendsList();
-	};
-	var1.__set__spouse = function __set__spouse(var2)
+	}
+	function __set__spouse(var2)
 	{
 		if(this._svSpouse != undefined)
 		{
@@ -95,8 +77,8 @@ if(!dofus.graphics.gapi.ui.Friends)
 		this.attachMovie("SpouseViewer","_svSpouse",10,{_x:this._mcSpousePlacer._x,_y:this._mcSpousePlacer._y,spouse:var2});
 		this._svSpouse.swapDepths(this._mcSpousePlacer);
 		return this.__get__spouse();
-	};
-	var1.removeFriend = function removeFriend(var2)
+	}
+	function removeFriend(var2)
 	{
 		switch(this._sCurrentTab)
 		{
@@ -104,24 +86,22 @@ if(!dofus.graphics.gapi.ui.Friends)
 				this.api.network.Enemies.removeEnemy(var2);
 				break;
 			case "Friends":
-			default:
 				this.api.network.Friends.removeFriend(var2);
 				break;
 			case "Ignore":
 				this.api.kernel.ChatManager.removeToBlacklist(var2);
 				this.updateIgnoreList();
 		}
-	};
-	var1.updateIgnoreList = function updateIgnoreList()
+	}
+	function updateIgnoreList()
 	{
 		if(this._sCurrentTab != "Ignore")
 		{
 			return undefined;
 		}
 		var var2 = this.api.kernel.ChatManager.getBlacklist();
-		var var3 = new ank.utils.();
-		§§enumerate(var2);
-		while((var var0 = §§enumeration()) != null)
+		var var3 = new ank.utils.();
+		for(var i in var2)
 		{
 			if(var2[i] != undefined)
 			{
@@ -131,171 +111,167 @@ if(!dofus.graphics.gapi.ui.Friends)
 				var3.push(var4);
 			}
 		}
-		this._dgOffLine.dataProvider = new ank.utils.();
+		this._dgOffLine.dataProvider = new ank.utils.();
 		this._dgOnLine.dataProvider = var3;
-	};
-	var1[§§constant(55)] = function §\§\§constant(55)§()
+	}
+	function init()
 	{
-		super["\bwR\x17�\r"](false,eval("�\x05")["\x07�*9\x10�\x02"]["g\x1b�\b"]["\x03"]["^"]["\x04\x01\bv\x07\x02"]);
-		this["g\x1b�\b"]("")["\x04\x01\bhN�\x02"] = false;
-	};
-	var1[§§constant(60)] = function §\§\§constant(60)§()
+		super.init(false,dofus.graphics.gapi.ui.Friends.CLASS_NAME);
+		this.gapi.getUIComponent("Banner").chatAutoFocus = false;
+	}
+	function destroy()
 	{
-		this["g\x1b�\b"]("")["\x04\x01\bhN�\x02"] = true;
-	};
-	var1["\x04\x01\bv\x07\x02"] = function §\x04\x01\bv\x07\x02§()
+		this.gapi.getUIComponent("Banner").chatAutoFocus = true;
+	}
+	function callClose()
 	{
-		this();
+		this.unloadThis();
 		return true;
-	};
-	var1[""] = function §§()
+	}
+	function createChildren()
 	{
-		this["\x02"]({yN�:this,w�:this[""]});
-		this["\x02"]({yN�:this,w�:this["2�\x02"]});
-		this["\x02"]({yN�:this,w�:this["\x01"]});
-		this["\x02"]({yN�:this,w�:this["@R\x17�\r"]});
-		this["\x02"]({yN�:this,w�:this["\x04\x01\bz\x07\x02"],:[this["\x04\x01\b�R\x17�\x04"]]});
-		this["\x04\x01\beN�\x02"][""] = false;
-	};
-	var1[""] = function §§()
+		this.addToQueue({object:this,method:this.initTexts});
+		this.addToQueue({object:this,method:this.addListeners});
+		this.addToQueue({object:this,method:this.setTextFocus});
+		this.addToQueue({object:this,method:this.initData});
+		this.addToQueue({object:this,method:this.setCurrentTab,params:[this._sCurrentTab]});
+		this._mcSpousePlacer._visible = false;
+	}
+	function initTexts()
 	{
-		switch(this["\x04\x01\b�R\x17�\x04"])
+		switch(this._sCurrentTab)
 		{
-			case "\x04\x01\b\nN4P�\x02":
-				this["\x04\x01\byN�\x02"]["\bwR\x17�\r"] = this[""][""]("\x04\x01\b{\x07\x02");
-				this["\x04\x01\byN�\x02"]["\bwR\x17�\r"] = this[""][""]("\x04\x01\b|\x07\x02");
-				this[""]["\bwR\x17�\r"] = this[""][""]("");
-				this[""]["\x04\x01\b\x15�\x02"] = ["\x05\x01�\x02",this[""][""]("\b�R\x174�\x02") + "|\x02\'N�\x02" + this[""][""]("\b\x02N�\x02") + "\b\x03N\x12\x12�\x02",this[""][""]("-�iN�\x02"),"\x05\x01�\x02","\x05\x01�\x02"];
-				this["\bwR\x17�\r"][""] = true;
-				this["�"][""] = this["\bwR\x17�\r"][""];
-				this["�\x02"][""] = this["\bwR\x17�\r"][""];
+			case "Enemies":
+				this._winBg.title = this.api.lang.getText("ENEMIES");
+				this._lblAddFriend.text = this.api.lang.getText("ADD_AN_ENEMY");
+				this._lblInfo.text = this.api.lang.getText("FRIENDS_INFO_ENEMIES");
+				this._dgOnLine.columnsNames = ["",this.api.lang.getText("ACCOUNT") + " (" + this.api.lang.getText("NAME") + ")",this.api.lang.getText("LEVEL"),"",""];
+				this._dgOffLine._visible = true;
+				this._lblOffLine._visible = this._dgOffLine._visible;
+				this._lblOnLine._visible = this._dgOffLine._visible;
 				break;
-			case "^":
-				this["\x04\x01\byN�\x02"]["\bwR\x17�\r"] = this[""][""]("\b\x05\x1c�\x02");
-				this["\x04\x01\byN�\x02"]["\bwR\x17�\r"] = this[""][""]("\b");
-				this[""]["\bwR\x17�\r"] = this[""][""]("�\x03");
-				this[""]["\x04\x01\b\x15�\x02"] = ["\x05\x01�\x02",this[""][""]("\b�R\x174�\x02") + "|\x02\'N�\x02" + this[""][""]("\b\x02N�\x02") + "\b\x03N\x12\x12�\x02",this[""][""]("-�iN�\x02"),"\x05\x01�\x02","\x05\x01�\x02"];
-				this["\bwR\x17�\r"][""] = true;
-				this["�"][""] = this["\bwR\x17�\r"][""];
-				this["�\x02"][""] = this["\bwR\x17�\r"][""];
+			case "Friends":
+				this._winBg.title = this.api.lang.getText("FRIENDS");
+				this._lblAddFriend.text = this.api.lang.getText("ADD_A_FRIEND");
+				this._lblInfo.text = this.api.lang.getText("FRIENDS_INFO_FRIENDS");
+				this._dgOnLine.columnsNames = ["",this.api.lang.getText("ACCOUNT") + " (" + this.api.lang.getText("NAME") + ")",this.api.lang.getText("LEVEL"),"",""];
+				this._dgOffLine._visible = true;
+				this._lblOffLine._visible = this._dgOffLine._visible;
+				this._lblOnLine._visible = this._dgOffLine._visible;
 				break;
-			case "\x04\x01\b}\x07\x02":
-				this["\x04\x01\byN�\x02"]["\bwR\x17�\r"] = this[""][""]("");
-				this["\x04\x01\byN�\x02"]["\bwR\x17�\r"] = this[""][""]("\x02");
-				this[""]["\bwR\x17�\r"] = this[""][""]("2�\x02");
-				this[""]["\x04\x01\b\x15�\x02"] = ["\x05\x01�\x02",this[""][""]("\b\x02N�\x02")["�"](0,1)["@�\x05"]() + this[""][""]("\b\x02N�\x02")["�"](1),"\x05\x01�\x02","\x05\x01�\x02"];
-				this["\bwR\x17�\r"][""] = false;
-				this["�"][""] = this["\bwR\x17�\r"][""];
-				this["�\x02"][""] = this["\bwR\x17�\r"][""];
+			case "Ignore":
+				this._winBg.title = this.api.lang.getText("IGNORED");
+				this._lblAddFriend.text = this.api.lang.getText("ADD_A_IGNORED");
+				this._lblInfo.text = this.api.lang.getText("FRIENDS_INFO_IGNORE");
+				this._dgOnLine.columnsNames = ["",this.api.lang.getText("NAME").substr(0,1).toUpperCase() + this.api.lang.getText("NAME").substr(1),"",""];
+				this._dgOffLine._visible = false;
+				this._lblOffLine._visible = this._dgOffLine._visible;
+				this._lblOnLine._visible = this._dgOffLine._visible;
 		}
-		this[""][""] = this[""][""]("\b\x05\x1c�\x02");
-		this[""][""] = this[""][""]("\x04\x01\b{\x07\x02");
-		this[""][""] = this[""][""]("");
-		this[""]["\bwR\x17�\r"] = this[""][""]("4P�\x02");
-		this["T�+O�\x04"]["\bwR\x17�\r"] = this[""][""]("\x04\x01\bB4�\x02");
-		this["\bwR\x17�\r"]["\x04\x01\b\x15�\x02"] = [this[""][""]("\b�R\x174�\x02")];
-		this["�\x02"]["\bwR\x17�\r"] = this[""][""]("�\x03,�\f");
-		this["�"]["\bwR\x17�\r"] = this[""][""]("");
-		this["\x01"][""] = this[""][""]("\x03)");
-		this["\x02\x17\x11"]["\bwR\x17�\r"] = this[""][""]("\x10");
-		if(!this[""][""]["\x04\x01\byN�\x04"]("�\x04"))
+		this._btnTabFriends.label = this.api.lang.getText("FRIENDS");
+		this._btnTabEnemies.label = this.api.lang.getText("ENEMIES");
+		this._btnTabIgnore.label = this.api.lang.getText("IGNORED");
+		this._lblHelp.text = this.api.lang.getText("IGNORED_DESC");
+		this._lblTitleInfo.text = this.api.lang.getText("INFORMATIONS");
+		this._dgOffLine.columnsNames = [this.api.lang.getText("ACCOUNT")];
+		this._lblOnLine.text = this.api.lang.getText("ONLINE");
+		this._lblOffLine.text = this.api.lang.getText("OFFLINE");
+		this._btnAdd.label = this.api.lang.getText("ADD");
+		this._lblShowFriendsWarning.text = this.api.lang.getText("WARNING_WHEN_FRIENDS_COME_ONLINE");
+		if(!this.api.lang.getConfigText("ENABLE_IGNORE_LIST"))
 		{
-			this["\b�\x04\x02O�\x02"][""] = false;
+			this._btnSwapMode._visible = false;
 		}
-	};
-	var1["2�\x02"] = function §2�\x02§()
+	}
+	function addListeners()
 	{
-		this["\x01"]["\f\"�\r"]("\x05\x01�\x02",this);
-		this[""]["\f\"�\r"]("\x05\x01�\x02",this);
-		this[""]["\f\"�\r"]("\x05\x01�\x02",this);
-		this[""]["\f\"�\r"]("\x05\x01�\x02",this);
-		this[""]["\f\"�\r"]("\x05\x01�\x02",this);
-		this["\x01"]["\f\"�\r"]("\x05\x01�\x02",this);
-		this["\x01"]["\f\"�\r"]("\x03)",this);
-		this["\x01"]["\f\"�\r"]("\x02\x1e\x1b\x01",this);
-		this[""]["\f\"�\r"](";",this);
-		this[""]["\f\"�\r"]("�\x04",this);
-		this[""]["\x04\x01\b\x15N�\x02"]["\b�N�\x02"]["\b3N�\t"]("\x04\x02\b�N�\x02",this);
-	};
-	var1["@R\x17�\r"] = function §@R\x17�\r§()
+		this._btnAdd.addEventListener("click",this);
+		this._btnClose.addEventListener("click",this);
+		this._btnTabFriends.addEventListener("click",this);
+		this._btnTabEnemies.addEventListener("click",this);
+		this._btnTabIgnore.addEventListener("click",this);
+		this._btnShowFriendsWarning.addEventListener("click",this);
+		this._btnShowFriendsWarning.addEventListener("over",this);
+		this._btnShowFriendsWarning.addEventListener("out",this);
+		this._dgOnLine.addEventListener("itemSelected",this);
+		this._dgOnLine.addEventListener("itemdblClick",this);
+		this.api.kernel.KeyManager.addShortcutsListener("onShortcut",this);
+	}
+	function initData()
 	{
-		this["\x01"]["\x07\x01"] = this[""][""][""]["\x04\x01\b\x1aN�\x02"];
-	};
-	var1["\x01"] = function §\x01§()
+		this._btnShowFriendsWarning.selected = this.api.datacenter.Basics.aks_notify_on_friend_connexion;
+	}
+	function setTextFocus()
 	{
 		this._itAddFriend.setFocus();
-	};
-	var1["\x04\x01\bz\x07\x02"] = function §\x04\x01\bz\x07\x02§(var2)
+	}
+	function setCurrentTab(var2)
 	{
-		var var3 = this["\b�4�\x02" + this["\x04\x01\b�R\x17�\x04"]];
-		var var4 = this["\b�4�\x02" + var2];
-		var3["\x07\x01"] = true;
-		var3["\x01"] = true;
-		var4["\x07\x01"] = false;
-		var4["\x01"] = false;
-		this["\x04\x01\b�R\x17�\x04"] = var2;
-		this[",R\x17�\x03"]();
-	};
-	var1[",R\x17�\x03"] = function §,R\x17�\x03§()
+		var var3 = this["_btnTab" + this._sCurrentTab];
+		var var4 = this["_btnTab" + var2];
+		var3.selected = true;
+		var3.enabled = true;
+		var4.selected = false;
+		var4.enabled = false;
+		this._sCurrentTab = var2;
+		this.updateCurrentTabInformations();
+	}
+	function updateCurrentTabInformations()
 	{
-		switch(this["\x04\x01\b�R\x17�\x04"])
+		switch(this._sCurrentTab)
 		{
-			case "\x04\x01\b\nN4P�\x02":
-				this[""][""]["\x04\x01\b\nN4P�\x02"]();
+			case "Enemies":
+				this.api.network.Enemies.getEnemiesList();
 				break;
-			case "^":
-				this[""][""]["^"]["\x0b"]();
+			case "Friends":
+				this.api.network.Friends.getFriendsList();
 				break;
-			case "\x04\x01\b}\x07\x02":
-				this();
+			case "Ignore":
+				this.updateIgnoreList();
 		}
-		this["\x02"]({yN�:this,w�:this[""]});
-	};
-	var1["\x04\x02\b�N�\x02"] = function §\x04\x02\b�N�\x02§(var2)
+		this.addToQueue({object:this,method:this.initTexts});
+	}
+	function onShortcut(var2)
 	{
-		if(var2 == §§constant(140) && this[§§constant(133)][§§constant(141)])
+		if(var2 == "ACCEPT_CURRENT_DIALOG" && this._itAddFriend.focused)
 		{
-			this[§§constant(118)]({§§constant(142):this[§§constant(111)]});
+			this.click({target:this._btnAdd});
 			return false;
 		}
 		return true;
-	};
-	var1["\x05\x01�\x02"] = function §\x05\x01�\x02§(var2)
+	}
+	function click(var2)
 	{
 		switch(var2.target)
 		{
 			case this._btnAdd:
 				if(this._itAddFriend.text.length != 0)
 				{
-					if((var0 = this._sCurrentTab) !== "Enemies")
+					switch(this._sCurrentTab)
 					{
-						switch(null)
-						{
-							case "Friends":
-								this.api.network.Friends.addFriend("%" + this._itAddFriend.text);
-								if(this._itAddFriend.text != undefined)
-								{
-									this._itAddFriend.text = "";
-								}
-								this.api.network.Friends.getFriendsList();
-								break;
-							case "Ignore":
-								this.api.kernel.ChatManager.addToBlacklist(this._itAddFriend.text);
-								if(this._itAddFriend.text != undefined)
-								{
-									this._itAddFriend.text = "";
-								}
-								this.updateIgnoreList();
-						}
-					}
-					else
-					{
-						this.api.network.Enemies.addEnemy("%" + this._itAddFriend.text);
-						if(this._itAddFriend.text != undefined)
-						{
-							this._itAddFriend.text = "";
-						}
-						this.api.network.Enemies.getEnemiesList();
+						case "Enemies":
+							this.api.network.Enemies.addEnemy("%" + this._itAddFriend.text);
+							if(this._itAddFriend.text != undefined)
+							{
+								this._itAddFriend.text = "";
+							}
+							this.api.network.Enemies.getEnemiesList();
+							break;
+						case "Friends":
+							this.api.network.Friends.addFriend("%" + this._itAddFriend.text);
+							if(this._itAddFriend.text != undefined)
+							{
+								this._itAddFriend.text = "";
+							}
+							this.api.network.Friends.getFriendsList();
+							break;
+						case "Ignore":
+							this.api.kernel.ChatManager.addToBlacklist(this._itAddFriend.text);
+							if(this._itAddFriend.text != undefined)
+							{
+								this._itAddFriend.text = "";
+							}
+							this.updateIgnoreList();
 					}
 				}
 				break;
@@ -319,46 +295,28 @@ if(!dofus.graphics.gapi.ui.Friends)
 						this.api.datacenter.Basics.aks_notify_on_friend_connexion = this._btnShowFriendsWarning.selected;
 				}
 		}
-	};
-	var1["\b\x06@O�\x02"] = function §\b\x06@O�\x02§(var2)
+	}
+	function notifyStateChanged(var2)
 	{
-		this["\x01"]["\x07\x01"] = var2;
-	};
-	var1[";"] = function §;§(var2)
+		this._btnShowFriendsWarning.selected = var2;
+	}
+	function itemSelected(var2)
 	{
-		this[""]["\x04\x01\b\x15N�\x02"]["�\x02"]["\x05"](undefined,var2["\b\x05\x1c�\x02"]["\b"]["\b-N�\x02"],undefined,true,undefined,undefined,true);
-	};
-	var1["�\x04"] = function §�\x04§(var2)
+		this.api.kernel.GameManager.showPlayerPopupMenu(undefined,var2.row.item.name,undefined,true,undefined,undefined,true);
+	}
+	function itemdblClick(var2)
 	{
-		this[""]["\x04\x01\b\x15N�\x02"]["�\x02"]["\x12�\x02"](var2["\b\x05\x1c�\x02"]["\b"]["\b-N�\x02"]);
-	};
-	var1["\x03)"] = function §\x03)§(var2)
+		this.api.kernel.GameManager.askPrivateMessage(var2.row.item.name);
+	}
+	function over(var2)
 	{
 		if((var var0 = var2.target) === this._btnShowFriendsWarning)
 		{
 			this.gapi.showTooltip(this.api.lang.getText("WARNING_WHEN_FRIENDS_COME_ONLINE_TOOLTIP"),var2.target,-20);
 		}
-	};
-	var1["\x02\x1e\x1b\x01"] = function §\x02\x1e\x1b\x01§(var2)
-	{
-		this["g\x1b�\b"]["\x04"]();
-	};
-	var1["\x01\x17�\x04"]("\b\tN�\x01",function()
-	{
 	}
-	,var1.__set__friendsList);
-	var1[§§constant(158)](§§constant(37),function()
+	function out(var2)
 	{
+		this.gapi.hideTooltip();
 	}
-	,var1[""]);
-	var1["\x01\x17�\x04"]("\x04\x01\b\n�\x02",function()
-	{
-	}
-	,var1[""]);
-	eval("\x05\x01�\x02")(var1,null,1);
-	dofus.graphics.gapi.ui.Friends = function()
-	{
-		super();
-	}["\x04\x01\bv\x07\x02"] = "^";
-	var1["\x04\x01\b�R\x17�\x04"] = "^";
 }

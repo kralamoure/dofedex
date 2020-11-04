@@ -2,7 +2,7 @@ class dofus.managers.InteractionsManager extends dofus.utils.ApiElement
 {
 	static var STATE_MOVE_SINGLE = 0;
 	static var STATE_SELECT = 1;
-	function InteractionsManager(var3, var4)
+	function InteractionsManager(var2, var3)
 	{
 		super();
 		this.initialize(var3,var4);
@@ -24,7 +24,7 @@ class dofus.managers.InteractionsManager extends dofus.utils.ApiElement
 			this._state = dofus.managers.InteractionsManager.STATE_MOVE_SINGLE;
 		}
 	}
-	function calculatePath(mapHandler, §\x14\x04§, §\x16\x19§, §\x18\x1b§, §\x19\r§, §\x1c\x18§, §\x14\x1b§)
+	function calculatePath(mapHandler, §\x13\t§, §\x16\b§, §\x18\x12§, §\x19\x04§, §\x1c\x13§, §\x14\x03§)
 	{
 		var var9 = var8 != true?this._playerManager.data.cellNum:this._playerManager.data.lastCellNum;
 		if(var3 == this._playerManager.data.cellNum || var8 == true && var3 == var9)
@@ -32,8 +32,30 @@ class dofus.managers.InteractionsManager extends dofus.utils.ApiElement
 			return false;
 		}
 		var var10 = mapHandler.getCellData(var3);
-		var var11 = !var6?var10.spriteOnID != undefined?true:false:false;
-		if(var11)
+		var var11 = var10.spriteOnID;
+		var var12 = !var6 && var11 != undefined;
+		if(var12 && !this.api.datacenter.Game.isFight)
+		{
+			var var13 = (dofus.graphics.gapi.ui.Party)this.api.ui.getUIComponent("Party");
+			var var14 = false;
+			if(var13 != undefined)
+			{
+				§§enumerate(var10.allSpritesOn);
+				while((var var0 = §§enumeration()) != null)
+				{
+					if(var10.allSpritesOn[sID] && var13.getMember(String(sID)) != undefined)
+					{
+						var14 = true;
+						break;
+					}
+				}
+			}
+			if(!var14)
+			{
+				var12 = false;
+			}
+		}
+		if(var12)
 		{
 			return false;
 		}
@@ -54,13 +76,13 @@ class dofus.managers.InteractionsManager extends dofus.utils.ApiElement
 					this.api.gfx.select(this.convertToSimplePath(this.api.datacenter.Basics.interactionsManager_path),dofus.Constants.CELL_PATH_SELECT_COLOR);
 					return this.api.datacenter.Basics.interactionsManager_path != null;
 				}
-				this.api.datacenter.Basics.interactionsManager_path = ank.battlefield.utils.Pathfinding.pathFind(mapHandler,var9,var3,{bAllDirections:false,nMaxLength:(!var5?500:this._playerManager.data.MP)});
+				this.api.datacenter.Basics.interactionsManager_path = ank.battlefield.utils.Pathfinding.pathFind(this.api,mapHandler,var9,var3,{bAllDirections:false,nMaxLength:(!var5?500:this._playerManager.data.MP)});
 				this.api.gfx.unSelect(true);
 				this.api.gfx.select(this.convertToSimplePath(this.api.datacenter.Basics.interactionsManager_path),dofus.Constants.CELL_PATH_OVER_COLOR);
 			}
 			return false;
 		}
-		this.api.datacenter.Basics.interactionsManager_path = ank.battlefield.utils.Pathfinding.pathFind(mapHandler,var9,var3,{bAllDirections:var7,bIgnoreSprites:var6});
+		this.api.datacenter.Basics.interactionsManager_path = ank.battlefield.utils.Pathfinding.pathFind(this.api,mapHandler,var9,var3,{bAllDirections:var7,bIgnoreSprites:var6});
 		if(this.api.datacenter.Basics.interactionsManager_path != null)
 		{
 			return true;

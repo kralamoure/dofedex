@@ -1,6 +1,6 @@
 class com.ankamagames.exceptions.AbstractException extends Error
 {
-	function AbstractException(objectErrorSource, className, methodName, §\n\x13§)
+	function AbstractException(objectErrorSource, className, methodName, §\t\x10§)
 	{
 		super(var6);
 		this._className = className;

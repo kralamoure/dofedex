@@ -7,11 +7,21 @@ class ank.gapi.controls.ContainerGrid extends ank.gapi.core.UIBasicComponent
 	var _bInvalidateLayout = false;
 	var _bScrollBar = true;
 	var _bSelectable = true;
+	var _bMultiContainerSelection = true;
 	var _nScrollPosition = 0;
 	var _nStyleMargin = 0;
 	function ContainerGrid()
 	{
 		super();
+	}
+	function __set__multipleContainerSelectionEnabled(var2)
+	{
+		this._bMultiContainerSelection = var2;
+		return this.__get__multipleContainerSelectionEnabled();
+	}
+	function __get__multipleContainerSelectionEnabled()
+	{
+		return this._bMultiContainerSelection;
 	}
 	function __set__selectable(var2)
 	{
@@ -63,11 +73,11 @@ class ank.gapi.controls.ContainerGrid extends ank.gapi.core.UIBasicComponent
 	}
 	function __get__selectedIndex()
 	{
-		return this._nSelectedIndex;
+		return this._aSelectedIndexes[this._aSelectedIndexes.length - 1].index;
 	}
 	function __get__selectedItem()
 	{
-		return this._mcScrollContent["c" + this._nSelectedIndex];
+		return this._mcScrollContent["c" + this.selectedIndex];
 	}
 	function __set__scrollBar(var2)
 	{
@@ -77,6 +87,20 @@ class ank.gapi.controls.ContainerGrid extends ank.gapi.core.UIBasicComponent
 	function __get__scrollBar()
 	{
 		return this._bScrollBar;
+	}
+	function isSelectedIndex(var2)
+	{
+		var var3 = 0;
+		while(var3 < this._aSelectedIndexes.length)
+		{
+			var var4 = this._aSelectedIndexes[var3].index;
+			if(var4 == var2)
+			{
+				return true;
+			}
+			var3 = var3 + 1;
+		}
+		return false;
 	}
 	function setVPosition(var2)
 	{
@@ -101,6 +125,27 @@ class ank.gapi.controls.ContainerGrid extends ank.gapi.core.UIBasicComponent
 	{
 		return (ank.gapi.controls.Container)this._mcScrollContent["c" + var2];
 	}
+	function unSelectAll()
+	{
+		var var2 = 0;
+		var var3 = 0;
+		while(var3 < this._nVisibleRowCount)
+		{
+			var var4 = 0;
+			while(var4 < this._nVisibleColumnCount)
+			{
+				var var5 = this._mcScrollContent["c" + var2];
+				if(var5.selected)
+				{
+					var5.selected = false;
+				}
+				var2 = var2 + 1;
+				var4 = var4 + 1;
+			}
+			var3 = var3 + 1;
+		}
+		this._aSelectedIndexes = new Array();
+	}
 	function init()
 	{
 		super.init(false,ank.gapi.controls.ContainerGrid.CLASS_NAME);
@@ -117,6 +162,7 @@ class ank.gapi.controls.ContainerGrid extends ank.gapi.core.UIBasicComponent
 			this._sbVertical.addEventListener("scroll",this);
 		}
 		ank.utils.MouseEvents.addListener(this);
+		this._aSelectedIndexes = new Array();
 	}
 	function size()
 	{
@@ -181,7 +227,7 @@ class ank.gapi.controls.ContainerGrid extends ank.gapi.core.UIBasicComponent
 				var11.showLabel = this._eaDataProvider[var4].label != undefined && this._eaDataProvider[var4].label > 0;
 				var11.contentData = this._eaDataProvider[var4];
 				var11.id = var4;
-				if(var4 == this._nSelectedIndex)
+				if(this.isSelectedIndex(var4))
 				{
 					var11.selected = true;
 				}
@@ -267,42 +313,95 @@ class ank.gapi.controls.ContainerGrid extends ank.gapi.core.UIBasicComponent
 			var5 = var5 + 1;
 		}
 	}
-	function setSelectedItem(var2)
+	function getSelectedItems()
 	{
+		var var2 = new Array();
 		var var3 = 0;
+		while(var3 < this._aSelectedIndexes.length)
+		{
+			var var4 = this._aSelectedIndexes[var3].item;
+			var2.push(var4);
+			var3 = var3 + 1;
+		}
+		var2.reverse();
+		return var2;
+	}
+	function selectContainer(var2)
+	{
+		var2.selected = true;
+		this._aSelectedIndexes.push({index:var2.id,item:var2.contentData});
+	}
+	function unSelectContainer(var2)
+	{
+		var2.selected = false;
+		var var3 = new Array();
+		var var4 = 0;
+		while(var4 < this._aSelectedIndexes.length)
+		{
+			if(var2.id != this._aSelectedIndexes[var4].index)
+			{
+				var3.push(this._aSelectedIndexes[var4]);
+			}
+			var4 = var4 + 1;
+		}
+		this._aSelectedIndexes = var3;
+	}
+	function setSelectedItem(var2, var3)
+	{
+		if(var3 == undefined)
+		{
+			var3 = false;
+		}
 		var var4 = 0;
 		var var5 = 0;
-		while(var5 < this._nVisibleRowCount)
+		var var6 = 0;
+		while(var6 < this._nVisibleRowCount)
 		{
-			var var6 = 0;
-			while(var6 < this._nVisibleColumnCount)
+			var var7 = 0;
+			while(var7 < this._nVisibleColumnCount)
 			{
-				var var7 = this._mcScrollContent["c" + var3];
-				if(var2 == var7.id)
+				var var8 = this._mcScrollContent["c" + var4];
+				if(var2 == var8.id)
 				{
-					var2 = var3;
-					var4 = var7.id;
+					var2 = var4;
+					var5 = var8.id;
 				}
-				var3 = var3 + 1;
-				var6 = var6 + 1;
+				var4 = var4 + 1;
+				var7 = var7 + 1;
 			}
-			var5 = var5 + 1;
+			var6 = var6 + 1;
 		}
-		if(this._nSelectedIndex != var4)
+		var var9 = this.getItemById(this.selectedIndex);
+		var var10 = this._mcScrollContent["c" + var2];
+		if(this._bMultiContainerSelection)
 		{
-			var var8 = this.getItemById(this._nSelectedIndex);
-			var var9 = this._mcScrollContent["c" + var2];
-			if(var9.contentData == undefined)
+			if(!Key.isDown(dofus.Constants.SELECT_MULTIPLE_ITEMS_KEY))
+			{
+				this.unSelectAll();
+			}
+		}
+		else
+		{
+			this.unSelectContainer(var9);
+		}
+		if(var10.contentData == undefined)
+		{
+			return undefined;
+		}
+		if(var10.selected)
+		{
+			if(var3)
 			{
 				return undefined;
 			}
-			var8.selected = false;
-			var9.selected = true;
-			this._nSelectedIndex = var4;
+			this.unSelectContainer(var10);
+			return undefined;
 		}
+		this.selectContainer(var10);
 	}
 	function modelChanged(var2)
 	{
+		this.unSelectAll();
 		var var3 = this._nRowCount;
 		this._nRowCount = Math.ceil(this._eaDataProvider.length / this._nVisibleColumnCount);
 		this._bInvalidateLayout = true;
@@ -324,6 +423,10 @@ class ank.gapi.controls.ContainerGrid extends ank.gapi.core.UIBasicComponent
 	}
 	function over(var2)
 	{
+		if(this._bSelectable && (this._bMultiContainerSelection && (Key.isDown(dofus.Constants.SELECT_MULTIPLE_ITEMS_KEY) && Key.isDown(Key.SHIFT))))
+		{
+			this.setSelectedItem(var2.target.id,true);
+		}
 		this.dispatchEvent({type:"overItem",target:var2.target});
 	}
 	function out(var2)
@@ -340,7 +443,9 @@ class ank.gapi.controls.ContainerGrid extends ank.gapi.core.UIBasicComponent
 	}
 	function dblClick(var2)
 	{
-		this.dispatchEvent({type:"dblClickItem",target:var2.target,owner:this});
+		var var3 = this.getSelectedItems();
+		this.unSelectAll();
+		this.dispatchEvent({type:"dblClickItem",target:var2.target,targets:var3,owner:this});
 	}
 	function onMouseWheel(var2, var3)
 	{

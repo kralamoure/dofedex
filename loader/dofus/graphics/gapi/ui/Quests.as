@@ -66,7 +66,7 @@ class dofus.graphics.gapi.ui.Quests extends dofus.graphics.gapi.core.DofusAdvanc
 	{
 		if(this.api.datacenter.Temporary.QuestBook == undefined)
 		{
-			this.api.datacenter.Temporary.QuestBook = new dofus.datacenter.();
+			this.api.datacenter.Temporary.QuestBook = new dofus.datacenter.();
 		}
 		this.api.network.Quests.getList();
 	}
@@ -119,15 +119,19 @@ class dofus.graphics.gapi.ui.Quests extends dofus.graphics.gapi.core.DofusAdvanc
 			case "_btnTabCurrent":
 				this.setCurrentTab("Current");
 				break;
-			case "_btnTabAll":
-				this.setCurrentTab("All");
-				break;
-			case "_btnFinished":
-				this.modelChanged();
-				break;
-			case "_btnCloseStep":
-				this._dgQuests.selectedIndex = -1;
-				this.showStepViewer(false);
+			default:
+				switch(null)
+				{
+					case "_btnTabAll":
+						this.setCurrentTab("All");
+						break;
+					case "_btnFinished":
+						this.modelChanged();
+						break;
+					case "_btnCloseStep":
+						this._dgQuests.selectedIndex = -1;
+						this.showStepViewer(false);
+				}
 		}
 	}
 	function itemSelected(var2)
@@ -155,7 +159,7 @@ class dofus.graphics.gapi.ui.Quests extends dofus.graphics.gapi.core.DofusAdvanc
 	function modelChanged(var2)
 	{
 		var var3 = this.api.datacenter.Temporary.QuestBook.quests;
-		var var4 = new ank.utils.();
+		var var4 = new ank.utils.();
 		if(this._btnFinished.selected)
 		{
 			var4 = var3;

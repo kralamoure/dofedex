@@ -24,7 +24,7 @@ class dofus.graphics.gapi.ui.FightChallenge extends dofus.graphics.gapi.core.Dof
 			var2 = var2 + 1;
 		}
 		this._aChallengeIcon = new Array();
-		this._aChallengeList = new ank.utils.();
+		this._aChallengeList = new ank.utils.();
 		this.FightChallengeViewer.unloadMovie();
 		this._visible = false;
 	}
@@ -53,7 +53,7 @@ class dofus.graphics.gapi.ui.FightChallenge extends dofus.graphics.gapi.core.Dof
 	}
 	function init()
 	{
-		this._aChallengeList = new ank.utils.();
+		this._aChallengeList = new ank.utils.();
 		super.init(false,dofus.graphics.gapi.ui.FightChallenge.CLASS_NAME);
 	}
 	function createChildren()

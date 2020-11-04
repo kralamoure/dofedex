@@ -35,25 +35,29 @@ class dofus.graphics.gapi.controls.spellfullinfosvieweritem.SpellFullInfosViewer
 				}
 				if(var5 != undefined)
 				{
-					switch(var5)
+					if((var var0 = var5) !== "N")
 					{
-						case "N":
-							this._ctrElement.contentPath = "IconNeutralDommage";
-							break;
-						case "F":
-							this._ctrElement.contentPath = "IconFireDommage";
-							break;
-						case "A":
-							this._ctrElement.contentPath = "IconAirDommage";
-							break;
-						case "W":
-							this._ctrElement.contentPath = "IconWaterDommage";
-							break;
-						case "E":
-							this._ctrElement.contentPath = "IconEarthDommage";
-							break;
-						default:
-							this._ctrElement.contentPath = "";
+						switch(null)
+						{
+							case "F":
+								this._ctrElement.contentPath = "IconFireDommage";
+								break;
+							case "A":
+								this._ctrElement.contentPath = "IconAirDommage";
+								break;
+							case "W":
+								this._ctrElement.contentPath = "IconWaterDommage";
+								break;
+							case "E":
+								this._ctrElement.contentPath = "IconEarthDommage";
+								break;
+							default:
+								this._ctrElement.contentPath = "";
+						}
+					}
+					else
+					{
+						this._ctrElement.contentPath = "IconNeutralDommage";
 					}
 				}
 				else if(var4.fx.icon != undefined)

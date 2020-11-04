@@ -55,7 +55,7 @@ class dofus.graphics.gapi.ui.MountParkSale extends dofus.graphics.gapi.core.Dofu
 		}
 		else
 		{
-			this._txtPrice.text = String(this._oMountPark.price);
+			this._txtPrice.text = this.getFormattedPrice();
 			this._txtPrice.editable = false;
 			this._txtPrice.selectable = false;
 			this._mcPrice._visible = false;
@@ -112,7 +112,7 @@ class dofus.graphics.gapi.ui.MountParkSale extends dofus.graphics.gapi.core.Dofu
 					}
 					else
 					{
-						var var3 = this.gapi.loadUIComponent("AskYesNo","AskYesNoBuy",{title:this.api.lang.getText("MOUNTPARK_PURCHASE"),text:this.api.lang.getText("DO_U_BUY_MOUNTPARK",[this._oMountPark.price])});
+						var var3 = this.gapi.loadUIComponent("AskYesNo","AskYesNoBuy",{title:this.api.lang.getText("MOUNTPARK_PURCHASE"),text:this.api.lang.getText("DO_U_BUY_MOUNTPARK",[this.getFormattedPrice()])});
 						var3.addEventListener("yes",this);
 					}
 				}
@@ -120,6 +120,10 @@ class dofus.graphics.gapi.ui.MountParkSale extends dofus.graphics.gapi.core.Dofu
 			case "_btnClose":
 				this.callClose();
 		}
+	}
+	function getFormattedPrice()
+	{
+		return new ank.utils.(this._oMountPark.price).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
 	}
 	function yes()
 	{

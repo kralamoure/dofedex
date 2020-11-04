@@ -74,7 +74,7 @@ class dofus.graphics.gapi.controls.AlignmentViewer extends dofus.graphics.gapi.c
 			this._pbAlignment.value = oEvent.alignment.value;
 			this._mcAlignment.onRollOver = function()
 			{
-				this._parent.gapi.showTooltip(new ank.utils.(oEvent.alignment.value).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + " / " + new ank.utils.(this._parent._pbAlignment.maximum).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3),this,-10);
+				this._parent.gapi.showTooltip(new ank.utils.(oEvent.alignment.value).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + " / " + new ank.utils.(this._parent._pbAlignment.maximum).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3),this,-10);
 			};
 			this._mcAlignment.onRollOut = function()
 			{

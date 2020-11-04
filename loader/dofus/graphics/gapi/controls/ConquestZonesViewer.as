@@ -31,7 +31,6 @@ class dofus.graphics.gapi.controls.ConquestZonesViewer extends dofus.graphics.ga
 	}
 	function addListeners()
 	{
-		var ref = this;
 		this._mcGotAreasInteractivity.onRollOver = function()
 		{
 			ref.over({target:this});
@@ -55,7 +54,7 @@ class dofus.graphics.gapi.controls.ConquestZonesViewer extends dofus.graphics.ga
 	{
 		var var2 = this.api.datacenter.Conquest.worldDatas;
 		var var3 = this._cbFilter.selectedItem.value;
-		var var4 = new ank.utils.();
+		var var4 = new ank.utils.();
 		var var5 = new String();
 		var var6 = 0;
 		while(var6 < var2.areas.length)
@@ -89,7 +88,7 @@ class dofus.graphics.gapi.controls.ConquestZonesViewer extends dofus.graphics.ga
 		this._lblGotVillages.text = ank.utils.PatternDecoder.combine(this.api.lang.getText("CONQUEST_POSSESSED_WORD"),"m",false) + " : " + var2.ownedVillages + " / " + var2.totalVillages;
 		this.refreshAreaList();
 		this._lstVillages.dataProvider = var2.villages;
-		var var3 = new ank.utils.();
+		var var3 = new ank.utils.();
 		var var4 = this.api.lang.getAlignments();
 		for(var s in var4)
 		{

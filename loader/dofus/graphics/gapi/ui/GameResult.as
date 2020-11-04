@@ -33,7 +33,7 @@ class dofus.graphics.gapi.ui.GameResult extends dofus.graphics.gapi.core.DofusAd
 	}
 	function initTexts()
 	{
-		this._winBackground.title = this.api.lang.getText("GAME_RESULTS");
+		this._winBackground.title = this.api.lang.getText("GAME_RESULTS") + " - " + this.api.lang.getText("TURNS_NUMBER") + " : " + this._oData.currentTableTurn;
 		this._lblDuration.text = this.api.kernel.GameManager.getDurationString(this._oData.duration,true);
 		if(this.api.datacenter.Basics.aks_game_end_bonus != undefined && this.api.datacenter.Basics.aks_game_end_bonus > 0)
 		{
@@ -73,16 +73,13 @@ class dofus.graphics.gapi.ui.GameResult extends dofus.graphics.gapi.core.DofusAd
 		var var10 = var8 + 32;
 		var var11 = Math.min(var2,dofus.graphics.gapi.ui.GameResult.MAX_VISIBLE_PLAYERS_IN_TEAM) * 20 + 55 + var10;
 		var var12 = Math.min(var3,dofus.graphics.gapi.ui.GameResult.MAX_VISIBLE_PLAYERS_IN_TEAM) * 20 + 55 + var11;
-		if((var var0 = this._oData.fightType) !== 0)
+		switch(this._oData.fightType)
 		{
-			if(var0 === 1)
-			{
-				var var13 = "UI_GameResultTeamPVP";
-			}
-		}
-		else
-		{
-			var13 = "UI_GameResultTeam";
+			case 0:
+				var var13 = "UI_GameResultTeam";
+				break;
+			case 1:
+				var13 = "UI_GameResultTeamPVP";
 		}
 		this.attachMovie(var13,"_tWinners",10,{dataProvider:this._oData.winners,title:this.api.lang.getText("WINNERS"),_x:var9,_y:var10});
 		this.attachMovie(var13,"_tLoosers",20,{dataProvider:this._oData.loosers,title:this.api.lang.getText("LOOSERS"),_x:var9,_y:var11});

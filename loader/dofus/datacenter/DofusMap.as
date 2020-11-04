@@ -37,4 +37,16 @@ class dofus.datacenter.DofusMap extends ank.battlefield.datacenter.Map
 		var var2 = _global.API.lang;
 		return var2.getMapSubAreaText(this.subarea).m;
 	}
+	static function isJail(var2)
+	{
+		switch(var2)
+		{
+			case 10240:
+			case 8726:
+			case 666:
+				return true;
+			default:
+				return false;
+		}
+	}
 }

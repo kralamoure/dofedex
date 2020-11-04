@@ -1,6 +1,6 @@
 class dofus.datacenter.Specialization extends Object
 {
-	function Specialization(var3)
+	function Specialization(var2)
 	{
 		super();
 		this.api = _global.API;
@@ -25,11 +25,11 @@ class dofus.datacenter.Specialization extends Object
 	}
 	function __get__order()
 	{
-		return new dofus.datacenter.(this._oSpecInfos.o);
+		return new dofus.datacenter.(this._oSpecInfos.o);
 	}
 	function __get__alignment()
 	{
-		return new dofus.datacenter.(this.order.alignment.index,this._oSpecInfos.av);
+		return new dofus.datacenter.(this.order.alignment.index,this._oSpecInfos.av);
 	}
 	function __get__feats()
 	{
@@ -39,12 +39,12 @@ class dofus.datacenter.Specialization extends Object
 	{
 		this._nIndex = var2;
 		this._oSpecInfos = this.api.lang.getAlignmentSpecialization(var2);
-		this._eaFeats = new ank.utils.();
+		this._eaFeats = new ank.utils.();
 		var var3 = this._oSpecInfos.f;
 		var var4 = 0;
 		while(var4 < var3.length)
 		{
-			this._eaFeats.push(new dofus.datacenter.(var3[var4][0],var3[var4][1],var3[var4][2]));
+			this._eaFeats.push(new dofus.datacenter.(var3[var4][0],var3[var4][1],var3[var4][2]));
 			var4 = var4 + 1;
 		}
 	}

@@ -11,7 +11,7 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 	var _nSelectedTypeID = 0;
 	var _nCurrentQuantity = 1;
 	var _nLastRegenerateTimer = 0;
-	static var N� = 1000;
+	static var NAME_GENERATION_DELAY = 1000;
 	function Craft()
 	{
 		super();
@@ -23,6 +23,14 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 		{
 			this._btnTries._visible = false;
 		}
+	}
+	function __get__currentOverItem()
+	{
+		return this._oOverItem;
+	}
+	function __get__itemViewer()
+	{
+		return this._itvItemViewer;
 	}
 	function __set__maxItem(var2)
 	{
@@ -102,10 +110,14 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 		this._cgGrid.addEventListener("dropItem",this);
 		this._cgGrid.addEventListener("dragItem",this);
 		this._cgGrid.addEventListener("selectItem",this);
+		this._cgGrid.addEventListener("overItem",this);
+		this._cgGrid.addEventListener("outItem",this);
 		this._cgLocal.addEventListener("dblClickItem",this);
 		this._cgLocal.addEventListener("dropItem",this);
 		this._cgLocal.addEventListener("dragItem",this);
 		this._cgLocal.addEventListener("selectItem",this);
+		this._cgLocal.addEventListener("overItem",this);
+		this._cgLocal.addEventListener("outItem",this);
 		this._cgDistant.addEventListener("selectItem",this);
 		this._btnFilterEquipement.addEventListener("click",this);
 		this._btnFilterNonEquipement.addEventListener("click",this);
@@ -128,6 +140,10 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 		this._ctrPreview.addEventListener("over",this);
 		this._ctrPreview.addEventListener("out",this);
 		this._cbTypes.addEventListener("itemSelected",this);
+		this._cgGrid.multipleContainerSelectionEnabled = false;
+		this._cgDistant.multipleContainerSelectionEnabled = false;
+		this._cgLocal.multipleContainerSelectionEnabled = false;
+		this._cgLocalSave.multipleContainerSelectionEnabled = false;
 	}
 	function initTexts()
 	{
@@ -197,12 +213,11 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 		}
 		var var2 = this.api.datacenter.Basics[dofus.graphics.gapi.ui.Craft.CLASS_NAME + "_subfilter_" + this._btnSelectedFilterButton._name];
 		this._nSelectedTypeID = var2 != undefined?var2:0;
-		var var3 = new ank.utils.();
-		var var4 = new ank.utils.();
+		var var3 = new ank.utils.();
+		var var4 = new ank.utils.();
 		var var5 = new Object();
-		for(var k in this._eaDataProvider)
+		for(var var6 in this._eaDataProvider)
 		{
-			var var6 = this._eaDataProvider[k];
 			var var7 = var6.position;
 			if(var7 == -1 && this._aSelectedSuperTypes[var6.superType])
 			{
@@ -275,16 +290,13 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 		{
 			var4 = var3.Quantity;
 		}
-		if((var var0 = var2) !== "_cgGrid")
+		switch(var2)
 		{
-			if(var0 === "_cgLocal")
-			{
-				this.api.network.Exchange.movementItem(true,var3.ID,var4);
-			}
-		}
-		else
-		{
-			this.api.network.Exchange.movementItem(false,var3.ID,var4);
+			case "_cgGrid":
+				this.api.network.Exchange.movementItem(false,var3,var4);
+				break;
+			case "_cgLocal":
+				this.api.network.Exchange.movementItem(true,var3,var4);
 		}
 		if(this._bInvalidateDistant)
 		{
@@ -317,7 +329,7 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 			var var3 = this.attachMovie("CraftViewer","_cvCraftViewer",this.getNextHighestDepth());
 			var3._x = this._mcPlacer._x;
 			var3._y = this._mcPlacer._y;
-			var3.skill = new dofus.datacenter.(this._nSkillId,this._nMaxItem);
+			var3.skill = new dofus.datacenter.(this._nSkillId,this._nMaxItem);
 		}
 		else
 		{
@@ -329,7 +341,6 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 	{
 		if(this._nLastRegenerateTimer + dofus.graphics.gapi.ui.Craft.NAME_GENERATION_DELAY < getTimer())
 		{
-			this.api.network.Account.getRandomCharacterName();
 			this._nLastRegenerateTimer = getTimer();
 			var var3 = this.api.lang.getSkillText(this._nSkillId).cl;
 			var var4 = 0;
@@ -425,7 +436,7 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 		while(var2 < this._eaLocalDataProvider.length)
 		{
 			var var3 = this._eaLocalDataProvider[var2];
-			this.api.network.Exchange.movementItem(false,var3.ID,var3.Quantity);
+			this.api.network.Exchange.movementItem(false,var3,var3.Quantity);
 			var2 = var2 + 1;
 		}
 	}
@@ -445,7 +456,7 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 			{
 				if(var4.item.Quantity >= var3.quantity)
 				{
-					this.api.network.Exchange.movementItem(true,var4.item.ID,var3.quantity);
+					this.api.network.Exchange.movementItem(true,var4.item,var3.quantity);
 					var2 = var2 + 1;
 					continue;
 				}
@@ -509,7 +520,7 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 					var var3 = this.api.kernel.GameManager.analyseReceipts(this.api.kernel.GameManager.mergeUnicItemInInventory(this._eaLocalDataProvider),this._nSkillId,this._nMaxItem);
 					if(var3 != undefined)
 					{
-						this.showPreview(new dofus.datacenter.(-1,var3,1,0,"",0),true);
+						this.showPreview(new dofus.datacenter.(-1,var3,1,0,"",0),true);
 					}
 					else
 					{
@@ -523,23 +534,20 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 					this.updateDistantData();
 				}
 				break;
-			default:
-				if(var0 !== this._eaDataProvider)
-				{
-					if(!this._bMakeAll && !this._bIsLooping)
-					{
-						this.updateData();
-						this.updateLocalData();
-						this.updateDistantData();
-						break;
-					}
-					break;
-				}
+			case this._eaDataProvider:
 				if(!this._bMakeAll && !this._bIsLooping)
 				{
 					this.updateData();
 				}
 				break;
+			default:
+				if(!this._bMakeAll && !this._bIsLooping)
+				{
+					this.updateData();
+					this.updateLocalData();
+					this.updateDistantData();
+					break;
+				}
 		}
 	}
 	function over(var2)
@@ -552,20 +560,19 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 			case this._btnFilterNonEquipement:
 				this.api.ui.showTooltip(this.api.lang.getText("NONEQUIPEMENT"),var2.target,-20);
 				break;
-			case this._btnFilterRessoureces:
-				this.api.ui.showTooltip(this.api.lang.getText("RESSOURECES"),var2.target,-20);
-				break;
 			default:
-				if(var0 !== this._ctrPreview)
+				switch(null)
 				{
-					break;
+					case this._btnFilterRessoureces:
+						this.api.ui.showTooltip(this.api.lang.getText("RESSOURECES"),var2.target,-20);
+						break;
+					case this._ctrPreview:
+						if(this._mcFiligrane.itemName != undefined)
+						{
+							this.gapi.showTooltip(this._mcFiligrane.itemName,this._ctrPreview,-22);
+							break;
+						}
 				}
-				if(this._mcFiligrane.itemName != undefined)
-				{
-					this.gapi.showTooltip(this._mcFiligrane.itemName,this._ctrPreview,-22);
-					break;
-				}
-				break;
 		}
 	}
 	function out(var2)
@@ -581,6 +588,17 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 		this._btnTries.label = this.api.lang.getText("TRIES_WORD") + ": 1";
 		this._btnApplyRunes.label = this.api.lang.getText("APPLY_ONE_RUNE");
 		this.updateData();
+	}
+	function overItem(var2)
+	{
+		var var3 = var2.target.contentData;
+		var3.showStatsTooltip(var2.target,var2.target.contentData.style);
+		this._oOverItem = var3;
+	}
+	function outItem(var2)
+	{
+		this.gapi.hideTooltip();
+		this._oOverItem = undefined;
 	}
 	function repeatCraft()
 	{
@@ -694,9 +712,14 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 					this._aSelectedSuperTypes = dofus.graphics.gapi.ui.Craft.FILTER_NONEQUIPEMENT;
 					this._lblFilter.text = this.api.lang.getText("NONEQUIPEMENT");
 					break;
-				case "_btnFilterRessoureces":
+				default:
+					if(var0 !== "_btnFilterRessoureces")
+					{
+						break;
+					}
 					this._aSelectedSuperTypes = dofus.graphics.gapi.ui.Craft.FILTER_RESSOURECES;
 					this._lblFilter.text = this.api.lang.getText("RESSOURECES");
+					break;
 			}
 			this.updateData(true);
 		}
@@ -718,15 +741,13 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 		}
 		else
 		{
-			this.showCraftViewer(false);
-			this._btnCraft.selected = false;
 			this.recordGarbage();
 			this.setReady();
 		}
 	}
 	function updateForgemagusResult(var2)
 	{
-		var var3 = new ank.utils.();
+		var var3 = new ank.utils.();
 		var3.push(var2);
 		this.distantDataProvider = var3;
 	}
@@ -737,28 +758,19 @@ class dofus.graphics.gapi.ui.Craft extends dofus.graphics.gapi.core.DofusAdvance
 		{
 			return undefined;
 		}
-		loop0:
-		while(true)
+		var var4 = !Key.isDown(Key.CONTROL)?1:var3.Quantity;
+		var var5 = var2.owner._name;
+		if((var var0 = var5) !== "_cgGrid")
 		{
-			var var4 = !Key.isDown(§§pop()[§§pop()])?1:var3.Quantity;
-			var var5 = var2.owner._name;
-			switch(var5)
+			if(var0 === "_cgLocal")
 			{
-				case "_cgGrid":
-					if(this.canDropInGarbage(var3))
-					{
-						this.validateDrop("_cgLocal",var3,var4);
-					}
-					break loop0;
-				case "_cgLocal":
-					this.validateDrop("_cgGrid",var3,var4);
-					break loop0;
-				default:
-					continue;
+				this.validateDrop("_cgGrid",var3,var4);
 			}
 		}
-		§§push(Key);
-		§§push("CONTROL");
+		else if(this.canDropInGarbage(var3))
+		{
+			this.validateDrop("_cgLocal",var3,var4);
+		}
 	}
 	function dragItem(var2)
 	{

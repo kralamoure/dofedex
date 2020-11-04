@@ -1,13 +1,37 @@
 class ank.gapi.controls.PopupMenu extends ank.gapi.core.UIBasicComponent
 {
 	static var CLASS_NAME = "PopupMenu";
+	static var LAST_POPUP_VALIDATION = 0;
+	static var LAST_POPUP_VALIDATION_WAIT_DELAY = 500;
 	static var MAX_ITEM_WIDTH = 150;
 	static var ITEM_HEIGHT = 18;
 	var _bOver = false;
+	var _bRemoved = false;
 	var _bCloseOnMouseUp = true;
 	function PopupMenu()
 	{
 		super();
+	}
+	function __get__x()
+	{
+		return this._nX;
+	}
+	function __get__y()
+	{
+		return this._nY;
+	}
+	function __get__removed()
+	{
+		return this._bRemoved;
+	}
+	function __get__adminPopupMenu()
+	{
+		return this._bAdminPopupMenu;
+	}
+	function __set__adminPopupMenu(var2)
+	{
+		this._bAdminPopupMenu = var2;
+		return this.__get__adminPopupMenu();
 	}
 	function addStaticItem(var2)
 	{
@@ -47,6 +71,8 @@ class ank.gapi.controls.PopupMenu extends ank.gapi.core.UIBasicComponent
 		{
 			var3 = _root._ymouse;
 		}
+		this._nX = var2;
+		this._nY = var3;
 		this.layoutContent(var2,var3,var4,var5);
 		if(!_global.isNaN(Number(var6)))
 		{
@@ -107,7 +133,7 @@ class ank.gapi.controls.PopupMenu extends ank.gapi.core.UIBasicComponent
 		this.drawRoundRect(this._mcBackground,0,0,1,1,0,var2.backgroundcolor);
 		this.drawRoundRect(this._mcForeground,0,0,1,1,0,var2.foregroundcolor);
 	}
-	function drawItem(i, §\r\x14§, §\x1e\x1c\t§)
+	function drawItem(i, §\f\x14§, §\x1e\x1a\x18§)
 	{
 		var var4 = this._mcItems.createEmptyMovieClip("item" + var2,var2);
 		var var5 = (ank.gapi.controls.Label)var4.attachMovie("Label","_lbl",20,{_width:ank.gapi.controls.PopupMenu.MAX_ITEM_WIDTH,styleName:this.getStyle().labelenabledstyle,wordWrap:true,text:i.text});
@@ -123,25 +149,23 @@ class ank.gapi.controls.PopupMenu extends ank.gapi.core.UIBasicComponent
 		}
 		var4.createEmptyMovieClip("bg",10);
 		this.drawRoundRect(var4.bg,0,0,1,var6,0,this.getStyle().itembgcolor);
+		var4.bg.over = false;
 		var4._y = var3;
 		if(i.bEnabled)
 		{
 			var4.bg.onRelease = function()
 			{
+				ank.gapi.controls.PopupMenu.LAST_POPUP_VALIDATION = getTimer();
 				i.fn.apply(i.obj,i.args);
-				this._parent._parent._parent.remove(true);
+				this._parent._parent._parent.remove();
 			};
 			var4.bg.onRollOver = function()
 			{
-				var var2 = new Color(this);
-				var2.setRGB(this._parent._parent._parent.getStyle().itemovercolor);
-				this._parent._parent._parent.onItemOver();
+				this._parent._parent._parent.onItemOver(this,true);
 			};
 			var4.bg.onRollOut = var4.bg.onReleaseOutside = function()
 			{
-				var var2 = new Color(this);
-				var2.setRGB(this._parent._parent._parent.getStyle().itembgcolor);
-				this._parent._parent._parent.onItemOut();
+				this._parent._parent._parent.onItemOut(this,true);
 			};
 		}
 		else
@@ -213,18 +237,196 @@ class ank.gapi.controls.PopupMenu extends ank.gapi.core.UIBasicComponent
 			this._y = var3;
 		}
 	}
+	function removePopupMenu()
+	{
+		this.remove();
+	}
 	function remove()
 	{
+		this._bRemoved = true;
 		Mouse.removeListener(this);
 		this.removeMovieClip();
 	}
-	function onItemOver()
+	function getEnabledItems()
 	{
-		this._bOver = true;
+		var var2 = new Array();
+		var var3 = 0;
+		while(var3 < this._aItems.length)
+		{
+			var var4 = this._aItems[var3];
+			if(var4.bStatic || !var4.bEnabled)
+			{
+				var2.push(undefined);
+			}
+			else
+			{
+				var2.push(var4);
+			}
+			var3 = var3 + 1;
+		}
+		return var2;
 	}
-	function onItemOut()
+	function selectFirstEnabled(var2)
 	{
-		this._bOver = false;
+		if(var2 == undefined)
+		{
+			var2 = this.getEnabledItems();
+		}
+		var var3 = 0;
+		while(var3 < var2.length)
+		{
+			var var4 = var2[var3];
+			if(var4 == undefined)
+			{
+				var3 = var3 + 1;
+				continue;
+			}
+			var var5 = this._mcItems["item" + var3];
+			this.onItemOver(var5.bg);
+			break;
+		}
+	}
+	function selectLastEnabled(var2)
+	{
+		if(var2 == undefined)
+		{
+			var2 = this.getEnabledItems();
+		}
+		var var3 = var2.length - 1;
+		while(var3 >= 0)
+		{
+			var var4 = var2[var3];
+			if(var4 == undefined)
+			{
+				var3 = var3 - 1;
+				continue;
+			}
+			var var5 = this._mcItems["item" + var3];
+			this.onItemOver(var5.bg);
+			break;
+		}
+	}
+	function unselectAll()
+	{
+		var var2 = 0;
+		while(var2 < this._aItems.length)
+		{
+			var var3 = this._mcItems["item" + var2];
+			this.onItemOut(var3.bg);
+			var2 = var2 + 1;
+		}
+	}
+	function executeSelectedItem()
+	{
+		var var2 = 0;
+		while(var2 < this._aItems.length)
+		{
+			var var3 = this._aItems[var2];
+			var var4 = this._mcItems["item" + var2];
+			if(!var4.bg.over)
+			{
+				var2 = var2 + 1;
+				continue;
+			}
+			var3.fn.apply(var3.obj,var3.args);
+			this.remove();
+			return true;
+		}
+		return false;
+	}
+	function selectNextItem()
+	{
+		var var2 = this.getEnabledItems();
+		var var3 = 0;
+		while(var3 < var2.length)
+		{
+			var var4 = var2[var3];
+			if(var4 != undefined)
+			{
+				var var5 = this._mcItems["item" + var3];
+				if(var5.bg.over)
+				{
+					var var6 = var3 + 1;
+					while(var6 < var2.length)
+					{
+						var var7 = var2[var6];
+						if(var7 == undefined)
+						{
+							var6 = var6 + 1;
+							continue;
+						}
+						var var8 = this._mcItems["item" + var6];
+						this.onItemOver(var8.bg);
+						return undefined;
+					}
+					break;
+				}
+			}
+			var3 = var3 + 1;
+		}
+		this.selectFirstEnabled(var2);
+	}
+	function selectPreviousItem()
+	{
+		var var2 = this.getEnabledItems();
+		var var3 = var2.length - 1;
+		while(var3 >= 0)
+		{
+			var var4 = var2[var3];
+			if(var4 != undefined)
+			{
+				var var5 = this._mcItems["item" + var3];
+				if(var5.bg.over)
+				{
+					var var6 = var3 - 1;
+					while(var6 >= 0)
+					{
+						var var7 = var2[var6];
+						if(var7 == undefined)
+						{
+							var6 = var6 - 1;
+							continue;
+						}
+						break;
+					}
+					break;
+					var var8 = this._mcItems["item" + var6];
+					this.onItemOver(var8.bg);
+					return undefined;
+				}
+			}
+			var3 = var3 - 1;
+		}
+		this.selectLastEnabled(var2);
+	}
+	function onItemOver(var2, var3)
+	{
+		if(var3)
+		{
+			this._bOver = true;
+		}
+		if(var2.over)
+		{
+			return undefined;
+		}
+		this.unselectAll();
+		var2.over = true;
+		var var4 = new Color(var2);
+		var4.setRGB(this.getStyle().itemovercolor);
+	}
+	function onItemOut(var2, var3)
+	{
+		if(var3)
+		{
+			this._bOver = false;
+		}
+		if(!var2.over)
+		{
+			return undefined;
+		}
+		var2.over = false;
+		var var4 = new Color(var2);
+		var4.setRGB(this.getStyle().itembgcolor);
 	}
 	function onMouseUp()
 	{

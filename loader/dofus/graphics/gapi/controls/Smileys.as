@@ -28,7 +28,7 @@ class dofus.graphics.gapi.controls.Smileys extends dofus.graphics.gapi.core.Dofu
 	}
 	function initData()
 	{
-		var var2 = new ank.utils.();
+		var var2 = new ank.utils.();
 		if(this.api.config.isStreaming)
 		{
 			this._ldrStreaming.contentPath = dofus.Constants.SMILEYS_ICONS_PATH + "all.swf";
@@ -46,7 +46,7 @@ class dofus.graphics.gapi.controls.Smileys extends dofus.graphics.gapi.core.Dofu
 			}
 			this._cgSmileys.dataProvider = var2;
 		}
-		var var5 = new ank.utils.();
+		var var5 = new ank.utils.();
 		var var6 = this.api.datacenter.Player.Emotes.getItems();
 		for(var k in var6)
 		{

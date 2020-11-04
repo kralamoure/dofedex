@@ -3,10 +3,14 @@ class dofus.datacenter.Server
 	static var SERVER_OFFLINE = 0;
 	static var SERVER_ONLINE = 1;
 	static var SERVER_STARTING = 2;
+	static var SERVER_RULES_CLASSIC = 0;
+	static var SERVER_RULES_HARDCORE = 1;
+	static var SERVER_RULES_MONOACCOUNT = 2;
 	static var SERVER_CLASSIC = 0;
 	static var SERVER_HARDCORE = 1;
 	static var SERVER_129 = 3;
 	static var SERVER_RETRO = 4;
+	static var SERVER_MONOACCOUNT = 5;
 	static var SERVER_COMMUNITY_INTERNATIONAL = 2;
 	function Server(var3, var4, var5, var6)
 	{
@@ -48,12 +52,10 @@ class dofus.datacenter.Server
 				return this.api.lang.getText("SERVER_OFFLINE");
 			case dofus.datacenter.Server.SERVER_ONLINE:
 				return this.api.lang.getText("SERVER_ONLINE");
-			default:
-				if(var0 !== dofus.datacenter.Server.SERVER_STARTING)
-				{
-					return "";
-				}
+			case dofus.datacenter.Server.SERVER_STARTING:
 				return this.api.lang.getText("SERVER_STARTING");
+			default:
+				return "";
 		}
 	}
 	function __get__stateStrShort()
@@ -132,11 +134,15 @@ class dofus.datacenter.Server
 		var var2 = this.typeNum;
 		switch(var2)
 		{
-			case dofus.datacenter.Server.SERVER_129:
-			case dofus.datacenter.Server.SERVER_RETRO:
-				return dofus.datacenter.Server.SERVER_CLASSIC;
+			case dofus.datacenter.Server.SERVER_MONOACCOUNT:
+				return dofus.datacenter.Server.SERVER_RULES_MONOACCOUNT;
 			default:
-				return var2;
+				if(var0 !== dofus.datacenter.Server.SERVER_RETRO)
+				{
+					return var2;
+				}
+			case dofus.datacenter.Server.SERVER_129:
+				return dofus.datacenter.Server.SERVER_RULES_CLASSIC;
 		}
 	}
 	function isHardcore()

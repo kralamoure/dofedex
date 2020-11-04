@@ -10,6 +10,22 @@ class dofus.graphics.gapi.ui.PlayerShopModifier extends dofus.graphics.gapi.core
 		this._oData = var2;
 		return this.__get__data();
 	}
+	function __get__currentOverItem()
+	{
+		if(this._livInventory != undefined && this._livInventory.currentOverItem != undefined)
+		{
+			return this._livInventory.currentOverItem;
+		}
+		if(this._livInventory2 != undefined && this._livInventory2.currentOverItem != undefined)
+		{
+			return this._livInventory2.currentOverItem;
+		}
+		return undefined;
+	}
+	function __get__itemViewer()
+	{
+		return this._itvItemViewer;
+	}
 	function init()
 	{
 		super.init(false,dofus.graphics.gapi.ui.PlayerShopModifier.CLASS_NAME);
@@ -51,6 +67,9 @@ class dofus.graphics.gapi.ui.PlayerShopModifier extends dofus.graphics.gapi.core
 	{
 		this._livInventory.addEventListener("selectedItem",this);
 		this._livInventory2.addEventListener("selectedItem",this);
+		this._livInventory2.addEventListener("rollOverItem",this);
+		this._livInventory2.addEventListener("rollOutItem",this);
+		this._livInventory2.lstInventory.multipleSelection = true;
 		this._btnAdd.addEventListener("click",this);
 		this._btnRemove.addEventListener("click",this);
 		this._btnModify.addEventListener("click",this);
@@ -71,7 +90,7 @@ class dofus.graphics.gapi.ui.PlayerShopModifier extends dofus.graphics.gapi.core
 	function initTexts()
 	{
 		this._btnAdd.label = this.api.lang.getText("PUT_ON_SELL");
-		this._btnRemove.label = this.api.lang.getText("REMOVE");
+		this.refreshRemoveButton();
 		this._btnModify.label = this.api.lang.getText("MODIFY");
 		this._lblQuantity.text = this.api.lang.getText("QUANTITY") + " :";
 		this._lblPrice.text = this.api.lang.getText("UNIT_PRICE") + " :";
@@ -112,7 +131,6 @@ class dofus.graphics.gapi.ui.PlayerShopModifier extends dofus.graphics.gapi.core
 	}
 	function setModifyMode(var2)
 	{
-		this._btnRemove._visible = var2;
 		this._btnModify._visible = var2;
 		this._mcBuyArrow._visible = var2;
 		this._mcQuantity._visible = false;
@@ -124,15 +142,43 @@ class dofus.graphics.gapi.ui.PlayerShopModifier extends dofus.graphics.gapi.core
 	}
 	function addToShop(var2, var3, var4)
 	{
-		this.api.network.Exchange.movementItem(true,var2.ID,var3,var4);
+		this.api.network.Exchange.movementItem(true,var2,var3,var4);
 	}
 	function remove(var2)
 	{
-		this.api.network.Exchange.movementItem(false,var2.ID,var2.Quantity);
+		var var3 = new Array();
+		var var4 = 0;
+		while(var4 < var2.length)
+		{
+			var var5 = var2[var4];
+			var3.push({Add:false,ID:var5.ID,Quantity:var5.Quantity});
+			var4 = var4 + 1;
+		}
+		this.api.network.Exchange.movementItems(var3);
 	}
 	function modify(var2, var3)
 	{
-		this.api.network.Exchange.movementItem(true,var2.ID,0,var3);
+		this.api.network.Exchange.movementItem(true,var2,0,var3);
+	}
+	function refreshRemoveButton(var2)
+	{
+		if(var2 == undefined)
+		{
+			var2 = this._livInventory2.lstInventory.getSelectedItems().length;
+		}
+		if(this._sRemoveText == undefined)
+		{
+			this._sRemoveText = this.api.lang.getText("REMOVE");
+		}
+		this._btnRemove.enabled = var2 != undefined && (var2 == 0 && (this._oSelectedItem != undefined && this._mcBuyArrow._visible) || var2 > 0);
+		if(var2 == undefined || var2 <= 1)
+		{
+			this._btnRemove.label = this._sRemoveText;
+		}
+		else
+		{
+			this._btnRemove.label = this._sRemoveText + " (" + var2 + ")";
+		}
 	}
 	function onShortcut(var2)
 	{
@@ -148,45 +194,54 @@ class dofus.graphics.gapi.ui.PlayerShopModifier extends dofus.graphics.gapi.core
 		switch(var2.target._name)
 		{
 			case "_btnRemove":
-				this.remove(this._oSelectedItem);
+				var var3 = this._livInventory2.lstInventory.getSelectedItems();
+				if(var3.length == 0 && this._oSelectedItem == undefined)
+				{
+					break;
+				}
+				if(var3.length == 0)
+				{
+					var3.push(this._oSelectedItem);
+				}
+				this.remove(var3);
 				this.hideItemViewer(true);
 				this.setModifyMode(false);
 				break;
 			case "_btnModify":
-				var var3 = Number(this._txtPrice.text);
-				if(_global.isNaN(var3))
+				var var4 = Number(this._txtPrice.text);
+				if(_global.isNaN(var4))
 				{
 					this.gapi.loadUIComponent("AskOk","AksOkBadPrice",{title:this.api.lang.getText("ERROR_WORD"),text:this.api.lang.getText("ERROR_INVALID_PRICE")});
 				}
 				else
 				{
-					this.modify(this._oSelectedItem,var3);
+					this.modify(this._oSelectedItem,var4);
 					this.hideItemViewer(true);
 					this.setModifyMode(false);
+				}
+				break;
+			case "_btnAdd":
+				var var5 = Number(this._txtPrice.text);
+				var var6 = Number(this._txtQuantity.text);
+				if(_global.isNaN(var5))
+				{
+					this.gapi.loadUIComponent("AskOk","AksOkBadPrice",{title:this.api.lang.getText("ERROR_WORD"),text:this.api.lang.getText("ERROR_INVALID_PRICE")});
+				}
+				else if(_global.isNaN(var6) || var6 == 0)
+				{
+					this.gapi.loadUIComponent("AskOk","AksOkBadQuantity",{title:this.api.lang.getText("ERROR_WORD"),text:this.api.lang.getText("ERROR_INVALID_QUANTITY")});
+				}
+				else
+				{
+					var6 = Math.min(this._oSelectedItem.Quantity,var6);
+					this.addToShop(this._oSelectedItem,var6,var5);
+					this.hideItemViewer(true);
+					this.setAddMode(false);
 				}
 				break;
 			default:
 				switch(null)
 				{
-					case "_btnAdd":
-						var var4 = Number(this._txtPrice.text);
-						var var5 = Number(this._txtQuantity.text);
-						if(_global.isNaN(var4))
-						{
-							this.gapi.loadUIComponent("AskOk","AksOkBadPrice",{title:this.api.lang.getText("ERROR_WORD"),text:this.api.lang.getText("ERROR_INVALID_PRICE")});
-						}
-						else if(_global.isNaN(var5) || var5 == 0)
-						{
-							this.gapi.loadUIComponent("AskOk","AksOkBadQuantity",{title:this.api.lang.getText("ERROR_WORD"),text:this.api.lang.getText("ERROR_INVALID_QUANTITY")});
-						}
-						else
-						{
-							var5 = Math.min(this._oSelectedItem.Quantity,var5);
-							this.addToShop(this._oSelectedItem,var5,var4);
-							this.hideItemViewer(true);
-							this.setAddMode(false);
-						}
-						break;
 					case "_btnClose":
 						this.callClose();
 						break;
@@ -206,6 +261,16 @@ class dofus.graphics.gapi.ui.PlayerShopModifier extends dofus.graphics.gapi.core
 	function out(var2)
 	{
 		this.gapi.hideTooltip();
+	}
+	function rollOverItem(var2)
+	{
+		var var3 = var2.targets.length;
+		this.refreshRemoveButton(var3);
+	}
+	function rollOutItem(var2)
+	{
+		var var3 = var2.targets.length;
+		this.refreshRemoveButton(var3);
 	}
 	function selectedItem(var2)
 	{
@@ -228,13 +293,16 @@ class dofus.graphics.gapi.ui.PlayerShopModifier extends dofus.graphics.gapi.core
 					this.setModifyMode(false);
 					this.setAddMode(true);
 					this._livInventory2.setFilter(this._livInventory.currentFilterID);
+					this.refreshRemoveButton();
 					break;
 				case "_livInventory2":
+					var var3 = var2.targets.length;
 					this._txtQuantity.text = var2.item.Quantity;
 					this._txtPrice.text = var2.item.price;
 					this.setAddMode(false);
 					this.setModifyMode(true);
 					this._livInventory.setFilter(this._livInventory2.currentFilterID);
+					this.refreshRemoveButton(var3);
 			}
 			Selection.setFocus(this._txtPrice);
 		}

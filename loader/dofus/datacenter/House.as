@@ -166,7 +166,7 @@ class dofus.datacenter.House extends Object
 	}
 	function getHumanReadableRightsList()
 	{
-		var var2 = new ank.utils.();
+		var var2 = new ank.utils.();
 		var var3 = 1;
 		while(var3 < 8192)
 		{

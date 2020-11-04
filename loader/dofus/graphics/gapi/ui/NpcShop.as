@@ -15,6 +15,22 @@ class dofus.graphics.gapi.ui.NpcShop extends dofus.graphics.gapi.core.DofusAdvan
 		this._colors = var2;
 		return this.__get__colors();
 	}
+	function __get__currentOverItem()
+	{
+		if(this._livInventory != undefined && this._livInventory.currentOverItem != undefined)
+		{
+			return this._livInventory.currentOverItem;
+		}
+		if(this._livInventory2 != undefined && this._livInventory2.currentOverItem != undefined)
+		{
+			return this._livInventory2.currentOverItem;
+		}
+		return undefined;
+	}
+	function __get__itemViewer()
+	{
+		return this._itvItemViewer;
+	}
 	function init()
 	{
 		super.init(false,dofus.graphics.gapi.ui.NpcShop.CLASS_NAME);
@@ -171,8 +187,13 @@ class dofus.graphics.gapi.ui.NpcShop extends dofus.graphics.gapi.core.DofusAdvan
 					this.validateSell(1);
 				}
 				break;
-			case "_btnClose":
+			default:
+				if(var0 !== "_btnClose")
+				{
+					break;
+				}
 				this.callClose();
+				break;
 		}
 	}
 	function selectedItem(var2)
@@ -188,20 +209,17 @@ class dofus.graphics.gapi.ui.NpcShop extends dofus.graphics.gapi.core.DofusAdvan
 			this._oSelectedItem = var2.item;
 			this.hideItemViewer(false);
 			this._itvItemViewer.itemData = var2.item;
-			if((var var0 = var2.target._name) !== "_livInventory")
+			switch(var2.target._name)
 			{
-				if(var0 === "_livInventory2")
-				{
+				case "_livInventory":
+					this.setSellMode(true);
+					this.setBuyMode(false);
+					this._livInventory2.setFilter(this._livInventory.currentFilterID);
+					break;
+				case "_livInventory2":
 					this.setSellMode(false);
 					this.setBuyMode(true);
 					this._livInventory.setFilter(this._livInventory2.currentFilterID);
-				}
-			}
-			else
-			{
-				this.setSellMode(true);
-				this.setBuyMode(false);
-				this._livInventory2.setFilter(this._livInventory.currentFilterID);
 			}
 		}
 	}

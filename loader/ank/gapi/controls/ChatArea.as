@@ -46,7 +46,7 @@ class ank.gapi.controls.ChatArea extends ank.gapi.core.UIBasicComponent
 		this._sText = var2;
 		if(this.initialized)
 		{
-			this.setTextFieldProperties();
+			this.addToQueue({object:this,method:this.setTextFieldProperties});
 		}
 		return this.__get__text();
 	}
@@ -149,26 +149,29 @@ class ank.gapi.controls.ChatArea extends ank.gapi.core.UIBasicComponent
 	}
 	function setTextFieldProperties()
 	{
-		if(this._tText != undefined)
+		if(this._tText == undefined)
 		{
-			this._tText.wordWrap = !this._bWordWrap?false:true;
-			this._tText.multiline = true;
-			this._tText.selectable = this._bSelectable;
-			this._tText.embedFonts = this.getStyle().embedfonts;
-			this._tText.type = "dynamic";
-			this._tText.html = true;
-			if(this._tfFormatter.font != undefined)
-			{
-				if(this._sText != undefined)
-				{
-					this._nPreviousMaxscroll = this._tText.maxscroll;
-					this.setTextWithBottomStart();
-				}
-				this._tText.setNewTextFormat(this._tfFormatter);
-				this._tText.setTextFormat(this._tfFormatter);
-			}
-			this.onChanged();
+			return undefined;
 		}
+		this._tText._visible = false;
+		this._tText.selectable = this._bSelectable;
+		this._tText.wordWrap = !this._bWordWrap?false:true;
+		this._tText.multiline = true;
+		this._tText.embedFonts = this.getStyle().embedfonts;
+		this._tText.type = "dynamic";
+		this._tText.html = true;
+		if(this._tfFormatter.font != undefined)
+		{
+			if(this._sText != undefined)
+			{
+				this._nPreviousMaxscroll = this._tText.maxscroll;
+				this.setTextWithBottomStart();
+			}
+			this._tText.setNewTextFormat(this._tfFormatter);
+			this._tText.setTextFormat(this._tfFormatter);
+		}
+		this.onChanged();
+		this._tText._visible = true;
 	}
 	function addScrollBar()
 	{

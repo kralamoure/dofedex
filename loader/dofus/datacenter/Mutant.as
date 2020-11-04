@@ -1,10 +1,10 @@
 class dofus.datacenter.Mutant extends dofus.datacenter.Character
 {
-	function Mutant(sID, clipClass, §\x1e\x13\x14§, cellNum, §\x11\x1b§, gfxID, bShowIsPlayer)
+	function Mutant(sID, clipClass, §\x1e\x12\x01§, §\x13\x05§, §\x10\x1c§, gfxID, bShowIsPlayer)
 	{
 		super();
 		this._bShowIsPlayer = bShowIsPlayer == undefined?false:bShowIsPlayer;
-		this.initialize(sID,clipClass,var5,cellNum,var7,gfxID);
+		this.initialize(sID,clipClass,var5,var6,var7,gfxID);
 	}
 	function __get__name()
 	{
@@ -38,7 +38,7 @@ class dofus.datacenter.Mutant extends dofus.datacenter.Character
 	}
 	function __get__alignment()
 	{
-		return new dofus.datacenter.();
+		return new dofus.datacenter.();
 	}
 	function __set__powerLevel(var2)
 	{

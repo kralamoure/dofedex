@@ -9,6 +9,7 @@ class ank.battlefield.MapHandler
 	var _oSettingFrames = new Object();
 	var _mclLoader = new MovieClipLoader();
 	var _nMaxMapRender = 1;
+	var _bShowingFightCells = false;
 	function MapHandler(var3, var4, var5)
 	{
 		if(var2 != undefined)
@@ -16,6 +17,15 @@ class ank.battlefield.MapHandler
 			this.initialize(var2,var3,var4);
 		}
 		this._mclLoader.addListener(this);
+	}
+	function __get__showingFightCells()
+	{
+		return this._bShowingFightCells;
+	}
+	function __set__showingFightCells(var2)
+	{
+		this._bShowingFightCells = var2;
+		return this.__get__showingFightCells();
 	}
 	function __get__LoaderRequestLeft()
 	{
@@ -391,7 +401,8 @@ class ank.battlefield.MapHandler
 				var3.backgroundNum = var3.savedBackgroundNum;
 			}
 		}
-		for(var mapCell in var4)
+		§§enumerate(var4);
+		while((var var0 = §§enumeration()) != null)
 		{
 			this.tacticModeRefreshCell(Number(mapCell),var2);
 		}
@@ -430,10 +441,10 @@ class ank.battlefield.MapHandler
 		{
 			if(var5.nPermanentLevel == 0)
 			{
-				var var7 = new ank.battlefield.datacenter.();
-				for(var cellData in var5)
+				var var7 = new ank.battlefield.datacenter.
+();
+				for(var7[cellData] in var5)
 				{
-					var7[cellData] = var5[cellData];
 				}
 				var4.originalsCellsBackup.addItemAt(String(var2),var7);
 			}
@@ -441,7 +452,7 @@ class ank.battlefield.MapHandler
 		}
 		this.build(var4,var2);
 	}
-	function updateCell(§\b\x18§, §\x1e\x1a\x05§, §\x1e\x11\x1d§, nPermanentLevel)
+	function updateCell(§\x07\x14§, §\x1e\x18\x13§, §\x1e\x10\t§, nPermanentLevel)
 	{
 		if(var2 > this.getCellCount())
 		{
@@ -479,10 +490,10 @@ class ank.battlefield.MapHandler
 		{
 			if(var24.nPermanentLevel == 0)
 			{
-				var var25 = new ank.battlefield.datacenter.();
-				for(var k in var24)
+				var var25 = new ank.battlefield.datacenter.
+();
+				for(var25[k] in var24)
 				{
-					var25[k] = var24[k];
 				}
 				this._oDatacenter.Map.originalsCellsBackup.addItemAt(var2,var25);
 				var24.nPermanentLevel = nPermanentLevel;
@@ -611,10 +622,10 @@ class ank.battlefield.MapHandler
 			if(var4 == true)
 			{
 				var var8 = var6[var2].isTactic;
-				var var9 = new ank.battlefield.datacenter.();
-				for(var cellData in var7)
+				var var9 = new ank.battlefield.datacenter.
+();
+				for(var9[cellData] in var7)
 				{
-					var9[cellData] = var7[cellData];
 				}
 				if(var8)
 				{
@@ -684,7 +695,7 @@ class ank.battlefield.MapHandler
 		var var5 = var4.mcObjectExternal._mcExternal;
 		var5.gotoAndStop(var3);
 	}
-	function setObject2Interactive(§\b\x18§, §\x19\x05§, nPermanentLevel)
+	function setObject2Interactive(§\x07\x14§, §\x18\x19§, nPermanentLevel)
 	{
 		if(var2 > this.getCellCount())
 		{
@@ -692,8 +703,12 @@ class ank.battlefield.MapHandler
 			return undefined;
 		}
 		var var5 = this._oDatacenter.Map.data[var2];
-		var5.mcObject2.select(false);
-		var var6 = new ank.battlefield.datacenter.();
+		if(var5.mcObject2 == this.api.gfx.rollOverMcObject)
+		{
+			this.api.gfx.onObjectRollOut(var5.mcObject2);
+		}
+		var var6 = new ank.battlefield.datacenter.
+();
 		var6.layerObject2Interactive = var3;
 		this.updateCell(var2,var6,"1",nPermanentLevel);
 	}
@@ -742,9 +757,8 @@ class ank.battlefield.MapHandler
 	{
 		var var2 = this._mcBattlefield.spriteHandler.getSprites().getItems();
 		var var3 = new Array();
-		for(var k in var2)
+		for(var3[var2[k].cellNum] in var2)
 		{
-			var3[var2[k].cellNum] = true;
 		}
 		var var4 = this.getCellCount();
 		var var5 = 0;
@@ -783,107 +797,112 @@ class ank.battlefield.MapHandler
 		var var3 = String(var2).split(".");
 		var var4 = var3[var3.length - 2];
 		var var5 = this._oLoadingCells[var2];
-		switch(var4)
+		if((var var0 = var4) !== "Ground")
 		{
-			case "Ground":
-				var2.cacheAsBitmap = _global.CONFIG.cacheAsBitmap["mapHandler/Cell/Ground"];
-				var2._x = Number(var5.x);
-				var2._y = Number(var5.y);
-				if(var5.groundSlope == 1 && var5.layerGroundRot != 0)
-				{
-					var2._rotation = var5.layerGroundRot * 90;
-					if(var2._rotation % 180)
+			switch(null)
+			{
+				case "Object1":
+					var2.cacheAsBitmap = _global.CONFIG.cacheAsBitmap["mapHandler/Cell/Object1"];
+					var2._x = Number(var5.x);
+					var2._y = Number(var5.y);
+					if(var5.groundSlope == 1 && var5.layerObject1Rot != 0)
 					{
-						var2._yscale = 192.86;
-						var2._xscale = 51.85;
+						var2._rotation = var5.layerObject1Rot * 90;
+						if(var2._rotation % 180)
+						{
+							var2._yscale = 192.86;
+							var2._xscale = 51.85;
+						}
+						else
+						{
+							var2._xscale = var0 = 100;
+							var2._yscale = var0;
+						}
 					}
 					else
 					{
+						var2._rotation = 0;
 						var2._xscale = var0 = 100;
 						var2._yscale = var0;
 					}
-				}
-				else
-				{
-					var2._rotation = 0;
-					var2._xscale = var0 = 100;
-					var2._yscale = var0;
-				}
-				if(var5.layerGroundFlip)
-				{
-					var2._xscale = var2._xscale * -1;
-				}
-				else
-				{
-					var2._xscale = var2._xscale * 1;
-				}
-				if(var5.groundSlope != 1)
-				{
-					var2.gotoAndStop(var5.groundSlope);
-				}
-				var2.lastGroundID = var5.layerGroundNum;
-				break;
-			case "Object1":
-				var2.cacheAsBitmap = _global.CONFIG.cacheAsBitmap["mapHandler/Cell/Object1"];
-				var2._x = Number(var5.x);
-				var2._y = Number(var5.y);
-				if(var5.groundSlope == 1 && var5.layerObject1Rot != 0)
-				{
-					var2._rotation = var5.layerObject1Rot * 90;
-					if(var2._rotation % 180)
+					if(var5.layerObject1Flip)
 					{
-						var2._yscale = 192.86;
-						var2._xscale = 51.85;
+						var2._xscale = var2._xscale * -1;
 					}
 					else
 					{
-						var2._xscale = var0 = 100;
-						var2._yscale = var0;
+						var2._xscale = var2._xscale * 1;
 					}
+					var2.lastObject1ID = var5.layerObject1Num;
+					break;
+				case "Object2":
+					var2.cacheAsBitmap = _global.CONFIG.cacheAsBitmap["mapHandler/Cell/Object2"];
+					var2._x = Number(var5.x);
+					var2._y = Number(var5.y);
+					if(var5.layerObject2Interactive)
+					{
+						var2.__proto__ = ank.battlefield.mc.InteractiveObject.prototype;
+						var2.initialize(this._mcBattlefield,var5,true);
+					}
+					else
+					{
+						var2.__proto__ = MovieClip.prototype;
+					}
+					if(var5.layerObject2Flip)
+					{
+						var2._xscale = -100;
+					}
+					else
+					{
+						var2._xscale = 100;
+					}
+					var2.lastObject2ID = var5.layerObject2Num;
+			}
+		}
+		else
+		{
+			var2.cacheAsBitmap = _global.CONFIG.cacheAsBitmap["mapHandler/Cell/Ground"];
+			var2._x = Number(var5.x);
+			var2._y = Number(var5.y);
+			if(var5.groundSlope == 1 && var5.layerGroundRot != 0)
+			{
+				var2._rotation = var5.layerGroundRot * 90;
+				if(var2._rotation % 180)
+				{
+					var2._yscale = 192.86;
+					var2._xscale = 51.85;
 				}
 				else
 				{
-					var2._rotation = 0;
 					var2._xscale = var0 = 100;
 					var2._yscale = var0;
 				}
-				if(var5.layerObject1Flip)
-				{
-					var2._xscale = var2._xscale * -1;
-				}
-				else
-				{
-					var2._xscale = var2._xscale * 1;
-				}
-				var2.lastObject1ID = var5.layerObject1Num;
-				break;
-			case "Object2":
-				var2.cacheAsBitmap = _global.CONFIG.cacheAsBitmap["mapHandler/Cell/Object2"];
-				var2._x = Number(var5.x);
-				var2._y = Number(var5.y);
-				if(var5.layerObject2Interactive)
-				{
-					var2.__proto__ = ank.battlefield.mc.InteractiveObject.prototype;
-					var2.initialize(this._mcBattlefield,var5,true);
-				}
-				else
-				{
-					var2.__proto__ = MovieClip.prototype;
-				}
-				if(var5.layerObject2Flip)
-				{
-					var2._xscale = -100;
-				}
-				else
-				{
-					var2._xscale = 100;
-				}
-				var2.lastObject2ID = var5.layerObject2Num;
+			}
+			else
+			{
+				var2._rotation = 0;
+				var2._xscale = var0 = 100;
+				var2._yscale = var0;
+			}
+			if(var5.layerGroundFlip)
+			{
+				var2._xscale = var2._xscale * -1;
+			}
+			else
+			{
+				var2._xscale = var2._xscale * 1;
+			}
+			if(var5.groundSlope != 1)
+			{
+				var2.gotoAndStop(var5.groundSlope);
+			}
+			var2.lastGroundID = var5.layerGroundNum;
 		}
 		if(this._oSettingFrames[var5.num] != undefined)
 		{
 			var var6 = this._oDatacenter.Map.data[var5.num].mcObject2;
-			for(var s in var6)
+			§§enumerate(var6);
+			while((var0 = §§enumeration()) != null)
 			{
 				if(var6[s] instanceof MovieClip)
 				{
@@ -908,10 +927,41 @@ class ank.battlefield.MapHandler
 			}
 		}
 	}
+	function showFightCells(var2, var3)
+	{
+		if(var2 == undefined || var3 == undefined)
+		{
+			var var4 = this.api.lang.getMapText(this._oDatacenter.Map.id);
+			if(var4.p1 == undefined || var4.p2 == undefined)
+			{
+				return undefined;
+			}
+			var2 = var4.p1;
+			var3 = var4.p2;
+		}
+		this._bShowingFightCells = true;
+		var var5 = 0;
+		while(var5 < var2.length)
+		{
+			var var6 = ank.utils.Compressor.decode64(var2.charAt(var5)) << 6;
+			var6 = var6 + ank.utils.Compressor.decode64(var2.charAt(var5 + 1));
+			this.api.gfx.select(var6,dofus.Constants.TEAMS_COLOR[0],"startPosition");
+			var5 = var5 + 2;
+		}
+		var var7 = 0;
+		while(var7 < var3.length)
+		{
+			var var8 = ank.utils.Compressor.decode64(var3.charAt(var7)) << 6;
+			var8 = var8 + ank.utils.Compressor.decode64(var3.charAt(var7 + 1));
+			this.api.gfx.select(var8,dofus.Constants.TEAMS_COLOR[1],"startPosition");
+			var7 = var7 + 2;
+		}
+	}
 	function flagCellNonBlocking(var2)
 	{
 		var var3 = this.api.datacenter.Player.ID;
-		var var4 = new ank.battlefield.datacenter.();
+		var var4 = new ank.battlefield.datacenter.
+();
 		var4.file = dofus.Constants.CLIPS_PATH + "flag.swf";
 		var4.bInFrontOfSprite = true;
 		var4.bTryToBypassContainerColor = true;

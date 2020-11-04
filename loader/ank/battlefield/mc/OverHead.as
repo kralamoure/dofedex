@@ -3,7 +3,7 @@ class ank.battlefield.mc.OverHead extends MovieClip
 	static var TOP_Y = -50;
 	static var BOTTOM_Y = 10;
 	static var MODERATOR_Y = 15;
-	function OverHead(§\x0b\x11§, §\x1e\x1c\x03§, mcBattlefield)
+	function OverHead(§\n\x0e§, §\x1e\x1a\x12§, mcBattlefield)
 	{
 		super();
 		this._mcBattlefield = mcBattlefield;
@@ -51,8 +51,9 @@ class ank.battlefield.mc.OverHead extends MovieClip
 		{
 			this._mcItems._y = this._mcItems._y + (this.bottom + var2);
 			var var8 = 0;
-			for(var var9 in this._oLayers)
+			for(var k in this._oLayers)
 			{
+				var var9 = this._mcItems["item" + var8];
 				var9.reverseClip();
 				var8 = var8 + 1;
 			}

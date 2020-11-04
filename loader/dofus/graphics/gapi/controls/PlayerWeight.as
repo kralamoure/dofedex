@@ -55,8 +55,8 @@ class dofus.graphics.gapi.controls.PlayerWeight extends dofus.graphics.gapi.core
 		if((var var0 = var2.target) === this._pbWeight)
 		{
 			var var3 = var2.target.maximum;
-			var var4 = new ank.utils.(this._nCurrentWeight).addMiddleChar(" ",3);
-			var var5 = new ank.utils.(var3).addMiddleChar(" ",3);
+			var var4 = new ank.utils.(this._nCurrentWeight).addMiddleChar(" ",3);
+			var var5 = new ank.utils.(var3).addMiddleChar(" ",3);
 			this.gapi.showTooltip(this.api.lang.getText("PLAYER_WEIGHT",[var4,var5]),var2.target,-20);
 		}
 	}

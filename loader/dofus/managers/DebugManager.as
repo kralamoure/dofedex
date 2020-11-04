@@ -1,7 +1,7 @@
 class dofus.managers.DebugManager extends dofus.utils.ApiElement
 {
 	static var _sSelf = null;
-	function DebugManager(var3)
+	function DebugManager(var2)
 	{
 		super();
 		dofus.managers.DebugManager._sSelf = this;
@@ -68,72 +68,72 @@ class dofus.managers.DebugManager extends dofus.utils.ApiElement
 				var var6 = null;
 				if(var5 != undefined && var5.length > 1)
 				{
-					switch(var5[0])
+					if((var var0 = var5[0]) !== "getioname")
 					{
-						case "getioname":
-							var var7 = Number(var5[1]);
-							if(var7 != undefined && !_global.isNaN(var7))
-							{
-								var6 = this.api.lang.getInteractiveObjectDataText(var7).n;
-								if(var6 == undefined)
+						switch(null)
+						{
+							case "getitemname":
+								var var8 = Number(var5[1]);
+								if(var8 != undefined && !_global.isNaN(var8))
 								{
-									var6 = "-";
+									var6 = this.api.lang.getItemUnics()[var8].n;
+									if(var6 == undefined)
+									{
+										var6 = "-";
+									}
 								}
-							}
-							break;
-						case "getitemname":
-							var var8 = Number(var5[1]);
-							if(var8 != undefined && !_global.isNaN(var8))
-							{
-								var6 = this.api.lang.getItemUnics()[var8].n;
-								if(var6 == undefined)
+								break;
+							case "getsubareaname":
+								var var9 = Number(var5[1]);
+								if(var9 != undefined && !_global.isNaN(var9))
 								{
-									var6 = "-";
+									var6 = this.api.lang.getMapSubAreaText(var9).n;
+									if(var6 == undefined)
+									{
+										var6 = "-";
+									}
 								}
-							}
-							break;
-						default:
-							switch(null)
-							{
-								case "getsubareaname":
-									var var9 = Number(var5[1]);
-									if(var9 != undefined && !_global.isNaN(var9))
+								break;
+							case "getcelliogfxname":
+								var var10 = Number(var5[1]);
+								if(var10 != undefined && !_global.isNaN(var10))
+								{
+									var var11 = this.api.gfx.mapHandler.getCellData(var10).layerObject2Num;
+									if(!_global.isNaN(var11))
 									{
-										var6 = this.api.lang.getMapSubAreaText(var9).n;
-										if(var6 == undefined)
-										{
-											var6 = "-";
-										}
+										var6 = this.api.lang.getInteractiveObjectDataByGfxText(var11).n;
 									}
-									break;
-								case "getcelliogfxname":
-									var var10 = Number(var5[1]);
-									if(var10 != undefined && !_global.isNaN(var10))
+									if(var6 == undefined)
 									{
-										var var11 = this.api.gfx.mapHandler.getCellData(var10).layerObject2Num;
-										if(!_global.isNaN(var11))
-										{
-											var6 = this.api.lang.getInteractiveObjectDataByGfxText(var11).n;
-										}
-										if(var6 == undefined)
-										{
-											var6 = "-";
-										}
+										var6 = "-";
 									}
-									break;
-								case "getmonstername":
-									var var12 = Number(var5[1]);
-									if(var12 != undefined && !_global.isNaN(var12))
+								}
+								break;
+							case "getmonstername":
+								var var12 = Number(var5[1]);
+								if(var12 != undefined && !_global.isNaN(var12))
+								{
+									var6 = this.api.lang.getMonstersText(var12).n;
+									if(var6 == undefined)
 									{
-										var6 = this.api.lang.getMonstersText(var12).n;
-										if(var6 == undefined)
-										{
-											var6 = "-";
-											break;
-										}
+										var6 = "-";
 										break;
 									}
+									break;
+								}
+						}
+					}
+					else
+					{
+						var var7 = Number(var5[1]);
+						if(var7 != undefined && !_global.isNaN(var7))
+						{
+							var6 = this.api.lang.getInteractiveObjectDataText(var7).n;
+							if(var6 == undefined)
+							{
+								var6 = "-";
 							}
+						}
 					}
 				}
 				if(var6 != null && var6.length > 0)
@@ -158,6 +158,6 @@ class dofus.managers.DebugManager extends dofus.utils.ApiElement
 	function getTimestamp()
 	{
 		var var2 = new Date();
-		return "[" + new ank.utils.(var2.getHours()).addLeftChar("0",2) + ":" + new ank.utils.(var2.getMinutes()).addLeftChar("0",2) + ":" + new ank.utils.(var2.getSeconds()).addLeftChar("0",2) + ":" + new ank.utils.(var2.getMilliseconds()).addLeftChar("0",3) + "]";
+		return "[" + new ank.utils.(var2.getHours()).addLeftChar("0",2) + ":" + new ank.utils.(var2.getMinutes()).addLeftChar("0",2) + ":" + new ank.utils.(var2.getSeconds()).addLeftChar("0",2) + ":" + new ank.utils.(var2.getMilliseconds()).addLeftChar("0",3) + "]";
 	}
 }

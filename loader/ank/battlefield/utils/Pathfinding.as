@@ -3,181 +3,198 @@ class ank.battlefield.utils.Pathfinding
 	function Pathfinding()
 	{
 	}
-	static function pathFind(mapHandler, §\b\x1b§, §\b\x1a§, §\x1e\x19\x1b§)
+	static function pathFind(var2, var3, var4, var5, var6)
 	{
-		if(var3 == undefined)
-		{
-			return null;
-		}
+		var var7 = var2.datacenter.Game.isFight;
 		if(var4 == undefined)
 		{
 			return null;
 		}
-		var var6 = var5.bAllDirections != undefined?var5.bAllDirections:true;
-		var var7 = var5.nMaxLength != undefined?var5.nMaxLength:500;
-		var var8 = var5.bIgnoreSprites != undefined?var5.bIgnoreSprites:false;
-		var var9 = var5.bCellNumOnly != undefined?var5.bCellNumOnly:false;
-		var var10 = var5.bWithBeginCellNum != undefined?var5.bWithBeginCellNum:false;
-		var var11 = mapHandler.getWidth();
-		if(var6)
+		if(var5 == undefined)
 		{
-			var var12 = 8;
-			var var13 = [1,var11,var11 * 2 - 1,var11 - 1,-1,- var11,- var11 * 2 + 1,- var11 - 1];
-			var var14 = [1.5,1,1.5,1,1.5,1,1.5,1];
+			return null;
+		}
+		if(var7 == undefined)
+		{
+			var7 = false;
+		}
+		var var8 = var6.bAllDirections != undefined?var6.bAllDirections:true;
+		var var9 = var6.nMaxLength != undefined?var6.nMaxLength:500;
+		var var10 = var6.bIgnoreSprites != undefined?var6.bIgnoreSprites:false;
+		var var11 = var6.bCellNumOnly != undefined?var6.bCellNumOnly:false;
+		var var12 = var6.bWithBeginCellNum != undefined?var6.bWithBeginCellNum:false;
+		var var13 = mapHandler.getWidth();
+		if(var8)
+		{
+			var var14 = 8;
+			var var15 = [1,var13,var13 * 2 - 1,var13 - 1,-1,- var13,- var13 * 2 + 1,- var13 - 1];
+			var var16 = [1.5,1,1.5,1,1.5,1,1.5,1];
 		}
 		else
 		{
-			var12 = 4;
-			var13 = [var11,var11 - 1,- var11,- var11 - 1];
-			var14 = [1,1,1,1];
+			var14 = 4;
+			var15 = [var13,var13 - 1,- var13,- var13 - 1];
+			var16 = [1,1,1,1];
 		}
-		var var15 = mapHandler.getCellsData();
-		var var16 = new Object();
-		var var17 = new Object();
-		var var18 = false;
-		var var19 = var16["oCell" + var3] = new Object();
-		var16["oCell" + var3] = new Object().num = var3;
-		var16["oCell" + var3] = new Object().g = 0;
-		var16["oCell" + var3] = new Object().v = 0;
-		var16["oCell" + var3] = new Object().h = ank.battlefield.utils.Pathfinding.goalDistEstimate(mapHandler,var3,var4);
-		var16["oCell" + var3] = new Object().f = var16["oCell" + var3] = new Object().h;
-		var16["oCell" + var3] = new Object().l = var15[var3].groundLevel;
-		var16["oCell" + var3] = new Object().m = var15[var3].movement;
-		var16["oCell" + var3] = new Object().parent = null;
-		var var20 = new Array();
-		var var21 = 0;
-		while(var21 < var15.length - 1)
-		{
-			var20[var21] = var15[var21].isUnwalkableLayerObject;
-			var21 = var21 + 1;
-		}
+		var var17 = mapHandler.getCellsData();
+		var var18 = new Object();
+		var var19 = new Object();
+		var var20 = false;
+		var var21 = var18["oCell" + var4] = new Object();
+		var18["oCell" + var4] = new Object().num = var4;
+		var18["oCell" + var4] = new Object().g = 0;
+		var18["oCell" + var4] = new Object().v = 0;
+		var18["oCell" + var4] = new Object().h = ank.battlefield.utils.Pathfinding.goalDistEstimate(mapHandler,var4,var5);
+		var18["oCell" + var4] = new Object().f = var18["oCell" + var4] = new Object().h;
+		var18["oCell" + var4] = new Object().l = var17[var4].groundLevel;
+		var18["oCell" + var4] = new Object().m = var17[var4].movement;
+		var18["oCell" + var4] = new Object().parent = null;
 		var var22 = new Array();
-		if(!var8)
+		var var23 = 0;
+		while(var23 < var17.length - 1)
 		{
-			var var23 = 0;
-			while(var23 < var15.length - 1)
+			var22[var23] = var17[var23].isUnwalkableLayerObject;
+			var23 = var23 + 1;
+		}
+		var var24 = new Array();
+		if(!var10 && !var7)
+		{
+			var var25 = 0;
+			while(var25 < var17.length - 1)
 			{
-				var22[var23] = var15[var23].isTrigger;
-				var23 = var23 + 1;
+				var24[var25] = var17[var25].isTrigger;
+				var25 = var25 + 1;
 			}
 		}
-		while(!var18)
+		while(!var20)
 		{
-			var var24 = null;
-			var var25 = 500000;
-			for(var k in var16)
+			var var26 = null;
+			var var27 = 500000;
+			for(var k in var18)
 			{
-				if(var16[k].f < var25)
+				if(var18[k].f < var27)
 				{
-					var25 = var16[k].f;
-					var24 = k;
+					var27 = var18[k].f;
+					var26 = k;
 				}
 			}
-			var var26 = var16[var24];
-			delete register16.register24;
-			if(var26.num == var4)
+			var var28 = var18[var26];
+			delete register18.register26;
+			if(var28.num == var5)
 			{
-				var var27 = new Array();
-				while(var26.num != var3)
+				var var29 = new Array();
+				while(var28.num != var4)
 				{
-					if(var26.m == 0)
+					if(var28.m == 0)
 					{
-						var27 = new Array();
+						var29 = new Array();
 					}
-					else if(var9)
+					else if(var11)
 					{
-						var27.splice(0,0,var26.num);
+						var29.splice(0,0,var28.num);
 					}
 					else
 					{
-						var27.splice(0,0,{num:var26.num,dir:ank.battlefield.utils.Pathfinding.getDirection(mapHandler,var26.parent.num,var26.num)});
+						var29.splice(0,0,{num:var28.num,dir:ank.battlefield.utils.Pathfinding.getDirection(mapHandler,var28.parent.num,var28.num)});
 					}
-					var26 = var26.parent;
+					var28 = var28.parent;
 				}
-				if(var10)
+				if(var12)
 				{
-					if(var9)
+					if(var11)
 					{
-						var27.splice(0,0,var3);
+						var29.splice(0,0,var4);
 					}
 					else
 					{
-						var27.splice(0,0,{num:var3,dir:ank.battlefield.utils.Pathfinding.getDirection(mapHandler,var26.parent.num,var3)});
+						var29.splice(0,0,{num:var4,dir:ank.battlefield.utils.Pathfinding.getDirection(mapHandler,var28.parent.num,var4)});
 					}
 				}
-				return var27;
+				return var29;
 			}
-			var var28 = false;
-			var var29 = 0;
-			while(var29 < var12)
+			var var30 = false;
+			var var31 = 0;
+			while(var31 < var14)
 			{
-				var var30 = var26.num + var13[var29];
-				if(Math.abs(var15[var30].x - var15[var26.num].x) <= 53)
+				var var32 = var28.num + var15[var31];
+				if(Math.abs(var17[var32].x - var17[var28.num].x) <= 53)
 				{
-					var var31 = var15[var30];
-					var28 = !(var30 == var4 && var31.movement == 1)?false:true;
-					var var32 = var31.groundLevel;
-					var var33 = true;
-					if(!var8)
+					var var33 = var17[var32];
+					var30 = !(var32 == var5 && var33.movement == 1)?false:true;
+					var var34 = var33.groundLevel;
+					var var35 = true;
+					if(!var10)
 					{
-						var33 = var31.spriteOnID == undefined?true:false;
-						if(var33 && (var30 != var4 && var22[var30] == true))
+						var var36 = var33.spriteOnID;
+						if(var7)
 						{
-							var33 = false;
+							var35 = var36 == undefined?true:false;
+						}
+						else
+						{
+							var var37 = var2.gfx.spriteHandler.getSprite(var36);
+							var35 = !(var37 != undefined && (var37 instanceof dofus.datacenter.Character && var32 != var5))?true:false;
+						}
+						if(var35 && (var32 != var5 && var24[var32] == true))
+						{
+							var35 = false;
 						}
 					}
-					if(var33 && (var30 != var4 && var20[var30] == true))
+					if(var35 && (var32 != var5 && var22[var32] == true))
 					{
-						var33 = false;
+						var35 = false;
 					}
-					var var34 = var26.l == undefined || Math.abs(var32 - var26.l) < 2;
-					if(var34 && (var31.active && var33))
+					var var38 = var28.l == undefined || Math.abs(var34 - var28.l) < 2;
+					if(var38 && (var33.active && var35))
 					{
-						var var35 = "oCell" + var30;
-						var var36 = var26.v + var14[var29] + (!(var31.movement == 0 || var31.movement == 1)?0:1000 + (var29 % 2 != 0?0:3)) + (!(var31.movement == 1 && var28)?(var29 == var26.d?0:0.5) + (5 - var31.movement) / 3:-1000);
-						var var37 = var26.g + var14[var29];
-						var var38 = null;
-						if(var16[var35])
+						var var39 = "oCell" + var32;
+						var var40 = var28.v + var16[var31] + (!(var33.movement == 0 || var33.movement == 1)?0:1000 + (var31 % 2 != 0?0:3)) + (!(var33.movement == 1 && var30)?(var31 == var28.d?0:0.5) + (5 - var33.movement) / 3:-1000);
+						var var41 = var28.g + var16[var31];
+						var var42 = null;
+						if(var18[var39])
 						{
-							var38 = var16[var35].v;
+							var42 = var18[var39].v;
 						}
-						else if(var17[var35])
+						else if(var19[var39])
 						{
-							var38 = var17[var35].v;
+							var42 = var19[var39].v;
 						}
-						if((var38 == null || var38 > var36) && var37 <= var7)
+						if((var42 == null || var42 > var40) && var41 <= var9)
 						{
-							if(var17[var35])
+							if(var19[var39])
 							{
-								delete register17.register35;
+								delete register19.register39;
 							}
-							var var39 = new Object();
-							var39.num = var30;
-							var39.g = var37;
-							var39.v = var36;
-							var39.h = ank.battlefield.utils.Pathfinding.goalDistEstimate(mapHandler,var30,var4);
-							var39.f = var39.v + var39.h;
-							var39.d = var29;
-							var39.l = var32;
-							var39.m = var31.movement;
-							var39.parent = var26;
-							var16[var35] = var39;
+							var var43 = new Object();
+							var43.num = var32;
+							var43.g = var41;
+							var43.v = var40;
+							var43.h = ank.battlefield.utils.Pathfinding.goalDistEstimate(mapHandler,var32,var5);
+							var43.f = var43.v + var43.h;
+							var43.d = var31;
+							var43.l = var34;
+							var43.m = var33.movement;
+							var43.parent = var28;
+							var18[var39] = var43;
 						}
 					}
 				}
-				var29 = var29 + 1;
+				var31 = var31 + 1;
 			}
-			var17["oCell" + var26.num] = {v:var26.v};
-			var18 = true;
-			for(var k in var16)
+			var19["oCell" + var28.num] = {v:var28.v};
+			var20 = true;
+			for(var k in var18)
 			{
-				var18 = false;
+				var20 = false;
+				while(§§enumeration() != null)
+				{
+				}
 				break;
 			}
 		}
 		return null;
 	}
-	static function goalDistEstimate(mapHandler, §\b\x1d§, §\b\x1c§)
+	static function goalDistEstimate(mapHandler, §\x07\x19§, §\x07\x18§)
 	{
 		var var5 = ank.battlefield.utils.Pathfinding.getCaseCoordonnee(mapHandler,var3);
 		var var6 = ank.battlefield.utils.Pathfinding.getCaseCoordonnee(mapHandler,var4);
@@ -185,7 +202,7 @@ class ank.battlefield.utils.Pathfinding
 		var var8 = Math.abs(var5.y - var6.y);
 		return Math.sqrt(Math.pow(var7,2) + Math.pow(var8,2));
 	}
-	static function goalDistance(mapHandler, §\b\x1d§, §\b\x1c§)
+	static function goalDistance(mapHandler, §\x07\x19§, §\x07\x18§)
 	{
 		var var5 = ank.battlefield.utils.Pathfinding.getCaseCoordonnee(mapHandler,var3);
 		var var6 = ank.battlefield.utils.Pathfinding.getCaseCoordonnee(mapHandler,var4);
@@ -193,7 +210,7 @@ class ank.battlefield.utils.Pathfinding
 		var var8 = Math.abs(var5.y - var6.y);
 		return var7 + var8;
 	}
-	static function getCaseCoordonnee(mapHandler, §\x03\x13§)
+	static function getCaseCoordonnee(mapHandler, §\x02\b§)
 	{
 		var var4 = mapHandler.getWidth();
 		var var5 = Math.floor(var3 / (var4 * 2 - 1));
@@ -204,7 +221,7 @@ class ank.battlefield.utils.Pathfinding
 		var8.x = (var3 - (var4 - 1) * var8.y) / var4;
 		return var8;
 	}
-	static function getDirection(mapHandler, §\b\x1d§, §\b\x1c§)
+	static function getDirection(mapHandler, §\x07\x19§, §\x07\x18§)
 	{
 		var var5 = mapHandler.getWidth();
 		var var6 = [1,var5,var5 * 2 - 1,var5 - 1,-1,- var5,- var5 * 2 + 1,- var5 - 1];
@@ -295,11 +312,12 @@ class ank.battlefield.utils.Pathfinding
 		}
 		return 1;
 	}
-	static function getArroundCellNum(mapHandler, §\b\x18§, §\x07\x0e§, §\x05\x18§)
+	static function getArroundCellNum(mapHandler, §\x07\x14§, §\x06\b§, §\x04\r§)
 	{
 		var var6 = mapHandler.getWidth();
 		var var7 = [1,var6,var6 * 2 - 1,var6 - 1,-1,- var6,- var6 * 2 + 1,- var6 - 1];
 		var var8 = 0;
+		loop0:
 		switch(var5 % 8)
 		{
 			case 0:
@@ -308,26 +326,31 @@ class ank.battlefield.utils.Pathfinding
 			case 1:
 				var8 = 6;
 				break;
-			case 2:
-				var8 = 4;
-				break;
-			case 3:
-				var8 = 0;
-				break;
 			default:
 				switch(null)
 				{
+					case 2:
+						var8 = 4;
+						break loop0;
+					case 3:
+						var8 = 0;
+						break loop0;
 					case 4:
 						var8 = 3;
-						break;
+						break loop0;
 					case 5:
 						var8 = 5;
-						break;
+						break loop0;
 					case 6:
 						var8 = 1;
-						break;
-					case 7:
+						break loop0;
+					default:
+						if(var0 !== 7)
+						{
+							break loop0;
+						}
 						var8 = 7;
+						break loop0;
 				}
 		}
 		var8 = (var8 + var4) % 8;
@@ -370,19 +393,19 @@ class ank.battlefield.utils.Pathfinding
 					return false;
 				}
 				break;
+			case 3:
+				if(((var2 - 1 & 8) >> 3) + var3 != ((var4 - 1 & 4) >> 2) + var5)
+				{
+					return false;
+				}
+				if((var2 - 1 & 1) + var3 != ((var4 - 1 & 2) >> 1) + var5)
+				{
+					return false;
+				}
+				break;
 			default:
 				switch(null)
 				{
-					case 3:
-						if(((var2 - 1 & 8) >> 3) + var3 != ((var4 - 1 & 4) >> 2) + var5)
-						{
-							return false;
-						}
-						if((var2 - 1 & 1) + var3 != ((var4 - 1 & 2) >> 1) + var5)
-						{
-							return false;
-						}
-						break;
 					case 4:
 						if((var2 - 1 & 1) + var3 != ((var4 - 1 & 4) >> 2) + var5)
 						{
@@ -419,7 +442,7 @@ class ank.battlefield.utils.Pathfinding
 		}
 		return true;
 	}
-	static function checkView(mapHandler, §\x14\x03§, §\x14\x02§)
+	static function checkView(mapHandler, §\x13\b§, §\x13\x07§)
 	{
 		var var5 = ank.battlefield.utils.Pathfinding.getCaseCoordonnee(mapHandler,var3);
 		var var6 = ank.battlefield.utils.Pathfinding.getCaseCoordonnee(mapHandler,var4);
@@ -482,7 +505,7 @@ class ank.battlefield.utils.Pathfinding
 		}
 		return true;
 	}
-	static function checkCellView(mapHandler, §\x1e\x0b\x1b§, §\x1e\x0b\x12§, §\x17\n§, §\x1e\x18\x15§, §\x1e\x18\x14§, §\x1e\x0b\f§, §\x12\r§)
+	static function checkCellView(mapHandler, §\x1e\t\x16§, §\x1e\t\r§, §\x16\x19§, §\x1e\x17\x06§, §\x1e\x17\x05§, §\x1e\t\x07§, §\x11\x0f§)
 	{
 		var var10 = ank.battlefield.utils.Pathfinding.getCaseNum(mapHandler,var3,var4);
 		var var11 = mapHandler.getCellData(var10);
@@ -500,12 +523,12 @@ class ank.battlefield.utils.Pathfinding
 		}
 		return false;
 	}
-	static function getCaseNum(mapHandler, §\x1e\x0b\x1b§, §\x1e\x0b\x12§)
+	static function getCaseNum(mapHandler, §\x1e\t\x16§, §\x1e\t\r§)
 	{
 		var var5 = mapHandler.getWidth();
 		return var3 * var5 + var4 * (var5 - 1);
 	}
-	static function checkAlign(mapHandler, §\x14\x03§, §\x14\x02§)
+	static function checkAlign(mapHandler, §\x13\b§, §\x13\x07§)
 	{
 		var var5 = ank.battlefield.utils.Pathfinding.getCaseCoordonnee(mapHandler,var3);
 		var var6 = ank.battlefield.utils.Pathfinding.getCaseCoordonnee(mapHandler,var4);
@@ -519,7 +542,7 @@ class ank.battlefield.utils.Pathfinding
 		}
 		return false;
 	}
-	static function checkRange(mapHandler, §\b\x1d§, §\b\x1c§, §\x18\x0f§, §\x02\x04§, §\x02\x05§, §\x02\x03§)
+	static function checkRange(mapHandler, §\x07\x19§, §\x07\x18§, §\x18\x03§, §\x1e\x1e\x15§, §\x1e\x1e\x16§, §\x1e\x1e\x14§)
 	{
 		var6 = Number(var6);
 		var7 = Number(var7);

@@ -1,6 +1,6 @@
 class dofus.aks.Emotes extends dofus.aks.Handler
 {
-	function Emotes(var3, var4)
+	function Emotes(var2, var3)
 	{
 		super.initialize(var3,var4);
 	}
@@ -36,6 +36,10 @@ class dofus.aks.Emotes extends dofus.aks.Handler
 		var var5 = var4[0];
 		var var6 = Number(var4[1]);
 		var var7 = Number(var4[2]);
+		if(var6 != 1 && !this.api.electron.isWindowFocused)
+		{
+			return undefined;
+		}
 		var var8 = !_global.isNaN(var6)?"emote" + var6:"static";
 		this.api.gfx.convertHeightToFourSpriteDirection(var5);
 		if(_global.isNaN(var7) && _global.isNaN(var6))

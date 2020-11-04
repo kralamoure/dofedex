@@ -81,24 +81,25 @@ class ank.utils.PatternDecoder
 						}
 					}
 					break;
+				case "{":
+					var var9 = ank.utils.PatternDecoder.find(var2.slice(var4),"}");
+					var var10 = ank.utils.PatternDecoder.decodeDescription(var2.slice(var4 + 1,var4 + var9),var3).join("");
+					var2.splice(var4,var9 + 1,var10);
+					break;
 				default:
-					switch(null)
+					if(var0 !== "[")
 					{
-						case "{":
-							var var9 = ank.utils.PatternDecoder.find(var2.slice(var4),"}");
-							var var10 = ank.utils.PatternDecoder.decodeDescription(var2.slice(var4 + 1,var4 + var9),var3).join("");
-							var2.splice(var4,var9 + 1,var10);
-							break;
-						case "[":
-							var var11 = ank.utils.PatternDecoder.find(var2.slice(var4),"]");
-							var var12 = Number(var2.slice(var4 + 1,var4 + var11).join(""));
-							if(!_global.isNaN(var12))
-							{
-								var2.splice(var4,var11 + 1,var3[var12] + " ");
-								var4 = var4 - var11;
-								break;
-							}
+						break;
 					}
+					var var11 = ank.utils.PatternDecoder.find(var2.slice(var4),"]");
+					var var12 = Number(var2.slice(var4 + 1,var4 + var11).join(""));
+					if(!_global.isNaN(var12))
+					{
+						var2.splice(var4,var11 + 1,var3[var12] + " ");
+						var4 = var4 - var11;
+						break;
+					}
+					break;
 			}
 			var4 = var4 + 1;
 		}

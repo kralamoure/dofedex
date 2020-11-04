@@ -11,7 +11,7 @@ class dofus.graphics.gapi.ui.GuildMemberInfos extends dofus.graphics.gapi.core.D
 		this._oMemberClone = new Object();
 		this._oMemberClone.rank = this._oMember.rank;
 		this._oMemberClone.percentxp = this._oMember.percentxp;
-		this._oMemberClone.rights = new dofus.datacenter.
+		this._oMemberClone.rights = new dofus.datacenter.
 (this._oMember.rights.value);
 		return this.__get__member();
 	}
@@ -107,7 +107,7 @@ class dofus.graphics.gapi.ui.GuildMemberInfos extends dofus.graphics.gapi.core.D
 		{
 			this._cbRanks._visible = true;
 			var var5 = this.api.lang.getRanks().slice();
-			var var6 = new ank.utils.();
+			var var6 = new ank.utils.();
 			var5.sortOn("o",Array.NUMERIC);
 			if(this.api.datacenter.Player.guildInfos.playerRights.isBoss)
 			{
@@ -164,22 +164,22 @@ class dofus.graphics.gapi.ui.GuildMemberInfos extends dofus.graphics.gapi.core.D
 			case "_btnClose":
 				this.unloadThis();
 				break;
+			case "_btnModify":
+				if(this._oMember.rank == this._oMemberClone.rank && (this._oMember.percentxp == this._oMemberClone.percentxp && this._oMember.rights.value == this._oMemberClone.rights.value))
+				{
+					return undefined;
+				}
+				this._oMember.rank = this._oMemberClone.rank;
+				this._oMember.rankOrder = this._oMemberClone.rankOrder;
+				this._oMember.percentxp = this._oMemberClone.percentxp;
+				this._oMember.rights.value = this._oMemberClone.rights.value;
+				this.api.network.Guild.changeMemberProfil(this._oMember);
+				this.api.datacenter.Player.guildInfos.setMembers();
+				this.unloadThis();
+				break;
 			default:
 				switch(null)
 				{
-					case "_btnModify":
-						if(this._oMember.rank == this._oMemberClone.rank && (this._oMember.percentxp == this._oMemberClone.percentxp && this._oMember.rights.value == this._oMemberClone.rights.value))
-						{
-							return undefined;
-						}
-						this._oMember.rank = this._oMemberClone.rank;
-						this._oMember.rankOrder = this._oMemberClone.rankOrder;
-						this._oMember.percentxp = this._oMemberClone.percentxp;
-						this._oMember.rights.value = this._oMemberClone.rights.value;
-						this.api.network.Guild.changeMemberProfil(this._oMember);
-						this.api.datacenter.Player.guildInfos.setMembers();
-						this.unloadThis();
-						break loop0;
 					case "_btnPercentXP":
 						var var3 = this.gapi.loadUIComponent("PopupQuantity","PopupQuantity",{value:this._oMember.percentxp,max:90,min:0});
 						var3.addEventListener("validate",this);
@@ -214,19 +214,19 @@ class dofus.graphics.gapi.ui.GuildMemberInfos extends dofus.graphics.gapi.core.D
 							this._oMemberClone.rights.value = this._oMemberClone.rights.value ^ 8;
 						}
 						break loop0;
+					case "_btnRBann":
+						if(this._btnRBann.selected)
+						{
+							this._oMemberClone.rights.value = this._oMemberClone.rights.value | 16;
+						}
+						else
+						{
+							this._oMemberClone.rights.value = this._oMemberClone.rights.value ^ 16;
+						}
+						break loop0;
 					default:
 						switch(null)
 						{
-							case "_btnRBann":
-								if(this._btnRBann.selected)
-								{
-									this._oMemberClone.rights.value = this._oMemberClone.rights.value | 16;
-								}
-								else
-								{
-									this._oMemberClone.rights.value = this._oMemberClone.rights.value ^ 16;
-								}
-								break loop0;
 							case "_btnRPercentXP":
 								if(this._btnRPercentXP.selected)
 								{
@@ -257,29 +257,29 @@ class dofus.graphics.gapi.ui.GuildMemberInfos extends dofus.graphics.gapi.core.D
 									this._oMemberClone.rights.value = this._oMemberClone.rights.value ^ 128;
 								}
 								break loop0;
+							case "_btnROwnPercentXP":
+								if(this._btnROwnPercentXP.selected)
+								{
+									this._oMemberClone.rights.value = this._oMemberClone.rights.value | 256;
+								}
+								else
+								{
+									this._oMemberClone.rights.value = this._oMemberClone.rights.value ^ 256;
+								}
+								break loop0;
+							case "_btnRCollect":
+								if(this._btnRCollect.selected)
+								{
+									this._oMemberClone.rights.value = this._oMemberClone.rights.value | 512;
+								}
+								else
+								{
+									this._oMemberClone.rights.value = this._oMemberClone.rights.value ^ 512;
+								}
+								break loop0;
 							default:
 								switch(null)
 								{
-									case "_btnROwnPercentXP":
-										if(this._btnROwnPercentXP.selected)
-										{
-											this._oMemberClone.rights.value = this._oMemberClone.rights.value | 256;
-										}
-										else
-										{
-											this._oMemberClone.rights.value = this._oMemberClone.rights.value ^ 256;
-										}
-										break loop0;
-									case "_btnRCollect":
-										if(this._btnRCollect.selected)
-										{
-											this._oMemberClone.rights.value = this._oMemberClone.rights.value | 512;
-										}
-										else
-										{
-											this._oMemberClone.rights.value = this._oMemberClone.rights.value ^ 512;
-										}
-										break loop0;
 									case "_bntRCanUseMountPark":
 										if(this._bntRCanUseMountPark.selected)
 										{
@@ -289,7 +289,7 @@ class dofus.graphics.gapi.ui.GuildMemberInfos extends dofus.graphics.gapi.core.D
 										{
 											this._oMemberClone.rights.value = this._oMemberClone.rights.value ^ 4096;
 										}
-										break loop0;
+										break;
 									case "_btnRCanArrangeMountPark":
 										if(this._btnRCanArrangeMountPark.selected)
 										{
@@ -299,19 +299,15 @@ class dofus.graphics.gapi.ui.GuildMemberInfos extends dofus.graphics.gapi.core.D
 										{
 											this._oMemberClone.rights.value = this._oMemberClone.rights.value ^ 8192;
 										}
-										break loop0;
-									default:
-										if(var0 !== "_btnRCanManageOtherMount")
-										{
-											break loop0;
-										}
+										break;
+									case "_btnRCanManageOtherMount":
 										if(this._btnRCanManageOtherMount.selected)
 										{
 											this._oMemberClone.rights.value = this._oMemberClone.rights.value | 16384;
-											break loop0;
+											break;
 										}
 										this._oMemberClone.rights.value = this._oMemberClone.rights.value ^ 16384;
-										break loop0;
+										break;
 								}
 						}
 				}

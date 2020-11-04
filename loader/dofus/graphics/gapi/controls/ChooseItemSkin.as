@@ -27,20 +27,21 @@ class dofus.graphics.gapi.controls.ChooseItemSkin extends dofus.graphics.gapi.co
 	{
 		this._cgGrid.addEventListener("dblClickItem",this._parent);
 		this._cgGrid.addEventListener("selectItem",this);
+		this._cgGrid.multipleContainerSelectionEnabled = false;
 	}
 	function initData()
 	{
-		var var2 = new ank.utils.();
+		var var2 = new ank.utils.();
 		var var3 = 0;
 		while(var3 < this._oItem.maxSkin)
 		{
 			if(this._oItem.isAssociate)
 			{
-				var2.push(new dofus.datacenter.(-1,this._oItem.realUnicId,1,0,"",0,var3,1));
+				var2.push(new dofus.datacenter.(-1,this._oItem.realUnicId,1,0,"",0,var3,1));
 			}
 			else
 			{
-				var2.push(new dofus.datacenter.(-1,this._oItem.unicID,1,0,"",0,var3,1));
+				var2.push(new dofus.datacenter.(-1,this._oItem.unicID,1,0,"",0,var3,1));
 			}
 			var3 = var3 + 1;
 		}

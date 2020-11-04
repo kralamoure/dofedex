@@ -16,8 +16,9 @@ class dofus.managers.AreasManager extends dofus.utils.ApiElement
 		this._oAreasCoords = new Object();
 		this._oSubAreasCoords = new Object();
 		var var4 = this.api.lang.getAllMapsInfos();
-		for(var var5 in var4)
+		for(var k in var4)
 		{
+			var var5 = var4[k];
 			var var6 = this.api.lang.getMapSubAreaText(var5.sa).a;
 			var var7 = this.api.lang.getMapAreaText(var6).sua;
 			var var8 = var7 + "_" + var5.x + "_" + var5.y;

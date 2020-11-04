@@ -1,7 +1,7 @@
 class dofus.managers.CharactersManager extends dofus.utils.ApiElement
 {
 	static var _sSelf = null;
-	function CharactersManager(var3)
+	function CharactersManager(var2)
 	{
 		dofus.managers.CharactersManager._sSelf = this;
 		super.initialize(var3);
@@ -45,6 +45,8 @@ class dofus.managers.CharactersManager extends dofus.utils.ApiElement
 		if(var3.Name != oSprite.name)
 		{
 			var3.Name = oSprite.name;
+			this.api.electron.updateWindowTitle(var3.Name);
+			this.api.electron.setIngameDiscordActivity();
 		}
 		if(var3.color1 != oSprite.color1 || (var3.color2 != oSprite.color2 || var3.color3 != oSprite.color3))
 		{
@@ -52,13 +54,15 @@ class dofus.managers.CharactersManager extends dofus.utils.ApiElement
 			var3.color2 = oSprite.color2;
 			var3.color3 = oSprite.color3;
 			this.api.ui.getUIComponent("Banner").updateArtwork(true);
+			this.api.ui.getUIComponent("Inventory").refreshSpriteViewer();
 		}
 		if(var3.Sex != oSprite.Sex)
 		{
 			var3.Sex = oSprite.Sex;
+			this.api.ui.getUIComponent("Inventory").refreshSpriteViewer();
 		}
 	}
-	function createCharacter(sID, §\x1e\x11\x13§, §\x1e\x1b\b§)
+	function createCharacter(sID, §\x1e\x0f\x19§, §\x1e\x19\x16§)
 	{
 		if(this.api.datacenter.Player.isAuthorized && var4.gfxID == "999")
 		{
@@ -67,7 +71,7 @@ class dofus.managers.CharactersManager extends dofus.utils.ApiElement
 		var var5 = this.api.datacenter.Sprites.getItemAt(sID);
 		if(var5 == undefined)
 		{
-			var5 = new dofus.datacenter.(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var4.gfxID + ".swf",var4.cell,var4.dir,var4.gfxID,var4.title);
+			var5 = new dofus.datacenter.(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var4.gfxID + ".swf",var4.cell,var4.dir,var4.gfxID,var4.title);
 			this.api.datacenter.Sprites.addItemAt(sID,var5);
 		}
 		var5.GameActionsManager.init();
@@ -150,7 +154,7 @@ class dofus.managers.CharactersManager extends dofus.utils.ApiElement
 		}
 		return var5;
 	}
-	function createCreature(sID, §\x1e\x11\x13§, §\x1e\x1b\b§)
+	function createCreature(sID, §\x1e\x0f\x19§, §\x1e\x19\x16§)
 	{
 		var var5 = this.api.datacenter.Sprites.getItemAt(sID);
 		if(var5 == undefined)
@@ -204,12 +208,13 @@ class dofus.managers.CharactersManager extends dofus.utils.ApiElement
 		var5.Team = var4.team != undefined?var4.team:null;
 		return var5;
 	}
-	function createMonster(sID, §\x1e\x11\x13§, §\x1e\x1b\b§)
+	function createMonster(sID, §\x1e\x0f\x19§, §\x1e\x19\x16§)
 	{
 		var var5 = this.api.datacenter.Sprites.getItemAt(sID);
 		if(var5 == undefined)
 		{
-			var5 = new dofus.datacenter.(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var4.gfxID + ".swf",var4.cell,var4.dir,var4.gfxID);
+			var5 = new dofus.datacenter.
+(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var4.gfxID + ".swf",var4.cell,var4.dir,var4.gfxID);
 			this.api.datacenter.Sprites.addItemAt(sID,var5);
 		}
 		var5.GameActionsManager.init();
@@ -254,12 +259,12 @@ class dofus.managers.CharactersManager extends dofus.utils.ApiElement
 		var5.Team = var4.team != undefined?var4.team:null;
 		return var5;
 	}
-	function createMonsterGroup(sID, §\x1e\x11\x13§, §\x1e\x1b\b§)
+	function createMonsterGroup(sID, §\x1e\x0f\x19§, §\x1e\x19\x16§)
 	{
 		var var5 = this.api.datacenter.Sprites.getItemAt(sID);
 		if(var5 == undefined)
 		{
-			var5 = new dofus.datacenter.(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var4.gfxID + ".swf",var4.cell,var4.dir,var4.bonusValue);
+			var5 = new dofus.datacenter.	(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var4.gfxID + ".swf",var4.cell,var4.dir,var4.bonusValue);
 			this.api.datacenter.Sprites.addItemAt(sID,var5);
 		}
 		var5.GameActionsManager.init();
@@ -275,12 +280,12 @@ class dofus.managers.CharactersManager extends dofus.utils.ApiElement
 		this.setSpriteAccessories(var5,var4.accessories);
 		return var5;
 	}
-	function createNonPlayableCharacter(sID, §\x1e\x1d\x03§, §\x1e\x1b\b§)
+	function createNonPlayableCharacter(sID, §\x1e\x1b\x13§, §\x1e\x19\x16§)
 	{
 		var var5 = this.api.datacenter.Sprites.getItemAt(sID);
 		if(var5 == undefined)
 		{
-			var5 = new dofus.datacenter.(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var4.gfxID + ".swf",var4.cell,var4.dir,var4.gfxID,var4.customArtwork);
+			var5 = new dofus.datacenter.(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var4.gfxID + ".swf",var4.cell,var4.dir,var4.gfxID,var4.customArtwork);
 			this.api.datacenter.Sprites.addItemAt(sID,var5);
 		}
 		var5.GameActionsManager.init();
@@ -298,12 +303,12 @@ class dofus.managers.CharactersManager extends dofus.utils.ApiElement
 		}
 		return var5;
 	}
-	function createOfflineCharacter(sID, §\x1e\x11\x13§, §\x1e\x1b\b§)
+	function createOfflineCharacter(sID, §\x1e\x0f\x19§, §\x1e\x19\x16§)
 	{
 		var var5 = this.api.datacenter.Sprites.getItemAt(sID);
 		if(var5 == undefined)
 		{
-			var5 = new dofus.datacenter.(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var4.gfxID + ".swf",var4.cell,var4.dir,var4.gfxID);
+			var5 = new dofus.datacenter.(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var4.gfxID + ".swf",var4.cell,var4.dir,var4.gfxID);
 			this.api.datacenter.Sprites.addItemAt(sID,var5);
 		}
 		var5.GameActionsManager.init();
@@ -323,12 +328,12 @@ class dofus.managers.CharactersManager extends dofus.utils.ApiElement
 		var5.offlineType = var4.offlineType;
 		return var5;
 	}
-	function createTaxCollector(sID, §\x1e\x11\x13§, §\x1e\x1b\b§)
+	function createTaxCollector(sID, §\x1e\x0f\x19§, §\x1e\x19\x16§)
 	{
 		var var5 = this.api.datacenter.Sprites.getItemAt(sID);
 		if(var5 == undefined)
 		{
-			var5 = new dofus.datacenter.(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var4.gfxID + ".swf",var4.cell,var4.dir,var4.gfxID);
+			var5 = new dofus.datacenter.(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var4.gfxID + ".swf",var4.cell,var4.dir,var4.gfxID);
 			this.api.datacenter.Sprites.addItemAt(sID,var5);
 		}
 		var5.GameActionsManager.init();
@@ -373,12 +378,12 @@ class dofus.managers.CharactersManager extends dofus.utils.ApiElement
 		var5.Team = var4.team != undefined?var4.team:null;
 		return var5;
 	}
-	function createPrism(sID, §\x1e\x11\x13§, §\x1e\x1b\b§)
+	function createPrism(sID, §\x1e\x0f\x19§, §\x1e\x19\x16§)
 	{
 		var var5 = this.api.datacenter.Sprites.getItemAt(sID);
 		if(var5 == undefined)
 		{
-			var5 = new dofus.datacenter.(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var4.gfxID + ".swf",var4.cell,var4.dir,var4.gfxID);
+			var5 = new dofus.datacenter.	(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var4.gfxID + ".swf",var4.cell,var4.dir,var4.gfxID);
 			this.api.datacenter.Sprites.addItemAt(sID,var5);
 		}
 		var5.GameActionsManager.init();
@@ -390,12 +395,12 @@ class dofus.managers.CharactersManager extends dofus.utils.ApiElement
 		var5.alignment = var4.alignment;
 		return var5;
 	}
-	function createParkMount(sID, §\x1e\x11\x13§, §\x1e\x1b\b§)
+	function createParkMount(sID, §\x1e\x0f\x19§, §\x1e\x19\x16§)
 	{
 		var var5 = this.api.datacenter.Sprites.getItemAt(sID);
 		if(var5 == undefined)
 		{
-			var5 = new dofus.datacenter.(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var4.gfxID + ".swf",var4.cell,var4.dir,var4.gfxID,var4.modelID);
+			var5 = new dofus.datacenter.(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var4.gfxID + ".swf",var4.cell,var4.dir,var4.gfxID,var4.modelID);
 			this.api.datacenter.Sprites.addItemAt(sID,var5);
 		}
 		var5.GameActionsManager.init();
@@ -407,13 +412,12 @@ class dofus.managers.CharactersManager extends dofus.utils.ApiElement
 		var5.level = var4.level;
 		return var5;
 	}
-	function createMutant(sID, §\x1e\x1b\b§)
+	function createMutant(sID, §\x1e\x19\x16§)
 	{
 		var var4 = this.api.datacenter.Sprites.getItemAt(sID);
 		if(var4 == undefined)
 		{
-			var4 = new dofus.datacenter.
-(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var3.gfxID + ".swf",var3.cell,var3.dir,var3.gfxID);
+			var4 = new dofus.datacenter.		(sID,ank.battlefield.mc.Sprite,dofus.Constants.CLIPS_PERSOS_PATH + var3.gfxID + ".swf",var3.cell,var3.dir,var3.gfxID);
 			this.api.datacenter.Sprites.addItemAt(sID,var4);
 		}
 		var4.GameActionsManager.init();
@@ -479,7 +483,7 @@ class dofus.managers.CharactersManager extends dofus.utils.ApiElement
 		var var6 = _global.parseInt(var3[2],16);
 		var var7 = var3[3].length != 0?_global.parseInt(var3[3],16):-1;
 		var var8 = var3[4];
-		var var9 = new dofus.datacenter.(var4,var5,var6,var7,var8);
+		var var9 = new dofus.datacenter.(var4,var5,var6,var7,var8);
 		var9.priceMultiplicator = this.api.lang.getConfigText("SELL_PRICE_MULTIPLICATOR");
 		return var9;
 	}
@@ -489,7 +493,7 @@ class dofus.managers.CharactersManager extends dofus.utils.ApiElement
 		var var4 = Number(var3[0]);
 		var var5 = Number(var3[1]);
 		var var6 = var3[2];
-		var var7 = new dofus.datacenter.(var4,var5,var6);
+		var var7 = new dofus.datacenter.(var4,var5,var6);
 		return var7;
 	}
 	function getNameFromData(var2)
@@ -513,7 +517,7 @@ class dofus.managers.CharactersManager extends dofus.utils.ApiElement
 		}
 		return var3;
 	}
-	function setSpriteAccessories(oSprite, §\x1e\x16\x10§)
+	function setSpriteAccessories(oSprite, §\x1e\x14\x1c§)
 	{
 		if(var3.length != 0)
 		{

@@ -1,6 +1,7 @@
 class dofus.aks.Exchange extends dofus.aks.Handler
 {
-	function Exchange(var3, var4)
+	var _lastMovedItemId = -1;
+	function Exchange(var2, var3)
 	{
 		super.initialize(var3,var4);
 	}
@@ -8,9 +9,9 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 	{
 		this.aks.send("EV",true);
 	}
-	function request(§\x1e\f\x16§, §\r\x1b§, cellNum)
+	function request(var2, var3, var4)
 	{
-		this.aks.send("ER" + var2 + "|" + (!(var3 == undefined || _global.isNaN(var3))?var3:"") + (!(cellNum == undefined || _global.isNaN(cellNum))?"|" + cellNum:""),true);
+		this.aks.send("ER" + var2 + "|" + (!(var3 == undefined || _global.isNaN(var3))?var3:"") + (!(var4 == undefined || _global.isNaN(var4))?"|" + var4:""),true);
 	}
 	function shop(var2)
 	{
@@ -26,7 +27,20 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 	}
 	function movementItem(var2, var3, var4, var5)
 	{
-		this.aks.send("EMO" + (!var2?"-":"+") + var3 + "|" + var4 + (var5 != undefined?"|" + var5:""),true);
+		if(this._lastMovedItemId == var3.ID && var2 == this._lastMovedItemAdd)
+		{
+			return undefined;
+		}
+		if(var4 == var3.Quantity)
+		{
+			this._lastMovedItemId = var3.ID;
+			this._lastMovedItemAdd = var2;
+		}
+		else
+		{
+			this._lastMovedItemId = -1;
+		}
+		this.aks.send("EMO" + (!var2?"-":"+") + var3.ID + "|" + var4 + (var5 != undefined?"|" + var5:""),true);
 	}
 	function movementItems(var2)
 	{
@@ -41,7 +55,7 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 			var3 = var3 + ((!var4?"-":"+") + var5 + "|" + var6 + (var7 != undefined?"|" + var7:""));
 			var8 = var8 + 1;
 		}
-		this.aks.send("EMO" + var3,true);
+		this.aks.send("EMO" + var3,true,undefined,true);
 	}
 	function movementPayItem(var2, var3, var4, var5, var6)
 	{
@@ -156,7 +170,7 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 			var var8 = this.api.datacenter.Player.ID != var5?var5:var6;
 			if(var7 == 12 || var7 == 13)
 			{
-				var var9 = new dofus.datacenter.(var8);
+				var var9 = new dofus.datacenter.(var8);
 			}
 			else
 			{
@@ -174,13 +188,8 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 					case 12:
 						var11 = "WAIT_FOR_CRAFT_CLIENT";
 						break;
-					default:
-						if(var0 !== 13)
-						{
-							break;
-						}
+					case 13:
 						var11 = "WAIT_FOR_CRAFT_ARTISAN";
-						break;
 				}
 				this.api.kernel.showMessage(this.api.lang.getText("EXCHANGE"),this.api.lang.getText(var11,[var10.name]),"INFO_CANCEL",{name:"Exchange",listener:this});
 			}
@@ -211,6 +220,7 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 		else
 		{
 			var var14 = var3.charAt(0);
+			loop2:
 			switch(var14)
 			{
 				case "O":
@@ -222,17 +232,19 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 				case "J":
 					this.api.kernel.showMessage(undefined,this.api.lang.getText("ERROR_85"),"ERROR_CHAT");
 					break;
-				case "o":
-					this.api.kernel.showMessage(undefined,this.api.lang.getText("ERROR_70"),"ERROR_CHAT");
-					break;
-				case "S":
-					this.api.kernel.showMessage(undefined,this.api.lang.getText("ERROR_62"),"ERROR_CHAT");
-					break;
 				default:
-					if(var0 !== "I")
+					switch(null)
 					{
+						case "o":
+							this.api.kernel.showMessage(undefined,this.api.lang.getText("ERROR_70"),"ERROR_CHAT");
+							break loop2;
+						case "S":
+							this.api.kernel.showMessage(undefined,this.api.lang.getText("ERROR_62"),"ERROR_CHAT");
+							break loop2;
+						case "I":
+						default:
+							this.api.kernel.showMessage(undefined,this.api.lang.getText("CANT_EXCHANGE"),"ERROR_CHAT");
 					}
-					this.api.kernel.showMessage(undefined,this.api.lang.getText("CANT_EXCHANGE"),"ERROR_CHAT");
 			}
 		}
 	}
@@ -294,190 +306,190 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 		{
 			return undefined;
 		}
+		this._lastMovedItemId = -1;
 		var var4 = var3.split("|");
 		var var5 = Number(var4[0]);
 		var var6 = var4[1];
 		this.api.datacenter.Basics.aks_exchange_echangeType = var5;
 		var var7 = this.api.datacenter.Temporary;
-		if((var var0 = var5) !== 0)
+		loop3:
+		switch(var5)
 		{
-			loop3:
-			switch(null)
-			{
-				case 4:
-					break;
-				case 1:
-					this.api.datacenter.Exchange.inventory = this.api.datacenter.Player.Inventory.clone();
+			case 0:
+			case 4:
+				var7.Shop = new dofus.datacenter.Shop();
+				var var8 = this.api.datacenter.Sprites.getItemAt(var6);
+				var7.Shop.id = var8.id;
+				var7.Shop.name = var8.name;
+				var7.Shop.gfx = var8.gfxID;
+				var var9 = new Array();
+				var9[1] = var8.color1 != undefined?var8.color1:-1;
+				var9[2] = var8.color2 != undefined?var8.color2:-1;
+				var9[3] = var8.color3 != undefined?var8.color3:-1;
+				if(var5 == 0)
+				{
+					this.api.ui.loadUIComponent("NpcShop","NpcShop",{data:var7.Shop,colors:var9});
+				}
+				else if(var5 == 4)
+				{
+					this.api.ui.loadUIComponent("PlayerShop","PlayerShop",{data:var7.Shop,colors:var9});
+				}
+				break;
+			case 1:
+				this.api.datacenter.Exchange.inventory = this.api.datacenter.Player.Inventory.clone();
+				this.api.ui.unloadUIComponent("AskYesNoIgnoreExchange");
+				this.api.ui.unloadUIComponent("AskCancelExchange");
+				this.api.ui.loadUIComponent("Exchange","Exchange");
+				break;
+			default:
+				switch(null)
+				{
+					case 17:
+					case 18:
+					case 3:
+					case 5:
+						var7.Storage = new dofus.datacenter.Storage();
+						this.api.ui.loadUIComponent("Storage","Storage",{data:var7.Storage});
+						break loop3;
+					case 8:
+						var7.Storage = new dofus.datacenter.TaxCollectorStorage();
+						var var12 = this.api.datacenter.Sprites.getItemAt(var6);
+						var7.Storage.name = var12.name;
+						var7.Storage.gfx = var12.gfxID;
+						this.api.ui.loadUIComponent("TaxCollectorStorage","TaxCollectorStorage",{data:var7.Storage});
+						break loop3;
+					default:
+						switch(null)
+						{
+							case 6:
+								var7.Shop = new dofus.datacenter.Shop();
+								this.api.ui.loadUIComponent("PlayerShopModifier","PlayerShopModifier",{data:var7.Shop});
+								break loop3;
+							case 10:
+								var7.Shop = new dofus.datacenter.();
+								var4 = var6.split(";");
+								var var13 = var4[0].split(",");
+								var7.Shop.quantity1 = Number(var13[0]);
+								var7.Shop.quantity2 = Number(var13[1]);
+								var7.Shop.quantity3 = Number(var13[2]);
+								var7.Shop.types = var4[1].split(",");
+								var7.Shop.tax = Number(var4[2]);
+								var7.Shop.maxLevel = Number(var4[3]);
+								var7.Shop.maxItemCount = Number(var4[4]);
+								var7.Shop.npcID = Number(var4[5]);
+								var7.Shop.maxSellTime = Number(var4[6]);
+								this.api.ui.loadUIComponent("BigStoreSell","BigStoreSell",{data:var7.Shop});
+								break loop3;
+							case 11:
+								var7.Shop = new dofus.datacenter.();
+								var4 = var6.split(";");
+								var var14 = var4[0].split(",");
+								var7.Shop.quantity1 = Number(var14[0]);
+								var7.Shop.quantity2 = Number(var14[1]);
+								var7.Shop.quantity3 = Number(var14[2]);
+								var7.Shop.types = var4[1].split(",");
+								var7.Shop.tax = Number(var4[2]);
+								var7.Shop.maxLevel = Number(var4[3]);
+								var7.Shop.maxItemCount = Number(var4[4]);
+								var7.Shop.npcID = Number(var4[5]);
+								var7.Shop.maxSellTime = Number(var4[6]);
+								this.api.ui.loadUIComponent("BigStoreBuy","BigStoreBuy",{data:var7.Shop});
+								break loop3;
+							case 12:
+							case 13:
+								this.api.datacenter.Exchange.inventory = this.api.datacenter.Player.Inventory.clone();
+								var4 = var6.split(";");
+								var var15 = Number(var4[0]);
+								var var16 = Number(var4[1]);
+								this.api.ui.unloadUIComponent("AskYesNoIgnoreExchange");
+								this.api.ui.unloadUIComponent("AskCancelExchange");
+								this.api.ui.loadUIComponent("SecureCraft","SecureCraft",{skillId:var16,maxItem:var15});
+								break loop3;
+							default:
+								switch(null)
+								{
+									case 14:
+										var var17 = new ank.utils.();
+										var var18 = var6.split(";");
+										var var19 = 0;
+										while(var19 < var18.length)
+										{
+											var var20 = Number(var18[var19]);
+											var17.push({label:this.api.lang.getJobText(var20).n,id:var20});
+											var19 = var19 + 1;
+										}
+										this.api.ui.loadUIComponent("CrafterList","CrafterList",{crafters:new ank.utils.(),jobs:var17});
+										break;
+									case 15:
+										this.api.ui.unloadUIComponent("Mount");
+										var7.Storage = new dofus.datacenter.Storage();
+										this.api.ui.loadUIComponent("Storage","Storage",{isMount:true,data:var7.Storage});
+										break;
+									case 16:
+										var var21 = new ank.utils.();
+										var var22 = new ank.utils.();
+										var4 = var6.split("~");
+										var var23 = var4[0].split(";");
+										var var24 = var4[1].split(";");
+										if(var23 != undefined)
+										{
+											var var25 = 0;
+											while(var25 < var23.length)
+											{
+												if(var23[var25] != "")
+												{
+													var21.push(this.api.network.Mount.createMount(var23[var25]));
+												}
+												var25 = var25 + 1;
+											}
+										}
+										if(var24 != undefined)
+										{
+											var var26 = 0;
+											while(var26 < var24.length)
+											{
+												if(var24[var26] != "")
+												{
+													var22.push(this.api.network.Mount.createMount(var24[var26]));
+												}
+												var26 = var26 + 1;
+											}
+										}
+										this.api.ui.loadUIComponent("MountStorage","MountStorage",{mounts:var21,parkMounts:var22});
+								}
+						}
+				}
+			case 2:
+			case 9:
+				if(var5 == 3)
+				{
+					this.api.datacenter.Exchange = new dofus.datacenter.Exchange();
+				}
+				else
+				{
+					this.api.datacenter.Exchange = new dofus.datacenter.Exchange(Number(var6));
+				}
+				this.api.datacenter.Exchange.inventory = this.api.datacenter.Player.Inventory.clone();
+				if(var5 == 3)
+				{
+					var4 = var6.split(";");
+					var var10 = Number(var4[0]);
+					var var11 = Number(var4[1]);
+					if(_global.API.lang.getSkillForgemagus(var11) > 0)
+					{
+						this.api.ui.loadUIComponent("ForgemagusCraft","Craft",{skillId:var11,maxItem:var10});
+					}
+					else
+					{
+						this.api.ui.loadUIComponent("Craft","Craft",{skillId:var11,maxItem:var10});
+					}
+				}
+				else
+				{
 					this.api.ui.unloadUIComponent("AskYesNoIgnoreExchange");
 					this.api.ui.unloadUIComponent("AskCancelExchange");
 					this.api.ui.loadUIComponent("Exchange","Exchange");
-					break;
-				default:
-					switch(null)
-					{
-						case 18:
-						case 3:
-						case 5:
-							var7.Storage = new dofus.datacenter.Storage();
-							this.api.ui.loadUIComponent("Storage","Storage",{data:var7.Storage});
-							break loop3;
-						case 8:
-							var7.Storage = new dofus.datacenter.TaxCollectorStorage();
-							var var12 = this.api.datacenter.Sprites.getItemAt(var6);
-							var7.Storage.name = var12.name;
-							var7.Storage.gfx = var12.gfxID;
-							this.api.ui.loadUIComponent("TaxCollectorStorage","TaxCollectorStorage",{data:var7.Storage});
-							break loop3;
-						case 6:
-							var7.Shop = new dofus.datacenter.Shop();
-							this.api.ui.loadUIComponent("PlayerShopModifier","PlayerShopModifier",{data:var7.Shop});
-							break loop3;
-						default:
-							switch(null)
-							{
-								case 10:
-									var7.Shop = new dofus.datacenter.();
-									var4 = var6.split(";");
-									var var13 = var4[0].split(",");
-									var7.Shop.quantity1 = Number(var13[0]);
-									var7.Shop.quantity2 = Number(var13[1]);
-									var7.Shop.quantity3 = Number(var13[2]);
-									var7.Shop.types = var4[1].split(",");
-									var7.Shop.tax = Number(var4[2]);
-									var7.Shop.maxLevel = Number(var4[3]);
-									var7.Shop.maxItemCount = Number(var4[4]);
-									var7.Shop.npcID = Number(var4[5]);
-									var7.Shop.maxSellTime = Number(var4[6]);
-									this.api.ui.loadUIComponent("BigStoreSell","BigStoreSell",{data:var7.Shop});
-									break loop3;
-								case 11:
-									var7.Shop = new dofus.datacenter.();
-									var4 = var6.split(";");
-									var var14 = var4[0].split(",");
-									var7.Shop.quantity1 = Number(var14[0]);
-									var7.Shop.quantity2 = Number(var14[1]);
-									var7.Shop.quantity3 = Number(var14[2]);
-									var7.Shop.types = var4[1].split(",");
-									var7.Shop.tax = Number(var4[2]);
-									var7.Shop.maxLevel = Number(var4[3]);
-									var7.Shop.maxItemCount = Number(var4[4]);
-									var7.Shop.npcID = Number(var4[5]);
-									var7.Shop.maxSellTime = Number(var4[6]);
-									this.api.ui.loadUIComponent("BigStoreBuy","BigStoreBuy",{data:var7.Shop});
-									break loop3;
-								case 12:
-								case 13:
-									this.api.datacenter.Exchange.inventory = this.api.datacenter.Player.Inventory.clone();
-									var4 = var6.split(";");
-									var var15 = Number(var4[0]);
-									var var16 = Number(var4[1]);
-									this.api.ui.unloadUIComponent("AskYesNoIgnoreExchange");
-									this.api.ui.unloadUIComponent("AskCancelExchange");
-									this.api.ui.loadUIComponent("SecureCraft","SecureCraft",{skillId:var16,maxItem:var15});
-									break loop3;
-								case 14:
-									var var17 = new ank.utils.();
-									var var18 = var6.split(";");
-									var var19 = 0;
-									while(var19 < var18.length)
-									{
-										var var20 = Number(var18[var19]);
-										var17.push({label:this.api.lang.getJobText(var20).n,id:var20});
-										var19 = var19 + 1;
-									}
-									this.api.ui.loadUIComponent("CrafterList","CrafterList",{crafters:new ank.utils.(),jobs:var17});
-									break loop3;
-								default:
-									switch(null)
-									{
-										case 15:
-											this.api.ui.unloadUIComponent("Mount");
-											var7.Storage = new dofus.datacenter.Storage();
-											this.api.ui.loadUIComponent("Storage","Storage",{isMount:true,data:var7.Storage});
-											break;
-										case 16:
-											var var21 = new ank.utils.();
-											var var22 = new ank.utils.();
-											var4 = var6.split("~");
-											var var23 = var4[0].split(";");
-											var var24 = var4[1].split(";");
-											if(var23 != undefined)
-											{
-												var var25 = 0;
-												while(var25 < var23.length)
-												{
-													if(var23[var25] != "")
-													{
-														var21.push(this.api.network.Mount.createMount(var23[var25]));
-													}
-													var25 = var25 + 1;
-												}
-											}
-											if(var24 != undefined)
-											{
-												var var26 = 0;
-												while(var26 < var24.length)
-												{
-													if(var24[var26] != "")
-													{
-														var22.push(this.api.network.Mount.createMount(var24[var26]));
-													}
-													var26 = var26 + 1;
-												}
-											}
-											this.api.ui.loadUIComponent("MountStorage","MountStorage",{mounts:var21,parkMounts:var22});
-									}
-							}
-					}
-				case 2:
-				case 9:
-				case 17:
-					if(var5 == 3)
-					{
-						this.api.datacenter.Exchange = new dofus.datacenter.Exchange();
-					}
-					else
-					{
-						this.api.datacenter.Exchange = new dofus.datacenter.Exchange(Number(var6));
-					}
-					this.api.datacenter.Exchange.inventory = this.api.datacenter.Player.Inventory.clone();
-					if(var5 == 3)
-					{
-						var4 = var6.split(";");
-						var var10 = Number(var4[0]);
-						var var11 = Number(var4[1]);
-						if(_global.API.lang.getSkillForgemagus(var11) > 0)
-						{
-							this.api.ui.loadUIComponent("ForgemagusCraft","Craft",{skillId:var11,maxItem:var10});
-						}
-						else
-						{
-							this.api.ui.loadUIComponent("Craft","Craft",{skillId:var11,maxItem:var10});
-						}
-					}
-					else
-					{
-						this.api.ui.unloadUIComponent("AskYesNoIgnoreExchange");
-						this.api.ui.unloadUIComponent("AskCancelExchange");
-						this.api.ui.loadUIComponent("Exchange","Exchange");
-					}
-			}
-		}
-		var7.Shop = new dofus.datacenter.Shop();
-		var var8 = this.api.datacenter.Sprites.getItemAt(var6);
-		var7.Shop.name = var8.name;
-		var7.Shop.gfx = var8.gfxID;
-		var var9 = new Array();
-		var9[1] = var8.color1 != undefined?var8.color1:-1;
-		var9[2] = var8.color2 != undefined?var8.color2:-1;
-		var9[3] = var8.color3 != undefined?var8.color3:-1;
-		if(var5 == 0)
-		{
-			this.api.ui.loadUIComponent("NpcShop","NpcShop",{data:var7.Shop,colors:var9});
-		}
-		else if(var5 == 4)
-		{
-			this.api.ui.loadUIComponent("PlayerShop","PlayerShop",{data:var7.Shop,colors:var9});
+				}
 		}
 	}
 	function onCrafterReference(var2)
@@ -505,8 +517,8 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 			var var15 = var4[8].split(",");
 			var var16 = var4[9];
 			var var17 = var4[10].split(",");
-			var var18 = new dofus.datacenter.(var7,var9);
-			var18.job = new dofus.datacenter.Job(var6,new ank.utils.(),new dofus.datacenter.(Number(var17[0]),Number(var17[1])));
+			var var18 = new dofus.datacenter.(var7,var9);
+			var18.job = new dofus.datacenter.Job(var6,new ank.utils.(),new dofus.datacenter.(Number(var17[0]),Number(var17[1])));
 			var18.job.level = var10;
 			var18.mapId = var11;
 			var18.inWorkshop = var12;
@@ -534,29 +546,30 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 	{
 		var var3 = var2.charAt(0);
 		var var4 = false;
-		if((var var0 = var3) !== "~")
+		switch(var3)
 		{
-			switch(null)
-			{
-				case "+":
-					break;
-				case "-":
-					var var5 = Number(var2.substr(1));
-					var var6 = this.api.ui.getUIComponent("MountStorage").mounts;
-					for(var a in var6)
-					{
-						if(var6[a].ID == var5)
+			case "~":
+				var4 = true;
+			case "+":
+				this.api.ui.getUIComponent("MountStorage").mounts.push(this.api.network.Mount.createMount(var2.substr(1),var4));
+				break;
+			default:
+				switch(null)
+				{
+					case "-":
+						var var5 = Number(var2.substr(1));
+						var var6 = this.api.ui.getUIComponent("MountStorage").mounts;
+						for(var a in var6)
 						{
-							var6.removeItems(Number(a),1);
+							if(var6[a].ID == var5)
+							{
+								var6.removeItems(Number(a),1);
+							}
 						}
-					}
-					break;
-				case "E":
-			}
-			break loop0;
+						break;
+					case "E":
+				}
 		}
-		var4 = true;
-		this.api.ui.getUIComponent("MountStorage").mounts.push(this.api.network.Mount.createMount(var2.substr(1),var4));
 	}
 	function onMountPark(var2)
 	{
@@ -624,7 +637,7 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 					var var7 = var3.substr(1).split(";");
 					if(var7.length == 1)
 					{
-						var var8 = new dofus.datacenter.(0,Number(var7[0]),undefined,undefined,undefined);
+						var var8 = new dofus.datacenter.(0,Number(var7[0]),undefined,undefined,undefined);
 						this.api.kernel.showMessage(undefined,this.api.lang.getText("CRAFT_SUCCESS_SELF",[var8.name]),"INFO_CHAT");
 						this.api.kernel.SpeakingItemsManager.triggerEvent(dofus.managers.SpeakingItemsManager.SPEAK_TRIGGER_CRAFT_KO);
 						break;
@@ -673,8 +686,13 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 			case 3:
 				var4 = this.api.lang.getText("CRAFT_LOOP_END_FAIL");
 				break;
-			case 4:
+			default:
+				if(var0 !== 4)
+				{
+					break;
+				}
 				var4 = this.api.lang.getText("CRAFT_LOOP_END_INVALID");
+				break;
 		}
 		this.api.kernel.showMessage(undefined,var4,"INFO_CHAT");
 		this.api.kernel.showMessage(this.api.lang.getText("CRAFT"),var4,"ERROR_BOX");
@@ -714,7 +732,7 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 						var var13 = var12.inventory.findFirstItem("ID",var6);
 						if(var4)
 						{
-							var var14 = new dofus.datacenter.(var6,var8,var7,-1,var9,var10);
+							var var14 = new dofus.datacenter.(var6,var8,var7,-1,var9,var10);
 							var14.remainingHours = var11;
 							if(var13.index != -1)
 							{
@@ -733,7 +751,13 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 						{
 							ank.utils.Logger.err("[onDistantMovement] cet objet n\'existe pas id=" + var6);
 						}
-						this.api.ui.getUIComponent("BigStoreSell").updateItemCount();
+						var var15 = (dofus.graphics.gapi.ui.BigStoreSell)this.api.ui.getUIComponent("BigStoreSell");
+						if(var15 != undefined)
+						{
+							var15.updateItemCount();
+							var15.refreshRemoveButton();
+							break;
+						}
 				}
 			case 1:
 			case 2:
@@ -755,33 +779,15 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 	function onPayMovement(var2, var3)
 	{
 		var var4 = Number(var3.charAt(0));
-		if(var4 != 1)
+		var var5 = var4 != 1?this.api.datacenter.Exchange.payIfSuccessGarbage:this.api.datacenter.Exchange.payGarbage;
+		var var6 = var4 != 1?"payIfSuccessKama":"payKama";
+		switch(this.api.datacenter.Basics.aks_exchange_echangeType)
 		{
-			addr36:
-			loop0:
-			while(true)
-			{
-				var var5 = §§pop();
-				var var6 = var4 != 1?"payIfSuccessKama":"payKama";
-				switch(this.api.datacenter.Basics.aks_exchange_echangeType)
-				{
-					case 12:
-						this.modifyDistant(var3.substr(2),var5,var6,false);
-						break loop0;
-					case 13:
-						this.modifyLocal(var3.substr(2),var5,var6);
-				}
-			}
-			§§push(this.api.datacenter.Exchange.payIfSuccessGarbage);
-		}
-		else
-		{
-			§§push(this.api.datacenter.Exchange);
-			§§push("payGarbage");
-		}
-		while(true)
-		{
-			§§goto(addr36);
+			case 12:
+				this.modifyDistant(var3.substr(2),var5,var6,false);
+				break;
+			case 13:
+				this.modifyLocal(var3.substr(2),var5,var6);
 		}
 	}
 	function modifyLocal(var2, var3, var4)
@@ -801,7 +807,7 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 				if(var7)
 				{
 					var var14 = var12.item;
-					var var15 = new dofus.datacenter.(var9,var14.unicID,var10,-2,var14.compressedEffects);
+					var var15 = new dofus.datacenter.(var9,var14.unicID,var10,-2,var14.compressedEffects);
 					var var16 = -1;
 					var var17 = var11.item.Quantity - var10;
 					if(var17 == 0)
@@ -810,13 +816,16 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 					}
 					var12.item.Quantity = var17;
 					var12.item.position = var16;
+					var6.inventory.startNoEventDispatchsPeriod(dofus.Constants.DELAYED_INVENTORY_ITEMS_VISUAL_REFRESH);
 					var6.inventory.updateItem(var12.index,var12.item);
 					if(var13.index != -1)
 					{
+						var3.startNoEventDispatchsPeriod(dofus.Constants.DELAYED_INVENTORY_ITEMS_VISUAL_REFRESH);
 						var3.updateItem(var13.index,var15);
 					}
 					else
 					{
+						var3.startNoEventDispatchsPeriod(dofus.Constants.DELAYED_INVENTORY_ITEMS_VISUAL_REFRESH);
 						var3.push(var15);
 					}
 				}
@@ -824,7 +833,9 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 				{
 					var12.item.position = -1;
 					var12.item.Quantity = var11.item.Quantity;
+					var6.inventory.startNoEventDispatchsPeriod(dofus.Constants.DELAYED_INVENTORY_ITEMS_VISUAL_REFRESH);
 					var6.inventory.updateItem(var12.index,var12.item);
+					var3.startNoEventDispatchsPeriod(dofus.Constants.DELAYED_INVENTORY_ITEMS_VISUAL_REFRESH);
 					var3.removeItems(var13.index,1);
 				}
 				break;
@@ -849,14 +860,16 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 				var var14 = var3.findFirstItem("ID",var10);
 				if(var8)
 				{
-					var var15 = new dofus.datacenter.(var10,var12,var11,-1,var13);
+					var var15 = new dofus.datacenter.(var10,var12,var11,-1,var13);
 					var var16 = var5 == undefined?var7.distantPlayerID == undefined:var5;
 					if(var14.index != -1)
 					{
+						var3.startNoEventDispatchsPeriod(dofus.Constants.DELAYED_INVENTORY_ITEMS_VISUAL_REFRESH);
 						var3.updateItem(var14.index,var15);
 					}
 					else
 					{
+						var3.startNoEventDispatchsPeriod(dofus.Constants.DELAYED_INVENTORY_ITEMS_VISUAL_REFRESH);
 						var3.push(var15);
 					}
 					if(var16)
@@ -866,10 +879,12 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 						{
 							var17.item.position = -1;
 							var17.item.Quantity = Number(var17.item.Quantity) + Number(var11);
+							var7.inventory.startNoEventDispatchsPeriod(dofus.Constants.DELAYED_INVENTORY_ITEMS_VISUAL_REFRESH);
 							var7.inventory.updateItem(var17.index,var17.item);
 						}
 						else
 						{
+							var7.inventory.startNoEventDispatchsPeriod(dofus.Constants.DELAYED_INVENTORY_ITEMS_VISUAL_REFRESH);
 							var7.inventory.push(var15);
 							_global.API.ui.getUIComponent("Craft").updateForgemagusResult(var15);
 						}
@@ -877,6 +892,7 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 				}
 				else if(var14.index != -1)
 				{
+					var3.startNoEventDispatchsPeriod(dofus.Constants.DELAYED_INVENTORY_ITEMS_VISUAL_REFRESH);
 					var3.removeItems(var14.index,1);
 				}
 				break;
@@ -889,41 +905,47 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 	{
 		var var4 = var3.charAt(0);
 		var var5 = this.api.datacenter.Temporary.Storage;
-		switch(var4)
+		var var6 = var5.inventory;
+		if((var var0 = var4) !== "O")
 		{
-			case "O":
-				var var6 = var3.charAt(1) == "+";
-				var var7 = var3.substr(2).split("|");
-				var var8 = Number(var7[0]);
-				var var9 = Number(var7[1]);
-				var var10 = Number(var7[2]);
-				var var11 = var7[3];
-				var var12 = var5.inventory.findFirstItem("ID",var8);
-				if(var6)
+			if(var0 === "G")
+			{
+				var var15 = Number(var3.substr(1));
+				var5.Kama = var15;
+			}
+		}
+		else
+		{
+			var var7 = var3.charAt(1) == "+";
+			var var8 = var3.substr(2).split("|");
+			var var9 = Number(var8[0]);
+			var var10 = Number(var8[1]);
+			var var11 = Number(var8[2]);
+			var var12 = var8[3];
+			var var13 = var6.findFirstItem("ID",var9);
+			if(var7)
+			{
+				var var14 = new dofus.datacenter.(var9,var11,var10,-1,var12);
+				if(var13.index != -1)
 				{
-					var var13 = new dofus.datacenter.(var8,var10,var9,-1,var11);
-					if(var12.index != -1)
-					{
-						var5.inventory.updateItem(var12.index,var13);
-					}
-					else
-					{
-						var5.inventory.push(var13);
-					}
-					break;
-				}
-				if(var12.index != -1)
-				{
-					var5.inventory.removeItems(var12.index,1);
+					var6.startNoEventDispatchsPeriod(dofus.Constants.DELAYED_INVENTORY_ITEMS_VISUAL_REFRESH);
+					var6.updateItem(var13.index,var14);
 				}
 				else
 				{
-					ank.utils.Logger.err("[onStorageMovement] cet objet n\'existe pas id=" + var8);
+					var6.startNoEventDispatchsPeriod(dofus.Constants.DELAYED_INVENTORY_ITEMS_VISUAL_REFRESH);
+					var6.push(var14);
 				}
-				break;
-			case "G":
-				var var14 = Number(var3.substr(1));
-				var5.Kama = var14;
+			}
+			else if(var13.index != -1)
+			{
+				var6.startNoEventDispatchsPeriod(dofus.Constants.DELAYED_INVENTORY_ITEMS_VISUAL_REFRESH);
+				var6.removeItems(var13.index,1);
+			}
+			else
+			{
+				ank.utils.Logger.err("[onStorageMovement] cet objet n\'existe pas id=" + var9);
+			}
 		}
 	}
 	function onPlayerShopMovement(var2, var3)
@@ -939,7 +961,7 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 		var var12 = var11.inventory.findFirstItem("ID",var6);
 		if(var4)
 		{
-			var var13 = new dofus.datacenter.(var6,var8,var7,-1,var9,var10);
+			var var13 = new dofus.datacenter.(var6,var8,var7,-1,var9,var10);
 			if(var12.index != -1)
 			{
 				var11.inventory.updateItem(var12.index,var13);
@@ -957,98 +979,99 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 		{
 			ank.utils.Logger.err("[onPlayerShopMovement] cet objet n\'existe pas id=" + var6);
 		}
+		this.api.ui.getUIComponent("PlayerShopModifier").refreshRemoveButton();
 	}
 	function onList(var2)
 	{
-		if((var var0 = this.api.datacenter.Basics.aks_exchange_echangeType) !== 0)
+		loop4:
+		switch(this.api.datacenter.Basics.aks_exchange_echangeType)
 		{
-			switch(null)
-			{
-				case 5:
-				case 15:
-				case 8:
-					var var9 = var2.split(";");
-					var var10 = new ank.utils.();
-					for(var k in var9)
-					{
-						var var11 = var9[k];
-						var var12 = var11.charAt(0);
-						var var13 = var11.substr(1);
-						switch(var12)
+			case 0:
+				var var3 = var2.split("|");
+				var var4 = new ank.utils.();
+				for(var k in var3)
+				{
+					var var5 = var3[k].split(";");
+					var var6 = Number(var5[0]);
+					var var7 = var5[1];
+					var var8 = new dofus.datacenter.(0,var6,undefined,undefined,var7);
+					var8.priceMultiplicator = this.api.lang.getConfigText("BUY_PRICE_MULTIPLICATOR");
+					var4.push(var8);
+				}
+				this.api.datacenter.Temporary.Shop.inventory = var4;
+				break;
+			default:
+				switch(null)
+				{
+					case 15:
+					case 8:
+					case 4:
+					case 6:
+						var var15 = var2.split("|");
+						var var16 = new ank.utils.();
+						for(var k in var15)
 						{
-							case "O":
-								var var14 = this.api.kernel.CharactersManager.getItemObjectFromData(var13);
-								var10.push(var14);
-								break;
-							case "G":
-								this.onStorageKama(var13);
+							var var17 = var15[k].split(";");
+							var var18 = Number(var17[0]);
+							var var19 = Number(var17[1]);
+							var var20 = Number(var17[2]);
+							var var21 = var17[3];
+							var var22 = Number(var17[4]);
+							var var23 = new dofus.datacenter.(var18,var20,var19,-1,var21,var22);
+							var16.push(var23);
 						}
-					}
-					this.api.datacenter.Temporary.Storage.inventory = var10;
-					if(dofus.Constants.SAVING_THE_WORLD)
-					{
-						dofus.SaveTheWorld.getInstance().newItems(var2);
-						dofus.SaveTheWorld.getInstance().nextAction();
-					}
-					break;
-				case 4:
-				case 6:
-					var var15 = var2.split("|");
-					var var16 = new ank.utils.();
-					for(var k in var15)
-					{
-						var var17 = var15[k].split(";");
-						var var18 = Number(var17[0]);
-						var var19 = Number(var17[1]);
-						var var20 = Number(var17[2]);
-						var var21 = var17[3];
-						var var22 = Number(var17[4]);
-						var var23 = new dofus.datacenter.(var18,var20,var19,-1,var21,var22);
-						var16.push(var23);
-					}
-					this.api.datacenter.Temporary.Shop.inventory = var16;
-					break;
-				default:
-					if(§§enum_assign() !== 10)
-					{
-						break;
-					}
-					var var24 = var2.split("|");
-					var var25 = new ank.utils.();
-					if(var2.length != 0)
-					{
-						for(var k in var24)
+						this.api.datacenter.Temporary.Shop.inventory = var16;
+						break loop4;
+					default:
+						if(§§enum_assign() !== 10)
 						{
-							var var26 = var24[k].split(";");
-							var var27 = Number(var26[0]);
-							var var28 = Number(var26[1]);
-							var var29 = Number(var26[2]);
-							var var30 = var26[3];
-							var var31 = Number(var26[4]);
-							var var32 = Number(var26[5]);
-							var var33 = new dofus.datacenter.(var27,var29,var28,-1,var30,var31);
-							var33.remainingHours = var32;
-							var25.push(var33);
+							break loop4;
 						}
+						var var24 = var2.split("|");
+						var var25 = new ank.utils.();
+						if(var2.length != 0)
+						{
+							for(var k in var24)
+							{
+								var var26 = var24[k].split(";");
+								var var27 = Number(var26[0]);
+								var var28 = Number(var26[1]);
+								var var29 = Number(var26[2]);
+								var var30 = var26[3];
+								var var31 = Number(var26[4]);
+								var var32 = Number(var26[5]);
+								var var33 = new dofus.datacenter.(var27,var29,var28,-1,var30,var31);
+								var33.remainingHours = var32;
+								var25.push(var33);
+							}
+						}
+						this.api.datacenter.Temporary.Shop.inventory = var25;
+						break loop4;
+				}
+			case 5:
+				var var9 = var2.split(";");
+				var var10 = new ank.utils.();
+				for(var k in var9)
+				{
+					var var11 = var9[k];
+					var var12 = var11.charAt(0);
+					var var13 = var11.substr(1);
+					switch(var12)
+					{
+						case "O":
+							var var14 = this.api.kernel.CharactersManager.getItemObjectFromData(var13);
+							var10.push(var14);
+							break;
+						case "G":
+							this.onStorageKama(var13);
 					}
-					this.api.datacenter.Temporary.Shop.inventory = var25;
-					break;
-			}
-		}
-		else
-		{
-			var var3 = var2.split("|");
-			var var4 = new ank.utils.();
-			for(var k in var3)
-			{
-				var var5 = var3[k].split(";");
-				var var6 = Number(var5[0]);
-				var var7 = var5[1];
-				var var8 = new dofus.datacenter.(0,var6,undefined,undefined,var7);
-				var8.priceMultiplicator = this.api.lang.getConfigText("BUY_PRICE_MULTIPLICATOR");
-				var4.push(var8);
-			}
-			this.api.datacenter.Temporary.Shop.inventory = var4;
+				}
+				this.api.datacenter.Temporary.Storage.inventory = var10;
+				if(dofus.Constants.SAVING_THE_WORLD)
+				{
+					dofus.SaveTheWorld.getInstance().newItems(var2);
+					dofus.SaveTheWorld.getInstance().nextAction();
+				}
 		}
 	}
 	function onSell(var2)
@@ -1083,14 +1106,14 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 		var var3 = var2.split("|");
 		var var4 = Number(var3[0]);
 		var var5 = var3[1].split(";");
-		var var6 = new ank.utils.();
+		var var6 = new ank.utils.();
 		if(var3[1].length != 0)
 		{
 			var var7 = 0;
 			while(var7 < var5.length)
 			{
 				var var8 = Number(var5[var7]);
-				var var9 = new dofus.datacenter.(0,var8,1,-1,"",0);
+				var var9 = new dofus.datacenter.(0,var8,1,-1,"",0);
 				var6.push(var9);
 				var7 = var7 + 1;
 			}
@@ -1112,7 +1135,7 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 		var var6 = var5.inventory.findFirstItem("unicID",var4);
 		if(var3)
 		{
-			var var7 = new dofus.datacenter.(0,var4,0,-1,"",0);
+			var var7 = new dofus.datacenter.(0,var4,0,-1,"",0);
 			if(var6.index != -1)
 			{
 				var5.inventory.updateItem(var6.index,var7);
@@ -1136,7 +1159,7 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 		var var3 = var2.split("|");
 		var var4 = Number(var3[0]);
 		var3.shift();
-		var var5 = new ank.utils.();
+		var var5 = new ank.utils.();
 		for(var k in var3)
 		{
 			var var6 = var3[k].split(";");
@@ -1145,7 +1168,7 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 			var var9 = Number(var6[2]);
 			var var10 = Number(var6[3]);
 			var var11 = Number(var6[4]);
-			var var12 = new dofus.datacenter.(var7,var4,0,-1,var8,0);
+			var var12 = new dofus.datacenter.(var7,var4,0,-1,var8,0);
 			var var13 = {id:var7,item:var12,priceSet1:var9,priceSet2:var10,priceSet3:var11};
 			var5.push(var13);
 		}
@@ -1166,7 +1189,7 @@ class dofus.aks.Exchange extends dofus.aks.Handler
 		var var12 = var11.inventory2.findFirstItem("id",var5);
 		if(var3)
 		{
-			var var13 = new dofus.datacenter.(var5,var6,0,-1,var7,0);
+			var var13 = new dofus.datacenter.(var5,var6,0,-1,var7,0);
 			var var14 = {id:var5,item:var13,priceSet1:var8,priceSet2:var9,priceSet3:var10};
 			if(var12.index != -1)
 			{

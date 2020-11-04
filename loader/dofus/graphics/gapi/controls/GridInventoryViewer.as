@@ -8,6 +8,14 @@ class dofus.graphics.gapi.controls.GridInventoryViewer extends dofus.graphics.ga
 	{
 		super();
 	}
+	function __get__cgGrid()
+	{
+		return this._cgGrid;
+	}
+	function __get__currentOverItem()
+	{
+		return this._oOverItem;
+	}
 	function __get__checkPlayerPods()
 	{
 		return this._bCheckPlayerPods;
@@ -166,33 +174,17 @@ class dofus.graphics.gapi.controls.GridInventoryViewer extends dofus.graphics.ga
 	function overItem(var2)
 	{
 		var var3 = var2.target.contentData;
-		var var4 = -20;
-		var var5 = var3.name;
-		var var6 = true;
-		for(var s in var3.effects)
-		{
-			var var7 = var3.effects[s];
-			if(var7.description.length > 0)
-			{
-				if(var6)
-				{
-					var5 = var5 + "\n";
-					var4 = var4 - 10;
-					var6 = false;
-				}
-				var5 = var5 + "\n" + var7.description;
-				var4 = var4 - 12;
-			}
-		}
-		this.gapi.showTooltip(var5,var2.target,var4,undefined,var2.target.contentData.style + "ToolTip");
+		var3.showStatsTooltip(var2.target,var2.target.contentData.style);
+		this._oOverItem = var3;
 	}
 	function outItem(var2)
 	{
 		this.gapi.hideTooltip();
+		this._oOverItem = undefined;
 	}
 	function dblClickItem(var2)
 	{
-		this.dispatchEvent({type:var2.type,item:var2.target.contentData,target:this,index:var2.target.id});
+		this.dispatchEvent({type:var2.type,item:var2.target.contentData,target:this,targets:var2.targets,index:var2.target.id});
 	}
 	function validate(var2)
 	{

@@ -207,28 +207,31 @@ class dofus.datacenter.CloseCombat extends Object
 	{
 		var var2 = {none:false,neutral:false,earth:false,fire:false,water:false,air:false};
 		var var3 = this.effectsNormalHit;
-		for(var k in var3)
+		for(var var4 in var3)
 		{
-			var var4 = var3[k].element;
-			switch(var4)
+			if((var var0 = var4) !== "N")
 			{
-				case "N":
-					var2.neutral = true;
-					break;
-				case "E":
-					var2.earth = true;
-					break;
-				case "F":
-					var2.fire = true;
-					break;
-				case "W":
-					var2.water = true;
-					break;
-				case "A":
-					var2.air = true;
-					break;
-				default:
-					var2.none = true;
+				switch(null)
+				{
+					case "E":
+						var2.earth = true;
+						break;
+					case "F":
+						var2.fire = true;
+						break;
+					case "W":
+						var2.water = true;
+						break;
+					case "A":
+						var2.air = true;
+						break;
+					default:
+						var2.none = true;
+				}
+			}
+			else
+			{
+				var2.neutral = true;
 			}
 		}
 		return var2;

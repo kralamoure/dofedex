@@ -18,7 +18,7 @@ class dofus.graphics.gapi.ui.AskSecretAnswer extends ank.gapi.ui.FlyWindow
 	function initWindowContent()
 	{
 		var var2 = this._winBackground.content;
-		var2._txtHelp.text = this.api.lang.getText("DELETING_CHARACTER_ANSWER") + "\r\n" + _global.unescape(this.api.datacenter.Basics.aks_secret_question);
+		var2._txtHelp.text = this.api.lang.getText("DELETING_CHARACTER_ANSWER") + GuildRights + _global.unescape(this.api.datacenter.Basics.aks_secret_question);
 		var2._btnOk.label = this.api.lang.getText("OK");
 		var2._btnCancel.label = this.api.lang.getText("CANCEL_SMALL");
 		var2._btnOk.addEventListener("click",this);

@@ -61,6 +61,7 @@ class dofus.graphics.gapi.ui.MonsterAndLookSelector extends dofus.graphics.gapi.
 		this._cg.addEventListener("overItem",this);
 		this._cg.addEventListener("outItem",this);
 		this._cg.addEventListener("dblClickItem",this);
+		this._cg.multipleContainerSelectionEnabled = false;
 		this.api.kernel.KeyManager.addShortcutsListener("onShortcut",this);
 		this._btnSearch.addEventListener("click",this);
 		var ref = this;
@@ -83,7 +84,7 @@ class dofus.graphics.gapi.ui.MonsterAndLookSelector extends dofus.graphics.gapi.
 	}
 	function initAnimList(var2)
 	{
-		var var3 = new ank.utils.();
+		var var3 = new ank.utils.();
 		var var4 = 0;
 		while(var4 < dofus.graphics.gapi.ui.MonsterAndLookSelector.ANIM_LIST.length)
 		{
@@ -98,6 +99,8 @@ class dofus.graphics.gapi.ui.MonsterAndLookSelector extends dofus.graphics.gapi.
 		this._eaTypes = var2;
 		var2.sortOn("label");
 		this._cbType.dataProvider = var2;
+		this._cbType.selectedIndex = 0;
+		this.filterResult("");
 	}
 	function loadLooks()
 	{
@@ -107,13 +110,13 @@ class dofus.graphics.gapi.ui.MonsterAndLookSelector extends dofus.graphics.gapi.
 		var2.onLoad = function()
 		{
 			var var2 = dofus.Constants.ARTWORKS_BIG_PATH;
-			var var3 = new ank.utils.();
-			var var4 = new ank.utils.();
+			var var3 = new ank.utils.();
+			var var4 = new ank.utils.();
 			var var5 = this.firstChild.firstChild;
 			while(var5 != undefined)
 			{
 				var var6 = var5.attributes.name;
-				var var7 = new ank.utils.();
+				var var7 = new ank.utils.();
 				var var8 = var5.firstChild;
 				while(var8 != undefined)
 				{
@@ -140,8 +143,8 @@ class dofus.graphics.gapi.ui.MonsterAndLookSelector extends dofus.graphics.gapi.
 		}
 		var var3 = this.api.lang.getMonsters();
 		var var4 = dofus.Constants.ARTWORKS_BIG_PATH;
-		var var5 = new ank.utils.();
-		var var6 = new ank.utils.();
+		var var5 = new ank.utils.();
+		var var6 = new ank.utils.();
 		var var7 = new Object();
 		for(var a in var3)
 		{
@@ -150,7 +153,7 @@ class dofus.graphics.gapi.ui.MonsterAndLookSelector extends dofus.graphics.gapi.
 			var var10 = var7[var9];
 			if(var10 == undefined)
 			{
-				var10 = {label:this.api.lang.getMonstersRaceText(var9).n,data:new ank.utils.()};
+				var10 = {label:this.api.lang.getMonstersRaceText(var9).n,data:new ank.utils.()};
 				var7[var9] = var10;
 				var5.push(var10);
 			}
@@ -183,7 +186,7 @@ class dofus.graphics.gapi.ui.MonsterAndLookSelector extends dofus.graphics.gapi.
 	function filterResult(var2)
 	{
 		var var3 = this._cbType.selectedItem.data;
-		var var4 = new ank.utils.();
+		var var4 = new ank.utils.();
 		var var5 = 0;
 		while(var5 < var3.length)
 		{
@@ -198,25 +201,24 @@ class dofus.graphics.gapi.ui.MonsterAndLookSelector extends dofus.graphics.gapi.
 	}
 	function click(var2)
 	{
-		loop0:
 		switch(var2.target._name)
 		{
 			case "_btnClose":
 			case "_btnCancel":
 				this.dispatchEvent({type:"cancel"});
 				this.callClose();
+			case "_btnSelect":
+				this.select({target:this._cg.selectedItem});
 				break;
 			default:
-				switch(null)
+				if(var0 !== "_btnSearch")
 				{
-					case "_btnSelect":
-						break loop0;
-					case "_btnSearch":
-						this._cbType.selectedIndex = 0;
-						this.filterResult(this._tiSearch.text);
+					break;
 				}
+				this._cbType.selectedIndex = 0;
+				this.filterResult(this._tiSearch.text);
+				break;
 		}
-		this.select({target:this._cg.selectedItem});
 	}
 	function dblClickItem(var2)
 	{

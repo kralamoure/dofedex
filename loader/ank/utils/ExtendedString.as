@@ -62,7 +62,7 @@ class ank.utils.ExtendedString extends String
 		var5 = var5 + this._s;
 		return var5;
 	}
-	function addMiddleChar(§\b\x11§, nCount)
+	function addMiddleChar(§\x07\r§, nCount)
 	{
 		if(_global.isNaN(nCount))
 		{

@@ -2,6 +2,7 @@ class dofus.ZaapConnect extends dofus.utils.ApiElement
 {
 	static var TCP_DEFAULT_PORT = -1;
 	static var LOGIN_TOKEN_NAME = "#Z";
+	static var TOKEN_LENGTH = 32;
 	static var TCP_HOST = "127.0.0.1";
 	static var HAAPI_GAME_ID = 101;
 	static var ENABLED = true;
@@ -41,7 +42,7 @@ class dofus.ZaapConnect extends dofus.utils.ApiElement
 		{
 			delete dofus.ZaapConnect.instance;
 		}
-		dofus.ZaapConnect.instance = new dofus.();
+		dofus.ZaapConnect.instance = new dofus.	();
 		return dofus.ZaapConnect.instance;
 	}
 	static function getInstance()
@@ -105,6 +106,7 @@ class dofus.ZaapConnect extends dofus.utils.ApiElement
 		{
 			case "connect":
 				this._gameSessionToken = var3[0];
+				this.refreshUiLogin();
 				this.debugLog("New Session Token : " + this.getSessionToken());
 				this.askAuthToken();
 				break;
@@ -114,8 +116,8 @@ class dofus.ZaapConnect extends dofus.utils.ApiElement
 				this.doAutoLogin();
 				break;
 			case "ignored":
-				this.debugLog("Zaap is ignoring your client. Closing socket...");
-				this._xSocket.close();
+				this.debugLog("Zaap is ignoring your client");
+				this.disable();
 		}
 	}
 	function connect()
@@ -123,14 +125,35 @@ class dofus.ZaapConnect extends dofus.utils.ApiElement
 		this.debugLog("Connection to local port " + this._nPort);
 		this._xSocket.connect(dofus.ZaapConnect.TCP_HOST,this._nPort);
 	}
+	function disconnect()
+	{
+		this._gameSessionToken = "";
+		this._authToken = "";
+		this._xSocket.close();
+	}
+	function disable()
+	{
+		this.disconnect();
+		this.debugLog("Now disabled until client restart");
+		dofus.ZaapConnect.ENABLED = false;
+		this.refreshUiLogin();
+	}
+	function refreshUiLogin()
+	{
+		var var2 = (dofus.graphics.gapi.ui.Login)this.api.ui.getUIComponent("Login");
+		if(var2 != undefined)
+		{
+			var2.refreshAutoLoginUi();
+		}
+	}
 	function send(var2)
 	{
-		this.debugLog("--> " + var2);
+		this.debugLog("--&gt; " + var2);
 		this._xSocket.send(var2);
 	}
 	function onData(var2)
 	{
-		this.debugLog("<-- " + var2);
+		this.debugLog("&lt;-- " + var2);
 		var var3 = var2.split(" ");
 		var var4 = new Array();
 		var var5 = var3[0];
@@ -147,6 +170,7 @@ class dofus.ZaapConnect extends dofus.utils.ApiElement
 		if(!var2)
 		{
 			this.debugLog("Could not connect to the launcher");
+			this.disable();
 			return undefined;
 		}
 		this.debugLog("Connected to the zaap");
@@ -164,6 +188,17 @@ class dofus.ZaapConnect extends dofus.utils.ApiElement
 	}
 	function doAutoLogin()
 	{
+		if(this._authToken == undefined || this._authToken.length != dofus.ZaapConnect.TOKEN_LENGTH)
+		{
+			this.debugLog("Invalid auth token");
+			this.disable();
+			return undefined;
+		}
+		if(this.api.network.isConnected)
+		{
+			this.debugLog("Already connected to the login server");
+			return undefined;
+		}
 		var var2 = (dofus.graphics.gapi.ui.Login)this.api.ui.getUIComponent("Login");
 		if(var2 == undefined)
 		{
@@ -176,6 +211,6 @@ class dofus.ZaapConnect extends dofus.utils.ApiElement
 			return undefined;
 		}
 		this.debugLog("Let\'s login automatically...");
-		var2.zaapAutoLogin();
+		var2.zaapAutoLogin(true);
 	}
 }

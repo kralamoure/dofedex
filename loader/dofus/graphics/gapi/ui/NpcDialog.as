@@ -125,6 +125,7 @@ class dofus.graphics.gapi.ui.NpcDialog extends dofus.graphics.gapi.core.DofusAdv
 	}
 	function complete(var2)
 	{
+		var ref = this;
 		this._ldrArtwork.content.stringCourseColor = function(var2, var3)
 		{
 			ref.applyColor(var2,var3);

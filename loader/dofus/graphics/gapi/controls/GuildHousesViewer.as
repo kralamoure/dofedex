@@ -46,11 +46,11 @@ class dofus.graphics.gapi.controls.GuildHousesViewer extends dofus.graphics.gapi
 		this._lblHouseName.text = this._hSelectedHouse.name;
 		this._lblHouseCoords.text = this._hSelectedHouse.coords.x + ";" + this._hSelectedHouse.coords.y;
 		this._lblHouseOwner.text = this._hSelectedHouse.ownerName;
-		var var3 = new ank.utils.();
+		var var3 = new ank.utils.();
 		var var4 = 0;
 		while(var4 < this._hSelectedHouse.skills.length)
 		{
-			var var5 = new dofus.datacenter.(this._hSelectedHouse.skills[var4]);
+			var var5 = new dofus.datacenter.(this._hSelectedHouse.skills[var4]);
 			if(!_global.isNaN(var5.id))
 			{
 				var3.push({id:var5.id,label:var5.description});

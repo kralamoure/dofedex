@@ -38,7 +38,7 @@ class dofus.graphics.gapi.controls.alignmentviewer.SpecializationViewer extends 
 		else
 		{
 			this._lblFeats.text = this.api.lang.getText("FEATS");
-			this._lstFeats.dataProvider = new ank.utils.();
+			this._lstFeats.dataProvider = new ank.utils.();
 		}
 	}
 	function specializationChanged(var2)

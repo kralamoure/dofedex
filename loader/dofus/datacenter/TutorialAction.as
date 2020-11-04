@@ -1,6 +1,6 @@
 class dofus.datacenter.TutorialAction extends dofus.datacenter.TutorialBloc
 {
-	function TutorialAction(sID, sActionCode, §\x1e\x02§, §\x0b\x06§, bKeepLastWaitingBloc)
+	function TutorialAction(sID, sActionCode, §\x1e\x01§, §\n\x03§, bKeepLastWaitingBloc)
 	{
 		super(sID,dofus.datacenter.TutorialBloc.TYPE_ACTION);
 		this._sActionCode = sActionCode;

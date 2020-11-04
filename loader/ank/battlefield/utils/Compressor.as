@@ -29,7 +29,7 @@ class ank.battlefield.utils.Compressor extends ank.utils.Compressor
 		var8.backgroundNum = var6;
 		var8.data = var10;
 	}
-	static function uncompressCell(§\x1e\x14\x17§, §\x1a\x06§, nPermanentLevel)
+	static function uncompressCell(§\x1e\x13\x05§, §\x19\x1a§, nPermanentLevel)
 	{
 		if(var3 == undefined)
 		{
@@ -43,7 +43,8 @@ class ank.battlefield.utils.Compressor extends ank.utils.Compressor
 		{
 			nPermanentLevel = Number(nPermanentLevel);
 		}
-		var var5 = new ank.battlefield.datacenter.();
+		var var5 = new ank.battlefield.datacenter.
+();
 		var var6 = var2.split("");
 		var var7 = var6.length - 1;
 		var var8 = new Array();
@@ -168,7 +169,7 @@ class ank.battlefield.utils.Compressor extends ank.utils.Compressor
 		}
 		return var4;
 	}
-	static function extractFullPath(mapHandler, §\x13\f§)
+	static function extractFullPath(mapHandler, §\x12\x0f§)
 	{
 		var var4 = new Array();
 		var var5 = var3.split("");
@@ -196,7 +197,7 @@ class ank.battlefield.utils.Compressor extends ank.utils.Compressor
 		}
 		return ank.battlefield.utils.Compressor.makeFullPath(mapHandler,var4);
 	}
-	static function makeFullPath(mapHandler, §\x1e\x0e§)
+	static function makeFullPath(mapHandler, §\x1e\r§)
 	{
 		var var4 = new Array();
 		var var6 = 0;

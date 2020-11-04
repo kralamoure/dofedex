@@ -101,11 +101,19 @@ class dofus.graphics.gapi.controls.Timeline extends dofus.graphics.gapi.core.Dof
 	}
 	function createChildren()
 	{
+		this.addToQueue({object:this,method:this.addListeners});
 		this.createEmptyMovieClip("layout_mc",10);
 		this.layout_mc.createEmptyMovieClip("SummonedLayout",9);
 		var var2 = this.layout_mc.attachMovie("TimelinePointer","pointer_mc",10);
 		var2._visible = false;
 		this.generate();
+	}
+	function addListeners()
+	{
+		this._btnOpenClose.onRelease = function()
+		{
+			this._parent.opened = !this._parent.opened;
+		};
 	}
 	function generate(var2)
 	{

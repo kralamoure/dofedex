@@ -37,7 +37,7 @@ class dofus.datacenter.Quest extends Object
 	function initialize(var2, var3, var4)
 	{
 		this.api = _global.API;
-		this._eoSteps = new ank.utils.();
+		this._eoSteps = new ank.utils.();
 		this._nID = var2;
 		this._bFinished = var3;
 		this.sortOrder = var4;

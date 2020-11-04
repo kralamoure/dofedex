@@ -44,8 +44,7 @@ class ank.battlefield.mc.ExternalContainer extends MovieClip
 		{
 			if(ank.battlefield.Constants.USE_STREAMING_FILES || ank.battlefield.Constants.STREAMING_METHOD == "compact")
 			{
-				§§enumerate(this.Ground);
-				while((var var0 = §§enumeration()) != null)
+				for(var s in this.Ground)
 				{
 					if(typeof this.Ground[s] == "movieclip")
 					{

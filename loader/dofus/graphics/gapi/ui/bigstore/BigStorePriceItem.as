@@ -66,9 +66,9 @@ class dofus.graphics.gapi.ui.bigstore.BigStorePriceItem extends ank.gapi.core.UI
 			this._btnPriceSet1.enabled = !_global.isNaN(var4.priceSet1);
 			this._btnPriceSet2.enabled = !_global.isNaN(var4.priceSet2);
 			this._btnPriceSet3.enabled = !_global.isNaN(var4.priceSet3);
-			this._btnPriceSet1.label = !_global.isNaN(var4.priceSet1)?new ank.utils.(var4.priceSet1).addMiddleChar(this._mcList.gapi.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + "  ":"-  ";
-			this._btnPriceSet2.label = !_global.isNaN(var4.priceSet2)?new ank.utils.(var4.priceSet2).addMiddleChar(this._mcList.gapi.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + "  ":"-  ";
-			this._btnPriceSet3.label = !_global.isNaN(var4.priceSet3)?new ank.utils.(var4.priceSet3).addMiddleChar(this._mcList.gapi.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + "  ":"-  ";
+			this._btnPriceSet1.label = !_global.isNaN(var4.priceSet1)?new ank.utils.(var4.priceSet1).addMiddleChar(this._mcList.gapi.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + "  ":"-  ";
+			this._btnPriceSet2.label = !_global.isNaN(var4.priceSet2)?new ank.utils.(var4.priceSet2).addMiddleChar(this._mcList.gapi.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + "  ":"-  ";
+			this._btnPriceSet3.label = !_global.isNaN(var4.priceSet3)?new ank.utils.(var4.priceSet3).addMiddleChar(this._mcList.gapi.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + "  ":"-  ";
 			this._ldrIcon.contentParams = var4.item.params;
 			this._ldrIcon.contentPath = var4.item.iconFile;
 		}

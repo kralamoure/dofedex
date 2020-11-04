@@ -8,8 +8,8 @@ class dofus.datacenter.Conquest extends Object
 	}
 	function clear()
 	{
-		this._eaPlayers = new ank.utils.();
-		this._eaAttackers = new ank.utils.();
+		this._eaPlayers = new ank.utils.();
+		this._eaAttackers = new ank.utils.();
 	}
 	function __get__alignBonus()
 	{

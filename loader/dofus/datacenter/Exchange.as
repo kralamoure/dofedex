@@ -2,7 +2,7 @@ class dofus.datacenter.Exchange extends Object
 {
 	var _nLocalKama = 0;
 	var _nDistantKama = 0;
-	function Exchange(var3)
+	function Exchange(var2)
 	{
 		super();
 		this.initialize(var3);
@@ -60,10 +60,10 @@ class dofus.datacenter.Exchange extends Object
 	{
 		mx.events.EventDispatcher.initialize(this);
 		this._nDistantPlayerID = var2;
-		this._eaLocalGarbage = new ank.utils.();
-		this._eaDistantGarbage = new ank.utils.();
-		this._eaCoopGarbage = new ank.utils.();
-		this._eaReadyStates = new ank.utils.();
+		this._eaLocalGarbage = new ank.utils.();
+		this._eaDistantGarbage = new ank.utils.();
+		this._eaCoopGarbage = new ank.utils.();
+		this._eaReadyStates = new ank.utils.();
 		this._eaReadyStates[0] = false;
 		this._eaReadyStates[1] = false;
 	}

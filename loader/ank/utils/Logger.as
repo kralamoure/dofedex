@@ -3,7 +3,7 @@ class ank.utils.Logger
 	static var LC = new LocalConnection();
 	static var MAX_LOG_COUNT = 50;
 	static var MAX_LOG_SIZE = 300;
-	static var _instance = new ank.utils.();
+	static var _instance = new ank.utils.();
 	function Logger()
 	{
 		this._logs = new Array();

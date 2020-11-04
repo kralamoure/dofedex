@@ -176,9 +176,8 @@ class ank.gapi.controls.List extends ank.gapi.core.UIBasicComponent
 			return undefined;
 		}
 		var var2 = this.getStyle();
-		for(var k in this._mcContent)
+		for(this._mcContent[k].styleName in this._mcContent)
 		{
-			this._mcContent[k].styleName = this.styleName;
 		}
 		this._sbVertical.styleName = var2.scrollbarstyle;
 	}
@@ -272,35 +271,60 @@ class ank.gapi.controls.List extends ank.gapi.core.UIBasicComponent
 			this._sbVertical.scrollPosition = this._nScrollPosition;
 		}
 	}
-	function layoutSelection(var2, var3)
+	function layoutSelection(var2, var3, var4)
 	{
+		if(var4 == undefined)
+		{
+			var4 = false;
+		}
 		if(var2 == undefined)
 		{
 			var2 = this._nSelectedIndex;
 		}
-		var var4 = this._aRows[var2];
-		var var5 = this._aRows[var2].selected;
-		if(!this._bMultipleSelection)
+		var var5 = this._aRows[var2];
+		var var6 = this._bMultipleSelection && Key.isDown(dofus.Constants.SELECT_MULTIPLE_ITEMS_KEY);
+		if(!var6)
 		{
-			var var6 = this._aRows.length;
-			while((var6 = var6 - 1) >= 0)
-			{
-				if(this._aRows[var6].selected)
-				{
-					this._aRows[var6].selected = false;
-					this._mcContent["row" + (var6 - this._nScrollPosition)].setState("normal");
-				}
-			}
+			this.unSelectAll();
 		}
-		if(var5 && this._bMultipleSelection)
+		if(var5.selected && (var6 && !var4))
 		{
-			var4.selected = false;
+			var5.selected = false;
 			var3.setState("normal");
 		}
-		else
+		else if(!var5.selected)
 		{
-			var4.selected = true;
+			var5.selected = true;
 			var3.setState("selected");
+		}
+	}
+	function getSelectedItems()
+	{
+		var var2 = new Array();
+		var var3 = 0;
+		while(var3 < this._aRows.length)
+		{
+			if(this._aRows[var3].selected)
+			{
+				var var4 = this._aRows[var3].item;
+				var2.push(var4);
+			}
+			var3 = var3 + 1;
+		}
+		var2.reverse();
+		return var2;
+	}
+	function unSelectAll()
+	{
+		var var2 = 0;
+		while(var2 < this._aRows.length)
+		{
+			if(this._aRows[var2].selected)
+			{
+				this._aRows[var2].selected = false;
+				this._mcContent["row" + (var2 - this._nScrollPosition)].setState("normal");
+			}
+			var2 = var2 + 1;
 		}
 	}
 	function modelChanged()
@@ -334,7 +358,7 @@ class ank.gapi.controls.List extends ank.gapi.core.UIBasicComponent
 		var var4 = var2.target;
 		this._nSelectedIndex = var3;
 		this.layoutSelection(var3,var4);
-		this.dispatchEvent({type:"itemSelected",row:var2.target});
+		this.dispatchEvent({type:"itemSelected",row:var2.target,targets:this.getSelectedItems()});
 	}
 	function itemdblClick(var2)
 	{
@@ -342,15 +366,22 @@ class ank.gapi.controls.List extends ank.gapi.core.UIBasicComponent
 		var var4 = var2.target;
 		this._nSelectedIndex = var3;
 		this.layoutSelection(var3,var4);
-		this.dispatchEvent({type:"itemdblClick",row:var2.target});
+		this.dispatchEvent({type:"itemdblClick",row:var2.target,targets:this.getSelectedItems()});
 	}
 	function itemRollOver(var2)
 	{
-		this.dispatchEvent({type:"itemRollOver",row:var2.target});
+		var var3 = this._bMultipleSelection && (Key.isDown(dofus.Constants.SELECT_MULTIPLE_ITEMS_KEY) && Key.isDown(Key.SHIFT));
+		if(var3)
+		{
+			var var4 = var2.target.itemIndex;
+			var var5 = var2.target;
+			this.layoutSelection(var4,var5,true);
+		}
+		this.dispatchEvent({type:"itemRollOver",row:var2.target,targets:this.getSelectedItems()});
 	}
 	function itemRollOut(var2)
 	{
-		this.dispatchEvent({type:"itemRollOut",row:var2.target});
+		this.dispatchEvent({type:"itemRollOut",row:var2.target,targets:this.getSelectedItems()});
 	}
 	function itemDrag(var2)
 	{

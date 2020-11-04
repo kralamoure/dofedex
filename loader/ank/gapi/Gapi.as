@@ -12,6 +12,10 @@ class ank.gapi.Gapi extends ank.utils.QueueEmbedMovieClip
 		super();
 		this.initialize();
 	}
+	function __get__currentPopupMenu()
+	{
+		return this.pmPopupMenu;
+	}
 	function __set__api(var2)
 	{
 		this._oAPI = var2;
@@ -37,16 +41,20 @@ class ank.gapi.Gapi extends ank.utils.QueueEmbedMovieClip
 		this.createEmptyMovieClip("_mcLayer_Popup",40).cacheAsBitmap = _global.CONFIG.cacheAsBitmap["GAPI/Popup"];
 		this.createEmptyMovieClip("_mcLayer_Cursor",50).cacheAsBitmap = _global.CONFIG.cacheAsBitmap["GAPI/Cursor"];
 		this._oUIComponentsList = new Object();
-		this._eaUIComponentsInstances = new ank.utils.();
+		this._eaUIComponentsInstances = new ank.utils.();
 	}
 	function setScreenSize(var2, var3)
 	{
 		this._nScreenWidth = var2;
 		this._nScreenHeight = var3;
 	}
-	function createPopupMenu(var2)
+	function createPopupMenu(var2, var3)
 	{
-		var var3 = this.pmPopupMenu;
+		if(var3 == undefined)
+		{
+			var3 = false;
+		}
+		var var4 = this.pmPopupMenu;
 		if(var2 == undefined)
 		{
 			var2 = "BrownPopupMenu";
@@ -55,9 +63,10 @@ class ank.gapi.Gapi extends ank.utils.QueueEmbedMovieClip
 		{
 			this.nPopupMenuCnt = 0;
 		}
-		var var4 = this.nPopupMenuCnt++;
-		this.pmPopupMenu = (ank.gapi.controls.PopupMenu)this._mcLayer_Popup.attachMovie("PopupMenu","_mcPopupMenu" + var4,var4,{styleName:var2,gapi:this});
-		var3.removeMovieClip();
+		var var5 = this.nPopupMenuCnt++;
+		this.pmPopupMenu = (ank.gapi.controls.PopupMenu)this._mcLayer_Popup.attachMovie("PopupMenu","_mcPopupMenu" + var5,var5,{styleName:var2,gapi:this});
+		var4.removeMovieClip();
+		this.pmPopupMenu.adminPopupMenu = var3;
 		return this.pmPopupMenu;
 	}
 	function removePopupMenu()
@@ -131,8 +140,22 @@ class ank.gapi.Gapi extends ank.utils.QueueEmbedMovieClip
 	{
 		this._mcLayer_Popup._mcToolTip.removeMovieClip();
 	}
-	function setCursor(var2, var3)
+	function onContentLoaded(var2)
 	{
+		if(!dofus.Constants.DOUBLEFRAMERATE)
+		{
+			return undefined;
+		}
+		var var3 = var2.content;
+		var var4 = this.api.kernel.OptionsManager.getOption("RemasteredSpellIconsPack");
+		var3.gotoAndStop(var4);
+	}
+	function setCursor(var2, var3, var4)
+	{
+		if(var4 == undefined)
+		{
+			var4 = false;
+		}
 		this._nLastSetCursorTimer = getTimer();
 		this.removeCursor();
 		if(var3 == undefined)
@@ -143,10 +166,14 @@ class ank.gapi.Gapi extends ank.utils.QueueEmbedMovieClip
 		var3.height = var3.height == undefined?ank.gapi.Gapi.CURSOR_MAX_SIZE:var3.height;
 		var3.x = var3.x == undefined?ank.gapi.Gapi.CURSOR_CENTER[0]:var3.x;
 		var3.y = var3.y == undefined?ank.gapi.Gapi.CURSOR_CENTER[1]:var3.y;
-		var var4 = (ank.gapi.controls.Container)this._mcLayer_Cursor.attachMovie("Container","cursor1",10);
-		var4.setSize(var3.width,var3.height);
-		var4.move(var3.x,var3.y);
-		var4.contentData = var2;
+		var var5 = (ank.gapi.controls.Container)this._mcLayer_Cursor.attachMovie("Container","cursor1",10);
+		if(var4)
+		{
+			var5.addEventListener("onContentLoaded",this);
+		}
+		var5.setSize(var3.width,var3.height);
+		var5.move(var3.x,var3.y);
+		var5.contentData = var2;
 		this._oCursorAligment = var3;
 		this._oCursorData = var2;
 		this._mcLayer_Cursor.startDrag(true);

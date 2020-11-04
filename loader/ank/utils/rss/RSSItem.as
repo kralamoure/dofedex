@@ -32,15 +32,16 @@ class ank.utils.rss.RSSItem
 					}
 					this.sortByDate = org.utils.SimpleDateFormatter.formatDate(this._dPubDate,"yyyyMMdd");
 					break;
+				case "guid":
+					this._sGuid = var3.childNodes.join("");
+					break;
 				default:
-					switch(null)
+					if(var0 !== "icon")
 					{
-						case "guid":
-							this._sGuid = var3.childNodes.join("");
-							break;
-						case "icon":
-							this._sIcon = var3.childNodes.join("");
+						break;
 					}
+					this._sIcon = var3.childNodes.join("");
+					break;
 			}
 			var3 = var3.nextSibling;
 		}

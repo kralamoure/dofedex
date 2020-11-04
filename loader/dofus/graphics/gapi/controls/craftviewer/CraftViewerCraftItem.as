@@ -25,13 +25,8 @@ class dofus.graphics.gapi.controls.craftviewer.CraftViewerCraftItem extends ank.
 				case 2:
 					this._lblItemName.styleName = "GreenLeftSmallBoldLabel";
 					break;
-				default:
-					if(var0 !== 3)
-					{
-						break;
-					}
+				case 3:
 					this._lblItemName.styleName = "RedLeftSmallBoldLabel";
-					break;
 			}
 			this._mcTooltip.onRollOver = function()
 			{

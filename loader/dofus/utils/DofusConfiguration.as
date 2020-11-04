@@ -37,26 +37,24 @@ class dofus.utils.DofusConfiguration
 			{
 				var3 = System.capabilities.language;
 			}
+			loop0:
 			switch(var3)
 			{
 				default:
 					switch(null)
 					{
-						default:
-							if(var0 !== "it")
-							{
-								return "en";
-							}
-							break;
-						case "pt":
-						case "ru":
 						case "nl":
 						case "es":
+						case "it":
+							break loop0;
+						default:
+							return "en";
 					}
-					break;
 				case "fr":
 				case "en":
 				case "de":
+				case "pt":
+				case "ru":
 			}
 			return var3;
 		}

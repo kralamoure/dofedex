@@ -22,7 +22,6 @@ class dofus.graphics.gapi.ui.GameOver extends dofus.graphics.gapi.core.DofusAdva
 	}
 	function addListeners()
 	{
-		var ref = this;
 		this._btnReplay.onRelease = function()
 		{
 			ref.api.kernel.changeServer(true);

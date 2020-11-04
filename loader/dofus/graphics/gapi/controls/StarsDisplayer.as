@@ -35,6 +35,7 @@ class dofus.graphics.gapi.controls.StarsDisplayer extends dofus.graphics.gapi.co
 	}
 	function addListeners()
 	{
+		var ref = this;
 		this._mcMask.onRollOut = function()
 		{
 			ref.dispatchEvent({type:"out"});

@@ -25,7 +25,6 @@ class dofus.graphics.gapi.controls.ConquestStatsViewer extends dofus.graphics.ga
 		this._btnDisgraceSanction.addEventListener("out",this);
 		this.api.datacenter.Player.addEventListener("rankChanged",this);
 		this.api.datacenter.Conquest.addEventListener("bonusChanged",this);
-		var ref = this;
 		this._mcBonusInteractivity.onRollOver = function()
 		{
 			ref.over({target:this});
@@ -61,7 +60,7 @@ class dofus.graphics.gapi.controls.ConquestStatsViewer extends dofus.graphics.ga
 	}
 	function updateBonus()
 	{
-		var var2 = new ank.utils.();
+		var var2 = new ank.utils.();
 		var var3 = this.api.datacenter.Conquest.alignBonus;
 		var var4 = this.api.datacenter.Conquest.rankMultiplicator;
 		var var5 = this.api.datacenter.Conquest.alignMalus;
@@ -83,7 +82,7 @@ class dofus.graphics.gapi.controls.ConquestStatsViewer extends dofus.graphics.ga
 		this._pbHonour.value = !_global.isNaN(this._oRank.honour)?this._oRank.honour:0;
 		this._mcHonour.onRollOver = function()
 		{
-			this._parent.gapi.showTooltip(new ank.utils.(this._parent._oRank.honour).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + " / " + new ank.utils.(this._parent._pbHonour.maximum).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3),this,-10);
+			this._parent.gapi.showTooltip(new ank.utils.(this._parent._oRank.honour).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + " / " + new ank.utils.(this._parent._pbHonour.maximum).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3),this,-10);
 		};
 		this._mcHonour.onRollOut = function()
 		{
@@ -93,7 +92,7 @@ class dofus.graphics.gapi.controls.ConquestStatsViewer extends dofus.graphics.ga
 		this._pbDishonour.maximum = this.api.lang.getMaxDisgracePoints();
 		this._mcDishonour.onRollOver = function()
 		{
-			this._parent.gapi.showTooltip(new ank.utils.(this._parent._oRank.disgrace).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + " / " + new ank.utils.(this._parent._pbDishonour.maximum).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3),this,-10);
+			this._parent.gapi.showTooltip(new ank.utils.(this._parent._oRank.disgrace).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + " / " + new ank.utils.(this._parent._pbDishonour.maximum).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3),this,-10);
 		};
 		this._mcDishonour.onRollOut = function()
 		{

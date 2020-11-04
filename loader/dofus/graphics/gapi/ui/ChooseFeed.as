@@ -38,6 +38,7 @@ class dofus.graphics.gapi.ui.ChooseFeed extends dofus.graphics.gapi.core.DofusAd
 		this._cgGrid.addEventListener("overItem",this);
 		this._cgGrid.addEventListener("outItem",this);
 		this._cgGrid.addEventListener("dblClickItem",this);
+		this._cgGrid.multipleContainerSelectionEnabled = false;
 	}
 	function initTexts()
 	{
@@ -50,10 +51,9 @@ class dofus.graphics.gapi.ui.ChooseFeed extends dofus.graphics.gapi.core.DofusAd
 		this._eaDataProvider = this.api.datacenter.Player.Inventory;
 		this._itvItemViewer._visible = false;
 		this._mcItvIconBg._visible = false;
-		var var2 = new ank.utils.();
-		for(var k in this._eaDataProvider)
+		var var2 = new ank.utils.();
+		for(var var3 in this._eaDataProvider)
 		{
-			var var3 = this._eaDataProvider[k];
 			var var4 = 0;
 			while(var4 < this._aFiltersType.length)
 			{

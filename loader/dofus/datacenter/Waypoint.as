@@ -1,6 +1,6 @@
 class dofus.datacenter.Waypoint extends Object
 {
-	function Waypoint(§\x05\x1d§, bCurrent, bRespawn, nCost)
+	function Waypoint(§\x04\x15§, bCurrent, bRespawn, nCost)
 	{
 		super();
 		this.api = _global.API;

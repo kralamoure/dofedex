@@ -38,7 +38,6 @@ class ank.gapi.controls.list.SelectableRow extends ank.gapi.core.UIBasicComponen
 		switch(var2)
 		{
 			case "selected":
-			default:
 				this.selected_mc._visible = true;
 				break;
 			case "normal":

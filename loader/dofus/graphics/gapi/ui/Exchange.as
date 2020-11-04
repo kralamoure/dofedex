@@ -14,6 +14,14 @@ class dofus.graphics.gapi.ui.Exchange extends dofus.graphics.gapi.core.DofusAdva
 	{
 		super();
 	}
+	function __get__currentOverItem()
+	{
+		return this._oOverItem;
+	}
+	function __get__itemViewer()
+	{
+		return this._itvItemViewer;
+	}
 	function __set__dataProvider(var2)
 	{
 		this._eaDataProvider.removeEventListener("modelChanged",this);
@@ -65,17 +73,32 @@ class dofus.graphics.gapi.ui.Exchange extends dofus.graphics.gapi.core.DofusAdva
 		this._btnPrivateChat._visible = this.api.datacenter.Exchange.distantPlayerID > 0;
 		this.gapi.unloadLastUIAutoHideComponent();
 	}
+	function destroy()
+	{
+		if(this._timerExchange == undefined)
+		{
+			return undefined;
+		}
+		_global.clearTimeout(this._timerExchange);
+	}
 	function addListeners()
 	{
 		this._cgGrid.addEventListener("dblClickItem",this);
 		this._cgGrid.addEventListener("dropItem",this);
 		this._cgGrid.addEventListener("dragItem",this);
 		this._cgGrid.addEventListener("selectItem",this);
+		this._cgGrid.addEventListener("overItem",this);
+		this._cgGrid.addEventListener("outItem",this);
 		this._cgLocal.addEventListener("dblClickItem",this);
 		this._cgLocal.addEventListener("dropItem",this);
 		this._cgLocal.addEventListener("dragItem",this);
 		this._cgLocal.addEventListener("selectItem",this);
+		this._cgLocal.addEventListener("overItem",this);
+		this._cgLocal.addEventListener("outItem",this);
 		this._cgDistant.addEventListener("selectItem",this);
+		this._cgDistant.addEventListener("overItem",this);
+		this._cgDistant.addEventListener("outItem",this);
+		this._cgDistant.multipleContainerSelectionEnabled = false;
 		this._btnFilterEquipement.addEventListener("click",this);
 		this._btnFilterNonEquipement.addEventListener("click",this);
 		this._btnFilterRessoureces.addEventListener("click",this);
@@ -98,7 +121,7 @@ class dofus.graphics.gapi.ui.Exchange extends dofus.graphics.gapi.core.DofusAdva
 		this._winInventory.title = this.api.datacenter.Player.data.name;
 		this._winDistant.title = this.api.datacenter.Sprites.getItemAt(this.api.datacenter.Exchange.distantPlayerID).name;
 		this._btnValidate.label = this.api.lang.getText("ACCEPT");
-		this._lblKama.text = new ank.utils.(this.api.datacenter.Player.Kama).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
+		this._lblKama.text = new ank.utils.(this.api.datacenter.Player.Kama).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
 		this._btnPrivateChat.label = this.api.lang.getText("WISPER_MESSAGE");
 	}
 	function initData()
@@ -112,12 +135,11 @@ class dofus.graphics.gapi.ui.Exchange extends dofus.graphics.gapi.core.DofusAdva
 	{
 		var var2 = this.api.datacenter.Basics[dofus.graphics.gapi.ui.Exchange.CLASS_NAME + "_subfilter_" + this._btnSelectedFilterButton._name];
 		this._nSelectedTypeID = var2 != undefined?var2:0;
-		var var3 = new ank.utils.();
-		var var4 = new ank.utils.();
+		var var3 = new ank.utils.();
+		var var4 = new ank.utils.();
 		var var5 = new Object();
-		for(var k in this._eaDataProvider)
+		for(var var6 in this._eaDataProvider)
 		{
-			var var6 = this._eaDataProvider[k];
 			var var7 = var6.position;
 			if(var7 == -1 && this._aSelectedSuperTypes[var6.superType])
 			{
@@ -155,17 +177,22 @@ class dofus.graphics.gapi.ui.Exchange extends dofus.graphics.gapi.core.DofusAdva
 		this._nSelectedTypeID = 0;
 		this._cbTypes.selectedIndex = this._nSelectedTypeID;
 	}
+	function onDataUpdated()
+	{
+		_global.clearTimeout(this._timerExchange);
+		this._timerExchange = _global.setTimeout(this,"hideButtonValidate",dofus.graphics.gapi.ui.Exchange.DELAY_BEFORE_VALIDATE,false);
+	}
 	function updateLocalData()
 	{
 		this._cgLocal.dataProvider = this._eaLocalDataProvider;
 		this.hideButtonValidate(true);
-		ank.utils.Timer.setTimer(this,"exchange",this,this.hideButtonValidate,dofus.graphics.gapi.ui.Exchange.DELAY_BEFORE_VALIDATE,[false]);
+		this.onDataUpdated();
 	}
 	function updateDistantData()
 	{
 		this._cgDistant.dataProvider = this._eaDistantDataProvider;
 		this.hideButtonValidate(true);
-		ank.utils.Timer.setTimer(this,"exchange",this,this.hideButtonValidate,dofus.graphics.gapi.ui.Exchange.DELAY_BEFORE_VALIDATE,[false]);
+		this.onDataUpdated();
 	}
 	function updateReadyState()
 	{
@@ -188,6 +215,18 @@ class dofus.graphics.gapi.ui.Exchange extends dofus.graphics.gapi.core.DofusAdva
 		this._itvItemViewer._visible = !var2;
 		this._winItemViewer._visible = !var2;
 	}
+	function moveItems(var2, var3)
+	{
+		var var4 = new Array();
+		var var5 = 0;
+		while(var5 < var2.length)
+		{
+			var var6 = var2[var5];
+			var4.push({Add:var3,ID:var6.ID,Quantity:var6.Quantity});
+			var5 = var5 + 1;
+		}
+		this.api.network.Exchange.movementItems(var4);
+	}
 	function validateDrop(var2, var3, var4)
 	{
 		if(var4 < 1 || var4 == undefined)
@@ -198,16 +237,13 @@ class dofus.graphics.gapi.ui.Exchange extends dofus.graphics.gapi.core.DofusAdva
 		{
 			var4 = var3.Quantity;
 		}
-		if((var var0 = var2) !== "_cgGrid")
+		switch(var2)
 		{
-			if(var0 === "_cgLocal")
-			{
-				this.api.network.Exchange.movementItem(true,var3.ID,var4);
-			}
-		}
-		else
-		{
-			this.api.network.Exchange.movementItem(false,var3.ID,var4);
+			case "_cgGrid":
+				this.api.network.Exchange.movementItem(false,var3,var4);
+				break;
+			case "_cgLocal":
+				this.api.network.Exchange.movementItem(true,var3,var4);
 		}
 	}
 	function validateKama(var2)
@@ -260,60 +296,85 @@ class dofus.graphics.gapi.ui.Exchange extends dofus.graphics.gapi.core.DofusAdva
 			case "_btnValidate":
 				this.api.network.Exchange.ready();
 				break;
-			default:
-				if(var0 !== "_btnPrivateChat")
-				{
-					if(var2.target != this._btnSelectedFilterButton)
-					{
-						this._btnSelectedFilterButton.selected = false;
-						this._btnSelectedFilterButton = var2.target;
-						if((var0 = var2.target._name) !== "_btnFilterEquipement")
-						{
-							switch(null)
-							{
-								case "_btnFilterNonEquipement":
-									this._aSelectedSuperTypes = dofus.graphics.gapi.ui.Exchange.FILTER_NONEQUIPEMENT;
-									this._lblFilter.text = this.api.lang.getText("NONEQUIPEMENT");
-									break;
-								case "_btnFilterRessoureces":
-									this._aSelectedSuperTypes = dofus.graphics.gapi.ui.Exchange.FILTER_RESSOURECES;
-									this._lblFilter.text = this.api.lang.getText("RESSOURECES");
-							}
-						}
-						else
-						{
-							this._aSelectedSuperTypes = dofus.graphics.gapi.ui.Exchange.FILTER_EQUIPEMENT;
-							this._lblFilter.text = this.api.lang.getText("EQUIPEMENT");
-						}
-						this.updateData(true);
-						break;
-					}
-					var2.target.selected = true;
-					break;
-				}
+			case "_btnPrivateChat":
 				if(this.api.datacenter.Exchange.distantPlayerID > 0)
 				{
 					this.api.kernel.GameManager.askPrivateMessage(this.api.datacenter.Sprites.getItemAt(this.api.datacenter.Exchange.distantPlayerID).name);
 				}
 				break;
+			default:
+				if(var2.target != this._btnSelectedFilterButton)
+				{
+					this._btnSelectedFilterButton.selected = false;
+					this._btnSelectedFilterButton = var2.target;
+					switch(var2.target._name)
+					{
+						case "_btnFilterEquipement":
+							this._aSelectedSuperTypes = dofus.graphics.gapi.ui.Exchange.FILTER_EQUIPEMENT;
+							this._lblFilter.text = this.api.lang.getText("EQUIPEMENT");
+							break;
+						case "_btnFilterNonEquipement":
+							this._aSelectedSuperTypes = dofus.graphics.gapi.ui.Exchange.FILTER_NONEQUIPEMENT;
+							this._lblFilter.text = this.api.lang.getText("NONEQUIPEMENT");
+							break;
+						default:
+							if(var0 !== "_btnFilterRessoureces")
+							{
+								break;
+							}
+							this._aSelectedSuperTypes = dofus.graphics.gapi.ui.Exchange.FILTER_RESSOURECES;
+							this._lblFilter.text = this.api.lang.getText("RESSOURECES");
+							break;
+					}
+					this.updateData(true);
+					break;
+				}
+				var2.target.selected = true;
+				break;
 		}
+	}
+	function overItem(var2)
+	{
+		var var3 = var2.target.contentData;
+		var3.showStatsTooltip(var2.target,var2.target.contentData.style);
+		this._oOverItem = var3;
+	}
+	function outItem(var2)
+	{
+		this.gapi.hideTooltip();
+		this._oOverItem = undefined;
 	}
 	function dblClickItem(var2)
 	{
 		var var3 = var2.target.contentData;
+		var var4 = var2.targets;
 		if(var3 == undefined)
 		{
 			return undefined;
 		}
-		var var4 = !Key.isDown(Key.CONTROL)?1:var3.Quantity;
-		var var5 = var2.owner._name;
-		switch(var5)
+		var var5 = Key.isDown(dofus.Constants.SELECT_MULTIPLE_ITEMS_KEY);
+		var var6 = !var5?1:var3.Quantity;
+		var var7 = var2.owner._name;
+		switch(var7)
 		{
 			case "_cgGrid":
-				this.validateDrop("_cgLocal",var3,var4);
+				if(var5 && var4.length > 1)
+				{
+					this.moveItems(var4,true);
+				}
+				else
+				{
+					this.validateDrop("_cgLocal",var3,var6);
+				}
 				break;
 			case "_cgLocal":
-				this.validateDrop("_cgGrid",var3,var4);
+				if(var5 && var4.length > 1)
+				{
+					this.moveItems(var4,false);
+					break;
+				}
+				this.validateDrop("_cgGrid",var3,var6);
+				break;
 		}
 	}
 	function dragItem(var2)
@@ -389,17 +450,17 @@ class dofus.graphics.gapi.ui.Exchange extends dofus.graphics.gapi.core.DofusAdva
 	}
 	function localKamaChange(var2)
 	{
-		this._lblLocalKama.text = new ank.utils.(var2.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
-		this._lblKama.text = new ank.utils.(this.api.datacenter.Player.Kama - var2.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
+		this._lblLocalKama.text = new ank.utils.(var2.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
+		this._lblKama.text = new ank.utils.(this.api.datacenter.Player.Kama - var2.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
 		this.hideButtonValidate(true);
-		ank.utils.Timer.setTimer(this,"exchange",this,this.hideButtonValidate,dofus.graphics.gapi.ui.Exchange.DELAY_BEFORE_VALIDATE,[false]);
+		this.onDataUpdated();
 	}
 	function distantKamaChange(var2)
 	{
 		this._mcBlink.play();
-		this._lblDistantKama.text = new ank.utils.(var2.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
+		this._lblDistantKama.text = new ank.utils.(var2.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
 		this.hideButtonValidate(true);
-		ank.utils.Timer.setTimer(this,"exchange",this,this.hideButtonValidate,dofus.graphics.gapi.ui.Exchange.DELAY_BEFORE_VALIDATE,[false]);
+		this.onDataUpdated();
 	}
 	function itemSelected(var2)
 	{
@@ -420,13 +481,8 @@ class dofus.graphics.gapi.ui.Exchange extends dofus.graphics.gapi.core.DofusAdva
 			case this._btnFilterNonEquipement:
 				this.api.ui.showTooltip(this.api.lang.getText("NONEQUIPEMENT"),var2.target,-20);
 				break;
-			default:
-				if(var0 !== this._btnFilterRessoureces)
-				{
-					break;
-				}
+			case this._btnFilterRessoureces:
 				this.api.ui.showTooltip(this.api.lang.getText("RESSOURECES"),var2.target,-20);
-				break;
 		}
 	}
 	function out(var2)

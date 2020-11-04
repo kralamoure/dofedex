@@ -7,6 +7,14 @@ class dofus.graphics.gapi.controls.ListInventoryViewer extends dofus.graphics.ga
 	{
 		super();
 	}
+	function __get__currentOverItem()
+	{
+		return this._oOverItem;
+	}
+	function __get__lstInventory()
+	{
+		return this._lstInventory;
+	}
 	function __set__displayKamas(var2)
 	{
 		this._bDisplayKama = var2;
@@ -48,6 +56,8 @@ class dofus.graphics.gapi.controls.ListInventoryViewer extends dofus.graphics.ga
 		super.addListeners();
 		this._lstInventory.addEventListener("itemSelected",this);
 		this._lstInventory.addEventListener("itemdblClick",this);
+		this._lstInventory.addEventListener("itemRollOver",this);
+		this._lstInventory.addEventListener("itemRollOut",this);
 	}
 	function initTexts()
 	{
@@ -72,11 +82,23 @@ class dofus.graphics.gapi.controls.ListInventoryViewer extends dofus.graphics.ga
 				this.api.kernel.GameManager.insertItemInChat(var3.row.item);
 				return undefined;
 			}
-			this.dispatchEvent({type:"selectedItem",item:var3.row.item});
+			this.dispatchEvent({type:"selectedItem",item:var3.row.item,targets:var3.targets});
 		}
 	}
 	function itemdblClick(var2)
 	{
-		this.dispatchEvent({type:"itemdblClick",item:var2.row.item});
+		this.dispatchEvent({type:"itemdblClick",item:var2.row.item,targets:var2.targets});
+	}
+	function itemRollOver(var2)
+	{
+		var var3 = var2.row.item;
+		this._oOverItem = var3;
+		this.dispatchEvent({type:"rollOverItem",item:var2.row.item,targets:var2.targets});
+	}
+	function itemRollOut(var2)
+	{
+		this._oOverItem = undefined;
+		var var3 = var2.row.item;
+		this.dispatchEvent({type:"rollOutItem",item:var2.row.item,targets:var2.targets});
 	}
 }

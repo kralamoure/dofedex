@@ -67,6 +67,11 @@ class dofus.graphics.gapi.ui.CrafterList extends dofus.graphics.gapi.core.DofusA
 	function updateJobs()
 	{
 		this._cbJobs.dataProvider = this._eaJobs;
+		if(this._eaJobs != undefined && this._eaJobs.length > 0)
+		{
+			this._cbJobs.selectedIndex = 0;
+			this.api.network.Exchange.getCrafterForJob(this._cbJobs.selectedItem.id);
+		}
 	}
 	function updateCrafters()
 	{

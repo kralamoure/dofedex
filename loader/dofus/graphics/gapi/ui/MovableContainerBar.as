@@ -253,7 +253,7 @@ class dofus.graphics.gapi.ui.MovableContainerBar extends dofus.graphics.gapi.cor
 	}
 	function move(var2, var3, var4)
 	{
-		if(this.autoDetectBarOrientation(var2,var3) || var4)
+		if(var4 || this.autoDetectBarOrientation(var2,var3))
 		{
 			this.drawBar();
 		}
@@ -267,6 +267,10 @@ class dofus.graphics.gapi.ui.MovableContainerBar extends dofus.graphics.gapi.cor
 		this._nSnap = var3;
 		this._oBounds = var4;
 		this._nContainerNumber = var5;
+		if(var6.v != undefined)
+		{
+			this._bVertical = var6.v;
+		}
 		this.move(var6.x,var6.y,true);
 	}
 	function _onMouseMove()

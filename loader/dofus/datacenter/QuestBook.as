@@ -19,6 +19,6 @@ class dofus.datacenter.QuestBook
 	}
 	function initialize()
 	{
-		this._eaQuests = new ank.utils.();
+		this._eaQuests = new ank.utils.();
 	}
 }

@@ -30,6 +30,6 @@ class dofus.datacenter.Subarea extends Object
 	function initialize(var2, var3)
 	{
 		this._nID = var2;
-		this._oAlignment = new dofus.datacenter.(var3);
+		this._oAlignment = new dofus.datacenter.(var3);
 	}
 }

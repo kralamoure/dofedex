@@ -29,9 +29,14 @@ class dofus.graphics.battlefield.FightOptionsOverHead extends MovieClip
 			var var3 = this._tTeam.options[a];
 			if(var3 == true)
 			{
-				var var4 = this._mc.attachMovie("UI_FightOption" + a + "Up","mcOption" + var2,var2);
-				var4._x = var2 * dofus.graphics.battlefield.FightOptionsOverHead.ICON_WIDTH;
-				var4.onEnterFrame = function()
+				var var4 = "UI_FightOption" + a + "Up";
+				if(dofus.Constants.DOUBLEFRAMERATE && a == dofus.datacenter.Team.OPT_NEED_HELP)
+				{
+					var4 = var4 + "_DoubleFramerate";
+				}
+				var var5 = this._mc.attachMovie(var4,"mcOption" + var2,var2);
+				var5._x = var2 * dofus.graphics.battlefield.FightOptionsOverHead.ICON_WIDTH;
+				var5.onEnterFrame = function()
 				{
 					this.play();
 					delete this.onEnterFrame;

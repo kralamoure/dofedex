@@ -198,10 +198,20 @@ class ank.gapi.controls.Loader extends ank.gapi.core.UIBasicComponent
 			{
 				this.dispatchEvent({type:"click"});
 			};
+			this.onRollOut = function()
+			{
+				this.dispatchEvent({type:"out"});
+			};
+			this.onRollOver = function()
+			{
+				this.dispatchEvent({type:"over"});
+			};
 		}
 		else
 		{
 			delete this.onRelease;
+			delete this.onRollOut;
+			delete this.onRollOver;
 		}
 	}
 	function load()

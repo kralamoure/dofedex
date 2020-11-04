@@ -1,17 +1,17 @@
 class dofus.datacenter.PlayableCharacter extends ank.battlefield.datacenter.Sprite
 {
 	var _summoned = false;
-	function PlayableCharacter(sID, clipClass, §\x1e\x13\x14§, cellNum, §\x11\x1b§, gfxID)
+	function PlayableCharacter(sID, clipClass, §\x1e\x12\x01§, §\x13\x05§, §\x10\x1c§, gfxID)
 	{
 		super();
 		if(this.__proto__ == dofus.datacenter.PlayableCharacter.prototype)
 		{
-			this.initialize(sID,clipClass,var5,cellNum,var7,gfxID);
+			this.initialize(sID,clipClass,var5,var6,var7,gfxID);
 		}
 	}
-	function initialize(sID, clipClass, §\x1e\x13\x14§, cellNum, §\x11\x1b§, gfxID)
+	function initialize(sID, clipClass, §\x1e\x12\x01§, §\x13\x05§, §\x10\x1c§, gfxID)
 	{
-		super.initialize(sID,clipClass,var5,cellNum,var7);
+		super.initialize(sID,clipClass,var5,var6,var7);
 		this.api = _global.API;
 		this._gfxID = gfxID;
 		this.GameActionsManager = new dofus.managers.GameActionsManager(this,this.api);
@@ -41,7 +41,7 @@ class dofus.datacenter.PlayableCharacter extends ank.battlefield.datacenter.Spri
 			this.api.ui.getUIComponent("Timeline").timelineControl.updateCharacters();
 		}
 		this.api.gfx.addSpritePoints(this.id,String(var2),16711680);
-		if(var2 < 0 && !this.api.datacenter.Player.isSkippingFightAnimations)
+		if(var2 < 0 && (!this.api.datacenter.Player.isSkippingFightAnimations && this.api.electron.isWindowFocused))
 		{
 			this.mc.setAnim("Hit");
 		}

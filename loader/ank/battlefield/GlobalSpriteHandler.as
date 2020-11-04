@@ -163,7 +163,10 @@ class ank.battlefield.GlobalSpriteHandler
 			default:
 				switch(null)
 				{
+					case 1:
 					case 3:
+						var2.attachMovie(var3.animation + "R","clip",1);
+						break loop0;
 					case 2:
 						var2.attachMovie(var3.animation + "F","clip",1);
 						break loop0;
@@ -179,8 +182,6 @@ class ank.battlefield.GlobalSpriteHandler
 						var2.attachMovie(var3.animation + "B","clip",1);
 						break loop0;
 				}
-			case 1:
-				var2.attachMovie(var3.animation + "R","clip",1);
 		}
 	}
 	function registerCarried(var2)
@@ -197,8 +198,7 @@ class ank.battlefield.GlobalSpriteHandler
 	function getSpriteData(var2)
 	{
 		var var3 = var2._target;
-		§§enumerate(this._oSprites);
-		while((var var0 = §§enumeration()) != null)
+		for(var name in this._oSprites)
 		{
 			if(var3.substring(0,name.length) == name)
 			{

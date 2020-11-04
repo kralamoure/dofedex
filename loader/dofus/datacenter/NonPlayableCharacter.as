@@ -1,12 +1,12 @@
 class dofus.datacenter.NonPlayableCharacter extends ank.battlefield.datacenter.Sprite
 {
-	function NonPlayableCharacter(sID, clipClass, §\x1e\x13\x14§, cellNum, §\x11\x1b§, gfxID, §\x12\x11§)
+	function NonPlayableCharacter(sID, clipClass, §\x1e\x12\x01§, §\x13\x05§, §\x10\x1c§, gfxID, §\x11\x13§)
 	{
 		super();
 		this.api = _global.API;
 		if(this.__proto__ == dofus.datacenter.NonPlayableCharacter.prototype)
 		{
-			this.initialize(sID,clipClass,var5,cellNum,var7,gfxID,var9);
+			this.initialize(sID,clipClass,var5,var6,var7,gfxID,var9);
 		}
 	}
 	function __set__unicID(var2)
@@ -63,9 +63,9 @@ class dofus.datacenter.NonPlayableCharacter extends ank.battlefield.datacenter.S
 		this._nCustomArtwork = var2;
 		return this.__get__customArtwork();
 	}
-	function initialize(sID, clipClass, §\x1e\x13\x14§, cellNum, §\x11\x1b§, gfxID, §\x12\x11§)
+	function initialize(sID, clipClass, §\x1e\x12\x01§, §\x13\x05§, §\x10\x1c§, gfxID, §\x11\x13§)
 	{
-		super.initialize(sID,clipClass,var5,cellNum,var7);
+		super.initialize(sID,clipClass,var5,var6,var7);
 		this._gfxID = gfxID;
 		this._nCustomArtwork = var9;
 	}
@@ -79,21 +79,23 @@ class dofus.datacenter.NonPlayableCharacter extends ank.battlefield.datacenter.S
 				return {object:this.api.kernel.GameManager,method:this.api.kernel.GameManager.startExchange,params:[2,this.id]};
 			case 3:
 				return {object:this.api.kernel.GameManager,method:this.api.kernel.GameManager.startDialog,params:[this.id]};
-			case 4:
-				return {object:this.api.kernel.GameManager,method:this.api.kernel.GameManager.startExchange,params:[9,this.id]};
 			default:
 				switch(null)
 				{
+					case 4:
+						return {object:this.api.kernel.GameManager,method:this.api.kernel.GameManager.startExchange,params:[9,this.id]};
 					case 5:
 						return {object:this.api.kernel.GameManager,method:this.api.kernel.GameManager.startExchange,params:[10,this.id]};
 					case 6:
 						return {object:this.api.kernel.GameManager,method:this.api.kernel.GameManager.startExchange,params:[11,this.id]};
 					case 7:
 						return {object:this.api.kernel.GameManager,method:this.api.kernel.GameManager.startExchange,params:[17,this.id]};
-					case 8:
-						return {object:this.api.kernel.GameManager,method:this.api.kernel.GameManager.startExchange,params:[18,this.id]};
 					default:
-						return new Object();
+						if(var0 !== 8)
+						{
+							return new Object();
+						}
+						return {object:this.api.kernel.GameManager,method:this.api.kernel.GameManager.startExchange,params:[18,this.id]};
 				}
 		}
 	}

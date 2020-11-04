@@ -4,7 +4,7 @@ class mx.events.EventDispatcher
 	function EventDispatcher()
 	{
 	}
-	static function _removeEventListener(queue, §\x10\x02§, §\x0e\b§)
+	static function _removeEventListener(queue, §\x0f\x03§, §\r\b§)
 	{
 		if(queue != undefined)
 		{
@@ -26,7 +26,7 @@ class mx.events.EventDispatcher
 	{
 		if(mx.events.EventDispatcher._fEventDispatcher == undefined)
 		{
-			mx.events.EventDispatcher._fEventDispatcher = new mx.events.();
+			mx.events.EventDispatcher._fEventDispatcher = new mx.events.();
 		}
 		var2.__proto__.addEventListener = mx.events.EventDispatcher._fEventDispatcher.addEventListener;
 		var2.__proto__.removeEventListener = mx.events.EventDispatcher._fEventDispatcher.removeEventListener;

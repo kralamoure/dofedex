@@ -246,21 +246,11 @@ class dofus.graphics.gapi.controls.ClassCustomize extends dofus.graphics.gapi.co
 			default:
 				switch(null)
 				{
-					case "_btnColor1":
 					case "_btnColor2":
 					case "_btnColor3":
-						var var3 = Number(var2.target._name.substr(9));
-						var var4 = this._oBakColors["color" + var3];
-						if(var4 != -1)
-						{
-							this._cpColorPicker.setColor(var4);
-						}
-						this.setColorIndex(var3);
-						break loop0;
 					default:
 						switch(null)
 						{
-							case "_btnReset2":
 							case "_btnReset3":
 								break;
 							case "_mcRegenerateNickName":
@@ -273,32 +263,41 @@ class dofus.graphics.gapi.controls.ClassCustomize extends dofus.graphics.gapi.co
 						}
 						break loop0;
 					case "_btnReset1":
+					case "_btnReset2":
 						var var5 = Number(var2.target._name.substr(9));
 						this.applyColor(-1,var5);
 						this.dispatchEvent({type:"colorsChange",value:this._oColors});
 				}
+			case "_btnColor1":
+				var var3 = Number(var2.target._name.substr(9));
+				var var4 = this._oBakColors["color" + var3];
+				if(var4 != -1)
+				{
+					this._cpColorPicker.setColor(var4);
+				}
+				this.setColorIndex(var3);
 		}
 	}
 	function over(var2)
 	{
-		loop0:
 		switch(var2.target._name)
 		{
-			default:
-				switch(null)
-				{
-					case "_btnColor3":
-						break loop0;
-					case "_mcRegenerateNickName":
-						var var4 = {x:this._mcRegenerateNickName._x,y:this._mcRegenerateNickName._y};
-						this._mcRegenerateNickName.localToGlobal(var4);
-						this.gapi.showTooltip(this.api.lang.getText("RANDOM_NICKNAME"),var4.x + this._x,var4.y + this._y - 20);
-				}
 			case "_btnColor1":
 			case "_btnColor2":
+			case "_btnColor3":
+				var var3 = Number(var2.target._name.substr(9));
+				this.showColorPosition(var3);
+				break;
+			default:
+				if(var0 !== "_mcRegenerateNickName")
+				{
+					break;
+				}
+				var var4 = {x:this._mcRegenerateNickName._x,y:this._mcRegenerateNickName._y};
+				this._mcRegenerateNickName.localToGlobal(var4);
+				this.gapi.showTooltip(this.api.lang.getText("RANDOM_NICKNAME"),var4.x + this._x,var4.y + this._y - 20);
+				break;
 		}
-		var var3 = Number(var2.target._name.substr(9));
-		this.showColorPosition(var3);
 	}
 	function out(var2)
 	{

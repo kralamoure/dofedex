@@ -447,8 +447,13 @@ class dofus.graphics.gapi.controls.ChooseCharacterSprite extends dofus.graphics.
 			case this._btnReset:
 				this.gapi.showTooltip(this.api.lang.getText("RESET_CHARACTER"),_root._xmouse,_root._ymouse - 20);
 				break;
-			case this._ctrServerState:
+			default:
+				if(var0 !== this._ctrServerState)
+				{
+					break;
+				}
 				this.gapi.showTooltip(this._oServer.stateStr,_root._xmouse,_root._ymouse - 20);
+				break;
 		}
 	}
 	function out(var2)

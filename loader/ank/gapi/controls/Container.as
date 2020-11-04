@@ -14,10 +14,7 @@ class ank.gapi.controls.Container extends ank.gapi.core.UIBasicComponent
 	}
 	function __set__contentPath(var2)
 	{
-		this.addToQueue({object:this,method:function(var2)
-		{
-			this._ldrContent.contentPath = var2;
-		},params:[var2]});
+		this._ldrContent.contentPath = var2;
 		return this.__get__contentPath();
 	}
 	function __set__forceReload(var2)
@@ -60,6 +57,10 @@ class ank.gapi.controls.Container extends ank.gapi.core.UIBasicComponent
 	function __get__contentData()
 	{
 		return this._oContentData;
+	}
+	function __get__contentLoaded()
+	{
+		return this._ldrContent.loaded;
 	}
 	function __get__content()
 	{
@@ -246,7 +247,12 @@ class ank.gapi.controls.Container extends ank.gapi.core.UIBasicComponent
 		this._mcInteraction.trackAsMenu = true;
 		this.attachMovie("Loader","_ldrContent",20,{scaleContent:true});
 		this._ldrContent.move(this._nMargin,this._nMargin);
+		this._ldrContent.addEventListener("complete",this);
 		this.createEmptyMovieClip("_mcLabelBackground",29);
+	}
+	function complete()
+	{
+		this.dispatchEvent({type:"onContentLoaded",content:this.content});
 	}
 	function size()
 	{

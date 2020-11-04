@@ -5,10 +5,10 @@ class dofus.datacenter.GuildInfos extends Object
 		super();
 		this.api = _global.API;
 		mx.events.EventDispatcher.initialize(this);
-		this.initialize(var3,var4,var5,var6,var7,var8);
-		this._eaMembers = new ank.utils.();
-		this._eaTaxCollectors = new ank.utils.();
-		this._eaMountParks = new ank.utils.();
+		this.initialize(false,var3,var4,var5,var6,var7,var8);
+		this._eaMembers = new ank.utils.();
+		this._eaTaxCollectors = new ank.utils.();
+		this._eaMountParks = new ank.utils.();
 	}
 	function __get__name()
 	{
@@ -119,15 +119,19 @@ class dofus.datacenter.GuildInfos extends Object
 	{
 		return this._nDefendedTaxCollectorID != undefined;
 	}
-	function initialize(var2, var3, var4, var5, var6, var7)
+	function initialize(var2, var3, var4, var5, var6, var7, var8)
 	{
-		this._sName = var2;
-		this._nBackEmblemID = var3;
-		this._nBackEmblemColor = var4;
-		this._nUpEmblemID = var5;
-		this._nUpEmblemColor = var6;
-		this._grPlayerRights = new dofus.datacenter.
-(var7);
+		this._sName = var3;
+		this._nBackEmblemID = var4;
+		this._nBackEmblemColor = var5;
+		this._nUpEmblemID = var6;
+		this._nUpEmblemColor = var7;
+		this._grPlayerRights = new dofus.datacenter.
+(var8);
+		if(var2)
+		{
+			this.dispatchEvent({type:"modelChanged",eventName:"infosUpdate"});
+		}
 	}
 	function setGeneralInfos(var2, var3, var4, var5, var6)
 	{
@@ -190,24 +194,23 @@ class dofus.datacenter.GuildInfos extends Object
 			case "p":
 				var7 = this._nTaxPP;
 				break;
-			case "c":
-				var7 = this._nTaxPercepteur;
-				break;
-			case "x":
-				var7 = this._nTaxSagesse;
-				break;
 			default:
-				if(var0 !== "s")
+				switch(null)
 				{
-					break;
+					case "c":
+						var7 = this._nTaxPercepteur;
+						break;
+					case "x":
+						var7 = this._nTaxSagesse;
+						break;
+					case "s":
+						var var8 = this._eaTaxSpells.findFirstItem("ID",var3);
+						if(var8 != -1)
+						{
+							var7 = var8.item.level;
+							break;
+						}
 				}
-				var var8 = this._eaTaxSpells.findFirstItem("ID",var3);
-				if(var8 != -1)
-				{
-					var7 = var8.item.level;
-					break;
-				}
-				break;
 		}
 		var var9 = this.api.lang.getGuildBoostsMax(var2);
 		if(var7 < var9)
@@ -244,7 +247,7 @@ class dofus.datacenter.GuildInfos extends Object
 	}
 	function setNoHouses()
 	{
-		this._eaHouses = new ank.utils.();
+		this._eaHouses = new ank.utils.();
 		this.dispatchEvent({type:"modelChanged",eventName:"nohouses"});
 	}
 }

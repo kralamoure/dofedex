@@ -96,14 +96,8 @@ class dofus.graphics.gapi.ui.gameresult.GameResultPlayer extends ank.gapi.core.U
 	function addListeners()
 	{
 		var var2 = this;
-		this._ldrAllDrop.onRollOver = function()
-		{
-			this._parent.over({target:this});
-		};
-		this._ldrAllDrop.onRollOut = function()
-		{
-			this._parent.out({target:this});
-		};
+		this._ldrAllDrop.addEventListener("over",this);
+		this._ldrAllDrop.addEventListener("out",this);
 		this._pbXP.enabled = true;
 		this._pbXP.addEventListener("over",this);
 		this._pbXP.addEventListener("out",this);

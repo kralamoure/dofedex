@@ -29,7 +29,7 @@ class dofus.managers.SpeakingItemsManager extends dofus.utils.ApiElement
 	static var SPEAK_TRIGGER_ASSOCIATE = "SPEAK_TRIGGER_ASSOCIATE";
 	static var SPEAK_TRIGGER_DISSOCIATE = "SPEAK_TRIGGER_DISSOCIATE";
 	static var SPEAK_TRIGGER_CHANGE_SKIN = "SPEAK_TRIGGER_CHANGE_SKIN";
-	function SpeakingItemsManager(var3)
+	function SpeakingItemsManager(var2)
 	{
 		super();
 		dofus.managers.SpeakingItemsManager._sSelf = this;
@@ -175,7 +175,7 @@ class dofus.managers.SpeakingItemsManager extends dofus.utils.ApiElement
 	function updateEquipedSpeakingItems()
 	{
 		var var2 = this.api.datacenter.Player.Inventory;
-		var var3 = new ank.utils.();
+		var var3 = new ank.utils.();
 		var var4 = 0;
 		while(var4 < var2.length)
 		{

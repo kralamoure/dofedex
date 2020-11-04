@@ -20,7 +20,7 @@ class com.ankamagames.tools.Logger
 	}
 	static function initialize()
 	{
-		com.ankamagames.tools.Logger.instance = new com.ankamagames.tools.();
+		com.ankamagames.tools.Logger.instance = new com.ankamagames.tools.();
 	}
 	static function out()
 	{

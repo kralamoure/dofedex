@@ -52,6 +52,15 @@ class dofus.datacenter.Game extends Object
 	{
 		return this._nPlayerCount;
 	}
+	function __set__currentTableTurn(var2)
+	{
+		this._nCurrentTableTurn = Number(var2);
+		return this.__get__currentTableTurn();
+	}
+	function __get__currentTableTurn()
+	{
+		return this._nCurrentTableTurn;
+	}
 	function __set__currentPlayerID(var2)
 	{
 		this._sCurrentPlayerID = var2;
@@ -127,7 +136,7 @@ class dofus.datacenter.Game extends Object
 	}
 	function __get__isFight()
 	{
-		return this._nState > 1 && this._nState != undefined;
+		return this._nState != undefined && this._nState > 1;
 	}
 	function __get__interactionType()
 	{
@@ -145,6 +154,7 @@ class dofus.datacenter.Game extends Object
 		this._aTurnSequence = new Array();
 		this._oResults = new Object();
 		this._nInteractionType = 0;
+		this._nCurrentTableTurn = 0;
 	}
 	function setInteractionType(var2)
 	{
@@ -159,12 +169,12 @@ class dofus.datacenter.Game extends Object
 			case "cc":
 				this._nInteractionType = dofus.datacenter.Game.INTERACTION_TYPE_CC;
 				break;
+			case "place":
+				this._nInteractionType = dofus.datacenter.Game.INTERACTION_TYPE_PLACE;
+				break;
 			default:
 				switch(null)
 				{
-					case "place":
-						this._nInteractionType = dofus.datacenter.Game.INTERACTION_TYPE_PLACE;
-						break;
 					case "target":
 						this._nInteractionType = dofus.datacenter.Game.INTERACTION_TYPE_TARGET;
 						break;

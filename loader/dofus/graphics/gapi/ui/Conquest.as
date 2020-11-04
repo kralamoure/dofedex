@@ -99,17 +99,19 @@ class dofus.graphics.gapi.ui.Conquest extends dofus.graphics.gapi.core.DofusAdva
 		var3.enabled = true;
 		var4.selected = false;
 		var4.enabled = false;
-		switch(this._sCurrentTab)
+		if((var var0 = this._sCurrentTab) !== "Zones")
 		{
-			case "Zones":
-				this.api.network.Conquest.worldInfosLeave();
-				break;
-			case "Join":
+			if(var0 === "Join")
+			{
 				if(!(dofus.graphics.gapi.controls.ConquestJoinViewer)this._mcTabViewer.noUnsubscribe)
 				{
 					this.api.network.Conquest.prismInfosLeave();
-					break;
 				}
+			}
+		}
+		else
+		{
+			this.api.network.Conquest.worldInfosLeave();
 		}
 		this._sCurrentTab = var2;
 		this.updateCurrentTabInformations();
@@ -117,22 +119,23 @@ class dofus.graphics.gapi.ui.Conquest extends dofus.graphics.gapi.core.DofusAdva
 	function updateCurrentTabInformations()
 	{
 		this._mcTabViewer.removeMovieClip();
-		if((var var0 = this._sCurrentTab) !== "Stats")
+		switch(this._sCurrentTab)
 		{
-			switch(null)
-			{
-				case "Zones":
-					this.attachMovie("ConquestZonesViewer","_mcTabViewer",this.getNextHighestDepth(),{_x:this._mcPlacer._x,_y:this._mcPlacer._y});
-					this.api.network.Conquest.worldInfosJoin();
+			case "Stats":
+				this.attachMovie("ConquestStatsViewer","_mcTabViewer",this.getNextHighestDepth(),{_x:this._mcPlacer._x,_y:this._mcPlacer._y});
+				break;
+			case "Zones":
+				this.attachMovie("ConquestZonesViewer","_mcTabViewer",this.getNextHighestDepth(),{_x:this._mcPlacer._x,_y:this._mcPlacer._y});
+				this.api.network.Conquest.worldInfosJoin();
+				break;
+			default:
+				if(var0 !== "Join")
+				{
 					break;
-				case "Join":
-					this.attachMovie("ConquestJoinViewer","_mcTabViewer",this.getNextHighestDepth(),{_x:this._mcPlacer._x,_y:this._mcPlacer._y});
-					this.api.network.Conquest.prismInfosJoin();
-			}
-		}
-		else
-		{
-			this.attachMovie("ConquestStatsViewer","_mcTabViewer",this.getNextHighestDepth(),{_x:this._mcPlacer._x,_y:this._mcPlacer._y});
+				}
+				this.attachMovie("ConquestJoinViewer","_mcTabViewer",this.getNextHighestDepth(),{_x:this._mcPlacer._x,_y:this._mcPlacer._y});
+				this.api.network.Conquest.prismInfosJoin();
+				break;
 		}
 	}
 	function updateBalance()

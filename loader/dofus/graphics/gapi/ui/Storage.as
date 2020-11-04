@@ -15,6 +15,22 @@ class dofus.graphics.gapi.ui.Storage extends dofus.graphics.gapi.core.DofusAdvan
 		this._bMount = var2;
 		return this.__get__isMount();
 	}
+	function __get__currentOverItem()
+	{
+		if(this._ivInventoryViewer != undefined && this._ivInventoryViewer.currentOverItem != undefined)
+		{
+			return this._ivInventoryViewer.currentOverItem;
+		}
+		if(this._ivInventoryViewer2 != undefined && this._ivInventoryViewer2.currentOverItem != undefined)
+		{
+			return this._ivInventoryViewer2.currentOverItem;
+		}
+		return undefined;
+	}
+	function __get__itemViewer()
+	{
+		return this._itvItemViewer;
+	}
 	function init()
 	{
 		super.init(false,dofus.graphics.gapi.ui.Storage.CLASS_NAME);
@@ -105,68 +121,85 @@ class dofus.graphics.gapi.ui.Storage extends dofus.graphics.gapi.core.DofusAdvan
 		{
 			this.hideItemViewer(false);
 			this._itvItemViewer.itemData = var2.item;
-			switch(var2.target._name)
+			if((var var0 = var2.target._name) !== "_ivInventoryViewer")
 			{
-				case "_ivInventoryViewer":
-					this._ivInventoryViewer2.setFilter(this._ivInventoryViewer.currentFilterID);
-					break;
-				case "_ivInventoryViewer2":
+				if(var0 === "_ivInventoryViewer2")
+				{
 					this._ivInventoryViewer.setFilter(this._ivInventoryViewer2.currentFilterID);
+				}
+			}
+			else
+			{
+				this._ivInventoryViewer2.setFilter(this._ivInventoryViewer.currentFilterID);
 			}
 		}
 	}
 	function dblClickItem(var2)
 	{
 		var var3 = var2.item;
+		var var4 = var2.targets;
 		if(var3 == undefined)
 		{
 			return undefined;
 		}
-		var var13 = Key.isDown(Key.CONTROL);
-		var var14 = 1;
+		var var5 = Key.isDown(dofus.Constants.SELECT_MULTIPLE_ITEMS_KEY);
 		switch(var2.target._name)
 		{
 			case "_ivInventoryViewer":
-				§§push(Key.isDown(Key.ALT));
-				if(this._bMount)
+				if(var5 && var4.length > 1)
 				{
-					var var15 = this.api.datacenter.Player.getPossibleItemReceiveQuantity(var3,true);
-					if(var15 <= 0)
-					{
-						this.api.kernel.showMessage(this.api.lang.getText("INFORMATIONS"),this.api.lang.getText("SRV_MSG_6"),"ERROR_BOX",{name:undefined});
-					}
-					else
-					{
-						if(var13)
-						{
-							var14 = var15;
-						}
-						this.api.network.Exchange.movementItem(true,var2.item.ID,var14);
-					}
+					this.moveItems(var4,true);
 				}
 				else
 				{
-					if(var13)
-					{
-						var14 = var3.Quantity;
-					}
-					this.api.network.Exchange.movementItem(true,var2.item.ID,var14);
+					this.moveItem(var3,true,var5);
 				}
 				break;
 			case "_ivInventoryViewer2":
-				var var16 = this.api.datacenter.Player.getPossibleItemReceiveQuantity(var3,false);
-				if(var16 <= 0)
+				if(var5 && var4.length > 1)
 				{
-					this.api.kernel.showMessage(this.api.lang.getText("INFORMATIONS"),this.api.lang.getText("SRV_MSG_6"),"ERROR_BOX",{name:undefined});
+					this.moveItems(var4,false);
 					break;
 				}
-				if(var13)
-				{
-					var14 = var16;
-				}
-				this.api.network.Exchange.movementItem(false,var2.item.ID,var14);
+				this.moveItem(var3,false,var5);
 				break;
 		}
+	}
+	function moveItems(var2, var3)
+	{
+		if((var3 && this._bMount || !var3) && !this.api.datacenter.Player.canReceiveItems(var2,var3 && this._bMount))
+		{
+			this.api.kernel.showMessage(this.api.lang.getText("INFORMATIONS"),this.api.lang.getText("SRV_MSG_6"),"ERROR_BOX",{name:undefined});
+			return undefined;
+		}
+		var var4 = new Array();
+		var var5 = 0;
+		while(var5 < var2.length)
+		{
+			var var6 = var2[var5];
+			var4.push({Add:var3,ID:var6.ID,Quantity:var6.Quantity});
+			var5 = var5 + 1;
+		}
+		this.api.network.Exchange.movementItems(var4);
+	}
+	function moveItem(var2, var3, var4)
+	{
+		var var5 = var2.Quantity;
+		if(var3 && this._bMount || !var3)
+		{
+			var5 = this.api.datacenter.Player.getPossibleItemReceiveQuantity(var2,var3 && this._bMount);
+			if(var5 <= 0)
+			{
+				this.api.kernel.showMessage(this.api.lang.getText("INFORMATIONS"),this.api.lang.getText("SRV_MSG_6"),"ERROR_BOX",{name:undefined});
+				return undefined;
+			}
+		}
+		var var6 = 1;
+		if(var4)
+		{
+			var6 = var5;
+		}
+		this.api.network.Exchange.movementItem(var3,var2,var6);
 	}
 	function modelChanged(var2)
 	{
@@ -177,10 +210,10 @@ class dofus.graphics.gapi.ui.Storage extends dofus.graphics.gapi.core.DofusAdvan
 		switch(var2.target._name)
 		{
 			case "_ivInventoryViewer":
-				this.api.network.Exchange.movementItem(false,var2.item.ID,var2.quantity);
+				this.api.network.Exchange.movementItem(false,var2.item,var2.quantity);
 				break;
 			case "_ivInventoryViewer2":
-				this.api.network.Exchange.movementItem(true,var2.item.ID,var2.quantity);
+				this.api.network.Exchange.movementItem(true,var2.item,var2.quantity);
 		}
 	}
 	function dragKama(var2)

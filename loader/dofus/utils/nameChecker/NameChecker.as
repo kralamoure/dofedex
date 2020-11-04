@@ -75,7 +75,7 @@ class dofus.utils.nameChecker.NameChecker
 	}
 	function isValidAgainstWithDetails(rules)
 	{
-		var var3 = new dofus.utils.nameChecker.();
+		var var3 = new dofus.utils.nameChecker.();
 		var3.IS_SUCCESS = true;
 		if(!this.checkLength(var2.getMinNameLength(),var2.getMaxNameLength()))
 		{

@@ -1,6 +1,6 @@
 class dofus.datacenter.Job extends Object
 {
-	function Job(§\x05\x1d§, §\x10\x13§, options)
+	function Job(§\x04\x15§, §\x0f\x14§, options)
 	{
 		super();
 		this.initialize(var3,var4,options);
@@ -62,10 +62,10 @@ class dofus.datacenter.Job extends Object
 		this._nXP = var2;
 		if(this.api.datacenter.Player.currentJobID == this.id)
 		{
-			var var3 = this.api.ui.getUIComponent("Banner");
+			var var3 = (dofus.graphics.gapi.ui.Banner)this.api.ui.getUIComponent("Banner");
 			if(var3 != undefined && this.api.kernel.OptionsManager.getOption("BannerGaugeMode") == "xpcurrentjob")
 			{
-				var3.showGaugeMode();
+				dofus.graphics.gapi.ui.banner.Gauge.showGaugeMode(var3);
 			}
 		}
 		return this.__get__xp();
@@ -87,7 +87,7 @@ class dofus.datacenter.Job extends Object
 	{
 		return this._oJobText.s;
 	}
-	function initialize(§\x05\x1d§, §\x10\x13§, options)
+	function initialize(§\x04\x15§, §\x0f\x14§, options)
 	{
 		mx.events.EventDispatcher.initialize(this);
 		this.api = _global.API;
@@ -97,8 +97,8 @@ class dofus.datacenter.Job extends Object
 		this._oJobText = this.api.lang.getJobText(var2);
 		if(!_global.isNaN(var3.length))
 		{
-			this._eaCrafts = new ank.utils.();
-			var var5 = new ank.utils.();
+			this._eaCrafts = new ank.utils.();
+			var var5 = new ank.utils.();
 			var var6 = 0;
 			while(var6 < var3.length)
 			{

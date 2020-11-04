@@ -53,7 +53,7 @@ class dofus.graphics.gapi.controls.QuestStepViewer extends dofus.graphics.gapi.c
 	{
 		var var3 = this._oStep.dialogID;
 		var var4 = this._oStep.dialogParams;
-		var var5 = new dofus.datacenter.(var3,undefined,var4);
+		var var5 = new dofus.datacenter.(var3,undefined,var4);
 		this.gapi.showTooltip(this.api.lang.getText("STEP_DIALOG") + " :\n\n" + var5.label,var2.target,20);
 	}
 	function out(var2)
@@ -64,7 +64,7 @@ class dofus.graphics.gapi.controls.QuestStepViewer extends dofus.graphics.gapi.c
 	{
 		var var3 = this._oStep.dialogID;
 		var var4 = this._oStep.dialogParams;
-		var var5 = new dofus.datacenter.(var3,undefined,var4);
+		var var5 = new dofus.datacenter.(var3,undefined,var4);
 		this.api.kernel.showMessage(this.api.lang.getText("STEP_DIALOG"),var5.label,"ERROR_BOX");
 	}
 	function itemSelected(var2)

@@ -86,33 +86,39 @@ class ank.gapi.controls.ProgressBar extends ank.gapi.core.UIBasicComponent
 	{
 		var var3 = this.getStyle();
 		var var2 = this._mcRenderer._mcBgLeft;
-		for(var var4 in var2)
+		for(var k in var2)
 		{
+			var var4 = k.split("_")[0];
 			this.setMovieClipColor(var2[k],var3[var4 + "color"]);
 		}
 		var2 = this._mcRenderer._mcBgMiddle;
-		for(var var5 in var2)
+		for(var k in var2)
 		{
+			var var5 = k.split("_")[0];
 			this.setMovieClipColor(var2[k],var3[var5 + "color"]);
 		}
 		var2 = this._mcRenderer._mcBgRight;
-		for(var var6 in var2)
+		for(var k in var2)
 		{
+			var var6 = k.split("_")[0];
 			this.setMovieClipColor(var2[k],var3[var6 + "color"]);
 		}
 		var2 = this._mcRenderer._mcUpLeft;
-		for(var var7 in var2)
+		for(var k in var2)
 		{
+			var var7 = k.split("_")[0];
 			this.setMovieClipColor(var2[k],var3[var7 + "color"]);
 		}
 		var2 = this._mcRenderer._mcUpMiddle;
-		for(var var8 in var2)
+		for(var k in var2)
 		{
+			var var8 = k.split("_")[0];
 			this.setMovieClipColor(var2[k],var3[var8 + "color"]);
 		}
 		var2 = this._mcRenderer._mcUpRight;
-		for(var var9 in var2)
+		for(var k in var2)
 		{
+			var var9 = k.split("_")[0];
 			this.setMovieClipColor(var2[k],var3[var9 + "color"]);
 		}
 	}

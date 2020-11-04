@@ -1,41 +1,63 @@
-class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvancedComponent
+if(!dofus.graphics.gapi.ui.Options)
 {
-	static var CLASS_NAME = "Options";
-	static var SCROLL_BY = 20;
-	function Options()
+	if(!dofus)
+	{
+		_global.dofus = new Object();
+	}
+	if(!dofus.graphics)
+	{
+		_global.dofus.graphics = new Object();
+	}
+	if(!dofus.graphics.gapi)
+	{
+		_global.dofus.graphics.gapi = new Object();
+	}
+	if(!dofus.graphics.gapi.ui)
+	{
+		_global.dofus.graphics.gapi.ui = new Object();
+	}
+	dofus.graphics.gapi.ui.Options = function()
 	{
 		super();
-	}
-	function init()
+	} extends dofus.graphics.gapi.core.DofusAdvancedComponent;
+	var var1 = dofus.graphics.gapi.ui.Options = function()
+	{
+		super();
+	}.prototype;
+	var1.init = function init()
 	{
 		super.init(false,dofus.graphics.gapi.ui.Options.CLASS_NAME);
 		var var3 = System.capabilities.playerType == "StandAlone" && System.capabilities.os.indexOf("Windows") != -1;
-		this._eaDisplayStyles = new ank.utils.();
+		this._eaDisplayStyles = new ank.utils.();
 		this._eaDisplayStyles.push({label:this.api.lang.getText("DISPLAYSTYLE_NORMAL"),style:"normal"});
 		if(System.capabilities.screenResolutionY > 950 || var3)
 		{
 			this._eaDisplayStyles.push({label:this.api.lang.getText("DISPLAYSTYLE_MEDIUM" + (!var3?"":"_RES")),style:"medium"});
 		}
 		this._eaDisplayStyles.push({label:this.api.lang.getText("DISPLAYSTYLE_MAXIMIZED" + (!var3?"":"_RES")),style:"maximized"});
-		this._eaFlashQualities = new ank.utils.();
+		this._eaFlashQualities = new ank.utils.();
 		this._eaFlashQualities.push({label:this.api.lang.getText("QUALITY_LOW"),quality:"low"});
 		this._eaFlashQualities.push({label:this.api.lang.getText("QUALITY_MEDIUM"),quality:"medium"});
 		this._eaFlashQualities.push({label:this.api.lang.getText("QUALITY_HIGH"),quality:"high"});
 		this._eaFlashQualities.push({label:this.api.lang.getText("QUALITY_BEST"),quality:"best"});
-	}
-	function callClose()
+		this._eaSpellIconsPacks = new ank.utils.();
+		this._eaSpellIconsPacks.push({label:this.api.lang.getText("UI_OPTION_SPELLCOLOR_CLASSIC"),frame:3});
+		this._eaSpellIconsPacks.push({label:this.api.lang.getText("UI_OPTION_SPELLCOLOR_REMASTERED"),frame:1});
+		this._eaSpellIconsPacks.push({label:this.api.lang.getText("UI_OPTION_SPELLCOLOR_CONTRAST"),frame:2});
+	};
+	var1.callClose = function callClose()
 	{
 		this.unloadThis();
 		return true;
-	}
-	function createChildren()
+	};
+	var1.createChildren = function createChildren()
 	{
 		this.addToQueue({object:this,method:this.initTexts});
 		this.addToQueue({object:this,method:this.addListeners});
 		this.addToQueue({object:this,method:this.initData});
 		this.addToQueue({object:this,method:this.setCurrentTab,params:["General"]});
-	}
-	function initTexts()
+	};
+	var1.initTexts = function initTexts()
 	{
 		this._lblGeneral.text = this.api.lang.getText("OPTIONS_GENERAL");
 		this._lblDetailLevel.text = this.api.lang.getText("OPTIONS_DETAILLEVEL");
@@ -46,8 +68,8 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 		this._btnTabGeneral.label = this.api.lang.getText("OPTIONS_GENERAL");
 		this._btnTabSound.label = this.api.lang.getText("OPTIONS_AUDIO");
 		this._btnTabDisplay.label = this.api.lang.getText("OPTIONS_DISPLAY");
-	}
-	function initTabTexts()
+	};
+	var1.initTabTexts = function initTabTexts()
 	{
 		this._mcTabViewer._lblMusic.text = this.api.lang.getText("MUSICS");
 		this._mcTabViewer._lblSounds.text = this.api.lang.getText("SOUNDS");
@@ -98,8 +120,17 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 		this._mcTabViewer._lblConfirmDropItem.text = this.api.lang.getText("OPTION_CONFIRM_DROPITEM");
 		this._mcTabViewer._lblChatTimestamp.text = this.api.lang.getText("OPTION_USE_CHATTIMESTAMP");
 		this._mcTabViewer._lblViewDicesDammages.text = this.api.lang.getText("OPTION_VIEW_DICES_DAMMAGES");
-	}
-	function addListeners()
+		this._mcTabViewer._lblSeeDamagesColor.text = this.api.lang.getText("UI_OPTION_SEEDAMAGESCOLOR");
+		if(dofus.Constants.DOUBLEFRAMERATE)
+		{
+			this._mcTabViewer._lblRemasteredSpellIcons.text = this.api.lang.getText("DOFUS_REMASTERED_SPELL_ICONS");
+		}
+		else
+		{
+			this._mcTabViewer._lblRemasteredSpellIcons._visible = false;
+		}
+	};
+	var1.addListeners = function addListeners()
 	{
 		this._btnClose.addEventListener("click",this);
 		this._btnClose2.addEventListener("click",this);
@@ -109,8 +140,8 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 		this._btnTabDisplay.addEventListener("click",this);
 		this.api.kernel.OptionsManager.addEventListener("optionChanged",this);
 		ank.utils.MouseEvents.addListener(this);
-	}
-	function addTabListeners()
+	};
+	var1.addTabListeners = function addTabListeners()
 	{
 		this._mcTabViewer._btnShortcuts.addEventListener("click",this);
 		this._mcTabViewer._btnClearCache.addEventListener("click",this);
@@ -144,8 +175,10 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 		this._mcTabViewer._btnConfirmDropItem.addEventListener("click",this);
 		this._mcTabViewer._btnChatTimestamp.addEventListener("click",this);
 		this._mcTabViewer._btnViewDicesDammages.addEventListener("click",this);
+		this._mcTabViewer._btnSeeDamagesColor.addEventListener("click",this);
 		this._mcTabViewer._cbDisplayStyle.addEventListener("itemSelected",this);
 		this._mcTabViewer._cbDefaultQuality.addEventListener("itemSelected",this);
+		this._mcTabViewer._cbSpellIconsPack.addEventListener("itemSelected",this);
 		this._mcTabViewer._vsMusic.addEventListener("change",this);
 		this._mcTabViewer._vsSounds.addEventListener("change",this);
 		this._mcTabViewer._vsEnvironment.addEventListener("change",this);
@@ -155,10 +188,10 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 		this._mcTabViewer._btnMuteSounds.addEventListener("click",this);
 		this._mcTabViewer._btnMuteEnvironment.addEventListener("click",this);
 		this._sbOptions.addEventListener("scroll",this);
-	}
-	function initData()
+	};
+	var1.initData = function initData()
 	{
-		this._mcTabViewer._btnShortcuts.enabled = this.api.ui.getUIComponent("Banner") != undefined;
+		this._mcTabViewer._btnShortcuts.enabled = this.api.kernel.XTRA_LANG_FILES_LOADED;
 		var var2 = this.api.kernel.OptionsManager;
 		this._mcTabViewer._vsMusic.value = var2.getOption("AudioMusicVol");
 		this._mcTabViewer._vsSounds.value = var2.getOption("AudioEffectVol");
@@ -194,6 +227,7 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 		this._mcTabViewer._btnConfirmDropItem.selected = var2.getOption("ConfirmDropItem");
 		this._mcTabViewer._btnChatTimestamp.selected = var2.getOption("TimestampInChat");
 		this._mcTabViewer._btnViewDicesDammages.selected = var2.getOption("ViewDicesDammages");
+		this._mcTabViewer._btnSeeDamagesColor.selected = var2.getOption("SeeDamagesColor");
 		this._mcTabViewer._btnMovableBar.selected = var2.getOption("MovableBar");
 		this._mcTabViewer._vsMovableBarSize.value = var2.getOption("MovableBarSize");
 		this._mcTabViewer._lblMovableBarSizeValue.text = var2.getOption("MovableBarSize");
@@ -201,14 +235,23 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 		this._mcTabViewer._lblCreaturesModeValue.text = !!_global.isFinite(var2.getOption("CreaturesMode"))?var2.getOption("CreaturesMode"):this.api.lang.getText("INFINIT");
 		this._mcTabViewer._cbDefaultQuality.dataProvider = this._eaFlashQualities;
 		this.selectQuality(var2.getOption("DefaultQuality"));
+		this.selectRemasteredSpellIconsPack(var2.getOption("RemasteredSpellIconsPack"));
+		if(dofus.Constants.DOUBLEFRAMERATE)
+		{
+			this._mcTabViewer._cbSpellIconsPack.dataProvider = this._eaSpellIconsPacks;
+		}
+		else
+		{
+			this._mcTabViewer._cbSpellIconsPack._visible = false;
+		}
 		this._mcTabViewer._cbDisplayStyle.dataProvider = this._eaDisplayStyles;
 		var var3 = System.capabilities.playerType == "PlugIn" || (System.capabilities.playerType == "ActiveX" || System.capabilities.playerType == "StandAlone" && System.capabilities.os.indexOf("Windows") != -1);
 		this.selectDisplayStyle(!!var3?var2.getOption("DisplayStyle"):"normal");
 		this._mcTabViewer._cbDisplayStyle.enabled = var3;
 		var var4 = new Color(this._mcTabViewer._cbDisplayStyle);
 		var4.setTransform(!var3?{ra:30,rb:149,ga:30,gb:145,ba:30,bb:119}:{ra:100,rb:0,ga:100,gb:0,ba:100,bb:0});
-	}
-	function selectQuality(var2)
+	};
+	var1.selectQuality = function selectQuality(var2)
 	{
 		var var3 = 0;
 		var var4 = 0;
@@ -222,8 +265,23 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 			var4 = var4 + 1;
 		}
 		this._mcTabViewer._cbDefaultQuality.selectedIndex = var3;
-	}
-	function selectDisplayStyle(var2)
+	};
+	var1.selectRemasteredSpellIconsPack = function selectRemasteredSpellIconsPack(var2)
+	{
+		var var3 = 0;
+		var var4 = 0;
+		while(var4 < this._eaSpellIconsPacks.length)
+		{
+			if(this._eaSpellIconsPacks[var4].frame == var2)
+			{
+				var3 = var4;
+				break;
+			}
+			var4 = var4 + 1;
+		}
+		this._mcTabViewer._cbSpellIconsPack.selectedIndex = var3;
+	};
+	var1.selectDisplayStyle = function selectDisplayStyle(var2)
 	{
 		var var3 = 0;
 		var var4 = 0;
@@ -237,8 +295,8 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 			var4 = var4 + 1;
 		}
 		this._mcTabViewer._cbDisplayStyle.selectedIndex = var3;
-	}
-	function updateCurrentTabInformations()
+	};
+	var1.updateCurrentTabInformations = function updateCurrentTabInformations()
 	{
 		this._mcTabViewer.removeMovieClip();
 		this.attachMovie("Options" + this._sCurrentTab + "Content","_mcTabViewer",this.getNextHighestDepth(),{_x:this._mcPlacer._x,_y:this._mcPlacer._y});
@@ -257,8 +315,8 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 		this.addToQueue({object:this,method:this.initData});
 		this.addToQueue({object:this,method:this.initTabTexts});
 		this.addToQueue({object:this,method:this.addTabListeners});
-	}
-	function setCurrentTab(var2)
+	};
+	var1.setCurrentTab = function setCurrentTab(var2)
 	{
 		this._mcComboBoxPopup.removeMovieClip();
 		var var3 = this["_btnTab" + this._sCurrentTab];
@@ -270,8 +328,8 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 		this._sCurrentTab = var2;
 		this._sbOptions.scrollPosition = 0;
 		this.updateCurrentTabInformations();
-	}
-	function click(var2)
+	};
+	var1.click = function click(var2)
 	{
 		loop0:
 		switch(var2.target._name)
@@ -294,10 +352,7 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 					default:
 						switch(null)
 						{
-							case "_btnClose":
 							case "_btnClose2":
-								this.callClose();
-								break loop1;
 							case "_btnDefault":
 								this.api.kernel.OptionsManager.loadDefault();
 								break loop1;
@@ -307,12 +362,12 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 							case "_btnClearCache":
 								this.api.kernel.askClearCache();
 								break loop1;
+							case "_btnGrid":
+								this.api.kernel.OptionsManager.setOption("Grid",var2.target.selected);
+								break loop1;
 							default:
 								switch(null)
 								{
-									case "_btnGrid":
-										this.api.kernel.OptionsManager.setOption("Grid",var2.target.selected);
-										break loop1;
 									case "_btnTransparency":
 										this.api.kernel.OptionsManager.setOption("Transparency",var2.target.selected);
 										break loop1;
@@ -325,12 +380,12 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 									case "_btnMapInfos":
 										this.api.kernel.OptionsManager.setOption("MapInfos",var2.target.selected);
 										break loop1;
+									case "_btnCraftWrongConfirm":
+										this.api.kernel.OptionsManager.setOption("AskForWrongCraft",var2.target.selected);
+										break loop1;
 									default:
 										switch(null)
 										{
-											case "_btnCraftWrongConfirm":
-												this.api.kernel.OptionsManager.setOption("AskForWrongCraft",var2.target.selected);
-												break loop1;
 											case "_btnAutoHideSmileys":
 												this.api.kernel.OptionsManager.setOption("AutoHideSmileys",var2.target.selected);
 												break loop1;
@@ -358,12 +413,12 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 													case "_btnBannerShortcuts":
 														this.api.kernel.OptionsManager.setOption("BannerShortcuts",var2.target.selected);
 														break loop1;
-													case "_btnTipsOnStart":
-														this.api.kernel.OptionsManager.setOption("TipsOnStart",var2.target.selected);
-														break loop1;
 													default:
 														switch(null)
 														{
+															case "_btnTipsOnStart":
+																this.api.kernel.OptionsManager.setOption("TipsOnStart",var2.target.selected);
+																break loop1;
 															case "_btnMovableBar":
 																this.api.kernel.OptionsManager.setOption("MovableBar",var2.target.selected);
 																break loop1;
@@ -376,12 +431,12 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 															case "_btnAura":
 																this.api.kernel.OptionsManager.setOption("Aura",var2.target.selected);
 																break loop1;
-															case "_btnTutorialTips":
-																this.api.kernel.OptionsManager.setOption("DisplayingFreshTips",var2.target.selected);
-																break loop1;
 															default:
 																switch(null)
 																{
+																	case "_btnTutorialTips":
+																		this.api.kernel.OptionsManager.setOption("DisplayingFreshTips",var2.target.selected);
+																		break loop1;
 																	case "_btnResetTips":
 																		this.api.kernel.showMessage(undefined,this.api.lang.getText("DO_U_RESET_TIPS"),"CAUTION_YESNO",{name:"ResetTips",listener:this});
 																		break loop1;
@@ -402,19 +457,26 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 																		{
 																			case "_btnSeeAllSpell":
 																				this.api.kernel.OptionsManager.setOption("SeeAllSpell",!var2.target.selected);
-																				break;
+																				break loop1;
 																			case "_btnSpeakingItems":
 																				this.api.kernel.OptionsManager.setOption("UseSpeakingItems",var2.target.selected);
-																				break;
+																				break loop1;
 																			case "_btnConfirmDropItem":
 																				this.api.kernel.OptionsManager.setOption("ConfirmDropItem",var2.target.selected);
-																				break;
+																				break loop1;
 																			case "_btnChatTimestamp":
 																				this.api.kernel.OptionsManager.setOption("TimestampInChat",var2.target.selected);
 																				this.api.kernel.ChatManager.refresh();
-																				break;
-																			case "_btnViewDicesDammages":
-																				this.api.kernel.OptionsManager.setOption("ViewDicesDammages",var2.target.selected);
+																				break loop1;
+																			default:
+																				switch(null)
+																				{
+																					case "_btnViewDicesDammages":
+																						this.api.kernel.OptionsManager.setOption("ViewDicesDammages",var2.target.selected);
+																						break;
+																					case "_btnSeeDamagesColor":
+																						this.api.kernel.OptionsManager.setOption("SeeDamagesColor",var2.target.selected);
+																				}
 																		}
 																}
 														}
@@ -422,13 +484,15 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 										}
 								}
 						}
+					case "_btnClose":
+						this.callClose();
 				}
 			case "_btnTabGeneral":
 			case "_btnTabSound":
 		}
 		this.setCurrentTab(var2.target._name.substr(7));
-	}
-	function change(var2)
+	};
+	var1.change = function change(var2)
 	{
 		switch(var2.target._name)
 		{
@@ -464,8 +528,8 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 						this._mcTabViewer._lblMovableBarSizeValue.text = var3.toString();
 				}
 		}
-	}
-	function optionChanged(var2)
+	};
+	var1.optionChanged = function optionChanged(var2)
 	{
 		loop0:
 		switch(var2.key)
@@ -494,12 +558,12 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 					case "StringCourse":
 						this._mcTabViewer._btnStringCourse.selected = var2.value;
 						break loop0;
+					case "PointsOverHead":
+						this._mcTabViewer._btnPointsOverHead.selected = var2.value;
+						break loop0;
 					default:
 						switch(null)
 						{
-							case "PointsOverHead":
-								this._mcTabViewer._btnPointsOverHead.selected = var2.value;
-								break loop0;
 							case "ChatEffects":
 								this._mcTabViewer._btnChatEffects.selected = var2.value;
 								break loop0;
@@ -510,12 +574,12 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 							case "Buff":
 								this._mcTabViewer._btnBuff.selected = var2.value;
 								break loop0;
+							case "GuildMessageSound":
+								this._mcTabViewer._btnGuildMessageSound.selected = var2.value;
+								break loop0;
 							default:
 								switch(null)
 								{
-									case "GuildMessageSound":
-										this._mcTabViewer._btnGuildMessageSound.selected = var2.value;
-										break loop0;
 									case "StartTurnSound":
 										this._mcTabViewer._btnStartTurnSound.selected = var2.value;
 										break loop0;
@@ -525,80 +589,75 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 									case "TipsOnStart":
 										this._mcTabViewer._btnTipsOnStart.selected = var2.value;
 										break loop0;
+									case "DisplayStyle":
+										this._mcTabViewer.selectDisplayStyle(var2.value);
+										break loop0;
+									case "MovableBar":
+										this._mcTabViewer._btnMovableBar.selected = var2.value;
+										break loop0;
 									default:
 										switch(null)
 										{
-											case "DisplayStyle":
-												this._mcTabViewer.selectDisplayStyle(var2.value);
-												break loop0;
-											case "MovableBar":
-												this._mcTabViewer._btnMovableBar.selected = var2.value;
-												break loop0;
 											case "MovableBarSize":
 												this._mcTabViewer._vsMovableBarSize.value = var2.value;
 												break loop0;
 											case "ViewAllMonsterInGroup":
 												this._mcTabViewer._btnViewAllMonsterInGroup.selected = var2.value;
 												break loop0;
+											case "CharacterPreview":
+												this._mcTabViewer._btnCharacterPreview.selected = var2.value;
+												break loop0;
+											case "Aura":
+												this._mcTabViewer._btnAura.selected = var2.value;
+												break loop0;
+											case "DisplayingFreshTips":
+												this._mcTabViewer._btnTutorialTips.selected = var2.value;
+												break loop0;
 											default:
 												switch(null)
 												{
-													case "CharacterPreview":
-														this._mcTabViewer._btnCharacterPreview.selected = var2.value;
-														break loop0;
-													case "Aura":
-														this._mcTabViewer._btnAura.selected = var2.value;
-														break loop0;
-													case "DisplayingFreshTips":
-														this._mcTabViewer._btnTutorialTips.selected = var2.value;
-														break loop0;
 													case "CensorshipFilter":
 														this._mcTabViewer._btnCensorshipFilter.selected = var2.value;
 														break loop0;
 													case "AskForWrongCraft":
 														this._mcTabViewer._btnCraftWrongConfirm.selected = var2.value;
 														break loop0;
+													case "AdvancedLineOfSight":
+														this._mcTabViewer._btnAdvancedLineOfSight.selected = var2.value;
+														break loop0;
+													case "RemindTurnTime":
+														this._mcTabViewer._btnRemindTurnTime.selected = var2.value;
+														break loop0;
+													case "HideSpellBar":
+														this._mcTabViewer._btnHideSpellBar.selected = var2.value;
+														break loop0;
 													default:
 														switch(null)
 														{
-															case "AdvancedLineOfSight":
-																this._mcTabViewer._btnAdvancedLineOfSight.selected = var2.value;
-																break loop0;
-															case "RemindTurnTime":
-																this._mcTabViewer._btnRemindTurnTime.selected = var2.value;
-																break loop0;
-															case "HideSpellBar":
-																this._mcTabViewer._btnHideSpellBar.selected = var2.value;
-																break loop0;
 															case "SeeAllSpell":
 																this._mcTabViewer._btnSeeAllSpell.selected = !var2.value;
 																break loop0;
 															case "UseSpeakingItems":
 																this._mcTabViewer._btnSpeakingItems.selected = var2.value;
 																break loop0;
+															case "ConfirmDropItem":
+																this._mcTabViewer._btnConfirmDropItem.selected = var2.value;
+																break loop0;
+															case "TimestampInChat":
+																this._mcTabViewer._btnChatTimestamp.selected = var2.value;
+																this.api.kernel.ChatManager.refresh();
+																break loop0;
+															case "AudioMusicMute":
+																this._mcTabViewer._btnMuteMusic.selected = var2.value;
+																break loop0;
 															default:
 																switch(null)
 																{
-																	case "ConfirmDropItem":
-																		this._mcTabViewer._btnConfirmDropItem.selected = var2.value;
-																		break loop0;
-																	case "TimestampInChat":
-																		this._mcTabViewer._btnChatTimestamp.selected = var2.value;
-																		this.api.kernel.ChatManager.refresh();
-																		break loop0;
-																	case "AudioMusicMute":
-																		this._mcTabViewer._btnMuteMusic.selected = var2.value;
-																		break loop0;
 																	case "AudioEffectMute":
 																		this._mcTabViewer._btnMuteSounds.selected = var2.value;
-																		break loop0;
-																	default:
-																		if(var0 !== "AudioEnvMute")
-																		{
-																			break loop0;
-																		}
+																		break;
+																	case "AudioEnvMute":
 																		this._mcTabViewer._btnMuteEnvironment.selected = var2.value;
-																		break loop0;
 																}
 														}
 												}
@@ -607,8 +666,8 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 						}
 				}
 		}
-	}
-	function itemSelected(var2)
+	};
+	var1.itemSelected = function itemSelected(var2)
 	{
 		switch(var2.target._name)
 		{
@@ -626,9 +685,43 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 			case "_cbDefaultQuality":
 				var var4 = var2.target.selectedItem;
 				this.api.kernel.showMessage(this.api.lang.getText("OPTIONS_DISPLAY"),this.api.lang.getText("DO_U_CHANGE_QUALITY_" + String(var4.quality).toUpperCase()),"CAUTION_YESNO",{name:"Quality",listener:this,params:{quality:var4.quality}});
+				break;
+			case "_cbSpellIconsPack":
+				var var5 = var2.target.selectedItem;
+				var var6 = var5.frame;
+			default:
+				var var7 = this.api.kernel.OptionsManager.getOption("RemasteredSpellIconsPack");
+				if(var7 == var6)
+				{
+					break;
+				}
+				this.api.kernel.OptionsManager.setOption("RemasteredSpellIconsPack",var6);
+				this.selectRemasteredSpellIconsPack(var6);
+				var var8 = (dofus.graphics.gapi.ui.Banner)this.gapi.getUIComponent("Banner");
+				if(var8 != undefined)
+				{
+					var8.shortcuts.updateSpells();
+				}
+				var var9 = (dofus.graphics.gapi.ui.Spells)this.gapi.getUIComponent("Spells");
+				if(var9 != undefined)
+				{
+					var9.updateSpells();
+					var var10 = var9.spellFullInfosViewer;
+					if(var10 != undefined)
+					{
+						var10.updateData();
+					}
+				}
+				var var11 = (dofus.graphics.gapi.ui.SpellViewerOnCreate)this.gapi.getUIComponent("SpellViewerOnCreate");
+				if(var11 != undefined)
+				{
+					var11.refreshSpellsPack();
+					break;
+				}
+				break;
 		}
-	}
-	function yes(var2)
+	};
+	var1.yes = function yes(var2)
 	{
 		switch(var2.target._name)
 		{
@@ -638,16 +731,11 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 			case "AskYesNoResetTips":
 				dofus.managers.TipsManager.getInstance().resetDisplayedTipsList();
 				break;
-			default:
-				if(var0 !== "AskYesNoQuality")
-				{
-					break;
-				}
+			case "AskYesNoQuality":
 				this.api.kernel.OptionsManager.setOption("DefaultQuality",var2.target.params.quality);
-				break;
 		}
-	}
-	function no(var2)
+	};
+	var1.no = function no(var2)
 	{
 		switch(var2.target._name)
 		{
@@ -657,16 +745,25 @@ class dofus.graphics.gapi.ui.Options extends dofus.graphics.gapi.core.DofusAdvan
 			case "AskYesNoQuality":
 				this.selectQuality(this.api.kernel.OptionsManager.getOption("DefaultQuality"));
 		}
-	}
-	function scroll(var2)
+	};
+	var1.scroll = function scroll(var2)
 	{
-		this._mcTabViewer._y = this._mcPlacer._y - this._sbOptions.scrollPosition;
-	}
-	function onMouseWheel(var2, var3)
+		this[§§constant(82)][§§constant(310)] = this[§§constant(309)][§§constant(310)] - this[§§constant(239)][§§constant(323)];
+	};
+	var1[§§constant(371)] = function §\§\§constant(371)§(var2, var3)
 	{
-		if(String(var3._target).indexOf(this._target) != -1 && this._sbOptions._visible)
+		if(String(var3["\x04\x02\b�RO�\x04"])(this[§§constant(372)]) != -1 && this["��+N�\x02"]["\b�\b�\x07\x01"])
 		{
-			this._sbOptions.scrollPosition = this._sbOptions.scrollPosition - (var2 <= 0?- dofus.graphics.gapi.ui.Options.SCROLL_BY:dofus.graphics.gapi.ui.Options.SCROLL_BY);
+			this["��+N�\x02"]["\x04\x01\bRN�\x02"] = this["��+N�\x02"]["\x04\x01\bRN�\x02"] - (var2 <= 0?- eval("�\x03")[""]["\x05"]["2�\x02"]["IJ�\x06"]["\x04\x01\bRN�\x02"]:eval("�").u[§§constant(2)][§§constant(3)][§§constant(4)][§§constant(373)]);
 		}
-	}
+	};
+	§§constant(374)(var1,null,1);
+	dofus.graphics.gapi.ui.Options = function()
+	{
+		super();
+	}[§§constant(11)] = §§constant(4);
+	dofus.graphics.gapi.ui.Options = function()
+	{
+		super();
+	}[§§constant(373)] = 20;
 }

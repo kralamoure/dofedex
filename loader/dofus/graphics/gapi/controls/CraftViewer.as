@@ -13,7 +13,7 @@ class dofus.graphics.gapi.controls.CraftViewer extends dofus.graphics.gapi.core.
 	}
 	function __set__skill(var2)
 	{
-		var var3 = new ank.utils.();
+		var var3 = new ank.utils.();
 		var3.push(var2);
 		this.job = new dofus.datacenter.Job(-1,var3);
 		return this.__get__skill();
@@ -76,7 +76,7 @@ class dofus.graphics.gapi.controls.CraftViewer extends dofus.graphics.gapi.core.
 			return undefined;
 		}
 		var var3 = this._oJob.crafts;
-		var var4 = new ank.utils.();
+		var var4 = new ank.utils.();
 		var var5 = 0;
 		while(var5 < var3.length)
 		{

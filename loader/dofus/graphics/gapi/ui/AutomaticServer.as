@@ -59,7 +59,7 @@ class dofus.graphics.gapi.ui.AutomaticServer extends dofus.graphics.gapi.core.Do
 		}
 		var2.sortOn("populationWeight",Array.NUMERIC | Array.ASCENDING);
 		var var3 = var2[0].populationWeight;
-		var var4 = new ank.utils.();
+		var var4 = new ank.utils.();
 		var var5 = 0;
 		while(var5 < var2.length)
 		{
@@ -71,7 +71,7 @@ class dofus.graphics.gapi.ui.AutomaticServer extends dofus.graphics.gapi.core.Do
 		}
 		var4.sortOn("completion",Array.NUMERIC | Array.ASCENDING);
 		var var6 = var4[0].completion;
-		var var7 = new ank.utils.();
+		var var7 = new ank.utils.();
 		var var8 = 0;
 		while(var8 < var4.length)
 		{
@@ -94,7 +94,7 @@ class dofus.graphics.gapi.ui.AutomaticServer extends dofus.graphics.gapi.core.Do
 		switch(var2.target._name)
 		{
 			case "_mcAutomaticSelect":
-				var var3 = new ank.utils.();
+				var var3 = new ank.utils.();
 				var var4 = 0;
 				while(var4 < this._eaServers.length)
 				{
@@ -109,7 +109,7 @@ class dofus.graphics.gapi.ui.AutomaticServer extends dofus.graphics.gapi.core.Do
 					this.api.kernel.showMessage(undefined,this.api.lang.getText("ALL_SERVERS_ARE_DOWN"),"ERROR_BOX");
 					break;
 				}
-				var var5 = new ank.utils.();
+				var var5 = new ank.utils.();
 				var var6 = 0;
 				while(var6 < var3.length)
 				{
@@ -133,7 +133,7 @@ class dofus.graphics.gapi.ui.AutomaticServer extends dofus.graphics.gapi.core.Do
 					break;
 				}
 				this._eaPreselectedServers = var3;
-				var5 = new ank.utils.();
+				var5 = new ank.utils.();
 				var var7 = 0;
 				while(var7 < var3.length)
 				{
@@ -165,7 +165,7 @@ class dofus.graphics.gapi.ui.AutomaticServer extends dofus.graphics.gapi.core.Do
 	}
 	function yes(var2)
 	{
-		var var3 = new ank.utils.();
+		var var3 = new ank.utils.();
 		var var4 = 0;
 		while(var4 < this._eaPreselectedServers.length)
 		{
@@ -187,7 +187,7 @@ class dofus.graphics.gapi.ui.AutomaticServer extends dofus.graphics.gapi.core.Do
 	function serverSelected(var2)
 	{
 		this.gapi.unloadUIComponent("ServerInformations");
-		var var3 = new dofus.datacenter.	(var2.value,1,0);
+		var var3 = new dofus.datacenter.(var2.value,1,0);
 		if(var3.isAllowed())
 		{
 			this.api.datacenter.Basics.aks_current_server = var3;

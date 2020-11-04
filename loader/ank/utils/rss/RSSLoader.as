@@ -41,7 +41,7 @@ class ank.utils.rss.RSSLoader extends XML
 		{
 			if(var3.nodeName.toLowerCase() == "channel")
 			{
-				var var4 = new ank.utils.rss.();
+				var var4 = new ank.utils.rss.();
 				if(var4.parse(var3))
 				{
 					this._aChannels.push(var4);

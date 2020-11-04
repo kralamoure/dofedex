@@ -31,7 +31,7 @@ class dofus.graphics.gapi.ui.FightsInfos extends dofus.graphics.gapi.core.DofusA
 	}
 	function createChildren()
 	{
-		this._eaFights = new ank.utils.();
+		this._eaFights = new ank.utils.();
 		this.showTeamInfos(false);
 		this.addToQueue({object:this,method:this.initTexts});
 		this.addToQueue({object:this,method:this.addListeners});

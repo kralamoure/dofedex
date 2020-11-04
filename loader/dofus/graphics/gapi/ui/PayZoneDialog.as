@@ -58,7 +58,7 @@ class dofus.graphics.gapi.ui.PayZoneDialog extends dofus.graphics.gapi.core.Dofu
 	function setDialog(var2)
 	{
 		var var3 = new Object();
-		var3.responses = new ank.utils.();
+		var3.responses = new ank.utils.();
 		if((var var0 = var2) !== dofus.graphics.gapi.ui.PayZoneDialog.PAYZONE_INFOS)
 		{
 			if(var0 !== dofus.graphics.gapi.ui.PayZoneDialog.PAYZONE_DETAILS)

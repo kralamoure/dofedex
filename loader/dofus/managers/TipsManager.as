@@ -15,7 +15,7 @@ class dofus.managers.TipsManager extends ank.utils.QueueEmbedMovieClip
 	static var _sSelf = null;
 	var _aIndicatorTimers = new Array();
 	var _nIndicatorIndex = 0;
-	function TipsManager(var3)
+	function TipsManager(var2)
 	{
 		super();
 		dofus.managers.TipsManager._sSelf = this;
@@ -130,7 +130,8 @@ class dofus.managers.TipsManager extends ank.utils.QueueEmbedMovieClip
 		if(this.api.datacenter.Basics.aks_current_map_id == var2 || var2 == -1)
 		{
 			var var4 = this.api.gfx.spriteHandler.getSprites().getItems();
-			for(var k in var4)
+			§§enumerate(var4);
+			while((var var0 = §§enumeration()) != null)
 			{
 				if(var4[k].gfxFile == dofus.Constants.CLIPS_PERSOS_PATH + var3 + ".swf")
 				{

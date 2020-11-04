@@ -40,13 +40,23 @@ class dofus.graphics.gapi.controls.LivingItemsViewer extends dofus.graphics.gapi
 		this._btnFeed.label = this.api.lang.getText("FEED_WORD");
 		this._btnSkin.label = this.api.lang.getText("CHOOSE_SKIN");
 		var var2 = this._oItemData.effects;
-		§§enumerate(var2);
-		while((var var0 = §§enumeration()) != null)
+		loop0:
+		for(var i in var2)
 		{
 			if(var2[i].type == 808)
 			{
 				this._lblEatDate.text = var2[i].description;
-				break;
+				while(true)
+				{
+					if(§§pop() == null)
+					{
+						break loop0;
+					}
+				}
+			}
+			else
+			{
+				continue;
 			}
 		}
 	}
@@ -83,7 +93,7 @@ class dofus.graphics.gapi.controls.LivingItemsViewer extends dofus.graphics.gapi
 	}
 	function over(var2)
 	{
-		this.gapi.showTooltip(new ank.utils.(this._pbXP.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + " / " + new ank.utils.(this._pbXP.maximum).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3),this._pbXP,-20);
+		this.gapi.showTooltip(new ank.utils.(this._pbXP.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + " / " + new ank.utils.(this._pbXP.maximum).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3),this._pbXP,-20);
 	}
 	function out(var2)
 	{

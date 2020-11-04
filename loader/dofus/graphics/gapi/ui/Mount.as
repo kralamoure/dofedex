@@ -84,13 +84,13 @@ class dofus.graphics.gapi.ui.Mount extends dofus.graphics.gapi.core.DofusAdvance
 			case this._btnName:
 				this.editName(true);
 				break;
+			case this._btnXP:
+				var var3 = this.gapi.loadUIComponent("PopupQuantity","PopupQuantity",{value:this.api.datacenter.Player.mountXPPercent,max:90});
+				var3.addEventListener("validate",this);
+				break;
 			default:
 				switch(null)
 				{
-					case this._btnXP:
-						var var3 = this.gapi.loadUIComponent("PopupQuantity","PopupQuantity",{value:this.api.datacenter.Player.mountXPPercent,max:90});
-						var3.addEventListener("validate",this);
-						break loop0;
 					case this._btnClose:
 						this.callClose();
 						break loop0;

@@ -38,7 +38,7 @@ class dofus.graphics.gapi.ui.Shortcuts extends dofus.graphics.gapi.core.DofusAdv
 	}
 	function initData()
 	{
-		var var2 = new ank.utils.();
+		var var2 = new ank.utils.();
 		var var3 = this.api.lang.getKeyboardShortcutsSets();
 		var3.sortOn("d");
 		var var4 = 0;
@@ -57,7 +57,7 @@ class dofus.graphics.gapi.ui.Shortcuts extends dofus.graphics.gapi.core.DofusAdv
 		var var5 = this.api.lang.getKeyboardShortcutsCategories();
 		var5.sortOn("o",Array.NUMERIC);
 		var var6 = this.api.lang.getKeyboardShortcuts();
-		var var7 = new ank.utils.();
+		var var7 = new ank.utils.();
 		var var8 = 0;
 		while(var8 < var5.length)
 		{

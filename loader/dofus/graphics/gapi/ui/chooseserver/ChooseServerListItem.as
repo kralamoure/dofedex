@@ -22,45 +22,47 @@ class dofus.graphics.gapi.ui.chooseserver.ChooseServerListItem extends ank.gapi.
 			var4.sortCommunity = var4.communityStr;
 			var4.sortPopulation = var4.population;
 			var var6 = new String();
-			loop0:
-			switch(var4.community)
+			if((var var0 = var4.community) !== 0)
 			{
-				case 0:
-					var6 = "fr";
-					break;
-				case 1:
-					var6 = "en";
-					break;
-				case 3:
-					var6 = "de";
-					break;
-				case 4:
-					var6 = "es";
-					break;
-				default:
-					switch(null)
-					{
-						case 5:
-							var6 = "ru";
-							break loop0;
-						case 6:
-							var6 = "pt";
-							break loop0;
-						case 7:
-							var6 = "nl";
-							break loop0;
-						case 8:
-							var6 = "jp";
-							break loop0;
-						case 9:
-							var6 = "it";
-							break loop0;
-						default:
-							if(var0 !== 2)
-							{
-							}
-							var6 = "us";
-					}
+				loop0:
+				switch(null)
+				{
+					case 1:
+						var6 = "en";
+						break;
+					case 3:
+						var6 = "de";
+						break;
+					case 4:
+						var6 = "es";
+						break;
+					case 5:
+						var6 = "ru";
+						break;
+					case 6:
+						var6 = "pt";
+						break;
+					default:
+						switch(null)
+						{
+							case 7:
+								var6 = "nl";
+								break loop0;
+							case 8:
+								var6 = "jp";
+								break loop0;
+							case 9:
+								var6 = "it";
+								break loop0;
+							case 2:
+							default:
+								var6 = "us";
+						}
+				}
+			}
+			else
+			{
+				var6 = "fr";
 			}
 			this._ldrFlag.contentPath = "Flag_" + var6;
 			this._lblName.text = var4.sortName;
@@ -89,11 +91,14 @@ class dofus.graphics.gapi.ui.chooseserver.ChooseServerListItem extends ank.gapi.
 				case 1:
 					this._lblPopulation.styleName = "BlueCenterSmallLabel";
 					break;
-				case 2:
+				default:
+					if(var0 !== 2)
+					{
+						this._lblPopulation.styleName = "BrownCenterSmallLabel";
+						break;
+					}
 					this._lblPopulation.styleName = "RedCenterSmallLabel";
 					break;
-				default:
-					this._lblPopulation.styleName = "BrownCenterSmallLabel";
 			}
 			this._lblPopulation.text = var4.populationStr;
 			this._lblType.text = var4.type;

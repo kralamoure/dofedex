@@ -39,12 +39,12 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 			case "q":
 				this.aks.onQuickPong();
 				break;
+			case "r":
+				this.aks.send("rpong" + var5.substr(5),false);
+				break;
 			default:
 				switch(null)
 				{
-					case "r":
-						this.aks.send("rpong" + var5.substr(5),false);
-						break loop0;
 					case "M":
 						this.aks.onServerMessage(var5.substr(1));
 						break loop0;
@@ -68,12 +68,12 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 									case "L":
 										this.aks.Basics.onAuthorizedLine(var5.substr(3));
 										break;
-									case "P":
-										this.aks.Basics.onAuthorizedCommandPrompt(var5.substr(3));
-										break;
 									default:
 										switch(null)
 										{
+											case "P":
+												this.aks.Basics.onAuthorizedCommandPrompt(var5.substr(3));
+												break loop4;
 											case "C":
 												this.aks.Basics.onAuthorizedCommandClear();
 												break loop4;
@@ -98,15 +98,18 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 										}
 								}
 								break;
+							case "r":
+								this.aks.Basics.onReportInfos(var5.substr(2));
+								break;
 							case "T":
 								this.aks.Basics.onReferenceTime(var5.substr(2));
-								break;
-							case "D":
-								this.aks.Basics.onDate(var5.substr(2));
 								break;
 							default:
 								switch(null)
 								{
+									case "D":
+										this.aks.Basics.onDate(var5.substr(2));
+										break loop3;
 									case "W":
 										this.aks.Basics.onWhoIs(!var4,var5.substr(3));
 										break loop3;
@@ -128,356 +131,359 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 						}
 						break loop0;
 					case "A":
-						if((var0 = var3) !== "E")
+						loop8:
+						switch(var3)
 						{
-							loop8:
-							switch(null)
-							{
-								case "c":
-									this.aks.Account.onCommunity(var5.substr(2));
-									break;
-								case "d":
-									this.aks.Account.onDofusPseudo(var5.substr(2));
-									break;
-								case "l":
-									this.aks.Account.onLogin(!var4,var5.substr(3));
-									break;
-								case "L":
-									this.aks.Account.onCharactersList(!var4,var5.substr(3));
-									break;
-								default:
+							case "E":
+								var var6 = false;
+								var var7 = false;
+								if((var0 = var5.charAt(2)) !== "n")
+								{
 									switch(null)
 									{
-										case "x":
-											this.aks.Account.onServersList(!var4,var5.substr(3));
-											break loop8;
-										case "A":
-											this.aks.Account.onCharacterAdd(!var4,var5.substr(3));
-											break loop8;
-										case "T":
-											this.aks.Account.onTicketResponse(!var4,var5.substr(3));
-											break loop8;
-										case "X":
-											this.aks.Account.onSelectServer(!var4,true,var5.substr(3));
-											break loop8;
-										case "Y":
-											this.aks.Account.onSelectServer(!var4,false,var5.substr(3));
-											break loop8;
+										case "c":
+											var7 = true;
 										default:
-											switch(null)
+										case "i":
+											if(this.api.ui.getUIComponent("MakeMimibiote") == undefined)
 											{
-												case "S":
-													this.aks.Account.onCharacterSelected(!var4,var5.substr(4));
-													break loop8;
-												case "s":
-													this.aks.Account.onStats(var5.substr(2));
-													break loop8;
-												case "N":
-													this.aks.Account.onNewLevel(var5.substr(2));
-													break loop8;
-												case "R":
-													this.aks.Account.onRestrictions(var5.substr(2));
-													break loop8;
-												case "H":
-													this.aks.Account.onHosts(var5.substr(2));
-													break loop8;
-												default:
+												this.api.ui.loadUIComponent("MakeMimibiote","MakeMimibiote");
+											}
+											return undefined;
+									}
+								}
+								else
+								{
+									var6 = true;
+								}
+								var var8 = var5.charAt(3) != undefined && var5.charAt(3) == "f";
+								if(this.api.ui.getUIComponent("EditPlayer") == undefined)
+								{
+									this.api.ui.loadUIComponent("EditPlayer","EditPlayer",{editName:var6,editColors:var7,force:var8});
+								}
+								break;
+							case "c":
+								this.aks.Account.onCommunity(var5.substr(2));
+								break;
+							case "d":
+								this.aks.Account.onDofusPseudo(var5.substr(2));
+								break;
+							case "l":
+								this.aks.Account.onLogin(!var4,var5.substr(3));
+								break;
+							default:
+								switch(null)
+								{
+									case "L":
+										this.aks.Account.onCharactersList(!var4,var5.substr(3));
+										break loop8;
+									case "x":
+										this.aks.Account.onServersList(!var4,var5.substr(3));
+										break loop8;
+									case "A":
+										this.aks.Account.onCharacterAdd(!var4,var5.substr(3));
+										break loop8;
+									case "T":
+										this.aks.Account.onTicketResponse(!var4,var5.substr(3));
+										break loop8;
+									case "X":
+										this.aks.Account.onSelectServer(!var4,true,var5.substr(3));
+										break loop8;
+									default:
+										switch(null)
+										{
+											case "Y":
+												this.aks.Account.onSelectServer(!var4,false,var5.substr(3));
+												break loop8;
+											case "Z":
+												this.aks.Account.onSelectServerMinimal(var5.substr(3));
+												break loop8;
+											case "S":
+												this.aks.Account.onCharacterSelected(!var4,var5.substr(4));
+												break loop8;
+											case "s":
+												this.aks.Account.onStats(var5.substr(2));
+												break loop8;
+											case "N":
+												this.aks.Account.onNewLevel(var5.substr(2));
+												break loop8;
+											default:
+												switch(null)
+												{
+													case "R":
+														this.aks.Account.onRestrictions(var5.substr(2));
+														break loop8;
+													case "H":
+														this.aks.Account.onHosts(var5.substr(2));
+														break loop8;
+													case "r":
+														this.aks.Account.onRescue(!var4);
+														break loop8;
+													case "g":
+														this.aks.Account.onGiftsList(var5.substr(2));
+														break loop8;
+													case "G":
+														this.aks.Account.onGiftStored(!var4);
+														break loop8;
+													default:
+														switch(null)
+														{
+															case "q":
+																this.aks.Account.onQueue(var5.substr(2));
+																break loop8;
+															case "f":
+																this.aks.Account.onNewQueue(var5.substr(2));
+																break loop8;
+															case "V":
+																this.aks.Account.onRegionalVersion(var5.substr(2));
+																break loop8;
+															case "P":
+																this.aks.Account.onCharacterNameGenerated(!var4,var5.substr(3));
+																break loop8;
+															case "K":
+																this.aks.Account.onKey(var5.substr(2));
+																break loop8;
+															default:
+																switch(null)
+																{
+																	case "Q":
+																		this.aks.Account.onSecretQuestion(var5.substr(2));
+																		break;
+																	case "D":
+																		this.aks.Account.onCharacterDelete(!var4,var5.substr(3));
+																		break;
+																	case "M":
+																		if((var0 = var5.charAt(2)) !== "?")
+																		{
+																			this.aks.Account.onCharactersList(!var4,var5.substr(3),true);
+																		}
+																		else
+																		{
+																			this.aks.Account.onCharactersMigrationAskConfirm(var5.substr(3));
+																		}
+																		break;
+																	case "F":
+																		this.aks.Account.onFriendServerList(var5.substr(2));
+																		break;
+																	case "m":
+																		if(!_global.CONFIG.isStreaming)
+																		{
+																			this.aks.Account.onMiniClipInfo();
+																			break;
+																		}
+																		var var9 = _global.parseInt(var5.charAt(2),10);
+																		if(_global.isNaN(var9))
+																		{
+																			var9 = 3;
+																		}
+																		getURL("FSCommand:" add "GoToCongratulation",var9);
+																		break;
+																}
+														}
+												}
+										}
+								}
+						}
+						break loop0;
+					case "G":
+						loop15:
+						switch(var3)
+						{
+							case "C":
+								this.aks.Game.onCreate(!var4,var5.substr(4));
+								break;
+							case "J":
+								this.aks.Game.onJoin(var5.substr(3));
+								break;
+							case "P":
+								this.aks.Game.onPositionStart(var5.substr(2));
+								break;
+							case "R":
+								this.aks.Game.onReady(var5.substr(2));
+								break;
+							default:
+								switch(null)
+								{
+									case "S":
+										this.aks.Game.onStartToPlay();
+										break loop15;
+									case "E":
+										this.aks.Game.onEnd(var5.substr(2));
+										break loop15;
+									case "M":
+										this.aks.Game.onMovement(var5.substr(3));
+										break loop15;
+									case "c":
+										this.aks.Game.onChallenge(var5.substr(2));
+										break loop15;
+									case "t":
+										this.aks.Game.onTeam(var5.substr(2));
+										break loop15;
+									default:
+										switch(null)
+										{
+											case "V":
+												this.aks.Game.onLeave(true,var5.substr(2));
+												break loop15;
+											case "f":
+												this.aks.Game.onFlag(var5.substr(2));
+												break loop15;
+											case "I":
+												if((var0 = var5.charAt(2)) !== "C")
+												{
 													switch(null)
 													{
-														case "r":
-															this.aks.Account.onRescue(!var4);
-															break loop8;
-														case "g":
-															this.aks.Account.onGiftsList(var5.substr(2));
-															break loop8;
-														case "G":
-															this.aks.Account.onGiftStored(!var4);
-															break loop8;
-														case "q":
-															this.aks.Account.onQueue(var5.substr(2));
-															break loop8;
-														case "f":
-															this.aks.Account.onNewQueue(var5.substr(2));
-															break loop8;
+														case "E":
+															this.aks.Game.onEffect(var5.substr(3));
+															break;
+														case "e":
+															this.aks.Game.onClearAllEffect(var5.substr(3));
+															break;
+														case "P":
+															this.aks.Game.onPVP(var5.substr(3),false);
+															break;
 														default:
-															switch(null)
-															{
-																case "V":
-																	this.aks.Account.onRegionalVersion(var5.substr(2));
-																	break loop8;
-																case "P":
-																	this.aks.Account.onCharacterNameGenerated(!var4,var5.substr(3));
-																	break loop8;
-																case "K":
-																	this.aks.Account.onKey(var5.substr(2));
-																	break loop8;
-																case "Q":
-																	this.aks.Account.onSecretQuestion(var5.substr(2));
-																	break loop8;
-																case "D":
-																	this.aks.Account.onCharacterDelete(!var4,var5.substr(3));
-																	break loop8;
-																default:
-																	switch(null)
-																	{
-																		case "M":
-																			if((var0 = var5.charAt(2)) !== "?")
-																			{
-																				this.aks.Account.onCharactersList(!var4,var5.substr(3),true);
-																			}
-																			else
-																			{
-																				this.aks.Account.onCharactersMigrationAskConfirm(var5.substr(3));
-																			}
-																			break;
-																		case "F":
-																			this.aks.Account.onFriendServerList(var5.substr(2));
-																			break;
-																		case "m":
-																			if(!_global.CONFIG.isStreaming)
-																			{
-																				this.aks.Account.onMiniClipInfo();
-																				break;
-																			}
-																			var var9 = _global.parseInt(var5.charAt(2),10);
-																			if(_global.isNaN(var9))
-																			{
-																				var9 = 3;
-																			}
-																			getURL("FSCommand:" add "GoToCongratulation",var9);
-																			break;
-																	}
-															}
+															this.defaultProcessAction(var2,var3,var4,var5);
 													}
-											}
-									}
-							}
-						}
-						else
-						{
-							var var6 = false;
-							var var7 = false;
-							switch(var5.charAt(2))
-							{
-								case "n":
-									var6 = true;
-									break;
-								case "c":
-									var7 = true;
-							}
-							var var8 = var5.charAt(3) != undefined && var5.charAt(3) == "f";
-							if(this.api.ui.getUIComponent("EditPlayer") == undefined)
-							{
-								this.api.ui.loadUIComponent("EditPlayer","EditPlayer",{editName:var6,editColors:var7,force:var8});
-							}
+												}
+												else
+												{
+													this.aks.Game.onPlayersCoordinates(var5.substr(4));
+												}
+												break loop15;
+											case "D":
+												loop19:
+												switch(var5.charAt(2))
+												{
+													case "M":
+														this.aks.Game.onMapData(var5.substr(4));
+														break;
+													case "K":
+														this.aks.Game.onMapLoaded();
+														break;
+													default:
+														switch(null)
+														{
+															case "C":
+																this.aks.Game.onCellData(var5.substr(3));
+																break loop19;
+															case "Z":
+																this.aks.Game.onZoneData(var5.substring(3));
+																break loop19;
+															case "O":
+																this.aks.Game.onCellObject(var5.substring(3));
+																break loop19;
+															case "F":
+																this.aks.Game.onFrameObject2(var5.substring(4));
+																break loop19;
+															case "E":
+																this.aks.Game.onFrameObjectExternal(var5.substring(4));
+																break loop19;
+															default:
+																this.defaultProcessAction(var2,var3,var4,var5);
+														}
+												}
+												break loop15;
+											case "d":
+												switch(var5.charAt(3))
+												{
+													case "K":
+														this.aks.Game.onFightChallengeUpdate(var5.substr(4),true);
+														break;
+													case "O":
+														this.aks.Game.onFightChallengeUpdate(var5.substr(4),false);
+														break;
+													default:
+														this.aks.Game.onFightChallenge(var5.substr(2));
+												}
+												break loop15;
+											default:
+												switch(null)
+												{
+													case "A":
+														switch(var5.charAt(2))
+														{
+															case "S":
+																this.aks.GameActions.onActionsStart(var5.substr(3));
+																break;
+															case "F":
+																this.aks.GameActions.onActionsFinish(var5.substr(3));
+																break;
+															default:
+																this.aks.GameActions.onActions(var5.substr(2));
+														}
+														break loop15;
+													case "T":
+														loop24:
+														switch(var5.charAt(2))
+														{
+															case "S":
+																this.aks.Game.onTurnStart(var5.substr(3));
+																break;
+															case "F":
+																this.aks.Game.onTurnFinish(var5.substr(3));
+																break;
+															default:
+																switch(null)
+																{
+																	case "L":
+																		this.aks.Game.onTurnlist(var5.substr(4));
+																		break loop24;
+																	case "M":
+																		this.aks.Game.onTurnMiddle(var5.substr(4));
+																		break loop24;
+																	case "R":
+																		this.aks.Game.onTurnReady(var5.substr(3));
+																		break loop24;
+																	default:
+																		this.defaultProcessAction(var2,var3,var4,var5);
+																}
+														}
+														break loop15;
+													case "X":
+														this.aks.Game.onExtraClip(var5.substr(2));
+														break loop15;
+													case "o":
+														this.aks.Game.onFightOption(var5.substr(2));
+														break loop15;
+													case "O":
+														this.aks.Game.onGameOver();
+														break loop15;
+													default:
+														this.defaultProcessAction(var2,var3,var4,var5);
+												}
+										}
+								}
 						}
 						break loop0;
 					default:
 						switch(null)
 						{
-							case "G":
-								if((var0 = var3) !== "C")
+							case "c":
+								if((var0 = var3) !== "M")
 								{
-									loop16:
 									switch(null)
 									{
-										case "J":
-											this.aks.Game.onJoin(var5.substr(3));
-											break;
-										case "P":
-											this.aks.Game.onPositionStart(var5.substr(2));
-											break;
-										case "R":
-											this.aks.Game.onReady(var5.substr(2));
+										case "s":
+											this.aks.Chat.onServerMessage(var5.substr(2));
 											break;
 										case "S":
-											this.aks.Game.onStartToPlay();
+											this.aks.Chat.onSmiley(var5.substr(2));
+											break;
+										case "C":
+											this.aks.Chat.onSubscribeChannel(var5.substr(2));
 											break;
 										default:
-											switch(null)
-											{
-												case "E":
-													this.aks.Game.onEnd(var5.substr(2));
-													break loop16;
-												case "M":
-													this.aks.Game.onMovement(var5.substr(3));
-													break loop16;
-												case "c":
-													this.aks.Game.onChallenge(var5.substr(2));
-													break loop16;
-												case "t":
-													this.aks.Game.onTeam(var5.substr(2));
-													break loop16;
-												default:
-													switch(null)
-													{
-														case "V":
-															this.aks.Game.onLeave(true,var5.substr(2));
-															break loop16;
-														case "f":
-															this.aks.Game.onFlag(var5.substr(2));
-															break loop16;
-														case "I":
-															switch(var5.charAt(2))
-															{
-																case "C":
-																	this.aks.Game.onPlayersCoordinates(var5.substr(4));
-																	break;
-																case "E":
-																	this.aks.Game.onEffect(var5.substr(3));
-																	break;
-																case "e":
-																	this.aks.Game.onClearAllEffect(var5.substr(3));
-																	break;
-																case "P":
-																	this.aks.Game.onPVP(var5.substr(3),false);
-																	break;
-																default:
-																	this.defaultProcessAction(var2,var3,var4,var5);
-															}
-															break loop16;
-														case "D":
-															if((var0 = var5.charAt(2)) !== "M")
-															{
-																loop20:
-																switch(null)
-																{
-																	case "K":
-																		this.aks.Game.onMapLoaded();
-																		break;
-																	case "C":
-																		this.aks.Game.onCellData(var5.substr(3));
-																		break;
-																	case "Z":
-																		this.aks.Game.onZoneData(var5.substring(3));
-																		break;
-																	case "O":
-																		this.aks.Game.onCellObject(var5.substring(3));
-																		break;
-																	default:
-																		switch(null)
-																		{
-																			case "F":
-																				this.aks.Game.onFrameObject2(var5.substring(4));
-																				break loop20;
-																			case "E":
-																				this.aks.Game.onFrameObjectExternal(var5.substring(4));
-																				break loop20;
-																			default:
-																				this.defaultProcessAction(var2,var3,var4,var5);
-																		}
-																}
-															}
-															else
-															{
-																this.aks.Game.onMapData(var5.substr(4));
-															}
-															break loop16;
-														default:
-															switch(null)
-															{
-																case "d":
-																	if((var0 = var5.charAt(3)) !== "K")
-																	{
-																		if(var0 !== "O")
-																		{
-																			this.aks.Game.onFightChallenge(var5.substr(2));
-																		}
-																		else
-																		{
-																			this.aks.Game.onFightChallengeUpdate(var5.substr(4),false);
-																		}
-																	}
-																	else
-																	{
-																		this.aks.Game.onFightChallengeUpdate(var5.substr(4),true);
-																	}
-																	break loop16;
-																case "A":
-																	switch(var5.charAt(2))
-																	{
-																		case "S":
-																			this.aks.GameActions.onActionsStart(var5.substr(3));
-																			break;
-																		case "F":
-																			this.aks.GameActions.onActionsFinish(var5.substr(3));
-																			break;
-																		default:
-																			this.aks.GameActions.onActions(var5.substr(2));
-																	}
-																	break loop16;
-																case "T":
-																	loop24:
-																	switch(var5.charAt(2))
-																	{
-																		case "S":
-																			this.aks.Game.onTurnStart(var5.substr(3));
-																			break;
-																		case "F":
-																			this.aks.Game.onTurnFinish(var5.substr(3));
-																			break;
-																		case "L":
-																			this.aks.Game.onTurnlist(var5.substr(4));
-																			break;
-																		default:
-																			switch(null)
-																			{
-																				case "M":
-																					this.aks.Game.onTurnMiddle(var5.substr(4));
-																					break loop24;
-																				case "R":
-																					this.aks.Game.onTurnReady(var5.substr(3));
-																					break loop24;
-																				default:
-																					this.defaultProcessAction(var2,var3,var4,var5);
-																			}
-																	}
-																	break loop16;
-																case "X":
-																	this.aks.Game.onExtraClip(var5.substr(2));
-																	break loop16;
-																case "o":
-																	this.aks.Game.onFightOption(var5.substr(2));
-																	break loop16;
-																default:
-																	if(var0 !== "O")
-																	{
-																		this.defaultProcessAction(var2,var3,var4,var5);
-																		break loop16;
-																	}
-																	this.aks.Game.onGameOver();
-																	break loop16;
-															}
-													}
-											}
+											this.defaultProcessAction(var2,var3,var4,var5);
 									}
 								}
 								else
 								{
-									this.aks.Game.onCreate(!var4,var5.substr(4));
-								}
-								break loop0;
-							case "c":
-								switch(var3)
-								{
-									case "M":
-										this.aks.Chat.onMessage(!var4,var5.substr(3));
-										break;
-									case "s":
-										this.aks.Chat.onServerMessage(var5.substr(2));
-										break;
-									case "S":
-										this.aks.Chat.onSmiley(var5.substr(2));
-										break;
-									case "C":
-										this.aks.Chat.onSubscribeChannel(var5.substr(2));
-										break;
-									default:
-										this.defaultProcessAction(var2,var3,var4,var5);
+									this.aks.Chat.onMessage(!var4,var5.substr(3));
 								}
 								break loop0;
 							case "D":
-								loop27:
+								loop28:
 								switch(var3)
 								{
 									case "A":
@@ -486,25 +492,25 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 									case "C":
 										this.aks.Dialog.onCreate(!var4,var5.substr(3));
 										break;
-									case "Q":
-										this.aks.Dialog.onQuestion(var5.substr(2));
-										break;
 									default:
 										switch(null)
 										{
+											case "Q":
+												this.aks.Dialog.onQuestion(var5.substr(2));
+												break loop28;
 											case "V":
 												this.aks.Dialog.onLeave();
-												break loop27;
+												break loop28;
 											case "P":
 												this.aks.Dialog.onPause();
-												break loop27;
+												break loop28;
 											default:
 												this.defaultProcessAction(var2,var3,var4,var5);
 										}
 								}
 								break loop0;
 							case "I":
-								loop29:
+								loop30:
 								switch(var3)
 								{
 									case "M":
@@ -519,15 +525,15 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 									case "m":
 										this.aks.Infos.onMessage(var5.substr(2));
 										break;
-									case "Q":
-										this.aks.Infos.onQuantity(var5.substr(2));
-										break;
 									default:
 										switch(null)
 										{
+											case "Q":
+												this.aks.Infos.onQuantity(var5.substr(2));
+												break loop30;
 											case "O":
 												this.aks.Infos.onObject(var5.substr(2));
-												break loop29;
+												break loop30;
 											case "L":
 												switch(var5.charAt(2))
 												{
@@ -540,14 +546,14 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 													default:
 														this.defaultProcessAction(var2,var3,var4,var5);
 												}
-												break loop29;
+												break loop30;
 											default:
 												this.defaultProcessAction(var2,var3,var4,var5);
 										}
 								}
 								break loop0;
 							case "S":
-								loop32:
+								loop33:
 								switch(var3)
 								{
 									case "L":
@@ -568,10 +574,10 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 										{
 											case "B":
 												this.aks.Spells.onSpellBoost(var5.substr(2));
-												break loop32;
+												break loop33;
 											case "F":
 												this.aks.Spells.onSpellForget(var5.substr(2));
-												break loop32;
+												break loop33;
 											default:
 												this.defaultProcessAction(var2,var3,var4,var5);
 										}
@@ -581,7 +587,7 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 								switch(null)
 								{
 									case "O":
-										loop35:
+										loop36:
 										switch(var3)
 										{
 											case "a":
@@ -590,42 +596,42 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 											case "D":
 												this.aks.Items.onDrop(!var4,var5.substr(3));
 												break;
-											case "A":
-												this.aks.Items.onAdd(!var4,var5.substr(3));
-												break;
-											case "C":
-												this.aks.Items.onChange(var5.substr(3));
-												break;
-											case "R":
-												this.aks.Items.onRemove(var5.substr(2));
-												break;
 											default:
 												switch(null)
 												{
+													case "A":
+														this.aks.Items.onAdd(!var4,var5.substr(3));
+														break loop36;
+													case "C":
+														this.aks.Items.onChange(var5.substr(3));
+														break loop36;
+													case "R":
+														this.aks.Items.onRemove(var5.substr(2));
+														break loop36;
 													case "Q":
 														this.aks.Items.onQuantity(var5.substr(2));
-														break loop35;
+														break loop36;
 													case "M":
 														this.aks.Items.onMovement(var5.substr(2));
-														break loop35;
-													case "T":
-														this.aks.Items.onTool(var5.substr(2));
-														break loop35;
-													case "w":
-														this.aks.Items.onWeight(var5.substr(2));
-														break loop35;
-													case "S":
-														this.aks.Items.onItemSet(var5.substr(2));
-														break loop35;
+														break loop36;
 													default:
 														switch(null)
 														{
+															case "T":
+																this.aks.Items.onTool(var5.substr(2));
+																break loop36;
+															case "w":
+																this.aks.Items.onWeight(var5.substr(2));
+																break loop36;
+															case "S":
+																this.aks.Items.onItemSet(var5.substr(2));
+																break loop36;
 															case "K":
 																this.aks.Items.onItemUseCondition(var5.substr(2));
-																break loop35;
+																break loop36;
 															case "F":
 																this.aks.Items.onItemFound(var5.substr(2));
-																break loop35;
+																break loop36;
 															default:
 																this.defaultProcessAction(var2,var3,var4,var5);
 														}
@@ -682,43 +688,41 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 											case "K":
 												this.aks.Key.onKey(!var4);
 												break;
-											case "V":
+											default:
+												if(var0 !== "V")
+												{
+													this.defaultProcessAction(var2,var3,var4,var5);
+													break;
+												}
 												this.aks.Key.onLeave();
 												break;
-											default:
-												this.defaultProcessAction(var2,var3,var4,var5);
-										}
-										break loop0;
-									case "J":
-										loop41:
-										switch(var3)
-										{
-											case "S":
-												this.aks.Job.onSkills(var5.substr(3));
-												break;
-											case "X":
-												this.aks.Job.onXP(var5.substr(3));
-												break;
-											default:
-												switch(null)
-												{
-													case "N":
-														this.aks.Job.onLevel(var5.substr(2));
-														break loop41;
-													case "R":
-														this.aks.Job.onRemove(var5.substr(2));
-														break loop41;
-													case "O":
-														this.aks.Job.onOptions(var5.substr(2));
-														break loop41;
-													default:
-														this.defaultProcessAction(var2,var3,var4,var5);
-												}
 										}
 										break loop0;
 									default:
 										switch(null)
 										{
+											case "J":
+												switch(var3)
+												{
+													case "S":
+														this.aks.Job.onSkills(var5.substr(3));
+														break;
+													case "X":
+														this.aks.Job.onXP(var5.substr(3));
+														break;
+													case "N":
+														this.aks.Job.onLevel(var5.substr(2));
+														break;
+													case "R":
+														this.aks.Job.onRemove(var5.substr(2));
+														break;
+													case "O":
+														this.aks.Job.onOptions(var5.substr(2));
+														break;
+													default:
+														this.defaultProcessAction(var2,var3,var4,var5);
+												}
+												break loop0;
 											case "E":
 												loop44:
 												switch(var3)
@@ -729,12 +733,12 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 													case "K":
 														this.aks.Exchange.onReady(var5.substr(2));
 														break;
-													case "V":
-														this.aks.Exchange.onLeave(!var4,var5.substr(2));
-														break;
 													default:
 														switch(null)
 														{
+															case "V":
+																this.aks.Exchange.onLeave(!var4,var5.substr(2));
+																break loop44;
 															case "C":
 																this.aks.Exchange.onCreate(!var4,var5.substr(3));
 																break loop44;
@@ -744,12 +748,12 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 															case "M":
 																this.aks.Exchange.onLocalMovement(!var4,var5.substr(3));
 																break loop44;
-															case "m":
-																this.aks.Exchange.onDistantMovement(!var4,var5.substr(3));
-																break loop44;
 															default:
 																switch(null)
 																{
+																	case "m":
+																		this.aks.Exchange.onDistantMovement(!var4,var5.substr(3));
+																		break loop44;
 																	case "r":
 																		this.aks.Exchange.onCoopMovement(!var4,var5.substr(3));
 																		break loop44;
@@ -759,15 +763,15 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 																	case "s":
 																		this.aks.Exchange.onStorageMovement(!var4,var5.substr(3));
 																		break loop44;
-																	case "i":
-																		this.aks.Exchange.onPlayerShopMovement(!var4,var5.substr(3));
-																		break loop44;
-																	case "W":
-																		this.aks.Exchange.onCraftPublicMode(var5.substr(2));
-																		break loop44;
 																	default:
 																		switch(null)
 																		{
+																			case "i":
+																				this.aks.Exchange.onPlayerShopMovement(!var4,var5.substr(3));
+																				break loop44;
+																			case "W":
+																				this.aks.Exchange.onCraftPublicMode(var5.substr(2));
+																				break loop44;
 																			case "e":
 																				this.aks.Exchange.onMountStorage(var5.substr(2));
 																				break loop44;
@@ -780,12 +784,12 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 																			case "L":
 																				this.aks.Exchange.onList(var5.substr(2));
 																				break loop44;
-																			case "S":
-																				this.aks.Exchange.onSell(!var4);
-																				break loop44;
 																			default:
 																				switch(null)
 																				{
+																					case "S":
+																						this.aks.Exchange.onSell(!var4);
+																						break loop44;
 																					case "B":
 																						this.aks.Exchange.onBuy(!var4);
 																						break loop44;
@@ -793,7 +797,6 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 																						this.aks.Exchange.onAskOfflineExchange(var5.substr(2));
 																						break loop44;
 																					case "H":
-																						loop49:
 																						switch(var5.charAt(2))
 																						{
 																							case "S":
@@ -808,29 +811,28 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 																							case "l":
 																								this.aks.Exchange.onBigStoreItemsList(var5.substr(3));
 																								break;
+																							case "m":
+																								this.aks.Exchange.onBigStoreItemsMovement(var5.substr(3));
+																								break;
 																							default:
-																								switch(null)
+																								if(var0 !== "P")
 																								{
-																									case "m":
-																										this.aks.Exchange.onBigStoreItemsMovement(var5.substr(3));
-																										break loop49;
-																									case "P":
-																										this.aks.Exchange.onItemMiddlePriceInBigStore(var5.substr(3));
-																										break loop49;
-																									default:
-																										this.defaultProcessAction(var2,var3,var4,var5);
+																									this.defaultProcessAction(var2,var3,var4,var5);
+																									break;
 																								}
+																								this.aks.Exchange.onItemMiddlePriceInBigStore(var5.substr(3));
+																								break;
 																						}
-																						break loop44;
-																					case "J":
-																						this.aks.Exchange.onCrafterListChanged(var5.substr(2));
-																						break loop44;
-																					case "j":
-																						this.aks.Exchange.onCrafterReference(var5.substr(2));
 																						break loop44;
 																					default:
 																						switch(null)
 																						{
+																							case "J":
+																								this.aks.Exchange.onCrafterListChanged(var5.substr(2));
+																								break loop44;
+																							case "j":
+																								this.aks.Exchange.onCrafterReference(var5.substr(2));
+																								break loop44;
 																							case "A":
 																								this.aks.Exchange.onCraftLoop(var5.substr(2));
 																								break loop44;
@@ -847,7 +849,7 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 												}
 												break loop0;
 											case "h":
-												loop52:
+												loop51:
 												switch(var3)
 												{
 													case "L":
@@ -862,21 +864,21 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 													case "C":
 														this.aks.Houses.onCreate(var5.substr(3));
 														break;
-													case "S":
-														this.aks.Houses.onSell(!var4,var5.substr(3));
-														break;
-													case "B":
-														this.aks.Houses.onBuy(!var4,var5.substr(3));
-														break;
 													default:
 														switch(null)
 														{
+															case "S":
+																this.aks.Houses.onSell(!var4,var5.substr(3));
+																break loop51;
+															case "B":
+																this.aks.Houses.onBuy(!var4,var5.substr(3));
+																break loop51;
 															case "V":
 																this.aks.Houses.onLeave();
-																break loop52;
+																break loop51;
 															case "G":
 																this.aks.Houses.onGuildInfos(var5.substr(2));
-																break loop52;
+																break loop51;
 															default:
 																this.defaultProcessAction(var2,var3,var4,var5);
 														}
@@ -895,46 +897,49 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 														this.defaultProcessAction(var2,var3,var4,var5);
 												}
 												break loop0;
-											case "e":
-												switch(var3)
-												{
-													case "U":
-														this.aks.Emotes.onUse(!var4,var5.substr(3));
-														break;
-													case "L":
-														this.aks.Emotes.onList(var5.substr(2));
-														break;
-													case "A":
-														this.aks.Emotes.onAdd(var5.substr(2));
-														break;
-													case "R":
-														this.aks.Emotes.onRemove(var5.substr(2));
-														break;
-													case "D":
-														this.aks.Emotes.onDirection(var5.substr(2));
-														break;
-													default:
-														this.defaultProcessAction(var2,var3,var4,var5);
-												}
-												break loop0;
-											case "d":
-												switch(var3)
-												{
-													case "C":
-														this.aks.Documents.onCreate(!var4,var5.substr(3));
-														break;
-													case "V":
-														this.aks.Documents.onLeave();
-														break;
-													default:
-														this.defaultProcessAction(var2,var3,var4,var5);
-												}
-												break loop0;
 											default:
 												switch(null)
 												{
+													case "e":
+														switch(var3)
+														{
+															case "U":
+																this.aks.Emotes.onUse(!var4,var5.substr(3));
+																break;
+															case "L":
+																this.aks.Emotes.onList(var5.substr(2));
+																break;
+															case "A":
+																this.aks.Emotes.onAdd(var5.substr(2));
+																break;
+															case "R":
+																this.aks.Emotes.onRemove(var5.substr(2));
+																break;
+															default:
+																if(var0 !== "D")
+																{
+																	this.defaultProcessAction(var2,var3,var4,var5);
+																	break;
+																}
+																this.aks.Emotes.onDirection(var5.substr(2));
+																break;
+														}
+														break loop0;
+													case "d":
+														switch(var3)
+														{
+															case "C":
+																this.aks.Documents.onCreate(!var4,var5.substr(3));
+																break;
+															case "V":
+																this.aks.Documents.onLeave();
+																break;
+															default:
+																this.defaultProcessAction(var2,var3,var4,var5);
+														}
+														break loop0;
 													case "g":
-														loop58:
+														loop57:
 														switch(var3)
 														{
 															case "n":
@@ -996,6 +1001,7 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 																}
 																break;
 															case "J":
+																loop60:
 																switch(var5.charAt(2))
 																{
 																	case "E":
@@ -1004,48 +1010,49 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 																	case "R":
 																		this.aks.Guild.onRequestLocal(var5.substr(3));
 																		break;
-																	case "r":
-																		this.aks.Guild.onRequestDistant(var5.substr(3));
-																		break;
-																	case "K":
-																		this.aks.Guild.onJoinOk(var5.substr(3));
-																		break;
 																	default:
-																		if(var0 !== "C")
+																		switch(null)
 																		{
-																			this.defaultProcessAction(var2,var3,var4,var5);
-																			break;
+																			case "r":
+																				this.aks.Guild.onRequestDistant(var5.substr(3));
+																				break loop60;
+																			case "K":
+																				this.aks.Guild.onJoinOk(var5.substr(3));
+																				break loop60;
+																			case "C":
+																				this.aks.Guild.onJoinDistantOk();
+																				break loop60;
+																			default:
+																				this.defaultProcessAction(var2,var3,var4,var5);
 																		}
-																		this.aks.Guild.onJoinDistantOk();
-																		break;
 																}
+																break;
+															case "V":
+																this.aks.Guild.onLeave();
 																break;
 															default:
 																switch(null)
 																{
-																	case "V":
-																		this.aks.Guild.onLeave();
-																		break loop58;
 																	case "K":
 																		this.aks.Guild.onBann(!var4,var5.substr(3));
-																		break loop58;
+																		break loop57;
 																	case "H":
 																		this.aks.Guild.onHireTaxCollector(!var4,var5.substr(3));
-																		break loop58;
+																		break loop57;
 																	case "A":
 																		this.aks.Guild.onTaxCollectorAttacked(var5.substr(2));
-																		break loop58;
+																		break loop57;
 																	case "T":
 																		this.aks.Guild.onTaxCollectorInfo(var5.substr(2));
-																		break loop58;
+																		break loop57;
 																	default:
 																		if(var0 !== "U")
 																		{
 																			this.defaultProcessAction(var2,var3,var4,var5);
-																			break loop58;
+																			break loop57;
 																		}
 																		this.aks.Guild.onUserInterfaceOpen(var5.substr(2));
-																		break loop58;
+																		break loop57;
 																}
 														}
 														break loop0;
@@ -1065,12 +1072,12 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 															case "c":
 																this.aks.Subway.onCreate(var5.substr(2));
 																break;
-															case "v":
-																this.aks.Subway.onLeave();
-																break;
 															default:
 																switch(null)
 																{
+																	case "v":
+																		this.aks.Subway.onLeave();
+																		break loop63;
 																	case "u":
 																		this.aks.Subway.onUseError();
 																		break loop63;
@@ -1101,91 +1108,97 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 																this.defaultProcessAction(var2,var3,var4,var5);
 														}
 														break loop0;
-													case "C":
-														if((var0 = var3) !== "I")
-														{
-															switch(null)
-															{
-																case "B":
-																	this.aks.Conquest.onConquestBonus(var5.substr(2));
-																	break;
-																case "A":
-																	this.aks.Conquest.onPrismAttacked(var5.substr(2));
-																	break;
-																case "S":
-																	this.aks.Conquest.onPrismSurvived(var5.substr(2));
-																	break;
-																case "D":
-																	this.aks.Conquest.onPrismDead(var5.substr(2));
-																	break;
-																case "P":
-																	this.aks.Conquest.onPrismFightAddPlayer(var5.substr(2));
-																	break;
-																case "p":
-																	this.aks.Conquest.onPrismFightAddEnemy(var5.substr(2));
-																	break;
-																case "W":
-																	this.aks.Conquest.onWorldData(var5.substr(2));
-																	break;
-																case "b":
-																	this.aks.Conquest.onConquestBalance(var5.substr(2));
-																	break;
-																default:
-																	this.defaultProcessAction(var2,var3,var4,var5);
-															}
-														}
-														else
-														{
-															switch(var5.charAt(2))
-															{
-																case "J":
-																	this.aks.Conquest.onPrismInfosJoined(var5.substr(3));
-																	break;
-																case "V":
-																	this.aks.Conquest.onPrismInfosClosing(var5.substr(3));
-																	break;
-																default:
-																	this.defaultProcessAction(var2,var3,var4,var5);
-															}
-														}
-														break loop0;
 													default:
 														switch(null)
 														{
-															case "Z":
-																if((var0 = var3) !== "S")
-																{
-																	if(var0 !== "C")
-																	{
-																		this.defaultProcessAction(var2,var3,var4,var5);
-																	}
-																	else
-																	{
-																		this.aks.Specialization.onChange(var5.substr(2));
-																	}
-																}
-																else
-																{
-																	this.aks.Specialization.onSet(var5.substr(2));
-																}
-																break loop0;
-															case "f":
+															case "C":
+																loop67:
 																switch(var3)
 																{
+																	case "I":
+																		switch(var5.charAt(2))
+																		{
+																			case "J":
+																				this.aks.Conquest.onPrismInfosJoined(var5.substr(3));
+																				break;
+																			case "V":
+																				this.aks.Conquest.onPrismInfosClosing(var5.substr(3));
+																				break;
+																			default:
+																				this.defaultProcessAction(var2,var3,var4,var5);
+																		}
+																		break;
+																	case "B":
+																		this.aks.Conquest.onConquestBonus(var5.substr(2));
+																		break;
+																	default:
+																		switch(null)
+																		{
+																			case "A":
+																				this.aks.Conquest.onPrismAttacked(var5.substr(2));
+																				break loop67;
+																			case "S":
+																				this.aks.Conquest.onPrismSurvived(var5.substr(2));
+																				break loop67;
+																			case "D":
+																				this.aks.Conquest.onPrismDead(var5.substr(2));
+																				break loop67;
+																			case "P":
+																				this.aks.Conquest.onPrismFightAddPlayer(var5.substr(2));
+																				break loop67;
+																			default:
+																				switch(null)
+																				{
+																					case "p":
+																						this.aks.Conquest.onPrismFightAddEnemy(var5.substr(2));
+																						break loop67;
+																					case "W":
+																						this.aks.Conquest.onWorldData(var5.substr(2));
+																						break loop67;
+																					case "b":
+																						this.aks.Conquest.onConquestBalance(var5.substr(2));
+																						break loop67;
+																					default:
+																						this.defaultProcessAction(var2,var3,var4,var5);
+																				}
+																		}
+																}
+																break loop0;
+															case "Z":
+																switch(var3)
+																{
+																	case "S":
+																		this.aks.Specialization.onSet(var5.substr(2));
+																		break;
 																	case "C":
-																		this.aks.Fights.onCount(var5.substr(2));
-																		break;
-																	case "L":
-																		this.aks.Fights.onList(var5.substr(2));
-																		break;
-																	case "D":
-																		this.aks.Fights.onDetails(var5.substr(2));
+																		this.aks.Specialization.onChange(var5.substr(2));
 																		break;
 																	default:
 																		this.defaultProcessAction(var2,var3,var4,var5);
 																}
 																break loop0;
+															case "f":
+																if((var0 = var3) !== "C")
+																{
+																	switch(null)
+																	{
+																		case "L":
+																			this.aks.Fights.onList(var5.substr(2));
+																			break;
+																		case "D":
+																			this.aks.Fights.onDetails(var5.substr(2));
+																			break;
+																		default:
+																			this.defaultProcessAction(var2,var3,var4,var5);
+																	}
+																}
+																else
+																{
+																	this.aks.Fights.onCount(var5.substr(2));
+																}
+																break loop0;
 															case "T":
+																loop73:
 																switch(var3)
 																{
 																	case "C":
@@ -1195,13 +1208,17 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 																		this.aks.Tutorial.onShowTip(var5.substr(2));
 																		break;
 																	default:
-																		if(var0 !== "B")
+																		switch(null)
 																		{
-																			this.defaultProcessAction(var2,var3,var4,var5);
-																			break;
+																			case "B":
+																				this.aks.Tutorial.onGameBegin();
+																				break loop73;
+																			case "q":
+																				this.api.kernel.TutorialManager.forceTerminate();
+																				break loop73;
+																			default:
+																				this.defaultProcessAction(var2,var3,var4,var5);
 																		}
-																		this.aks.Tutorial.onGameBegin();
-																		break;
 																}
 																break loop0;
 															case "Q":
@@ -1217,84 +1234,86 @@ class dofus.aks.DataProcessor extends dofus.aks.Handler
 																		this.defaultProcessAction(var2,var3,var4,var5);
 																}
 																break loop0;
-															case "P":
-																loop72:
-																switch(var3)
-																{
-																	case "I":
-																		this.aks.Party.onInvite(!var4,var5.substr(3));
-																		break;
-																	case "L":
-																		this.aks.Party.onLeader(var5.substr(2));
-																		break;
-																	case "R":
-																		this.aks.Party.onRefuse(var5.substr(2));
-																		break;
-																	case "A":
-																		this.aks.Party.onAccept(var5.substr(2));
-																		break;
-																	case "C":
-																		this.aks.Party.onCreate(!var4,var5.substr(3));
-																		break;
-																	default:
-																		switch(null)
-																		{
-																			case "V":
-																				this.aks.Party.onLeave(var5.substr(2));
-																				break loop72;
-																			case "F":
-																				this.aks.Party.onFollow(!var4,var5.substr(3));
-																				break loop72;
-																			case "M":
-																				this.aks.Party.onMovement(var5.substr(2));
-																				break loop72;
-																			default:
-																				this.defaultProcessAction(var2,var3,var4,var5);
-																		}
-																}
-																break loop0;
 															default:
-																if(var0 !== "R")
+																loop76:
+																switch(null)
 																{
-																	break loop0;
-																}
-																if((var0 = var3) !== "e")
-																{
-																	switch(null)
-																	{
-																		case "x":
-																			this.aks.Mount.onXP(var5.substr(2));
-																			break loop0;
-																		case "n":
-																			this.aks.Mount.onName(var5.substr(2));
-																			break loop0;
-																		case "d":
-																			this.aks.Mount.onData(var5.substr(2));
-																			break loop0;
-																		case "p":
-																			this.aks.Mount.onMountPark(var5.substr(2));
-																			break loop0;
-																		default:
+																	case "P":
+																		if((var0 = var3) !== "I")
+																		{
 																			switch(null)
 																			{
-																				case "D":
-																					this.aks.Mount.onMountParkBuy(var5.substr(2));
-																					break loop0;
-																				case "v":
-																					this.aks.Mount.onLeave(var5.substr(2));
-																					break loop0;
-																				case "r":
-																					this.aks.Mount.onRidingState(var5.substr(2));
-																					break loop0;
+																				case "L":
+																					this.aks.Party.onLeader(var5.substr(2));
+																					break;
+																				case "R":
+																					this.aks.Party.onRefuse(var5.substr(2));
+																					break;
+																				case "A":
+																					this.aks.Party.onAccept(var5.substr(2));
+																					break;
+																				case "C":
+																					this.aks.Party.onCreate(!var4,var5.substr(3));
+																					break;
+																				case "V":
+																					this.aks.Party.onLeave(var5.substr(2));
+																					break;
+																				case "F":
+																					this.aks.Party.onFollow(!var4,var5.substr(3));
+																					break;
 																				default:
-																					this.defaultProcessAction(var2,var3,var4,var5);
+																					if(var0 !== "M")
+																					{
+																						this.defaultProcessAction(var2,var3,var4,var5);
+																						break;
+																					}
+																					this.aks.Party.onMovement(var5.substr(2));
+																					break;
 																			}
-																	}
-																}
-																else
-																{
-																	this.aks.Mount.onEquip(var5.substr(2));
-																	break loop0;
+																		}
+																		else
+																		{
+																			this.aks.Party.onInvite(!var4,var5.substr(3));
+																		}
+																		break;
+																	case "R":
+																		switch(var3)
+																		{
+																			case "e":
+																				this.aks.Mount.onEquip(var5.substr(2));
+																				break loop76;
+																			case "x":
+																				this.aks.Mount.onXP(var5.substr(2));
+																				break loop76;
+																			default:
+																				switch(null)
+																				{
+																					case "n":
+																						this.aks.Mount.onName(var5.substr(2));
+																						break loop76;
+																					case "d":
+																						this.aks.Mount.onData(var5.substr(2));
+																						break loop76;
+																					case "p":
+																						this.aks.Mount.onMountPark(var5.substr(2));
+																						break loop76;
+																					case "D":
+																						this.aks.Mount.onMountParkBuy(var5.substr(2));
+																						break loop76;
+																					default:
+																						switch(null)
+																						{
+																							case "v":
+																								this.aks.Mount.onLeave(var5.substr(2));
+																								break loop76;
+																							case "r":
+																								this.aks.Mount.onRidingState(var5.substr(2));
+																								break loop76;
+																							default:
+																								this.defaultProcessAction(var2,var3,var4,var5);
+																						}
+																				}
+																		}
 																}
 														}
 												}

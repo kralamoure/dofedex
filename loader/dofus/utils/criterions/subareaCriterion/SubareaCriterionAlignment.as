@@ -13,15 +13,15 @@ class dofus.utils.criterions.subareaCriterion.SubareaCriterionAlignment extends 
 	function isFilled()
 	{
 		var var2 = this._aSubarea.alignment;
-		if((var var0 = this._sOperator) !== "=")
+		switch(this._sOperator)
 		{
-			if(var0 !== "!")
-			{
+			case "=":
+				return this._aSubarea.alignment.index == this._nAlignmentIndex;
+			case "!":
+				return this._aSubarea.alignment.index != this._nAlignmentIndex;
+			default:
 				return false;
-			}
-			return this._aSubarea.alignment.index != this._nAlignmentIndex;
 		}
-		return this._aSubarea.alignment.index == this._nAlignmentIndex;
 	}
 	function check()
 	{

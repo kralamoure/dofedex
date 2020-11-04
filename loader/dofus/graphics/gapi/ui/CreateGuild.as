@@ -23,14 +23,14 @@ class dofus.graphics.gapi.ui.CreateGuild extends dofus.graphics.gapi.core.DofusA
 	}
 	function createChildren()
 	{
-		this._eaBacks = new ank.utils.();
+		this._eaBacks = new ank.utils.();
 		var var2 = 1;
 		while(var2 <= dofus.Constants.EMBLEM_BACKS_COUNT)
 		{
 			this._eaBacks.push({iconFile:dofus.Constants.EMBLEMS_BACK_PATH + var2 + ".swf"});
 			var2 = var2 + 1;
 		}
-		this._eaUps = new ank.utils.();
+		this._eaUps = new ank.utils.();
 		var var3 = 1;
 		while(var3 <= dofus.Constants.EMBLEM_UPS_COUNT)
 		{
@@ -66,6 +66,7 @@ class dofus.graphics.gapi.ui.CreateGuild extends dofus.graphics.gapi.core.DofusA
 		this._btnTabUp.addEventListener("click",this);
 		this._cpColors.addEventListener("change",this);
 		this._cgGrid.addEventListener("selectItem",this);
+		this._cgGrid.multipleContainerSelectionEnabled = false;
 	}
 	function setTextFocus()
 	{
@@ -121,34 +122,34 @@ class dofus.graphics.gapi.ui.CreateGuild extends dofus.graphics.gapi.core.DofusA
 			case "_btnCancel":
 				this.api.network.Guild.leave();
 				break;
+			case "_btnCreate":
+				var var3 = this._itName.text;
+				if(var3 == undefined || var3.length < 3)
+				{
+					this.api.kernel.showMessage(undefined,this.api.lang.getText("BAD_GUILD_NAME"),"ERROR_BOX");
+					return undefined;
+				}
+				if(this._nBackID == undefined || this._nUpID == undefined)
+				{
+					return undefined;
+				}
+				if(this.api.lang.getConfigText("GUILD_NAME_FILTER"))
+				{
+					var var4 = new dofus.utils.nameChecker.(var3);
+					var var5 = new dofus.utils.nameChecker.rules.();
+					var var6 = var4.isValidAgainstWithDetails(var5);
+					if(!var6.IS_SUCCESS)
+					{
+						this.api.kernel.showMessage(undefined,this.api.lang.getText("INVALID_GUILD_NAME") + GuildRights + var6.toString(GuildRights),"ERROR_BOX");
+						return undefined;
+					}
+				}
+				this.enabled = false;
+				this.api.network.Guild.create(this._nBackID,this._nBackColor,this._nUpID,this._nUpColor,var3);
+				break;
 			default:
 				switch(null)
 				{
-					case "_btnCreate":
-						var var3 = this._itName.text;
-						if(var3 == undefined || var3.length < 3)
-						{
-							this.api.kernel.showMessage(undefined,this.api.lang.getText("BAD_GUILD_NAME"),"ERROR_BOX");
-							return undefined;
-						}
-						if(this._nBackID == undefined || this._nUpID == undefined)
-						{
-							return undefined;
-						}
-						if(this.api.lang.getConfigText("GUILD_NAME_FILTER"))
-						{
-							var var4 = new dofus.utils.nameChecker.	(var3);
-							var var5 = new dofus.utils.nameChecker.rules.	();
-							var var6 = var4.isValidAgainstWithDetails(var5);
-							if(!var6.IS_SUCCESS)
-							{
-								this.api.kernel.showMessage(undefined,this.api.lang.getText("INVALID_GUILD_NAME") + "\r\n" + var6.toString("\r\n"),"ERROR_BOX");
-								return undefined;
-							}
-						}
-						this.enabled = false;
-						this.api.network.Guild.create(this._nBackID,this._nBackColor,this._nUpID,this._nUpColor,var3);
-						break;
 					case "_btnTabBack":
 						this.setCurrentTab("Back");
 						break;

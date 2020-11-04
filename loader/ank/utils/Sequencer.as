@@ -24,17 +24,45 @@ class ank.utils.Sequencer extends Object
 	{
 		this._nTimeModerator = var2;
 	}
-	function addAction(var2, var3, var4, var5, var6, var7)
+	function addAction(var2, var3, var4, var5, var6, var7, var8)
 	{
-		var var8 = new Object();
-		var8.id = this.getActionIndex();
-		var8.waitEnd = var2;
-		var8.object = var3;
-		var8.fn = var4;
-		var8.parameters = var5;
-		var8.duration = var6;
-		var8.forceTimeout = var2 && (var7 != undefined && var7);
-		this._aActions.push(var8);
+		var var9 = new Object();
+		var9.debugId = var2;
+		var9.id = this.getActionIndex();
+		var9.waitEnd = var3;
+		var9.object = var4;
+		var9.fn = var5;
+		var9.parameters = var6;
+		var9.duration = var7;
+		var9.forceTimeout = var3 && (var8 != undefined && var8);
+		this._aActions.push(var9);
+	}
+	function printActions()
+	{
+		var var2 = _global.API;
+		var var3 = "Actions : (" + this._aActions.length + ")";
+		var var4 = 0;
+		while(var4 < this._aActions.length)
+		{
+			var var5 = this._aActions[var4];
+			var3 = var3 + ("\ni : " + var4 + "\n" + "DebugID : " + var5.debugId + "\n" + "Wait End : " + var5.waitEnd + "\n" + "Force Timeout : " + var5.forceTimeout + "\n" + "Parameters : " + var5.parameters.toString());
+			var4 = var4 + 1;
+		}
+		var2.kernel.showMessage(undefined,var3,"DEBUG_LOG");
+	}
+	function containsAction(var2, var3)
+	{
+		var var4 = 0;
+		while(var4 < this._aActions.length)
+		{
+			var var5 = this._aActions[var4];
+			if(var5.object == var2 && var5.fn == var3)
+			{
+				return true;
+			}
+			var4 = var4 + 1;
+		}
+		return false;
 	}
 	function execute(var2)
 	{

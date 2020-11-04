@@ -3,7 +3,7 @@ class ank.battlefield.utils.SpriteDepthFinder
 	function SpriteDepthFinder()
 	{
 	}
-	static function getFreeDepthOnCell(mapHandler, §\x1e\x19\x07§, §\b\x18§, bGhostView)
+	static function getFreeDepthOnCell(mapHandler, §\x1e\x17\x15§, §\x07\x14§, bGhostView)
 	{
 		if(var4 < 0)
 		{

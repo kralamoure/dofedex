@@ -275,11 +275,9 @@ class dofus.graphics.gapi.controls.ClassSelector extends dofus.graphics.gapi.cor
 		}
 		this._bMoving = true;
 		var var3 = Math.PI / 180 * 360 / this._aClipList.length;
-		var t = 0;
 		var b = this._nCurrentPosition;
 		var c = this._nCurrentPosition + var3 * var2 - this._nCurrentPosition;
 		var d = Math.abs(var2) * this._nAnimationSpeed;
-		var r = this;
 		this.onEnterFrame = function()
 		{
 			r.setPosition(r.ease(t++,b,c,d));
@@ -319,7 +317,6 @@ class dofus.graphics.gapi.controls.ClassSelector extends dofus.graphics.gapi.cor
 	{
 		this._nLoaded++;
 		delete this._aLoaders[Number(var2._name.substr(4))];
-		var ref = this;
 		var2.registerColor = function(var2, var3)
 		{
 			ref.registerColor(var2,var3);

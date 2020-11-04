@@ -65,7 +65,7 @@ class ank.utils.SharedObjectFix extends Object
 	{
 		if(!ank.utils.SharedObjectFix._oLocalCache[var2])
 		{
-			ank.utils.SharedObjectFix._oLocalCache[var2] = new ank.utils.({name:var2,localPath:var3,secure:var4});
+			ank.utils.SharedObjectFix._oLocalCache[var2] = new ank.utils.({name:var2,localPath:var3,secure:var4});
 		}
 		return ank.utils.SharedObjectFix._oLocalCache[var2];
 	}
@@ -73,7 +73,7 @@ class ank.utils.SharedObjectFix extends Object
 	{
 		if(!ank.utils.SharedObjectFix._oRemoteCache[var2])
 		{
-			ank.utils.SharedObjectFix._oRemoteCache[var2] = new ank.utils.({name:var2,remotePath:var3,persistence:var4,secure:var5});
+			ank.utils.SharedObjectFix._oRemoteCache[var2] = new ank.utils.({name:var2,remotePath:var3,persistence:var4,secure:var5});
 		}
 		return ank.utils.SharedObjectFix._oRemoteCache[var2];
 	}

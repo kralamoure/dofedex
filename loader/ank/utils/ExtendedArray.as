@@ -21,6 +21,28 @@ class ank.utils.ExtendedArray extends Array
 	{
 		mx.events.EventDispatcher.initialize(this);
 	}
+	function isInNoEventDispatchsPeriod()
+	{
+		return this._bNoEventDispatchs;
+	}
+	function startNoEventDispatchsPeriod(var2)
+	{
+		this._bNoEventDispatchs = true;
+		if(this._nNoEventPeriodTimeout != undefined)
+		{
+			_global.clearTimeout(this._nNoEventPeriodTimeout);
+		}
+		var var3 = _global.setTimeout(this,"endNoEventDispatchsPeriod",var2);
+		this._nNoEventPeriodTimeout = var3;
+	}
+	function endNoEventDispatchsPeriod()
+	{
+		this._bNoEventDispatchs = undefined;
+		this._nNoEventPeriodTimeout = undefined;
+		this.doDispatchEvent({type:"modelChanged",eventName:"updateAll"});
+		var var2 = _global.API;
+		var2.ui.getUIComponent("TaxCollectorStorage").refreshGetItemButton();
+	}
 	function createFromArray(var2)
 	{
 		this.splice(0,this.length);
@@ -34,36 +56,36 @@ class ank.utils.ExtendedArray extends Array
 	function removeAll(var2)
 	{
 		this.splice(0,this.length);
-		this.dispatchEvent({type:"modelChanged",eventName:"updateAll"});
+		this.doDispatchEvent({type:"modelChanged",eventName:"updateAll"});
 	}
 	function push(var2)
 	{
 		var var4 = super.push(var3);
-		this.dispatchEvent({type:"modelChanged",eventName:"addItem"});
+		this.doDispatchEvent({type:"modelChanged",eventName:"addItem"});
 		return var4;
 	}
 	function pop()
 	{
 		var var3 = super.pop();
-		this.dispatchEvent({type:"modelChanged",eventName:"updateAll"});
+		this.doDispatchEvent({type:"modelChanged",eventName:"updateAll"});
 		return var3;
 	}
 	function shift()
 	{
 		var var3 = super.shift();
-		this.dispatchEvent({type:"modelChanged",eventName:"updateAll"});
+		this.doDispatchEvent({type:"modelChanged",eventName:"updateAll"});
 		return var3;
 	}
 	function unshift(var2)
 	{
 		var var4 = super.unshift(var3);
-		this.dispatchEvent({type:"modelChanged",eventName:"updateAll"});
+		this.doDispatchEvent({type:"modelChanged",eventName:"updateAll"});
 		return var4;
 	}
 	function reverse()
 	{
 		super.reverse();
-		this.dispatchEvent({type:"modelChanged",eventName:"updateAll"});
+		this.doDispatchEvent({type:"modelChanged",eventName:"updateAll"});
 	}
 	function replaceAll(var2, var3)
 	{
@@ -73,17 +95,17 @@ class ank.utils.ExtendedArray extends Array
 			var4.push(var3[k]);
 		}
 		this.splice.apply(this,var4);
-		this.dispatchEvent({type:"modelChanged",eventName:"updateAll"});
+		this.doDispatchEvent({type:"modelChanged",eventName:"updateAll"});
 	}
 	function removeItems(var2, var3)
 	{
 		this.splice(var2,var3);
-		this.dispatchEvent({type:"modelChanged",eventName:"updateAll"});
+		this.doDispatchEvent({type:"modelChanged",eventName:"updateAll"});
 	}
 	function updateItem(var2, var3)
 	{
 		this.splice(var2,1,var3);
-		this.dispatchEvent({type:"modelChanged",eventName:"updateOne",updateIndex:var2});
+		this.doDispatchEvent({type:"modelChanged",eventName:"updateOne",updateIndex:var2});
 	}
 	function findFirstItem(var2, var3)
 	{
@@ -101,7 +123,7 @@ class ank.utils.ExtendedArray extends Array
 	}
 	function clone()
 	{
-		var var2 = new ank.utils.();
+		var var2 = new ank.utils.();
 		var var3 = 0;
 		while(var3 < this.length)
 		{
@@ -123,6 +145,14 @@ class ank.utils.ExtendedArray extends Array
 			var3 = var3 + 1;
 		}
 		return var2;
+	}
+	function doDispatchEvent(var2)
+	{
+		if(this.isInNoEventDispatchsPeriod())
+		{
+			return undefined;
+		}
+		this.dispatchEvent(var2);
 	}
 	function bubbleSortOn(var2, var3)
 	{
@@ -155,7 +185,7 @@ class ank.utils.ExtendedArray extends Array
 	function concat(var2)
 	{
 		var var4 = super.concat(var3);
-		var var5 = new ank.utils.();
+		var var5 = new ank.utils.();
 		var5.createFromArray(var4);
 		return var5;
 	}

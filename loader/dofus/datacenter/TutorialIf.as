@@ -1,6 +1,6 @@
 class dofus.datacenter.TutorialIf extends dofus.datacenter.TutorialBloc
 {
-	function TutorialIf(sID, mLeft, §\x1e\x11\b§, mRight, mNextBlocTrueID, mNextBlocFalseID)
+	function TutorialIf(sID, mLeft, §\x1e\x0f\x0e§, mRight, mNextBlocTrueID, mNextBlocFalseID)
 	{
 		super(sID,dofus.datacenter.TutorialBloc.TYPE_IF);
 		this._mLeft = mLeft;

@@ -87,8 +87,8 @@ class dofus.graphics.gapi.ui.ServerList extends dofus.graphics.gapi.core.DofusAd
 			this._btnDisplayAllCommunities.selected = true;
 			this._alreadySetShowAll = true;
 		}
-		var var2 = new ank.utils.();
-		var var3 = new ank.utils.();
+		var var2 = new ank.utils.();
+		var var3 = new ank.utils.();
 		var var4 = new Object();
 		var var5 = 0;
 		while(var5 < this._eaServers.length)
@@ -112,7 +112,7 @@ class dofus.graphics.gapi.ui.ServerList extends dofus.graphics.gapi.core.DofusAd
 				{
 					if(var4[var9] == undefined)
 					{
-						var4[var9] = new ank.utils.();
+						var4[var9] = new ank.utils.();
 					}
 					var4[var9].push(var8);
 				}
@@ -171,7 +171,7 @@ class dofus.graphics.gapi.ui.ServerList extends dofus.graphics.gapi.core.DofusAd
 	}
 	function setSearchResult(var2)
 	{
-		this._eaServers = new ank.utils.();
+		this._eaServers = new ank.utils.();
 		var var3 = 0;
 		while(var3 < this._eaServersSave.length)
 		{

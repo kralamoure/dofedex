@@ -1,6 +1,6 @@
 class dofus.aks.Party extends dofus.aks.Handler
 {
-	function Party(var3, var4)
+	function Party(var2, var3)
 	{
 		super.initialize(var3,var4);
 	}
@@ -118,16 +118,13 @@ class dofus.aks.Party extends dofus.aks.Handler
 		else
 		{
 			var var5 = var3.charAt(0);
-			if((var var0 = var5) !== "a")
+			switch(var5)
 			{
-				if(var0 === "f")
-				{
+				case "a":
+					this.api.kernel.showMessage(undefined,this.api.lang.getText("PARTY_ALREADY_IN_GROUP"),"ERROR_CHAT",{name:"PartyError"});
+					break;
+				case "f":
 					this.api.kernel.showMessage(undefined,this.api.lang.getText("PARTY_FULL"),"ERROR_CHAT",{name:"PartyError"});
-				}
-			}
-			else
-			{
-				this.api.kernel.showMessage(undefined,this.api.lang.getText("PARTY_ALREADY_IN_GROUP"),"ERROR_CHAT",{name:"PartyError"});
 			}
 		}
 	}

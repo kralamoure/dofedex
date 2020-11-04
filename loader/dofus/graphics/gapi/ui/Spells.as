@@ -7,6 +7,10 @@ class dofus.graphics.gapi.ui.Spells extends dofus.graphics.gapi.core.DofusAdvanc
 	{
 		super();
 	}
+	function __get__spellFullInfosViewer()
+	{
+		return this._sfivSpellFullInfosViewer;
+	}
 	function init()
 	{
 		super.init(false,dofus.graphics.gapi.ui.Spells.CLASS_NAME);
@@ -51,7 +55,7 @@ class dofus.graphics.gapi.ui.Spells extends dofus.graphics.gapi.core.DofusAdvanc
 		this._dgSpells.columnsNames = [this.api.lang.getText("NAME_BIG"),this.api.lang.getText("LEVEL")];
 		this._lblBonusTitle.text = this.api.lang.getText("SPELL_BOOST_POINT");
 		this._lblSpellType.text = this.api.lang.getText("SPELL_TYPE");
-		var var2 = new ank.utils.();
+		var var2 = new ank.utils.();
 		var2.push({label:this.api.lang.getText("WITHOUT_TYPE_FILTER"),type:-2});
 		var2.push({label:this.api.lang.getText("SPELL_TAB_GUILD"),type:0});
 		var2.push({label:this.api.lang.getText("SPELL_TAB_WATER"),type:1});
@@ -64,9 +68,10 @@ class dofus.graphics.gapi.ui.Spells extends dofus.graphics.gapi.core.DofusAdvanc
 	function updateSpells()
 	{
 		var var2 = this.api.datacenter.Player.Spells;
-		var var3 = new ank.utils.();
-		for(var var4 in var2)
+		var var3 = new ank.utils.();
+		for(var k in var2)
 		{
+			var var4 = var2[k];
 			if(var4.classID != -1 && (var4.classID == this._nSelectedSpellType || this._nSelectedSpellType == -2))
 			{
 				var3.push(var4);
@@ -86,7 +91,7 @@ class dofus.graphics.gapi.ui.Spells extends dofus.graphics.gapi.core.DofusAdvanc
 					var8 = var3[var9].ID == var7;
 					var9 = var9 + 1;
 				}
-				var var10 = new dofus.datacenter.(var7,1);
+				var var10 = new dofus.datacenter.(var7,1);
 				if(!var8 && (var10.classID == this._nSelectedSpellType || this._nSelectedSpellType == -2))
 				{
 					var3.push(var10);
@@ -124,7 +129,7 @@ class dofus.graphics.gapi.ui.Spells extends dofus.graphics.gapi.core.DofusAdvanc
 		this.api.sounds.events.onSpellsBoostButtonClick();
 		if(this.canBoost(var2) != undefined)
 		{
-			var var3 = new dofus.datacenter.(var2.ID,var2.level + 1);
+			var var3 = new dofus.datacenter.(var2.ID,var2.level + 1);
 			if(this.api.datacenter.Player.Level < var3.minPlayerLevel)
 			{
 				this.api.kernel.showMessage(undefined,this.api.lang.getText("LEVEL_NEED_TO_BOOST",[var3.minPlayerLevel]),"ERROR_BOX");
@@ -174,7 +179,7 @@ class dofus.graphics.gapi.ui.Spells extends dofus.graphics.gapi.core.DofusAdvanc
 			return undefined;
 		}
 		this.gapi.removeCursor();
-		this.gapi.setCursor(var2.row.item);
+		this.gapi.setCursor(var2.row.item,undefined,true);
 	}
 	function itemRollOver(var2)
 	{

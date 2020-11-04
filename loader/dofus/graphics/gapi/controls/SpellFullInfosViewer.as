@@ -18,7 +18,7 @@ class dofus.graphics.gapi.controls.SpellFullInfosViewer extends dofus.graphics.g
 		}
 		if(!var2.isValid)
 		{
-			this._oSpell = new dofus.datacenter.(var2.ID,1);
+			this._oSpell = new dofus.datacenter.(var2.ID,1);
 		}
 		else
 		{
@@ -50,6 +50,7 @@ class dofus.graphics.gapi.controls.SpellFullInfosViewer extends dofus.graphics.g
 	}
 	function addListeners()
 	{
+		this._ldrIcon.addEventListener("complete",this);
 		this._btnTabNormal.addEventListener("click",this);
 		this._btnTabCritical.addEventListener("click",this);
 		this._btnTabCreature.addEventListener("click",this);
@@ -93,6 +94,11 @@ class dofus.graphics.gapi.controls.SpellFullInfosViewer extends dofus.graphics.g
 		if(this._oSpell != undefined && this._txtDescription.text != undefined)
 		{
 			this._ldrIcon.contentPath = this._oSpell.iconFile;
+			if(dofus.Constants.DOUBLEFRAMERATE && this._ldrIcon.loaded)
+			{
+				var var2 = this.api.kernel.OptionsManager.getOption("RemasteredSpellIconsPack");
+				this._ldrIcon.content.gotoAndStop(var2);
+			}
 			this._lblName.text = this._oSpell.name;
 			this._lblLevel.text = this.api.lang.getText("ACTUAL_SPELL_LEVEL") + ":";
 			this._lblReqLevel.text = this._oSpell.minPlayerLevel == undefined?"":this.api.lang.getText("REQUIRED_SPELL_LEVEL") + ": " + this._oSpell.minPlayerLevel;
@@ -132,8 +138,8 @@ class dofus.graphics.gapi.controls.SpellFullInfosViewer extends dofus.graphics.g
 			{
 				this.updateCurrentTabInformations();
 			}
-			var var2 = this.api.kernel.GameManager.getCriticalHitChance(this._oSpell.criticalHit);
-			this._lblRealCritValue.text = var2 != 0?"1/" + var2:"-";
+			var var3 = this.api.kernel.GameManager.getCriticalHitChance(this._oSpell.criticalHit);
+			this._lblRealCritValue.text = var3 != 0?"1/" + var3:"-";
 			this._lblCriticalHitValue.text = this._oSpell.criticalHit != 0?"1/" + this._oSpell.criticalHit:"-";
 			this._lblCriticalMissValue.text = this._oSpell.criticalFailure != 0?"1/" + this._oSpell.criticalFailure:"-";
 			this._lblCountByTurnValue.text = this._oSpell.launchCountByTurn != 0?String(this._oSpell.launchCountByTurn):"-";
@@ -151,35 +157,35 @@ class dofus.graphics.gapi.controls.SpellFullInfosViewer extends dofus.graphics.g
 			this._mcCheckFailureEndsTheTurn._visible = this._oSpell.criticalFailureEndsTheTurn;
 			if(this._oSpell.level != undefined)
 			{
-				var var3 = 1;
-				while(var3 <= 6)
+				var var4 = 1;
+				while(var4 <= 6)
 				{
-					var var4 = this["_btnLevel" + var3];
-					var var5 = var3 == this._oSpell.level;
-					var4.selected = var5;
-					var4.enabled = !var5;
-					if(var3 <= this._oSpell.maxLevel)
+					var var5 = this["_btnLevel" + var4];
+					var var6 = var4 == this._oSpell.level;
+					var5.selected = var6;
+					var5.enabled = !var6;
+					if(var4 <= this._oSpell.maxLevel)
 					{
-						var4._alpha = 100;
+						var5._alpha = 100;
 					}
 					else
 					{
-						var4.enabled = false;
-						var4._alpha = 20;
+						var5.enabled = false;
+						var5._alpha = 20;
 					}
-					var3 = var3 + 1;
+					var4 = var4 + 1;
 				}
 			}
 			else
 			{
-				var var6 = 1;
-				while(var6 <= 6)
+				var var7 = 1;
+				while(var7 <= 6)
 				{
-					var var7 = this["_btnLevel" + var6];
-					var7.selected = false;
-					var7.enabled = false;
-					var7._alpha = 20;
-					var6 = var6 + 1;
+					var var8 = this["_btnLevel" + var7];
+					var8.selected = false;
+					var8.enabled = false;
+					var8._alpha = 20;
+					var7 = var7 + 1;
 				}
 			}
 		}
@@ -223,7 +229,7 @@ class dofus.graphics.gapi.controls.SpellFullInfosViewer extends dofus.graphics.g
 					var3.type = var0 = 180;
 					if(var0)
 					{
-						var var5 = new ank.utils.();
+						var var5 = new ank.utils.();
 						var var6 = this.api.datacenter.Player.data;
 						var5.push(var6.name + " (" + this.api.lang.getText("LEVEL") + " " + this.api.datacenter.Player.Level + ")");
 						var5.push(this.api.lang.getText("LP") + " : " + this.api.datacenter.Player.LP);
@@ -234,7 +240,7 @@ class dofus.graphics.gapi.controls.SpellFullInfosViewer extends dofus.graphics.g
 					}
 					var4 = var4 + 1;
 				}
-				var var7 = new ank.utils.();
+				var var7 = new ank.utils.();
 				if(var3 != undefined)
 				{
 					var var8 = var3.param1;
@@ -270,7 +276,7 @@ class dofus.graphics.gapi.controls.SpellFullInfosViewer extends dofus.graphics.g
 					}
 					var15 = var15 + 1;
 				}
-				var var16 = new ank.utils.();
+				var var16 = new ank.utils.();
 				if(var14 != undefined)
 				{
 					var var17 = var14.param1;
@@ -315,6 +321,16 @@ class dofus.graphics.gapi.controls.SpellFullInfosViewer extends dofus.graphics.g
 			this["_btnLevel" + var2].selected = false;
 		}
 	}
+	function complete(var2)
+	{
+		if(!dofus.Constants.DOUBLEFRAMERATE)
+		{
+			return undefined;
+		}
+		var var3 = var2.clip;
+		var var4 = this.api.kernel.OptionsManager.getOption("RemasteredSpellIconsPack");
+		var3.gotoAndStop(var4);
+	}
 	function click(var2)
 	{
 		loop0:
@@ -341,6 +357,7 @@ class dofus.graphics.gapi.controls.SpellFullInfosViewer extends dofus.graphics.g
 					default:
 						switch(null)
 						{
+							case "_btnLevel2":
 							case "_btnLevel3":
 							case "_btnLevel4":
 							case "_btnLevel5":
@@ -355,7 +372,6 @@ class dofus.graphics.gapi.controls.SpellFullInfosViewer extends dofus.graphics.g
 								break loop0;
 						}
 					case "_btnLevel1":
-					case "_btnLevel2":
 						var var3 = var2.target._name.substr(9);
 						this.setLevel(Number(var3));
 				}

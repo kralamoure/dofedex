@@ -156,13 +156,18 @@ class dofus.graphics.gapi.ui.ChooseCharacter extends dofus.graphics.gapi.core.Do
 		this._lblAccount.text = this.api.lang.getText("ACCOUNT_INFO");
 		if(!this.api.config.isStreaming)
 		{
-			this._lblLogin.text = this.api.lang.getText("PSEUDO_DOFUS",[this.api.datacenter.Basics.dofusPseudo]);
+			this._lblLogin.text = this.api.datacenter.Basics.dofusPseudo;
 		}
 		else
 		{
 			this._lblLogin.text = this.api.lang.getText("POPUP_GAME_BEGINNING_TITLE");
 		}
-		this._lblServer.text = this.api.lang.getText("CURRENT_SERVER",[this.api.datacenter.Basics.aks_current_server.label]);
+		var var2 = this.api.lang.getText("CURRENT_SERVER",[this.api.datacenter.Basics.aks_current_server.label]);
+		if(dofus.Constants.DEBUG)
+		{
+			var2 = var2 + (" (" + this.api.datacenter.Basics.aks_current_server.id + ")");
+		}
+		this._lblServer.text = var2;
 	}
 	function select(var2)
 	{
@@ -227,12 +232,12 @@ class dofus.graphics.gapi.ui.ChooseCharacter extends dofus.graphics.gapi.core.Do
 					this.gapi.unloadUIComponent("ChooseCharacter");
 				}
 				break;
+			case "_btnSubscribe":
+				_root.getURL(this.api.lang.getConfigText("PAY_LINK"),"_blank");
+				break;
 			default:
 				switch(null)
 				{
-					case "_btnSubscribe":
-						_root.getURL(this.api.lang.getConfigText("PAY_LINK"),"_blank");
-						break;
 					case "_btnBack":
 						this.api.kernel.changeServer(true);
 						break;

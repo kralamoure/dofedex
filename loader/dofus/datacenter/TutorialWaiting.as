@@ -1,6 +1,6 @@
 class dofus.datacenter.TutorialWaiting extends dofus.datacenter.TutorialBloc
 {
-	function TutorialWaiting(sID, §\x1e\x1d\x0e§, §\x12§)
+	function TutorialWaiting(sID, §\x1e\x1c\x01§, §\x12§)
 	{
 		super(sID,dofus.datacenter.TutorialBloc.TYPE_WAITING);
 		this._nTimeout = var4;
@@ -24,7 +24,8 @@ class dofus.datacenter.TutorialWaiting extends dofus.datacenter.TutorialBloc
 			var var5 = var4[0];
 			var var6 = var4[1];
 			var var7 = var4[2];
-			var var8 = new dofus.datacenter.(var5,var6,var7);
+			var var8 = new dofus.datacenter.
+(var5,var6,var7);
 			this._oCases[var5] = var8;
 			var3 = var3 + 1;
 		}

@@ -1,6 +1,6 @@
 class dofus.datacenter.Title
 {
-	function Title(§\r\x1b§, param)
+	function Title(§\f\x1b§, param)
 	{
 		this.api = _global.API;
 		this._id = var2;

@@ -1,6 +1,6 @@
 class dofus.aks.Waypoints extends dofus.aks.Handler
 {
-	function Waypoints(var3, var4)
+	function Waypoints(var2, var3)
 	{
 		super.initialize(var3,var4);
 	}
@@ -16,14 +16,14 @@ class dofus.aks.Waypoints extends dofus.aks.Handler
 	{
 		var var3 = var2.split("|");
 		var var4 = Number(var3[0]);
-		var var5 = new ank.utils.();
+		var var5 = new ank.utils.();
 		var var6 = 1;
 		while(var6 < var3.length)
 		{
 			var var7 = var3[var6].split(";");
 			var var8 = Number(var7[0]);
 			var var9 = Number(var7[1]);
-			var var10 = new dofus.datacenter.(var8,var8 == this.api.datacenter.Map.id,var8 == var4,var9);
+			var var10 = new dofus.datacenter.	(var8,var8 == this.api.datacenter.Map.id,var8 == var4,var9);
 			var5.push(var10);
 			var6 = var6 + 1;
 		}

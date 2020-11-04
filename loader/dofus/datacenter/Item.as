@@ -1,5 +1,6 @@
 class dofus.datacenter.Item extends Object
 {
+	static var OBJECT_ACTION_SUMMON = 623;
 	static var LEVEL_STEP = [0,10,21,33,46,60,75,91,108,126,145,165,186,208,231,255,280,306,333,361];
 	static var DATE_ID = 0;
 	function Item(var3, var4, var5, var6, var7, var8, var9, var10)
@@ -147,7 +148,7 @@ class dofus.datacenter.Item extends Object
 					while(§§pop() != null)
 					{
 					}
-					return new dofus.datacenter.(var2[0],var2[1],var2[2],var2[3]);
+					return new dofus.datacenter.(var2[0],var2[1],var2[2],var2[3]);
 				}
 			}
 		}
@@ -215,6 +216,10 @@ class dofus.datacenter.Item extends Object
 		{
 			return this._sGfx;
 		}
+		if(this._sCustomFullGfx != undefined)
+		{
+			return this._sCustomFullGfx;
+		}
 		return this._oUnicInfos.g;
 	}
 	function __set__gfx(var2)
@@ -224,6 +229,10 @@ class dofus.datacenter.Item extends Object
 	}
 	function __get__realGfx()
 	{
+		if(this._sCustomFullGfx != undefined)
+		{
+			return this._sCustomFullGfx;
+		}
 		return this._sRealGfx;
 	}
 	function __get__price()
@@ -309,7 +318,7 @@ class dofus.datacenter.Item extends Object
 		var var6 = 0;
 		while(var6 < var4.length)
 		{
-			var4[var6] = new ank.utils.(var4[var6]).replace(["(",")"],["",""]);
+			var4[var6] = new ank.utils.(var4[var6]).replace(["(",")"],["",""]);
 			var var7 = var4[var6].split("|");
 			var var8 = 0;
 			for(; var8 < var7.length; var8 = var8 + 1)
@@ -345,23 +354,23 @@ class dofus.datacenter.Item extends Object
 						case "Pr":
 							var13 = this.api.lang.getAlignmentSpecialization(Number(var13)).n;
 							break;
+						case "Pg":
+							var var14 = var13.split(",");
+							if(var14.length == 2)
+							{
+								var13 = this.api.lang.getAlignmentFeat(Number(var14[0])).n + " (" + Number(var14[1]) + ")";
+							}
+							else
+							{
+								var13 = this.api.lang.getAlignmentFeat(Number(var13)).n;
+							}
+							break;
+						case "PG":
+							var13 = this.api.lang.getClassText(Number(var13)).sn;
+							break;
 						default:
 							switch(null)
 							{
-								case "Pg":
-									var var14 = var13.split(",");
-									if(var14.length == 2)
-									{
-										var13 = this.api.lang.getAlignmentFeat(Number(var14[0])).n + " (" + Number(var14[1]) + ")";
-									}
-									else
-									{
-										var13 = this.api.lang.getAlignmentFeat(Number(var13)).n;
-									}
-									break loop3;
-								case "PG":
-									var13 = this.api.lang.getClassText(Number(var13)).sn;
-									break loop3;
 								case "PJ":
 								case "Pj":
 									var var15 = var13.split(",");
@@ -369,38 +378,31 @@ class dofus.datacenter.Item extends Object
 									break loop3;
 								case "PM":
 									continue;
-								default:
-									if(var0 !== "PO")
-									{
-										break loop3;
-									}
-									var var16 = new dofus.datacenter.
-(-1,Number(var13),1,0,"",0);
+								case "PO":
+									var var16 = new dofus.datacenter.(-1,Number(var13),1,0,"",0);
 									var13 = var16.name;
-									break loop3;
 							}
 					}
-					var12 = new ank.utils.(var12).replace(["CS","Cs","CV","Cv","CA","Ca","CI","Ci","CW","Cw","CC","Cc","CA","PG","PJ","Pj","PM","PA","PN","PE","<NO>","PS","PR","PL","PK","Pg","Pr","Ps","Pa","PP","PZ","CM"],this.api.lang.getText("ITEM_CHARACTERISTICS").split(","));
+					var12 = new ank.utils.(var12).replace(["CS","Cs","CV","Cv","CA","Ca","CI","Ci","CW","Cw","CC","Cc","CA","PG","PJ","Pj","PM","PA","PN","PE","<NO>","PS","PR","PL","PK","Pg","Pr","Ps","Pa","PP","PZ","CM"],this.api.lang.getText("ITEM_CHARACTERISTICS").split(","));
 					var var17 = var10 == "!";
-					var10 = new ank.utils.(var10).replace(["!"],[this.api.lang.getText("ITEM_NO")]);
-					if((var0 = var12) !== "BI")
+					var10 = new ank.utils.(var10).replace(["!"],[this.api.lang.getText("ITEM_NO")]);
+					switch(var12)
 					{
-						if(var0 !== "PO")
-						{
+						case "BI":
+							var5.push(this.api.lang.getText("UNUSABLE"));
+							break;
+						case "PO":
+							if(var17)
+							{
+								var5.push(this.api.lang.getText("ITEM_DO_NOT_POSSESS",[var13]) + " <" + var10 + ">");
+							}
+							else
+							{
+								var5.push(this.api.lang.getText("ITEM_DO_POSSESS",[var13]) + " <" + var10 + ">");
+							}
+							break;
+						default:
 							var5.push((var8 <= 0?"":this.api.lang.getText("ITEM_OR") + " ") + var12 + " " + var10 + " " + var13);
-						}
-						else if(var17)
-						{
-							var5.push(this.api.lang.getText("ITEM_DO_NOT_POSSESS",[var13]) + " <" + var10 + ">");
-						}
-						else
-						{
-							var5.push(this.api.lang.getText("ITEM_DO_POSSESS",[var13]) + " <" + var10 + ">");
-						}
-					}
-					else
-					{
-						var5.push(this.api.lang.getText("UNUSABLE"));
 					}
 				}
 			}
@@ -557,6 +559,10 @@ class dofus.datacenter.Item extends Object
 			this._nMood = var9;
 		}
 	}
+	function hasCustomGfx()
+	{
+		return this._sCustomFullGfx != undefined;
+	}
 	function setEffects(var2)
 	{
 		this._sEffects = var2;
@@ -567,9 +573,9 @@ class dofus.datacenter.Item extends Object
 		{
 			var var5 = var3[var4].split("#");
 			var5[0] = _global.parseInt(var5[0],16);
-			var5[1] = var5[1] != "0"?_global.parseInt(var5[1],16):undefined;
-			var5[2] = var5[2] != "0"?_global.parseInt(var5[2],16):undefined;
-			var5[3] = var5[3] != "0"?_global.parseInt(var5[3],16):undefined;
+			var5[1] = !(var5[1] == "" || var5[1] == "0")?_global.parseInt(var5[1],16):undefined;
+			var5[2] = !(var5[2] == "" || var5[2] == "0")?_global.parseInt(var5[2],16):undefined;
+			var5[3] = !(var5[3] == "" || var5[3] == "0")?_global.parseInt(var5[3],16):undefined;
 			var5[4] = var5[4];
 			this._aEffects.push(var5);
 			var4 = var4 + 1;
@@ -577,12 +583,33 @@ class dofus.datacenter.Item extends Object
 	}
 	function clone()
 	{
-		return new dofus.datacenter.
-(this._nID,this._nUnicID,this._nQuantity,this._nPosition,this._sEffects);
+		return new dofus.datacenter.(this._nID,this._nUnicID,this._nQuantity,this._nPosition,this._sEffects);
 	}
 	function equals(var2)
 	{
 		return this.unicID == var2.unicID;
+	}
+	function showStatsTooltip(var2, var3)
+	{
+		var var4 = -20;
+		var var5 = this.name + " (" + this.api.lang.getText("LEVEL_SMALL") + " " + this.level + ")";
+		var var6 = true;
+		for(var s in this.effects)
+		{
+			var var7 = this.effects[s];
+			if(var7.description.length > 0)
+			{
+				if(var6)
+				{
+					var5 = var5 + "\n";
+					var4 = var4 - 10;
+					var6 = false;
+				}
+				var5 = var5 + "\n" + var7.description;
+				var4 = var4 - 12;
+			}
+		}
+		this.api.ui.showTooltip(var5,var2,var4,undefined,var3 + "ToolTip");
 	}
 	function getItemFightEffectsText(var2)
 	{
@@ -611,6 +638,10 @@ class dofus.datacenter.Item extends Object
 						case 971:
 							this._nMood = !var2[3]?0:var2[3];
 							break;
+						case 969:
+							var var3 = this.api.lang.getItemUnicText(!var2[3]?0:var2[3]).g;
+							this._sCustomFullGfx = var3;
+							break;
 						case 970:
 							this._sRealGfx = this._oUnicInfos.g;
 							this._sGfx = this.api.lang.getItemUnicText(!var2[3]?0:var2[3]).g;
@@ -633,20 +664,43 @@ class dofus.datacenter.Item extends Object
 			{
 				var var7 = var2[var6];
 				var var8 = var7[0];
-				var var9 = new dofus.datacenter.(var8,var7[1],var7[2],var7[3],var7[4]);
-				if(var9.description != undefined)
+				var var9 = new Array();
+				if(var8 == dofus.datacenter.Item.OBJECT_ACTION_SUMMON)
 				{
-					if(var3 == true)
+					var var10 = var7[4].split(dofus.aks.Items.EFFECT_APPEND_CHAR);
+					var var11 = 0;
+					while(var11 < var10.length)
 					{
-						if(var9.showInTooltip)
+						var var12 = _global.parseInt(var10[var11],dofus.aks.Items.COMPRESSION_RADIX);
+						var var13 = new dofus.datacenter.(var8,undefined,undefined,var12);
+						var9.push(var13);
+						var11 = var11 + 1;
+					}
+				}
+				else
+				{
+					var var14 = new dofus.datacenter.(var8,var7[1],var7[2],var7[3],var7[4]);
+					var9.push(var14);
+				}
+				var var15 = 0;
+				while(var15 < var9.length)
+				{
+					var var16 = var9[var15];
+					if(var16.description != undefined)
+					{
+						if(var3 == true)
 						{
-							var4.push(var9);
+							if(var16.showInTooltip)
+							{
+								var4.push(var16);
+							}
+						}
+						else
+						{
+							var4.push(var16);
 						}
 					}
-					else
-					{
-						var4.push(var9);
-					}
+					var15 = var15 + 1;
 				}
 				var6 = var6 + 1;
 			}

@@ -25,7 +25,7 @@ class dofus.datacenter.Feat extends Object
 	}
 	function __get__effect()
 	{
-		return new dofus.datacenter.(this._oFeatInfos.e,this._aParams);
+		return new dofus.datacenter.(this._oFeatInfos.e,this._aParams);
 	}
 	function __get__iconFile()
 	{

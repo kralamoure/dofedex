@@ -47,7 +47,7 @@ class dofus.graphics.gapi.ui.MountAncestorsViewer extends dofus.graphics.gapi.co
 		if(this._oMount != undefined)
 		{
 			this._lblMountName.text = this._oMount.name;
-			var var2 = new ank.utils.();
+			var var2 = new ank.utils.();
 			for(var a in this._oMount.ancestors)
 			{
 				var2[a] = this._oMount.ancestors[a];
@@ -63,7 +63,7 @@ class dofus.graphics.gapi.ui.MountAncestorsViewer extends dofus.graphics.gapi.co
 					var var6 = (ank.gapi.controls.Loader)this["_ldr" + var3];
 					var6.forceNextLoad();
 					var6.contentPath = var5.gfxFile;
-					var var7 = new ank.battlefield.datacenter.("-1",undefined,"",0,0);
+					var var7 = new ank.battlefield.datacenter.("-1",undefined,"",0,0);
 					var7.mount = var5;
 					this.api.colors.addSprite(var6,var7);
 					var var8 = this.attachMovie("Rectangle","mcButton" + var3,var3);

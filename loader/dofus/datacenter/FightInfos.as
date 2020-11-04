@@ -69,7 +69,7 @@ class dofus.datacenter.FightInfos extends Object
 		this._nID = var2;
 		this.duration = var3;
 	}
-	function addTeam(§\x05\x18§, §\x1e\x1d\x06§, §\n\x02§, nCount)
+	function addTeam(§\x04\r§, §\x1e\x1b\x16§, §\b\x1c§, nCount)
 	{
 		switch(var2)
 		{

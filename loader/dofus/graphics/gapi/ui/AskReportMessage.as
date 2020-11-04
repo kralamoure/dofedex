@@ -78,10 +78,11 @@ class dofus.graphics.gapi.ui.AskReportMessage extends dofus.graphics.gapi.core.D
 	{
 		this._taMessage.text = this._sMessage.split("<br/>").join("");
 		this._btnIgnoreToo.selected = true;
-		var var2 = new ank.utils.();
+		var var2 = new ank.utils.();
 		var var3 = this.api.lang.getAbuseReasons();
 		var2.push({id:-1,label:"(" + this.api.lang.getText("PLEASE_SELECT") + ")"});
-		for(var i in var3)
+		§§enumerate(var3);
+		while((var var0 = §§enumeration()) != null)
 		{
 			var2.push({id:var3[i].i,label:var3[i].t});
 		}

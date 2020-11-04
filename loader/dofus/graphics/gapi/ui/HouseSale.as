@@ -50,15 +50,16 @@ class dofus.graphics.gapi.ui.HouseSale extends dofus.graphics.gapi.core.DofusAdv
 			return undefined;
 		}
 		this._txtDescription.text = this._oHouse.name + "\n\n" + this._oHouse.description;
-		this._txtPrice.text = this._oHouse.price;
 		if(this._oHouse.localOwner)
 		{
+			this._txtPrice.text = this._oHouse.price;
 			this._btnCancel._visible = this._oHouse.price != 0;
 			this._mcPrice._visible = true;
 			Selection.setFocus(this._txtPrice);
 		}
 		else
 		{
+			this._txtPrice.text = this.getFormattedPrice();
 			this._txtPrice.editable = false;
 			this._txtPrice.selectable = false;
 			this._mcPrice._visible = false;
@@ -115,19 +116,18 @@ class dofus.graphics.gapi.ui.HouseSale extends dofus.graphics.gapi.core.DofusAdv
 					}
 					else
 					{
-						var var3 = this.gapi.loadUIComponent("AskYesNo","AskYesNoBuy",{title:this.api.lang.getText("HOUSE_PURCHASE"),text:this.api.lang.getText("DO_U_BUY_HOUSE",[this._oHouse.name,this._oHouse.price])});
+						var var3 = this.gapi.loadUIComponent("AskYesNo","AskYesNoBuy",{title:this.api.lang.getText("HOUSE_PURCHASE"),text:this.api.lang.getText("DO_U_BUY_HOUSE",[this._oHouse.name,this.getFormattedPrice()])});
 						var3.addEventListener("yes",this);
 					}
 				}
 				break;
-			default:
-				if(var0 !== "_btnClose")
-				{
-					break;
-				}
+			case "_btnClose":
 				this.callClose();
-				break;
 		}
+	}
+	function getFormattedPrice()
+	{
+		return new ank.utils.(this._oHouse.price).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
 	}
 	function yes()
 	{

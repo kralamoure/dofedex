@@ -1,6 +1,8 @@
 class dofus.aks.Items extends dofus.aks.Handler
 {
-	function Items(var3, var4)
+	static var EFFECT_APPEND_CHAR = ":";
+	static var COMPRESSION_RADIX = 16;
+	function Items(var2, var3)
 	{
 		super.initialize(var3,var4);
 	}
@@ -15,6 +17,14 @@ class dofus.aks.Items extends dofus.aks.Handler
 	function drop(var2, var3)
 	{
 		this.aks.send("OD" + var2 + "|" + var3,false);
+	}
+	function associateMimibiote(var2, var3)
+	{
+		this.aks.send("AEi1|" + var2 + "|" + var3);
+	}
+	function destroyMimibiote(var2)
+	{
+		this.aks.send("AEi0|" + var2);
 	}
 	function destroy(var2, var3)
 	{
@@ -243,7 +253,7 @@ class dofus.aks.Items extends dofus.aks.Handler
 				var var13 = !_global.isNaN(Number(var10[2]))?Number(var10[2]):undefined;
 				var var14 = !_global.isNaN(Number(var10[3]))?Number(var10[3]):undefined;
 				var var15 = {name:"UseItem",listener:this,params:{objectID:var11,spriteID:var12,cellID:var13}};
-				var var16 = new dofus.datacenter.(-1,var14,1,0,"",0);
+				var var16 = new dofus.datacenter.(-1,var14,1,0,"",0);
 				this.api.kernel.showMessage(undefined,this.api.lang.getText("ITEM_USE_CONFIRMATION",[var16.name]),"CAUTION_YESNO",var15);
 		}
 	}
@@ -263,7 +273,7 @@ class dofus.aks.Items extends dofus.aks.Handler
 			}
 			else
 			{
-				var9 = new dofus.datacenter.(0,var7,var8);
+				var9 = new dofus.datacenter.(0,var7,var8);
 			}
 			this.api.gfx.addSpriteOverHeadItem(this.api.datacenter.Player.ID,"itemFound",dofus.graphics.battlefield.CraftResultOverHead,[true,var9],2000);
 		}

@@ -44,8 +44,9 @@ class dofus.datacenter.BigStore extends dofus.datacenter.Shop
 	function __get__typesObj()
 	{
 		var var2 = new Object();
-		for(var2[this._aTypes[k]] in this._aTypes)
+		for(var k in this._aTypes)
 		{
+			var2[this._aTypes[k]] = true;
 		}
 		return var2;
 	}

@@ -51,6 +51,7 @@ class dofus.graphics.gapi.ui.CardsCollection extends dofus.graphics.gapi.core.Do
 	}
 	function click(var2)
 	{
+		loop0:
 		switch(var2.target._name)
 		{
 			case "_btnClose":
@@ -59,15 +60,19 @@ class dofus.graphics.gapi.ui.CardsCollection extends dofus.graphics.gapi.core.Do
 			default:
 				switch(null)
 				{
+					default:
+						switch(null)
+						{
+							case "_ctr8":
+							case "_ctr9":
+						}
+						break loop0;
 					case "_ctr3":
 					case "_ctr4":
 					case "_ctr5":
 					case "_ctr6":
 					case "_ctr7":
-					case "_ctr8":
-					case "_ctr9":
 				}
-				break;
 			case "_ctr1":
 			case "_ctr2":
 				var var3 = var2.target.contentData;

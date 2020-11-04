@@ -79,10 +79,9 @@ class dofus.graphics.gapi.ui.CharactersMigration extends dofus.graphics.gapi.cor
 	}
 	function updateCharactersList()
 	{
-		var var2 = new ank.utils.();
-		for(var i in this._aSpriteList)
+		var var2 = new ank.utils.();
+		for(var var3 in this._aSpriteList)
 		{
-			var var3 = new Object();
 			var3.level = this._aSpriteList[i].Level;
 			var3.playerName = this._aSpriteList[i].name;
 			var3.newPlayerName = var3.playerName;
@@ -112,7 +111,7 @@ class dofus.graphics.gapi.ui.CharactersMigration extends dofus.graphics.gapi.cor
 		this._btnBack.label = this.api.lang.getText("CHANGE_SERVER");
 		this._lblCopyright.text = this.api.lang.getText("COPYRIGHT");
 		this._lblAccount.text = this.api.lang.getText("ACCOUNT_INFO");
-		this._lblLogin.text = this.api.lang.getText("PSEUDO_DOFUS",[this.api.datacenter.Basics.dofusPseudo]);
+		this._lblLogin.text = this.api.datacenter.Basics.dofusPseudo;
 		this._lblServer.text = this.api.lang.getText("CURRENT_SERVER",[this.api.datacenter.Basics.aks_current_server.label]);
 		this._taMigrationDesc.text = this.api.lang.getText("CHARACTER_MIGRATION_DESC");
 		this._lblMigrationTitle.text = this.api.lang.getText("CHARACTER_MIGRATION_TITLE");
@@ -147,12 +146,12 @@ class dofus.graphics.gapi.ui.CharactersMigration extends dofus.graphics.gapi.cor
 		}
 		if(this.api.lang.getConfigText("CHAR_NAME_FILTER") && !this.api.datacenter.Player.isAuthorized)
 		{
-			var var4 = new dofus.utils.nameChecker.	(var2);
+			var var4 = new dofus.utils.nameChecker.(var2);
 			var var5 = new dofus.utils.nameChecker.rules.NameCheckerCharacterNameRules();
 			var var6 = var4.isValidAgainstWithDetails(var5);
 			if(!var6.IS_SUCCESS)
 			{
-				this.api.kernel.showMessage(undefined,this.api.lang.getText("INVALID_CHARACTER_NAME") + "\r\n" + var6.toString("\r\n"),"ERROR_BOX");
+				this.api.kernel.showMessage(undefined,this.api.lang.getText("INVALID_CHARACTER_NAME") + GuildRights + var6.toString(GuildRights),"ERROR_BOX");
 				return undefined;
 			}
 		}

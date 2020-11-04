@@ -93,20 +93,15 @@ class dofus.graphics.gapi.controls.ItemSetViewer extends dofus.graphics.gapi.cor
 			default:
 				switch(null)
 				{
-					default:
-						if(var0 !== "_ctr8")
-						{
-						}
-						break;
+					case "_ctr3":
 					case "_ctr4":
 					case "_ctr5":
 					case "_ctr6":
 					case "_ctr7":
+					case "_ctr8":
 				}
-				break;
 			case "_ctr1":
 			case "_ctr2":
-			case "_ctr3":
 		}
 		var var3 = var2.target.contentData;
 		this.gapi.showTooltip(var3.name,var2.target,-20,undefined,var3.style + "ToolTip");

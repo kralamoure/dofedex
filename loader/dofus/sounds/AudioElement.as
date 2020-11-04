@@ -4,7 +4,7 @@ class dofus.sounds.AudioElement extends Sound implements com.ankamagames.interfa
 	static var ONESHOT_SAMPLE = 1;
 	static var UNLIMITED_LENGTH = 0;
 	var _nVolumeBeforeMute = -1;
-	function AudioElement(uniqID, §\x0f\x07§, linkedClip, §\x1e\x0e\x0f§)
+	function AudioElement(uniqID, §\x0e\b§, linkedClip, §\x1e\f\x0b§)
 	{
 		if(uniqID == undefined)
 		{

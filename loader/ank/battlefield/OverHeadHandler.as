@@ -20,7 +20,7 @@ class ank.battlefield.OverHeadHandler
 			}
 		}
 	}
-	function addOverHeadItem(sID, §\x1e\x1c\x11§, §\x1e\x1c\t§, §\x0b\x11§, §\x1e\x12\r§, §\x0f\x13§, §\x1e\x02§, §\x07\x14§)
+	function addOverHeadItem(sID, §\x1e\x1b\x03§, §\x1e\x1a\x18§, §\n\x0e§, §\x1e\x10\x16§, §\x0e\x14§, §\x1e\x01§, §\x06\x0e§)
 	{
 		var var10 = this._mcContainer["oh" + sID];
 		var var11 = this._mcBattlefield.getZoom();
@@ -36,7 +36,7 @@ class ank.battlefield.OverHeadHandler
 		}
 		var10.addItem(var6,var7,var8,var9);
 	}
-	function removeOverHeadLayer(sID, §\x1e\x12\r§)
+	function removeOverHeadLayer(sID, §\x1e\x10\x16§)
 	{
 		var var4 = this._mcContainer["oh" + sID];
 		var4.removeLayer(var3);

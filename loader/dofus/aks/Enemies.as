@@ -1,6 +1,6 @@
 class dofus.aks.Enemies extends dofus.aks.Handler
 {
-	function Enemies(var3, var4)
+	function Enemies(var2, var3)
 	{
 		super.initialize(var3,var4);
 	}
@@ -48,13 +48,8 @@ class dofus.aks.Enemies extends dofus.aks.Handler
 				case "a":
 					this.api.kernel.showMessage(undefined,this.api.lang.getText("ALREADY_YOUR_ENEMY"),"ERROR_CHAT");
 					break;
-				default:
-					if(var0 !== "m")
-					{
-						break;
-					}
+				case "m":
 					this.api.kernel.showMessage(this.api.lang.getText("ENEMIES"),this.api.lang.getText("ENEMIES_LIST_FULL"),"ERROR_BOX",{name:"EnemiesListFull"});
-					break;
 			}
 		}
 	}

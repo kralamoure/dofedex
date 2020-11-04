@@ -1,7 +1,7 @@
 class ank.utils.CustomDate
 {
 	static var MS_PER_DAY = 86400000;
-	function CustomDate(nRefTime, §\x1e\x07§, §\x1e\x1c\x07§)
+	function CustomDate(nRefTime, §\x1e\x06§, §\x1e\x1a\x16§)
 	{
 		this._nRefTime = nRefTime;
 		this._aMonths = var3;

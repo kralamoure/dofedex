@@ -67,7 +67,7 @@ class dofus.graphics.gapi.ui.KnownledgeBase extends dofus.graphics.gapi.core.Dof
 	{
 		var var2 = this.api.lang.getKnownledgeBaseCategories();
 		var2.sortOn("o",Array.NUMERIC | Array.DESCENDING);
-		this._eaCategories = new ank.utils.();
+		this._eaCategories = new ank.utils.();
 		var var3 = 0;
 		while(var3 < var2.length)
 		{
@@ -80,7 +80,7 @@ class dofus.graphics.gapi.ui.KnownledgeBase extends dofus.graphics.gapi.core.Dof
 		this._lstCategories.dataProvider = this._eaCategories;
 		var var4 = this.api.lang.getKnownledgeBaseArticles();
 		var4.sortOn("o",Array.NUMERIC | Array.DESCENDING);
-		this._eaArticles = new ank.utils.();
+		this._eaArticles = new ank.utils.();
 		var var5 = 0;
 		while(var5 < var4.length)
 		{
@@ -239,7 +239,7 @@ class dofus.graphics.gapi.ui.KnownledgeBase extends dofus.graphics.gapi.core.Dof
 	}
 	function generateIndexes()
 	{
-		this._eaIndexes = new ank.utils.();
+		this._eaIndexes = new ank.utils.();
 		var var2 = 0;
 		while(var2 < this._eaArticles.length)
 		{
@@ -255,8 +255,8 @@ class dofus.graphics.gapi.ui.KnownledgeBase extends dofus.graphics.gapi.core.Dof
 	function searchTopic(var2)
 	{
 		var var3 = var2.split(" ");
-		var var4 = new ank.utils.();
-		var var5 = new ank.utils.();
+		var var4 = new ank.utils.();
+		var var5 = new ank.utils.();
 		var var6 = new Array();
 		var var7 = 0;
 		var var8 = new Array();
@@ -322,7 +322,7 @@ class dofus.graphics.gapi.ui.KnownledgeBase extends dofus.graphics.gapi.core.Dof
 	}
 	function displayArticles(var2, var3)
 	{
-		var var4 = new ank.utils.();
+		var var4 = new ank.utils.();
 		var var5 = 0;
 		while(var5 < this._eaArticles.length)
 		{
@@ -398,11 +398,7 @@ class dofus.graphics.gapi.ui.KnownledgeBase extends dofus.graphics.gapi.core.Dof
 			case "_lstArticles":
 				this.displayArticle(Number(var2.row.item.i));
 				break;
-			default:
-				if(var0 !== "_lstSearch")
-				{
-					break;
-				}
+			case "_lstSearch":
 				var var3 = var2.row.item;
 				if(var3.c > 0)
 				{
@@ -414,7 +410,7 @@ class dofus.graphics.gapi.ui.KnownledgeBase extends dofus.graphics.gapi.core.Dof
 				}
 				this._lblCategory.text = var3.n;
 				var var4 = var3.i;
-				var var5 = new ank.utils.();
+				var var5 = new ank.utils.();
 				var var6 = 0;
 				while(var6 < this._eaArticles.length)
 				{

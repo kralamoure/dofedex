@@ -26,6 +26,7 @@ class dofus.graphics.gapi.ui.StatsJob extends dofus.graphics.gapi.core.DofusAdva
 		this._mcViewersPlacer._visible = false;
 		this._btnClosePanel._visible = false;
 		this.api.datacenter.Player.data.addListener(this);
+		this.api.datacenter.Player.addEventListener("nameChanged",this);
 		this.api.datacenter.Player.addEventListener("levelChanged",this);
 		this.api.datacenter.Player.addEventListener("xpChanged",this);
 		this.api.datacenter.Player.addEventListener("lpChanged",this);
@@ -323,12 +324,12 @@ class dofus.graphics.gapi.ui.StatsJob extends dofus.graphics.gapi.core.DofusAdva
 							default:
 								this.showJob(var2.target.contentData);
 						}
+					case "_btn10":
 					case "_btn11":
 					case "_btn12":
 					case "_btn13":
 					case "_btn14":
 				}
-			case "_btn10":
 				this.api.sounds.events.onStatsJobBoostButtonClick();
 				var var3 = var2.target._name.substr(4);
 				if(this.api.datacenter.Player.canBoost(var3))
@@ -367,6 +368,10 @@ class dofus.graphics.gapi.ui.StatsJob extends dofus.graphics.gapi.core.DofusAdva
 	{
 		this.gapi.hideTooltip();
 	}
+	function nameChanged(var2)
+	{
+		this._lblName.text = var2.value;
+	}
 	function levelChanged(var2)
 	{
 		this._lblLevel.text = this.api.lang.getText("LEVEL") + " " + String(var2.value);
@@ -378,7 +383,7 @@ class dofus.graphics.gapi.ui.StatsJob extends dofus.graphics.gapi.core.DofusAdva
 		this._pbXP.value = oEvent.value;
 		this._mcXP.onRollOver = function()
 		{
-			this._parent.gapi.showTooltip(new ank.utils.(oEvent.value).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + " / " + new ank.utils.(this._parent._pbXP.maximum).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3),this,-10);
+			this._parent.gapi.showTooltip(new ank.utils.(oEvent.value).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + " / " + new ank.utils.(this._parent._pbXP.maximum).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3),this,-10);
 		};
 		this._mcXP.onRollOut = function()
 		{
@@ -441,7 +446,7 @@ class dofus.graphics.gapi.ui.StatsJob extends dofus.graphics.gapi.core.DofusAdva
 		{
 			this._mcEnergy.onRollOver = function()
 			{
-				this._parent.gapi.showTooltip(new ank.utils.(oEvent.value).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + " / " + new ank.utils.(Math.max(10000,this._parent._pbEnergy.maximum)).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3),this,-10);
+				this._parent.gapi.showTooltip(new ank.utils.(oEvent.value).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + " / " + new ank.utils.(Math.max(10000,this._parent._pbEnergy.maximum)).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3),this,-10);
 			};
 			this._mcEnergy.onRollOut = function()
 			{

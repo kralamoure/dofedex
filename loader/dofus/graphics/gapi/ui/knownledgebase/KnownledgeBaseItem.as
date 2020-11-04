@@ -1,4 +1,4 @@
-class dofus.graphics.gapi.ui.Login.KnownledgeBaseItem extends ank.gapi.core.UIBasicComponent
+class dofus.graphics.gapi.ui.knownledgebase.KnownledgeBaseItem extends ank.gapi.core.UIBasicComponent
 {
 	function KnownledgeBaseItem()
 	{

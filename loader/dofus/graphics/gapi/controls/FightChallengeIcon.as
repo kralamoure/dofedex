@@ -35,7 +35,7 @@ class dofus.graphics.gapi.controls.FightChallengeIcon extends dofus.graphics.gap
 		this.onRollOver = this.virtualEvent(this,"over",this);
 		this.onRollOut = this.virtualEvent(this,"out",this);
 	}
-	function onEventRelease(§\x1e\x1b\x1a§, attachTarget, §\x1e\x18\b§, challenge)
+	function onEventRelease(§\x1e\x1a\f§, attachTarget, §\x1e\x16\x15§, challenge)
 	{
 		return function()
 		{
@@ -60,20 +60,16 @@ class dofus.graphics.gapi.controls.FightChallengeIcon extends dofus.graphics.gap
 		var4 = var4 + this.api.lang.getText("WORD_XP");
 		var4 = var4 + (" : +" + (this.challenge.teamXpBonus + this.challenge.basicXpBonus) + "%\n");
 		var4 = var4 + (this.api.lang.getText("STATE") + " : ");
-		if((var var0 = this.challenge.state) !== 0)
+		switch(this.challenge.state)
 		{
-			switch(null)
-			{
-				case 1:
-					var4 = var4 + this.api.lang.getText("FIGHT_CHALLENGE_DONE");
-					break;
-				case 2:
-					var4 = var4 + this.api.lang.getText("FIGHT_CHALLENGE_FAILED");
-			}
-		}
-		else
-		{
-			var4 = var4 + this.api.lang.getText("CURRENT_FIGHT_CHALLENGE");
+			case 0:
+				var4 = var4 + this.api.lang.getText("CURRENT_FIGHT_CHALLENGE");
+				break;
+			case 1:
+				var4 = var4 + this.api.lang.getText("FIGHT_CHALLENGE_DONE");
+				break;
+			case 2:
+				var4 = var4 + this.api.lang.getText("FIGHT_CHALLENGE_FAILED");
 		}
 		this.gapi.showTooltip(var4,var2.target,40);
 	}

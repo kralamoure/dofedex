@@ -1,79 +1,64 @@
-if(!dofus.graphics.gapi.ui.BigStoreBuy)
+class dofus.graphics.gapi.ui.BigStoreBuy extends dofus.graphics.gapi.core.DofusAdvancedComponent
 {
-	if(!dofus)
-	{
-		_global.dofus = new Object();
-	}
-	if(!dofus.graphics)
-	{
-		_global.dofus.graphics = new Object();
-	}
-	if(!dofus.graphics.gapi)
-	{
-		_global.dofus.graphics.gapi = new Object();
-	}
-	if(!dofus.graphics.gapi.ui)
-	{
-		_global.dofus.graphics.gapi.ui = new Object();
-	}
-	dofus.graphics.gapi.ui.BigStoreBuy = function()
+	static var CLASS_NAME = "BigStoreBuy";
+	var _sDefaultSearch = "";
+	function BigStoreBuy()
 	{
 		super();
-	} extends dofus.graphics.gapi.core.DofusAdvancedComponent;
-	var var1 = dofus.graphics.gapi.ui.BigStoreBuy = function()
-	{
-		super();
-	}.prototype;
-	var1.__set__data = function __set__data(var2)
+	}
+	function __set__data(var2)
 	{
 		this._oData = var2;
 		return this.__get__data();
-	};
-	var1.__set__defaultSearch = function __set__defaultSearch(var2)
+	}
+	function __set__defaultSearch(var2)
 	{
 		this._sDefaultSearch = var2;
 		return this.__get__defaultSearch();
-	};
-	var1.applyFullSoulFilter = function applyFullSoulFilter(var2)
+	}
+	function applyFullSoulFilter(var2)
 	{
 		if(this._sFullSoulMonster == "")
 		{
 			this._dgPrices.dataProvider = var2;
 			return undefined;
 		}
-		var var3 = new ank.utils.();
+		var var3 = new ank.utils.();
 		var var4 = this._sFullSoulMonster.toUpperCase();
 		var var5 = 0;
 		while(var5 < var2.length)
 		{
 			var var6 = var2[var5];
 			var var7 = var6.item;
-			for(var j in var7._aEffects)
+			var var8 = var7.effects;
+			var var9 = 0;
+			while(var9 < var8.length)
 			{
-				var var8 = var7._aEffects[j];
-				if(var8[0] == 623)
+				var var10 = var8[var9];
+				if(var10.type == dofus.datacenter.Item.OBJECT_ACTION_SUMMON)
 				{
-					var var9 = var8[3];
-					var var10 = this.api.lang.getMonstersText(var9).n.toUpperCase();
-					if(var10.indexOf(var4) != -1)
+					var var11 = var10.param3;
+					var var12 = this.api.lang.getMonstersText(var11).n.toUpperCase();
+					if(var12.indexOf(var4) != -1)
 					{
 						var3.push(var6);
 						break;
 					}
 				}
+				var9 = var9 + 1;
 			}
 			var5 = var5 + 1;
 		}
 		this._dgPrices.dataProvider = var3;
-	};
-	var1.setButtons = function setButtons(var2, var3)
+	}
+	function setButtons(var2, var3)
 	{
 		this._btnSelectedPrice.selected = false;
 		this._btnSelectedPrice = var2;
 		this._btnSelectedBuy.enabled = false;
 		this._btnSelectedBuy = var3;
-	};
-	var1.selectPrice = function selectPrice(var2, var3, var4, var5)
+	}
+	function selectPrice(var2, var3, var4, var5)
 	{
 		if(var4 != this._btnSelectedPrice)
 		{
@@ -88,12 +73,12 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 			delete this._btnSelectedPrice;
 			delete this._btnSelectedBuy;
 		}
-	};
-	var1.isThisPriceSelected = function isThisPriceSelected(var2, var3)
+	}
+	function isThisPriceSelected(var2, var3)
 	{
 		return var2 == this._nSelectedPriceItemID && this._nSelectedPriceIndex == var3;
-	};
-	var1.askBuy = function askBuy(var2, var3, var4)
+	}
+	function askBuy(var2, var3, var4)
 	{
 		if(var2 != undefined && (var3 != undefined && !_global.isNaN(var4)))
 		{
@@ -107,8 +92,8 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 				var5.addEventListener("yes",this);
 			}
 		}
-	};
-	var1.setType = function setType(var2)
+	}
+	function setType(var2)
 	{
 		var var3 = this._oData.types;
 		var var4 = 0;
@@ -121,8 +106,8 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 			}
 			var4 = var4 + 1;
 		}
-	};
-	var1.setItem = function setItem(var2)
+	}
+	function setItem(var2)
 	{
 		var var3 = this._oData.inventory;
 		var var4 = 0;
@@ -139,30 +124,30 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 			}
 			var4 = var4 + 1;
 		}
-		this.updateItem(new dofus.datacenter.(0,var2),true);
-	};
-	var1.askMiddlePrice = function askMiddlePrice(var2)
+		this.updateItem(new dofus.datacenter.(0,var2),true);
+	}
+	function askMiddlePrice(var2)
 	{
 		this.api.network.Exchange.getItemMiddlePriceInBigStore(var2.unicID);
-	};
-	var1.setMiddlePrice = function setMiddlePrice(var2, var3)
+	}
+	function setMiddlePrice(var2, var3)
 	{
 		if(this._oCurrentItem.unicID == var2 && this._oCurrentItem != undefined)
 		{
 			this._lblPrices.text = this.api.lang.getText("BIGSTORE_MIDDLEPRICE",[var3]);
 		}
-	};
-	var1.init = function init()
+	}
+	function init()
 	{
 		super.init(false,dofus.graphics.gapi.ui.BigStoreBuy.CLASS_NAME);
-	};
-	var1.callClose = function callClose()
+	}
+	function callClose()
 	{
 		this.gapi.hideTooltip();
 		this.api.network.Exchange.leave();
 		return true;
-	};
-	var1.createChildren = function createChildren()
+	}
+	function createChildren()
 	{
 		this.addToQueue({object:this,method:this.addListeners});
 		this.addToQueue({object:this,method:this.initTexts});
@@ -172,8 +157,8 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 		this.hideItemViewer(true);
 		this.addToQueue({object:this,method:this.showHelpSelectType,params:[true]});
 		this.showArrowAnim(false);
-	};
-	var1.addListeners = function addListeners()
+	}
+	function addListeners()
 	{
 		this._btnClose.addEventListener("click",this);
 		this._btnClose2.addEventListener("click",this);
@@ -194,8 +179,8 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 			ank.utils.Logger.err("[BigStoreBuy] il n\'y a pas de data");
 		}
 		this.api.datacenter.Player.addEventListener("kamaChanged",this);
-	};
-	var1.initTexts = function initTexts()
+	}
+	function initTexts()
 	{
 		this._winBackground.title = this.api.lang.getText("BIGSTORE") + (this._oData != undefined?" (" + this.api.lang.getText("BIGSTORE_MAX_LEVEL") + " : " + this._oData.maxLevel + ")":"");
 		this._lblItems.text = this.api.lang.getText("BIGSTORE_ITEM_LIST");
@@ -204,17 +189,17 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 		this._btnClose2.label = this.api.lang.getText("CLOSE");
 		this._btnSearch.label = this.api.lang.getText("SEARCH");
 		this._btnSwitchToSell.label = this.api.lang.getText("BIGSTORE_MODE_SELL");
-	};
-	var1.updateData = function updateData()
+	}
+	function updateData()
 	{
 		this.modelChanged();
 		this.modelChanged2();
 		this.kamaChanged({value:this.api.datacenter.Player.Kama});
-	};
-	var1.populateComboBox = function populateComboBox()
+	}
+	function populateComboBox()
 	{
 		var var2 = this._oData.types;
-		var var3 = new ank.utils.();
+		var var3 = new ank.utils.();
 		var var4 = 0;
 		while(var4 < var2.length)
 		{
@@ -231,12 +216,17 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 			var6 = var6 + 1;
 		}
 		this._cbTypes.dataProvider = var3;
-	};
-	var1.setQuantityHeader = function setQuantityHeader()
+		if(var3.length > 0)
+		{
+			this._cbTypes.selectedIndex = 0;
+			this.updateType(this._cbTypes.selectedItem.id);
+		}
+	}
+	function setQuantityHeader()
 	{
 		this._dgPrices.columnsNames = ["","x" + this._oData.quantity1,"x" + this._oData.quantity2,"x" + this._oData.quantity3];
-	};
-	var1.hideItemViewer = function hideItemViewer(var2)
+	}
+	function hideItemViewer(var2)
 	{
 		this._itvItemViewer._visible = !var2;
 		this._mcItemViewerDescriptionBack._visible = !var2;
@@ -247,15 +237,15 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 			this.showHelpSelectPrice(false);
 			this.showHelpSelectPrice(false);
 		}
-	};
-	var1.updateType = function updateType(var2)
+	}
+	function updateType(var2)
 	{
 		this._lstItems.selectedIndex = -1;
 		this.updateItem();
 		this.showHelpSelectItem(true);
 		this.api.network.Exchange.bigStoreType(var2);
-	};
-	var1.updateItem = function updateItem(var2, var3)
+	}
+	function updateItem(var2, var3)
 	{
 		this._oCurrentItem = var2;
 		this.hideItemViewer(true);
@@ -273,13 +263,13 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 			}
 			else
 			{
-				this._dgPrices.dataProvider = new ank.utils.();
+				this._dgPrices.dataProvider = new ank.utils.();
 			}
 			this._bFullSoul = var2.type == 85;
 			this._sFullSoulMonster = "";
 		}
-	};
-	var1.showHelpSelectType = function showHelpSelectType(var2)
+	}
+	function showHelpSelectType(var2)
 	{
 		this._mcBottomArrow._visible = false;
 		this._mcBottomArrow.stop();
@@ -288,8 +278,8 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 		this._mcLeft2Arrow._visible = false;
 		this._mcLeft2Arrow.stop();
 		this._lblNoItem.text = !var2?"":this.api.lang.getText("BIGSTORE_HELP_SELECT_TYPE");
-	};
-	var1.showHelpSelectPrice = function showHelpSelectPrice(var2)
+	}
+	function showHelpSelectPrice(var2)
 	{
 		this._mcBottomArrow._visible = var2;
 		this._mcBottomArrow.play();
@@ -298,8 +288,8 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 		this._mcLeft2Arrow._visible = false;
 		this._mcLeft2Arrow.stop();
 		this._lblNoItem.text = !var2?"":this.api.lang.getText("BIGSTORE_HELP_SELECT_PRICE");
-	};
-	var1.showHelpSelectItem = function showHelpSelectItem(var2)
+	}
+	function showHelpSelectItem(var2)
 	{
 		this._mcBottomArrow._visible = false;
 		this._mcBottomArrow.stop();
@@ -308,8 +298,8 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 		this._mcLeft2Arrow._visible = var2;
 		this._mcLeft2Arrow.play();
 		this._lblNoItem.text = !var2?"":this.api.lang.getText("BIGSTORE_HELP_SELECT_ITEM");
-	};
-	var1.showArrowAnim = function showArrowAnim(var2)
+	}
+	function showArrowAnim(var2)
 	{
 		if(var2)
 		{
@@ -322,8 +312,8 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 			this._mcArrowAnim._visible = false;
 			this._mcArrowAnim.stop();
 		}
-	};
-	var1.onSearchResult = function onSearchResult(var2)
+	}
+	function onSearchResult(var2)
 	{
 		if(var2)
 		{
@@ -333,8 +323,8 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 		{
 			this.api.kernel.showMessage(this.api.lang.getText("BIGSTORE"),this.api.lang.getText("ITEM_NOT_IN_BIGSTORE"),"ERROR_BOX");
 		}
-	};
-	var1.click = function click(var2)
+	}
+	function click(var2)
 	{
 		switch(var2.target._name)
 		{
@@ -342,25 +332,26 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 			case "_btnClose2":
 				this.callClose();
 				break;
-			default:
-				switch(null)
+			case "_btnSearch":
+				if(this._bFullSoul)
 				{
-					case "_btnSearch":
-						if(this._bFullSoul)
-						{
-							this.api.ui.loadUIComponent("BigStoreSearchFullSoul","BigStoreSearchFullSoul",{oParent:this});
-						}
-						else
-						{
-							this.api.ui.loadUIComponent("BigStoreSearch","BigStoreSearch",{types:this._oData.types,defaultSearch:this._sDefaultSearch,oParent:this});
-						}
-						break;
-					case "_btnSwitchToSell":
-						this.api.network.Exchange.request(10,this._oData.npcID);
+					this.api.ui.loadUIComponent("BigStoreSearchFullSoul","BigStoreSearchFullSoul",{oParent:this});
 				}
+				else
+				{
+					this.api.ui.loadUIComponent("BigStoreSearch","BigStoreSearch",{types:this._oData.types,defaultSearch:this._sDefaultSearch,oParent:this});
+				}
+				break;
+			default:
+				if(var0 !== "_btnSwitchToSell")
+				{
+					break;
+				}
+				this.api.network.Exchange.request(10,this._oData.npcID);
+				break;
 		}
-	};
-	var1.itemSelected = function itemSelected(var2)
+	}
+	function itemSelected(var2)
 	{
 		switch(var2.target._name)
 		{
@@ -381,22 +372,7 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 				this.updateItem(var2.row.item);
 				break;
 			case "_dgPrices":
-				§§push(Key.isDown(dofus.Constants.CHAT_INSERT_ITEM_KEY));
-				if(Key.isDown(dofus.Constants.CHAT_INSERT_ITEM_KEY))
-				{
-				}
-				if(§§pop())
-				{
-					this.api.kernel.GameManager.insertItemInChat(var2.row.item.item);
-					return undefined;
-				}
-				this._itvItemViewer.itemData = var2.row.item.item;
-				this.hideItemViewer(false);
-				this.showArrowAnim(true);
-				break;
-			default:
-				§§pop();
-				if(var2.row.item.item != undefined)
+				if(Key.isDown(dofus.Constants.CHAT_INSERT_ITEM_KEY) && var2.row.item.item != undefined)
 				{
 					this.api.kernel.GameManager.insertItemInChat(var2.row.item.item);
 					return undefined;
@@ -406,8 +382,8 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 				this.showArrowAnim(true);
 				break;
 		}
-	};
-	var1.modelChanged = function modelChanged(var2)
+	}
+	function modelChanged(var2)
 	{
 		var var3 = this._oData.inventory;
 		var3.bubbleSortOn("level",Array.DESCENDING);
@@ -421,15 +397,15 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 		{
 			this._lblItemsCount.text = this.api.lang.getText("NO_BIGSTORE_RESULT");
 		}
-	};
-	var1.fullSoulItemsMovement = function fullSoulItemsMovement()
+	}
+	function fullSoulItemsMovement()
 	{
-		if(this["\x04\x01\bF\x07\x02"] && this["\x04\x01\be4�\x02"] != "�\x0b,N�\x02")
+		if(this._bFullSoul && this._sFullSoulMonster != "")
 		{
-			this["�\r@\x1c�\x02"]();
+			this.modelChanged2();
 		}
-	};
-	var1.modelChanged2 = function modelChanged2(var2)
+	}
+	function modelChanged2(var2)
 	{
 		var var3 = var2.eventName != "updateOne"?null:this._nSelectedPriceItemID;
 		var var4 = var2.eventName != "updateOne"?null:this._nSelectedPriceIndex;
@@ -469,18 +445,18 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 		{
 			this._dgPrices.dataProvider = var7;
 		}
-	};
-	var1.yes = function yes(var2)
+	}
+	function yes(var2)
 	{
-		this["�"]["\b�\x07\x01"][""]["]"](var2["\b\x1eN�\x02"]["\x05\x01�\x02"]["\x04\x04P�\x01"],var2["\b\x1eN�\x02"]["\x05\x01�\x02"]["\b�\x07\x03"],var2["\b\x1eN�\x02"]["\x05\x01�\x02"][""]);
-		this["\b4R�\t"](true);
-		this(true);
-	};
-	var1.kamaChanged = function kamaChanged(var2)
+		this.api.network.Exchange.bigStoreBuy(var2.target.params.id,var2.target.params.quantityIndex,var2.target.params.price);
+		this.hideItemViewer(true);
+		this.showHelpSelectPrice(true);
+	}
+	function kamaChanged(var2)
 	{
-		this["�\x06"]["\""] = new eval("\b\x03N�\x02")["\b\x04�\x02"].0�(var2["\x04\x03\x03I\x12L\x12�\x02"])["\x05\x01�\x02"](this["�"]["�\x04"]["\b/N�\x02"]("\x04\x04\x04\x01\b\x1dN�\x02"),3);
-	};
-	var1["\b�N�\x02"] = function §\b�N�\x02§(var2)
+		this._lblKamasValue.text = new ank.utils.(var2.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
+	}
+	function over(var2)
 	{
 		var var3 = this.api.lang.getText("BIGSTORE_MAX_LEVEL") + " : " + this._oData.maxLevel;
 		var3 = var3 + ("\n" + this.api.lang.getText("BIGSTORE_TAX") + " : " + this._oData.tax + "%");
@@ -493,23 +469,9 @@ if(!dofus.graphics.gapi.ui.BigStoreBuy)
 			var3 = var3 + ("\n - " + this.api.lang.getItemTypeText(var4[k]).n);
 		}
 		this.gapi.showTooltip(var3,var2.target,20);
-	};
-	var1.out = function out(var2)
-	{
-		this["M&�\x04"]();
-	};
-	var1["��\'R\x17�\x03"]("",function()
-	{
 	}
-	,var1["\x04\x01\b#4P�\x02"]);
-	var1["��\'R\x17�\x03"]("",function()
+	function out(var2)
 	{
+		this.gapi.hideTooltip();
 	}
-	,var1[""]);
-	eval("\x03")(var1,null,1);
-	dofus.graphics.gapi.ui.BigStoreBuy = function()
-	{
-		super();
-	}["\b�\b�\x07\x01"] = "\x03";
-	var1["c%<O�\x04"] = "�\x0b,N�\x02";
 }

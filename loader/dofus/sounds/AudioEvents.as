@@ -7,7 +7,7 @@ class dofus.sounds.AudioEvents
 	{
 		if(dofus.sounds.AudioEvents.instance == null)
 		{
-			dofus.sounds.AudioEvents.instance = new dofus.sounds.();
+			dofus.sounds.AudioEvents.instance = new dofus.sounds.();
 		}
 		dofus.sounds.AudioEvents.api = _global.API;
 		return dofus.sounds.AudioEvents.instance;
@@ -32,14 +32,14 @@ class dofus.sounds.AudioEvents
 	{
 		if(dofus.sounds.AudioEvents.api.kernel.XTRA_LANG_FILES_LOADED)
 		{
-			this.getAudioManager().playEffect(dofus.sounds.AudioEvents.api.lang.getEffectFromKeyname("TURN_START"));
+			this.getAudioManager().playEffect(dofus.sounds.AudioEvents.api.lang.getEffectFromKeyname("TURN_START"),undefined,true);
 		}
 	}
 	function onGameInvitation()
 	{
 		if(dofus.sounds.AudioEvents.api.kernel.XTRA_LANG_FILES_LOADED)
 		{
-			this.getAudioManager().playEffect(dofus.sounds.AudioEvents.api.lang.getEffectFromKeyname("BIP"));
+			this.getAudioManager().playEffect(dofus.sounds.AudioEvents.api.lang.getEffectFromKeyname("BIP"),undefined,true);
 		}
 	}
 	function onGameCriticalHit()
@@ -81,7 +81,7 @@ class dofus.sounds.AudioEvents
 	{
 		if(dofus.sounds.AudioEvents.api.kernel.XTRA_LANG_FILES_LOADED)
 		{
-			this.getAudioManager().playEffect(dofus.sounds.AudioEvents.api.lang.getEffectFromKeyname("TAK"));
+			this.getAudioManager().playEffect(dofus.sounds.AudioEvents.api.lang.getEffectFromKeyname("TAK"),undefined,true);
 		}
 	}
 	function onBannerSpellSelect()
@@ -137,21 +137,21 @@ class dofus.sounds.AudioEvents
 	{
 		if(dofus.sounds.AudioEvents.api.kernel.XTRA_LANG_FILES_LOADED)
 		{
-			this.getAudioManager().playEffect(dofus.sounds.AudioEvents.api.lang.getEffectFromKeyname("BIP"));
+			this.getAudioManager().playEffect(dofus.sounds.AudioEvents.api.lang.getEffectFromKeyname("BIP"),undefined,true);
 		}
 	}
 	function onTaxcollectorAttack()
 	{
 		if(dofus.sounds.AudioEvents.api.kernel.XTRA_LANG_FILES_LOADED)
 		{
-			this.getAudioManager().playEffect(dofus.sounds.AudioEvents.api.lang.getEffectFromKeyname("CLANG"));
+			this.getAudioManager().playEffect(dofus.sounds.AudioEvents.api.lang.getEffectFromKeyname("CLANG"),undefined,true);
 		}
 	}
 	function onError()
 	{
 		if(dofus.sounds.AudioEvents.api.kernel.XTRA_LANG_FILES_LOADED)
 		{
-			this.getAudioManager().playEffect(dofus.sounds.AudioEvents.api.lang.getEffectFromKeyname("ERROR"));
+			this.getAudioManager().playEffect(dofus.sounds.AudioEvents.api.lang.getEffectFromKeyname("ERROR"),undefined,true);
 		}
 	}
 	function onEnterVillage()

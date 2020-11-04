@@ -88,34 +88,34 @@ class dofus.graphics.gapi.ui.FightOptionButtons extends dofus.graphics.gapi.core
 			case this._btnFlag:
 				this.api.kernel.GameManager.switchToFlagSet();
 				break;
+			case this._btnBlockJoinerExceptParty:
+				this.api.network.Fights.blockJoinerExceptParty();
+				break;
 			default:
 				switch(null)
 				{
-					case this._btnBlockJoinerExceptParty:
-						this.api.network.Fights.blockJoinerExceptParty();
-						break loop0;
 					case this._btnBlockJoiner:
 						this.api.network.Fights.blockJoiner();
 						break loop0;
 					case this._btnHelp:
 						this.api.network.Fights.needHelp();
 						break loop0;
+					case this._btnBlockSpectators:
+						this.api.network.Fights.blockSpectators();
+						break loop0;
 					default:
-						switch(null)
+						if(var0 !== this._btnToggleSprites)
 						{
-							case this._btnBlockSpectators:
-								this.api.network.Fights.blockSpectators();
-								break;
-							case this._btnToggleSprites:
-								this.api.datacenter.Basics.gfx_isSpritesHidden = !this.api.datacenter.Basics.gfx_isSpritesHidden;
-								if(this.api.datacenter.Basics.gfx_isSpritesHidden)
-								{
-									this.api.gfx.spriteHandler.maskAllSprites();
-									break;
-								}
-								this.api.gfx.spriteHandler.unmaskAllSprites();
-								break;
+							break loop0;
 						}
+						this.api.datacenter.Basics.gfx_isSpritesHidden = !this.api.datacenter.Basics.gfx_isSpritesHidden;
+						if(this.api.datacenter.Basics.gfx_isSpritesHidden)
+						{
+							this.api.gfx.spriteHandler.maskAllSprites();
+							break loop0;
+						}
+						this.api.gfx.spriteHandler.unmaskAllSprites();
+						break loop0;
 				}
 		}
 	}
@@ -130,27 +130,28 @@ class dofus.graphics.gapi.ui.FightOptionButtons extends dofus.graphics.gapi.core
 			case this._btnFlag:
 				this.gapi.showTooltip(this.api.lang.getText("FLAG_INDICATOR_HELP"),this._btnFlag,-30);
 				break;
+			case this._btnBlockJoinerExceptParty:
+				this.gapi.showTooltip(this.api.lang.getText("FIGHT_OPTION_BLOCKJOINEREXCEPTPARTY"),this._btnFlag,-30);
+				break;
 			default:
 				switch(null)
 				{
-					case this._btnBlockJoinerExceptParty:
-						this.gapi.showTooltip(this.api.lang.getText("FIGHT_OPTION_BLOCKJOINEREXCEPTPARTY"),this._btnFlag,-30);
-						break loop0;
 					case this._btnBlockJoiner:
 						this.gapi.showTooltip(this.api.lang.getText("FIGHT_OPTION_BLOCKJOINER"),this._btnFlag,-30);
 						break loop0;
 					case this._btnHelp:
 						this.gapi.showTooltip(this.api.lang.getText("FIGHT_OPTION_HELP"),this._btnFlag,-30);
 						break loop0;
+					case this._btnBlockSpectators:
+						this.gapi.showTooltip(this.api.lang.getText("FIGHT_OPTION_SPECTATOR"),this._btnFlag,-30);
+						break loop0;
 					default:
-						switch(null)
+						if(var0 !== this._btnToggleSprites)
 						{
-							case this._btnBlockSpectators:
-								this.gapi.showTooltip(this.api.lang.getText("FIGHT_OPTION_SPECTATOR"),this._btnFlag,-30);
-								break;
-							case this._btnToggleSprites:
-								this.gapi.showTooltip(this.api.lang.getText("FIGHT_OPTION_SPRITES"),this._btnFlag,-30);
+							break loop0;
 						}
+						this.gapi.showTooltip(this.api.lang.getText("FIGHT_OPTION_SPRITES"),this._btnFlag,-30);
+						break loop0;
 				}
 		}
 	}

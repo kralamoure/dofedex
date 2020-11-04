@@ -40,8 +40,8 @@ class dofus.graphics.gapi.ui.ItemFound extends dofus.graphics.gapi.core.DofusAdv
 	}
 	function initTexts()
 	{
-		var var2 = new dofus.datacenter.(0,this._nItemId,this._nQty);
-		var var3 = new dofus.datacenter.(0,this._nRessourceId,1);
+		var var2 = new dofus.datacenter.(0,this._nItemId,this._nQty);
+		var var3 = new dofus.datacenter.(0,this._nRessourceId,1);
 		this._ldrItem.contentPath = var2.iconFile;
 		this._txtDescription.text = this.api.lang.getText("ITEM_FOUND",[this._nQty,var2.name,var3.name]);
 	}

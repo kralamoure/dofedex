@@ -1,6 +1,6 @@
 class dofus.datacenter.Craft extends Object
 {
-	function Craft(var3, var4)
+	function Craft(var2, var3)
 	{
 		super();
 		this.initialize(var3,var4);
@@ -33,7 +33,7 @@ class dofus.datacenter.Craft extends Object
 	{
 		this.api = _global.API;
 		this._oSkill = var3;
-		this._oCraftItem = new dofus.datacenter.(0,var2,1);
+		this._oCraftItem = new dofus.datacenter.(0,var2,1);
 		this.name = this._oCraftItem.name;
 		var var4 = this.api.lang.getCraftText(var2);
 		this._aItems = new Array();
@@ -42,7 +42,7 @@ class dofus.datacenter.Craft extends Object
 			var var5 = 0;
 			while(var5 < var4.length)
 			{
-				var var6 = new dofus.datacenter.(0,var4[var5][0],var4[var5][1]);
+				var var6 = new dofus.datacenter.(0,var4[var5][0],var4[var5][1]);
 				this._aItems.push(var6);
 				var5 = var5 + 1;
 			}

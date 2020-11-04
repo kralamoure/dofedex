@@ -4,7 +4,7 @@ class dofus.graphics.battlefield.TextWithTitleOverHead extends dofus.graphics.ba
 	static var STARS_WIDTH = 10;
 	static var STARS_MARGIN = 2;
 	static var STARS_COLORS = [-1,16777011,16750848,39168,39372,6697728,2236962,16711680,65280,16777215,16711935];
-	function TextWithTitleOverHead(§\x1e\x0e\x17§, §\x1e\x14\x02§, §\b\x07§, §\x06\n§, §\x1e\x0e\x14§, §\b\x03§, nStarsValue)
+	function TextWithTitleOverHead(§\x1e\f\x14§, §\x1e\x12\r§, §\x07\x03§, §\x05\x03§, §\x1e\f\x10§, §\x06\x1c§, nStarsValue)
 	{
 		super();
 		this.initialize(nStarsValue);

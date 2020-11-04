@@ -1,6 +1,6 @@
 class dofus.aks.Infos extends dofus.aks.Handler
 {
-	function Infos(var3, var4)
+	function Infos(var2, var3)
 	{
 		super.initialize(var3,var4);
 	}
@@ -88,20 +88,101 @@ class dofus.aks.Infos extends dofus.aks.Handler
 			var var9 = var8[0];
 			var var10 = Number(var9);
 			var var11 = var8[1].split("~");
-			switch(var4)
+			if((var var0 = var4) !== "0")
 			{
-				case "0":
-					var var6 = "INFO_CHAT";
-					if(!_global.isNaN(var10))
-					{
-						var var13 = true;
-						loop4:
-						switch(var10)
+				switch(null)
+				{
+					case "1":
+						var var6 = "ERROR_CHAT";
+						if(!_global.isNaN(var10))
 						{
-							case 21:
+							var var23 = var10.toString(10);
+							switch(var10)
+							{
+								case 16:
+									this.api.electron.makeNotification(var22);
+									break;
+								default:
+									switch(null)
+									{
+										case 49:
+											break;
+										case 7:
+											var11 = [this.api.lang.getSpellText(var11[0]).n];
+											break;
+										case 89:
+											if(this.api.config.isStreaming)
+											{
+												var23 = "89_MINICLIP";
+											}
+											if(dofus.Kernel.FAST_SWITCHING_SERVER_REQUEST != undefined)
+											{
+												this.addToQueue({object:this.api.kernel,method:this.api.kernel.onFastServerSwitchSuccess});
+												break;
+											}
+									}
+									break;
+								case 6:
+								case 46:
+									var11 = [this.api.lang.getJobText(var11[0]).n];
+							}
+							var var22 = this.api.lang.getText("ERROR_" + var23,var11);
+						}
+						else
+						{
+							var22 = this.api.lang.getText(var9,var11);
+						}
+						if(var22 != undefined)
+						{
+							var3.push(var22);
+						}
+						break;
+					case "2":
+						var6 = "PVP_CHAT";
+						if(!_global.isNaN(var10))
+						{
+							switch(var10)
+							{
+								case 41:
+									var11 = [this.api.lang.getMapSubAreaText(var11[0]).n,this.api.lang.getMapAreaText(var11[1]).n];
+									break;
+								default:
+									switch(null)
+									{
+										case 89:
+										case 90:
+									}
+									break;
+								case 86:
+								case 87:
+								case 88:
+									var11[0] = this.api.lang.getMapAreaText(var11[0]).n;
+							}
+							var var24 = this.api.lang.getText("PVP_" + var10,var11);
+						}
+						else
+						{
+							var24 = this.api.lang.getText(var9,var11);
+						}
+						if(var24 != undefined)
+						{
+							var3.push(var24);
+							break;
+						}
+				}
+			}
+			else
+			{
+				var6 = "INFO_CHAT";
+				if(!_global.isNaN(var10))
+				{
+					var var13 = true;
+					if((var0 = var10) !== 21)
+					{
+						loop8:
+						switch(null)
+						{
 							case 22:
-								var var14 = new dofus.datacenter.(0,var11[1]);
-								var11 = [var11[0],var14.name];
 								break;
 							case 17:
 								var11 = [var11[0],this.api.lang.getJobText(var11[1]).n];
@@ -115,42 +196,39 @@ class dofus.aks.Infos extends dofus.aks.Handler
 							default:
 								switch(null)
 								{
-									case 54:
 									case 55:
 									case 56:
-										var11[0] = this.api.lang.getQuestText(var11[0]);
-										break loop4;
 									case 65:
 									case 73:
-										var var15 = new dofus.datacenter.(0,var11[1]);
+										var var15 = new dofus.datacenter.(0,var11[1]);
 										var11[2] = var15.name;
-										break loop4;
+										break loop8;
 									default:
 										switch(null)
 										{
 											case 82:
 											case 83:
 												this.api.kernel.showMessage(this.api.lang.getText("INFORMATIONS"),this.api.lang.getText("INFOS_" + var10,var11),"ERROR_BOX");
-												break loop4;
+												break loop8;
 											case 84:
-												break loop4;
+												break loop8;
 											case 120:
 												if(dofus.Constants.SAVING_THE_WORLD)
 												{
 													dofus.SaveTheWorld.getInstance().safeWasBusy();
 													dofus.SaveTheWorld.getInstance().nextAction();
 												}
-												break loop4;
-											case 123:
-												var var12 = this.api.kernel.ChatManager.parseInlineItems(this.api.lang.getText("INFOS_" + var10),var11);
-												var13 = false;
-												break loop4;
+												break loop8;
 											default:
 												switch(null)
 												{
+													case 123:
+														var var12 = this.api.kernel.ChatManager.parseInlineItems(this.api.lang.getText("INFOS_" + var10),var11);
+														var13 = false;
+														break;
 													case 150:
 														var6 = "MESSAGE_CHAT";
-														var var16 = new dofus.datacenter.(0,var11[0]);
+														var var16 = new dofus.datacenter.(0,var11[0]);
 														var var17 = new Array();
 														var var18 = 3;
 														while(var18 < var11.length)
@@ -162,7 +240,7 @@ class dofus.aks.Infos extends dofus.aks.Handler
 														break;
 													case 151:
 														var6 = "WHISP_CHAT";
-														var var19 = new dofus.datacenter.(0,var11[0]);
+														var var19 = new dofus.datacenter.(0,var11[0]);
 														var var20 = new Array();
 														var var21 = 2;
 														while(var21 < var11.length)
@@ -174,94 +252,29 @@ class dofus.aks.Infos extends dofus.aks.Handler
 												}
 										}
 								}
+							case 54:
+								var11[0] = this.api.lang.getQuestText(var11[0]);
 						}
 						if(var13)
 						{
 							var12 = this.api.lang.getText("INFOS_" + var10,var11);
 						}
 					}
-					else
+					var var14 = new dofus.datacenter.(0,var11[1]);
+					var11 = [var11[0],var14.name];
+					if(var13)
 					{
-						var12 = this.api.lang.getText(var9,var11);
+						var12 = this.api.lang.getText("INFOS_" + var10,var11);
 					}
-					if(var12 != undefined)
-					{
-						var3.push(var12);
-					}
-					break;
-				case "1":
-					var6 = "ERROR_CHAT";
-					if(!_global.isNaN(var10))
-					{
-						var var23 = var10.toString(10);
-						switch(var10)
-						{
-							case 16:
-								this.api.electron.makeNotification(var22);
-								break;
-							default:
-								switch(null)
-								{
-									case 46:
-									case 49:
-										break;
-									case 7:
-										var11 = [this.api.lang.getSpellText(var11[0]).n];
-										break;
-									case 89:
-										if(this.api.config.isStreaming)
-										{
-											var23 = "89_MINICLIP";
-											break;
-										}
-								}
-								break;
-							case 6:
-								var11 = [this.api.lang.getJobText(var11[0]).n];
-						}
-						var var22 = this.api.lang.getText("ERROR_" + var23,var11);
-					}
-					else
-					{
-						var22 = this.api.lang.getText(var9,var11);
-					}
-					if(var22 != undefined)
-					{
-						var3.push(var22);
-					}
-					break;
-				case "2":
-					var6 = "PVP_CHAT";
-					if(!_global.isNaN(var10))
-					{
-						switch(var10)
-						{
-							case 41:
-								var11 = [this.api.lang.getMapSubAreaText(var11[0]).n,this.api.lang.getMapAreaText(var11[1]).n];
-								break;
-							default:
-								switch(null)
-								{
-									case 87:
-									case 88:
-									case 89:
-									case 90:
-								}
-								break;
-							case 86:
-								var11[0] = this.api.lang.getMapAreaText(var11[0]).n;
-						}
-						var var24 = this.api.lang.getText("PVP_" + var10,var11);
-					}
-					else
-					{
-						var24 = this.api.lang.getText(var9,var11);
-					}
-					if(var24 != undefined)
-					{
-						var3.push(var24);
-						break;
-					}
+				}
+				else
+				{
+					var12 = this.api.lang.getText(var9,var11);
+				}
+				if(var12 != undefined)
+				{
+					var3.push(var12);
+				}
 			}
 			var7 = var7 + 1;
 		}
@@ -284,7 +297,7 @@ class dofus.aks.Infos extends dofus.aks.Handler
 		var var4 = var3[0];
 		var var5 = var3[1].charAt(0) == "+";
 		var var6 = var3[1].substr(1);
-		var var7 = var6 != ""?new dofus.datacenter.(0,var6,1):undefined;
+		var var7 = var6 != ""?new dofus.datacenter.(0,var6,1):undefined;
 		if(!this.api.datacenter.Basics.isCraftLooping)
 		{
 			this.api.gfx.addSpriteOverHeadItem(var4,"craft",dofus.graphics.battlefield.CraftResultOverHead,[var5,var7],2000);

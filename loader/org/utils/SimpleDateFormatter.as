@@ -23,7 +23,7 @@ class org.utils.SimpleDateFormatter
 	{
 		return (!(var2 < 0 || var2 > 9)?"0":"") + var2;
 	}
-	static function formatDate(date, §\x0f\x04§, §\f\x1a§)
+	static function formatDate(date, §\x0e\x04§, §\x0b\x1a§)
 	{
 		if(var4 == undefined)
 		{

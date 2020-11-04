@@ -18,7 +18,8 @@ class dofus.managers.UIdManager
 	{
 		if(!dofus.managers.UIdManager._self)
 		{
-			dofus.managers.UIdManager._self = new dofus.managers.();
+			dofus.managers.UIdManager._self = new dofus.managers.
+();
 		}
 		return dofus.managers.UIdManager._self;
 	}

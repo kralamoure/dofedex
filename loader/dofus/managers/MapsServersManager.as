@@ -28,7 +28,7 @@ class dofus.managers.MapsServersManager extends dofus.managers.ServersManager
 	{
 		super.initialize(var3,"maps","maps/");
 	}
-	function loadMap(sID, §\x1e\x14\x16§, §\x1e\x12\x1a§)
+	function loadMap(sID, §\x1e\x13\x04§, §\x1e\x11\x06§)
 	{
 		this._lastLoadedMap = undefined;
 		if(!_global.isNaN(Number(sID)))
@@ -135,7 +135,7 @@ class dofus.managers.MapsServersManager extends dofus.managers.ServersManager
 		this.api.datacenter.Basics.aks_current_map_id = var3;
 		this.api.kernel.TipsManager.onNewMap(var3);
 		this.api.kernel.StreamingDisplayManager.onNewMap(var3);
-		var var21 = new dofus.datacenter.(var3);
+		var var21 = new dofus.datacenter.(var3);
 		var21.bCanChallenge = var17;
 		var21.bCanAttack = var18;
 		var21.bSaveTeleport = var19;

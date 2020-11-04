@@ -2,7 +2,7 @@ class ank.utils.Timer extends Object
 {
 	static var _nTimerIndex = 0;
 	static var _oIDs = new Object();
-	static var _tTimer = new ank.utils.	();
+	static var _tTimer = new ank.utils.();
 	function Timer()
 	{
 		super();
@@ -25,17 +25,18 @@ class ank.utils.Timer extends Object
 		if(var2 != undefined)
 		{
 			var var3 = ank.utils.Timer._oIDs[var2];
-			for(var k in var3)
+			§§enumerate(var3);
+			while((var var0 = §§enumeration()) != null)
 			{
 				ank.utils.Timer.removeTimer(var3[k][0],var2,var3[k][1]);
 			}
 		}
 		else
 		{
-			for(var k in ank.utils.Timer._oIDs)
+			for(var var4 in ank.utils.Timer._oIDs)
 			{
-				var var4 = ank.utils.Timer._oIDs[k];
-				for(var kk in var4)
+				§§enumerate(var4);
+				while((var var0 = §§enumeration()) != null)
 				{
 					ank.utils.Timer.removeTimer(var4[kk][0],var4[kk][2],var4[kk][1]);
 				}

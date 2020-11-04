@@ -63,7 +63,7 @@ class dofus.datacenter.Alignment implements com.ankamagames.interfaces.IComparab
 	}
 	function clone()
 	{
-		return new dofus.datacenter.(this._nIndex,this._nValue);
+		return new dofus.datacenter.(this._nIndex,this._nValue);
 	}
 	function compareTo(var2)
 	{

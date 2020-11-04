@@ -65,7 +65,7 @@ class ank.battlefield.SpriteHandler
 			oSprite.mc.setAlpha(ank.battlefield.Constants.GHOSTVIEW_SPRITE_ALPHA);
 		}
 	}
-	function addLinkedSprite(sID, §\x1e\x11\x02§, §\b\n§, oSprite)
+	function addLinkedSprite(sID, §\x1e\x0f\b§, §\x07\x06§, oSprite)
 	{
 		var var6 = true;
 		var var7 = this._oSprites.getItemAt(var3);
@@ -103,7 +103,7 @@ class ank.battlefield.SpriteHandler
 		var7.linkedChilds.addItemAt(sID,oSprite);
 		this.addSprite(sID);
 	}
-	function carriedSprite(sID, §\x1e\x11\x02§)
+	function carriedSprite(sID, §\x1e\x0f\b§)
 	{
 		var var4 = this._oSprites.getItemAt(sID);
 		if(var4 == undefined)
@@ -134,7 +134,7 @@ class ank.battlefield.SpriteHandler
 			var4.mc.setNewCellNum(var5.cellNum);
 		}
 	}
-	function uncarriedSprite(sID, §\b\x18§, §\x14\x11§, §\x1e\x19\x0f§)
+	function uncarriedSprite(sID, §\x07\x14§, §\x13\x16§, §\x1e\x17\x1d§)
 	{
 		var oSprite = this._oSprites.getItemAt(sID);
 		if(oSprite == undefined)
@@ -144,51 +144,59 @@ class ank.battlefield.SpriteHandler
 		}
 		if(oSprite.hasCarriedParent())
 		{
-			var var6 = oSprite.carriedParent;
-			var var7 = var6.mc;
-			var var8 = var6.sequencer;
+			oSprite.uncarryingSprite = true;
+			var var6 = oSprite.mc;
+			var var7 = oSprite.carriedParent;
+			var var8 = var7.mc;
+			var var9 = var7.sequencer;
 			if(var5 == undefined)
 			{
-				var5 = var8;
+				var5 = var9;
 			}
 			else if(var4)
 			{
-				var5.addAction(false,this,function(var2, var3)
+				var5.addAction(1,false,this,function(var2, var3)
 				{
 					var2.sequencer = var3;
 				}
-				,[var6,var5]);
+				,[var7,var5]);
 			}
 			if(var4)
 			{
-				var5.addAction(false,this,this.autoCalculateSpriteDirection,[var6.id,var3]);
-				var5.addAction(true,var7,var7.setAnim,["carringEnd",false,false]);
-				var7.onEnterFrame = function()
+				var5.addAction(2,false,this,this.autoCalculateSpriteDirection,[var7.id,var3]);
+				var5.addAction(3,true,var8,var8.setAnim,["carringEnd",false,false]);
+				var8.onEnterFrame = function()
 				{
 					this.updateCarriedPosition();
 					delete this.onEnterFrame;
 				};
 			}
-			var5.addAction(false,this,function(var2, var3)
+			var5.addAction(4,false,this,function(var2, var3)
 			{
+				oSprite.uncarryingSprite = false;
 				oSprite.carriedParent = undefined;
 				var3.carriedChild = undefined;
 			}
-			,[oSprite,var6]);
-			var5.addAction(false,this,this.setSpritePosition,[oSprite.id,var3]);
+			,[oSprite,var7]);
+			if(!var5.containsAction(var6,var6.setPosition))
+			{
+				var5.addAction(5,false,this,this.setSpritePosition,[oSprite.id,var3]);
+			}
+			if(!var7.isPendingClearing)
+			{
+				var5.addAction(6,false,var8,var8.setAnim,["static",false,false]);
+			}
 			if(var4)
 			{
-				var5.addAction(false,var7,var7.setAnim,["static",false,false]);
-				var5.addAction(false,this,function(var2, var3)
+				var5.addAction(7,false,this,function(var2, var3)
 				{
 					var2.sequencer = var3;
 				}
-				,[var6,var8]);
+				,[var7,var9]);
 			}
-			var5.execute();
 		}
 	}
-	function mountSprite(sID, §\x1e\x1a\x07§)
+	function mountSprite(sID, §\x1e\x18\x15§)
 	{
 		var var4 = this._oSprites.getItemAt(sID);
 		if(var4 == undefined)
@@ -216,7 +224,7 @@ class ank.battlefield.SpriteHandler
 			var3.mc.draw();
 		}
 	}
-	function removeSprite(sID, §\x18\x13§)
+	function removeSprite(sID, §\x18\b§)
 	{
 		this._mcBattlefield.removeSpriteBubble(sID);
 		this._mcBattlefield.hideSpriteOverHead(sID);
@@ -225,6 +233,10 @@ class ank.battlefield.SpriteHandler
 			var3 = false;
 		}
 		var var4 = this._oSprites.getItemAt(sID);
+		if(var4.mc != undefined && var4.mc == this.api.gfx.rollOverMcSprite)
+		{
+			this.api.gfx.onSpriteRollOut(var4.mc);
+		}
 		if(var4.hasChilds)
 		{
 			var var5 = var4.linkedChilds.getItems();
@@ -256,7 +268,7 @@ class ank.battlefield.SpriteHandler
 			this._oSprites.removeItemAt(sID);
 		}
 	}
-	function hideSprite(sID, §\x19\x14§)
+	function hideSprite(sID, §\x19\x0b§)
 	{
 		var var4 = this._oSprites.getItemAt(sID);
 		if(var4.hasChilds)
@@ -287,7 +299,7 @@ class ank.battlefield.SpriteHandler
 			var2[k].isHidden = true;
 		}
 	}
-	function setSpriteDirection(sID, §\x07\x10§)
+	function setSpriteDirection(sID, §\x06\n§)
 	{
 		if(var3 == undefined)
 		{
@@ -314,7 +326,7 @@ class ank.battlefield.SpriteHandler
 		var var6 = var4.mc;
 		var6.setDirection(var3);
 	}
-	function setSpritePosition(sID, §\b\x18§, §\x07\x10§)
+	function setSpritePosition(sID, §\x07\x14§, §\x06\n§)
 	{
 		var var5 = this._oSprites.getItemAt(sID);
 		if(var5 == undefined)
@@ -350,30 +362,31 @@ class ank.battlefield.SpriteHandler
 		var var8 = var5.mc;
 		var8.setPosition(var3);
 	}
-	function stopSpriteMove(sID, §\x1e\x19\x0f§, §\b\x18§)
+	function stopSpriteMove(sID, §\x1e\x17\x1d§, §\x07\x14§)
 	{
 		var3.clearAllNextActions();
 		var var5 = this._oSprites.getItemAt(sID);
 		var var6 = var5.mc;
 		var5.isInMove = false;
-		var3.addAction(false,var6,var6.setPosition,[var4]);
-		var3.addAction(false,var6,var6.setAnim,["static"]);
+		var3.addAction(8,false,var6,var6.setPosition,[var4]);
+		var3.addAction(9,false,var6,var6.setAnim,["static"]);
 	}
-	function slideSprite(sID, cellNum, §\x1e\x14\f§, §\x1e\x16\x0b§)
+	function slideSprite(sID, §\x13\x05§, §\x1e\x12\x17§, §\x1e\x14\x17§)
 	{
 		if(var5 == undefined)
 		{
 			var5 = "static";
 		}
 		var var6 = this._oSprites.getItemAt(sID);
-		var var7 = ank.battlefield.utils.Pathfinding.getDirectionFromCoordinates(this._mcBattlefield.mapHandler.getCellData(var6.cellNum).x,this._mcBattlefield.mapHandler.getCellData(var6.cellNum).rootY,this._mcBattlefield.mapHandler.getCellData(cellNum).x,this._mcBattlefield.mapHandler.getCellData(cellNum).rootY,false);
-		var var8 = ank.battlefield.utils.Compressor.makeFullPath(this._mcBattlefield.mapHandler,[{num:var6.cellNum},{num:cellNum,dir:var7}]);
-		if(var8 != undefined)
+		var var7 = var6.futureCellNum == -1?var6.cellNum:var6.futureCellNum;
+		var var8 = ank.battlefield.utils.Pathfinding.getDirectionFromCoordinates(this._mcBattlefield.mapHandler.getCellData(var7).x,this._mcBattlefield.mapHandler.getCellData(var7).rootY,this._mcBattlefield.mapHandler.getCellData(var3).x,this._mcBattlefield.mapHandler.getCellData(var3).rootY,false);
+		var var9 = ank.battlefield.utils.Compressor.makeFullPath(this._mcBattlefield.mapHandler,[{num:var7},{num:var3,dir:var8}]);
+		if(var9 != undefined)
 		{
-			this.moveSprite(sID,var8,var4,false,var5);
+			this.moveSprite(sID,var9,var4,false,var5);
 		}
 	}
-	function moveSprite(sID, §\x1e\x18\x0e§, §\x1e\x14\f§, §\x1b\x17§, §\x1e\x16\x0b§, §\x1a\x04§, §\x1a\x03§, §\x1e\x16\x12§)
+	function moveSprite(sID, §\x1e\x16\x1c§, §\x1e\x12\x17§, §\x1b\x0e§, §\x1e\x14\x17§, §\x19\x18§, §\x19\x17§, §\x1e\x15\x01§)
 	{
 		this._mcBattlefield.removeSpriteBubble(sID);
 		this._mcBattlefield.hideSpriteOverHead(sID);
@@ -416,9 +429,10 @@ class ank.battlefield.SpriteHandler
 		{
 			var4 = var12.sequencer;
 		}
+		var var13 = Number(var3[var3.length - 1]);
+		var12.futureCellNum = var13;
 		if(var12.hasChilds)
 		{
-			var var13 = Number(var3[var3.length - 1]);
 			if(var3.length > 1)
 			{
 				var var14 = ank.battlefield.utils.Pathfinding.getDirection(this._mcBattlefield.mapHandler,Number(var3[var3.length - 2]),var13);
@@ -432,7 +446,7 @@ class ank.battlefield.SpriteHandler
 			{
 				var var16 = var15[k];
 				var var17 = ank.battlefield.utils.Pathfinding.getArroundCellNum(this._mcBattlefield.mapHandler,var13,var14,var16.childIndex);
-				var var18 = ank.battlefield.utils.Pathfinding.pathFind(this._mcBattlefield.mapHandler,var16.cellNum,var17,{bAllDirections:var16.allDirections,bIgnoreSprites:true,bCellNumOnly:true,bWithBeginCellNum:true});
+				var var18 = ank.battlefield.utils.Pathfinding.pathFind(this.api,this._mcBattlefield.mapHandler,var16.cellNum,var17,{bAllDirections:var16.allDirections,bIgnoreSprites:true,bCellNumOnly:true,bWithBeginCellNum:true});
 				if(var18 != null)
 				{
 					ank.utils.Timer.setTimer(var16,"battlefield",this,this.moveSprite,200 + (var12.cellNum != var16.cellNum?0:200),[var16.id,var18,var16.sequencer,var5,var6,var16.forceRun || var7,var16.forceWalk || var8,var9]);
@@ -447,7 +461,7 @@ class ank.battlefield.SpriteHandler
 				var4.clearAllNextActions();
 			}
 		}
-		var4.addAction(false,var19,var19.setPosition,[var3[0]]);
+		var4.addAction(10,false,var19,var19.setPosition,[var3[0]]);
 		var var20 = var3.length;
 		var var21 = var20 - 1;
 		var var22 = 0;
@@ -467,7 +481,7 @@ class ank.battlefield.SpriteHandler
 					var25 = true;
 				}
 			}
-			var4.addAction(true,var19,var19.moveToCell,[var4,var3[var22],var22 == var21,var24,var23,var25]);
+			var4.addAction(11,true,var19,var19.moveToCell,[var4,var3[var22],var22 == var21,var24,var23,var25]);
 			var22 = var22 + 1;
 		}
 		var4.execute();
@@ -565,7 +579,7 @@ class ank.battlefield.SpriteHandler
 			}
 		}
 	}
-	function launchVisualEffect(sID, §\x1e\x1b\x04§, §\b\x18§, §\x07\x0b§, §\n\x10§, §\x1e\x0e\x1d§, §\x1e\x19\x06§, §\x19\x18§, §\x1c\b§)
+	function launchVisualEffect(sID, §\x1e\x19\x12§, §\x07\x14§, §\x06\x05§, §\t\r§, §\x1e\f\x1d§, §\x1e\x17\x14§, §\x19\x0f§, §\x1c\x01§)
 	{
 		if(var10 == undefined)
 		{
@@ -578,6 +592,10 @@ class ank.battlefield.SpriteHandler
 			return undefined;
 		}
 		var var12 = this._oSprites.getItemAt(var7);
+		if(!this.api.electron.isWindowFocused)
+		{
+			var3.file = undefined;
+		}
 		if(!var10)
 		{
 			this._mcBattlefield.visualEffectHandler.addEffect(var11,var3,var4,var5,var12,!var9?var11.isVisible:true);
@@ -593,25 +611,25 @@ class ank.battlefield.SpriteHandler
 				var var16 = false;
 				var15 = false;
 				break;
+			case 10:
+			case 11:
+				var16 = false;
+				break;
+			case 12:
+				var16 = true;
+				break;
 			default:
 				switch(null)
 				{
-					case 11:
-					case 12:
-						var16 = true;
-						break loop0;
-					case 20:
 					case 21:
-						var16 = false;
+					case 30:
+					case 31:
+						var16 = true;
 						break loop0;
 					default:
 						switch(null)
 						{
-							case 31:
-							case 40:
 							case 41:
-								var16 = true;
-								break loop0;
 							case 50:
 								var16 = false;
 								break loop0;
@@ -622,15 +640,15 @@ class ank.battlefield.SpriteHandler
 								var16 = false;
 								var15 = false;
 						}
-					case 30:
+					case 40:
 						var16 = true;
 				}
-			case 10:
+			case 20:
 				var16 = false;
 		}
 		var13._ACTION = var11;
 		var13._OBJECT = var13;
-		var14.addAction(false,this,this.autoCalculateSpriteDirection,[sID,var4]);
+		var14.addAction(12,false,this,this.autoCalculateSpriteDirection,[sID,var4]);
 		if(var6 != undefined)
 		{
 			var var17 = typeof var6;
@@ -645,46 +663,46 @@ class ank.battlefield.SpriteHandler
 				var var19 = this._mcBattlefield.mapHandler.getCellData(var18);
 				var var20 = this._mcBattlefield.mapHandler.getCellData(var4);
 				var var21 = ank.battlefield.utils.Pathfinding.getDirectionFromCoordinates(var19.x,var19.y,var20.x,var20.y,false);
-				var var22 = ank.battlefield.utils.Compressor.makeFullPath(this._mcBattlefield.mapHandler,ank.battlefield.utils.Pathfinding.pathFind(this._mcBattlefield.mapHandler,var18,var4,{bIgnoreSprites:true,bWithBeginCellNum:true}));
+				var var22 = ank.battlefield.utils.Compressor.makeFullPath(this._mcBattlefield.mapHandler,ank.battlefield.utils.Pathfinding.pathFind(this.api,this._mcBattlefield.mapHandler,var18,var4,{bIgnoreSprites:true,bWithBeginCellNum:true}));
 				var22.pop();
 				var var23 = var22[var22.length - 1];
 				this.moveSprite(sID,var22,var14,false,var6[0],false,true);
-				var14.addAction(false,var13,var13.setDirection,[ank.battlefield.utils.Pathfinding.convertHeightToFourDirection(var21)]);
-				var14.addAction(true,var13,var13.setAnim,[var6[1]]);
+				var14.addAction(13,false,var13,var13.setDirection,[ank.battlefield.utils.Pathfinding.convertHeightToFourDirection(var21)]);
+				var14.addAction(14,true,var13,var13.setAnim,[var6[1]]);
 				if(var15)
 				{
-					var14.addAction(var16,this._mcBattlefield.visualEffectHandler,this._mcBattlefield.visualEffectHandler.addEffect,[var11,var3,var4,var5,var12,!var9?var11.isVisible:true]);
+					var14.addAction(15,var16,this._mcBattlefield.visualEffectHandler,this._mcBattlefield.visualEffectHandler.addEffect,[var11,var3,var4,var5,var12,!var9?var11.isVisible:true]);
 				}
-				var var24 = ank.battlefield.utils.Compressor.makeFullPath(this._mcBattlefield.mapHandler,ank.battlefield.utils.Pathfinding.pathFind(this._mcBattlefield.mapHandler,var23,var18,{bIgnoreSprites:true,bWithBeginCellNum:true}));
+				var var24 = ank.battlefield.utils.Compressor.makeFullPath(this._mcBattlefield.mapHandler,ank.battlefield.utils.Pathfinding.pathFind(this.api,this._mcBattlefield.mapHandler,var23,var18,{bIgnoreSprites:true,bWithBeginCellNum:true}));
 				this.moveSprite(sID,var24,var14,false,var6[2],false,true);
-				var14.addAction(false,var13,var13.setDirection,[var21]);
+				var14.addAction(16,false,var13,var13.setDirection,[var21]);
 				if(var6[3] != undefined)
 				{
-					var14.addAction(false,var13,var13.setAnim,[var6[3]]);
+					var14.addAction(17,false,var13,var13.setAnim,[var6[3]]);
 				}
 				var14.execute();
 				return undefined;
 			}
 			if(var17 == "string")
 			{
-				var14.addAction(true,var13,var13.setAnim,[var6,false,true]);
+				var14.addAction(18,true,var13,var13.setAnim,[var6,false,true]);
 			}
 		}
 		if(var8 != undefined)
 		{
-			var14.addAction(false,this,this.hideSprite,[var8.id,true]);
+			var14.addAction(19,false,this,this.hideSprite,[var8.id,true]);
 		}
 		if(var15)
 		{
-			var14.addAction(var16,this._mcBattlefield.visualEffectHandler,this._mcBattlefield.visualEffectHandler.addEffect,[var11,var3,var4,var5,var12,!var9?var11.isVisible:true]);
+			var14.addAction(20,var16,this._mcBattlefield.visualEffectHandler,this._mcBattlefield.visualEffectHandler.addEffect,[var11,var3,var4,var5,var12,!var9?var11.isVisible:true]);
 		}
 		if(var8 != undefined)
 		{
-			var14.addAction(false,this,this.hideSprite,[var8.id,false]);
+			var14.addAction(21,false,this,this.hideSprite,[var8.id,false]);
 		}
 		var14.execute();
 	}
-	function launchCarriedSprite(sID, §\x1e\x1b\x04§, §\b\x18§, §\x07\x0b§)
+	function launchCarriedSprite(sID, §\x1e\x19\x12§, §\x07\x14§, §\x06\x05§)
 	{
 		var var6 = this._oSprites.getItemAt(sID);
 		var var7 = var6.sequencer;
@@ -695,12 +713,12 @@ class ank.battlefield.SpriteHandler
 		}
 		var var8 = var6.carriedChild;
 		this.launchVisualEffect(sID,var3,var4,var5,"carringThrow",undefined,var8);
-		var7.addAction(false,this,this.setSpritePosition,[var8.id,var4]);
+		var7.addAction(22,false,this,this.setSpritePosition,[var8.id,var4]);
 		this.uncarriedSprite(var8.id,var4,false,var7);
-		var7.addAction(false,this,this.setSpriteAnim,[sID,"static"]);
+		var7.addAction(23,false,this,this.setSpriteAnim,[sID,"static"]);
 		var7.execute();
 	}
-	function autoCalculateSpriteDirection(sID, §\b\x18§)
+	function autoCalculateSpriteDirection(sID, §\x07\x14§)
 	{
 		var var4 = this._oSprites.getItemAt(sID);
 		if(var4 == undefined)
@@ -727,7 +745,7 @@ class ank.battlefield.SpriteHandler
 		}
 		this.setSpriteDirection(sID,ank.battlefield.utils.Pathfinding.convertHeightToFourDirection(var3.direction));
 	}
-	function setSpriteAnim(sID, §\x1e\x03§, §\x1a\x06§)
+	function setSpriteAnim(sID, §\x1e\x02§, §\x19\x1a§)
 	{
 		var var5 = this._oSprites.getItemAt(sID);
 		if(var5 == undefined)
@@ -738,7 +756,7 @@ class ank.battlefield.SpriteHandler
 		ank.utils.Timer.removeTimer(var5.mc,"battlefield");
 		var5.mc.setAnim(var3,false,var4);
 	}
-	function setSpriteLoopAnim(sID, §\x1e\x03§, §\x1e\x1d\r§)
+	function setSpriteLoopAnim(sID, §\x1e\x02§, §\x1e\x1b\x1d§)
 	{
 		var var5 = this._oSprites.getItemAt(sID);
 		if(var5 == undefined)
@@ -750,7 +768,7 @@ class ank.battlefield.SpriteHandler
 		var5.mc.setAnim(var3,true);
 		ank.utils.Timer.setTimer(var5.mc,"battlefield",var5.mc,var5.mc.setAnim,var4,["static"]);
 	}
-	function setSpriteTimerAnim(sID, §\x1e\x03§, §\x1a\x06§, §\x1e\x1d\r§)
+	function setSpriteTimerAnim(sID, §\x1e\x02§, §\x19\x1a§, §\x1e\x1b\x1d§)
 	{
 		var var6 = this._oSprites.getItemAt(sID);
 		if(var6 == undefined)
@@ -761,7 +779,7 @@ class ank.battlefield.SpriteHandler
 		ank.utils.Timer.removeTimer(var6.mc,"battlefield");
 		var6.mc.setAnimTimer(var3,false,var4,var5);
 	}
-	function setSpriteGfx(sID, §\x1e\x14\x02§)
+	function setSpriteGfx(sID, §\x1e\x12\r§)
 	{
 		var var4 = this._oSprites.getItemAt(sID);
 		if(var4 == undefined)
@@ -779,7 +797,7 @@ class ank.battlefield.SpriteHandler
 			}
 		}
 	}
-	function setSpriteColorTransform(sID, §\x1e\r\x18§)
+	function setSpriteColorTransform(sID, §\x1e\x0b\x14§)
 	{
 		var var4 = this._oSprites.getItemAt(sID);
 		if(var4 == undefined)
@@ -789,7 +807,7 @@ class ank.battlefield.SpriteHandler
 		}
 		var4.mc.setColorTransform(var3);
 	}
-	function setSpriteAlpha(sID, §\n\x01§)
+	function setSpriteAlpha(sID, §\b\x1b§)
 	{
 		var var4 = this._oSprites.getItemAt(sID);
 		if(var4 == undefined)
@@ -799,7 +817,7 @@ class ank.battlefield.SpriteHandler
 		}
 		var4.mc.setAlpha(var3);
 	}
-	function addSpriteExtraClip(sID, §\x13\x16§, §\x13\x12§, §\x15\x06§)
+	function addSpriteExtraClip(sID, §\x12\x19§, §\x12\x15§, §\x14\x0e§)
 	{
 		var var6 = this._oSprites.getItemAt(sID);
 		if(var6 == undefined)
@@ -809,7 +827,7 @@ class ank.battlefield.SpriteHandler
 		}
 		var6.mc.addExtraClip(var3,var4,var5);
 	}
-	function removeSpriteExtraClip(sID, §\x15\x06§)
+	function removeSpriteExtraClip(sID, §\x14\x0e§)
 	{
 		var var4 = this._oSprites.getItemAt(sID);
 		if(var4 == undefined)
@@ -819,7 +837,7 @@ class ank.battlefield.SpriteHandler
 		}
 		var4.mc.removeExtraClip(var3);
 	}
-	function showSpritePoints(sID, §\x1e\f\t§, §\x13\x12§)
+	function showSpritePoints(sID, §\x1e\n\x04§, §\x12\x15§)
 	{
 		var var5 = this._oSprites.getItemAt(sID);
 		if(var5 == undefined)
@@ -838,7 +856,7 @@ class ank.battlefield.SpriteHandler
 			var4.mc.setGhostView(var4.allowGhostMode && var2);
 		}
 	}
-	function selectSprite(sID, §\x16\r§)
+	function selectSprite(sID, §\x15\x17§)
 	{
 		var var4 = this._oSprites.getItemAt(sID);
 		if(var4 == undefined)
@@ -856,7 +874,7 @@ class ank.battlefield.SpriteHandler
 		}
 		var4.mc.select(var3);
 	}
-	function setSpriteScale(sID, §\x01\x0b§, §\x01\n§)
+	function setSpriteScale(sID, §\x1e\x1d\x1c§, §\x1e\x1d\x1b§)
 	{
 		var var5 = this._oSprites.getItemAt(sID);
 		if(var5 == undefined)

@@ -15,6 +15,7 @@ class dofus.graphics.gapi.ui.Register extends dofus.graphics.gapi.core.DofusAdva
 	{
 		super.init(false,dofus.graphics.gapi.ui.Register.CLASS_NAME);
 		this._oLoader = new LoadVars();
+		var ref = this;
 		this._lvHearAbout = new LoadVars();
 		this._lvHearAbout.onLoad = function(var2)
 		{
@@ -70,6 +71,7 @@ class dofus.graphics.gapi.ui.Register extends dofus.graphics.gapi.core.DofusAdva
 	function addListeners()
 	{
 		this._btnClose.addEventListener("click",this);
+		var ref = this;
 		this._mcNewsletterTrigger.onRelease = function()
 		{
 			ref.click({target:this});
@@ -117,7 +119,7 @@ class dofus.graphics.gapi.ui.Register extends dofus.graphics.gapi.core.DofusAdva
 		this._tiPassword2.password = true;
 		this._btnMale.radio = true;
 		this._btnFemale.radio = true;
-		var var2 = new ank.utils.();
+		var var2 = new ank.utils.();
 		var2.push({label:"-",data:"-1"});
 		var var3 = 1;
 		while(var3 < 32)
@@ -127,7 +129,7 @@ class dofus.graphics.gapi.ui.Register extends dofus.graphics.gapi.core.DofusAdva
 		}
 		this._cbDay.dataProvider = var2;
 		this._cbDay.selectedIndex = 0;
-		var var4 = new ank.utils.();
+		var var4 = new ank.utils.();
 		var4.push({label:"-",data:"-1"});
 		var var5 = 1;
 		while(var5 < 13)
@@ -138,7 +140,7 @@ class dofus.graphics.gapi.ui.Register extends dofus.graphics.gapi.core.DofusAdva
 		}
 		this._cbMonth.dataProvider = var4;
 		this._cbMonth.selectedIndex = 0;
-		var var7 = new ank.utils.();
+		var var7 = new ank.utils.();
 		var7.push({label:"-",data:"-1"});
 		var var8 = new Date().getFullYear() - 5;
 		while(var8 > new Date().getFullYear() - 105)
@@ -154,16 +156,17 @@ class dofus.graphics.gapi.ui.Register extends dofus.graphics.gapi.core.DofusAdva
 		{
 			var9 = ank.utils.Countries.COUNTRIES.en;
 		}
-		var var10 = new ank.utils.();
+		var var10 = new ank.utils.();
 		var10.push({label:"",data:"--"});
-		for(var k in var9)
+		§§enumerate(var9);
+		while((var var0 = §§enumeration()) != null)
 		{
 			var10.push({label:var9[k],data:k});
 		}
 		this._cbCountry.dataProvider = var10;
 		this._cbCountry.selectedIndex = 0;
 		var var11 = this.api.lang.getServerCommunities();
-		var var12 = new ank.utils.();
+		var var12 = new ank.utils.();
 		var var13 = 1;
 		var12.push({label:"",data:"--"});
 		var var14 = 0;
@@ -463,7 +466,7 @@ class dofus.graphics.gapi.ui.Register extends dofus.graphics.gapi.core.DofusAdva
 			this.addToQueue({object:this,method:this.refreshHearingAbout});
 			return undefined;
 		}
-		var var2 = new ank.utils.();
+		var var2 = new ank.utils.();
 		var2.push({label:this.api.lang.getText("PLEASE_SELECT"),id:0});
 		var var3 = 0;
 		while(var3 < this._aHearAboutIDs.length)
@@ -559,7 +562,6 @@ class dofus.graphics.gapi.ui.Register extends dofus.graphics.gapi.core.DofusAdva
 									if(this.preValidateForm(2))
 									{
 										this.validateForm();
-										break;
 									}
 							}
 							break;

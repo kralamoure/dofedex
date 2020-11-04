@@ -26,16 +26,16 @@ class ank.utils.rss.RSSChannel
 				case "description":
 					this._sDescription = var3.childNodes.join("");
 					break;
-				case "language":
-					this._sLanguage = var3.childNodes.join("");
-					break;
-				case "pubdate":
-					this._sPubDate = var3.childNodes.join("");
-					this._dPubDate = org.utils.SimpleDateFormatter.getDateFromFormat(this._sPubDate.substr(0,25),"E, d MMM yyyy H:m:s");
-					break;
 				default:
 					switch(null)
 					{
+						case "language":
+							this._sLanguage = var3.childNodes.join("");
+							break loop1;
+						case "pubdate":
+							this._sPubDate = var3.childNodes.join("");
+							this._dPubDate = org.utils.SimpleDateFormatter.getDateFromFormat(this._sPubDate.substr(0,25),"E, d MMM yyyy H:m:s");
+							break loop1;
 						case "lastbuilddate":
 							this._sLastBuildDate = var3.childNodes.join("");
 							this._dLastBuildDate = org.utils.SimpleDateFormatter.getDateFromFormat(this._sLastBuildDate.substr(0,25),"E, d MMM yyyy H:m:s");
@@ -49,21 +49,20 @@ class ank.utils.rss.RSSChannel
 						case "managingeditor":
 							this._sManagingEditor = var3.childNodes.join("");
 							break loop1;
-						case "webmaster":
-							this._sWebMaster = var3.childNodes.join("");
-							break loop1;
 						default:
-							if(var0 !== "item")
+							switch(null)
 							{
-								break loop1;
+								case "webmaster":
+									this._sWebMaster = var3.childNodes.join("");
+									break;
+								case "item":
+									var var4 = new ank.utils.rss.();
+									if(var4.parse(var3))
+									{
+										this._aItems.push(var4);
+										break;
+									}
 							}
-							var var4 = new ank.utils.rss.();
-							if(var4.parse(var3))
-							{
-								this._aItems.push(var4);
-								break loop1;
-							}
-							break loop1;
 					}
 			}
 			var3 = var3.nextSibling;

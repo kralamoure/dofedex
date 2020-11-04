@@ -11,7 +11,7 @@ class dofus.graphics.gapi.ui.MapExplorer extends dofus.graphics.gapi.core.DofusA
 	}
 	function __set__mapID(var2)
 	{
-		this._dmMap = new dofus.datacenter.(var2);
+		this._dmMap = new dofus.datacenter.(var2);
 		return this.__get__mapID();
 	}
 	function __set__pointer(var2)
@@ -72,15 +72,12 @@ class dofus.graphics.gapi.ui.MapExplorer extends dofus.graphics.gapi.core.DofusA
 								continue;
 							}
 							break;
-						default:
-							if(var0 !== 3)
-							{
-								var12 = dofus.Constants.FLAG_MAP_OTHERS;
-								break;
-							}
+						case 3:
 							var12 = dofus.Constants.FLAG_MAP_SEEK;
 							var8 = var5 + "," + var6 + " (" + var2[k].playerName + ")";
 							break;
+						default:
+							var12 = dofus.Constants.FLAG_MAP_OTHERS;
 					}
 					var var13 = this._mnMap.addXtraClip("UI_MapExplorerFlag","highlight",var5,var6,var12,100,false,true);
 					if(var8 != undefined)
@@ -277,7 +274,7 @@ class dofus.graphics.gapi.ui.MapExplorer extends dofus.graphics.gapi.core.DofusA
 	{
 		this._mcTriangleNW._visible = this._mcTriangleN._visible = this._mcTriangleNE._visible = this._mcTriangleW._visible = this._mcTriangleE._visible = this._mcTriangleSW._visible = this._mcTriangleS._visible = this._mcTriangleSE._visible = !var2;
 	}
-	function showHintsCategory(categoryID, §\x16\x05§)
+	function showHintsCategory(categoryID, §\x15\x0f§)
 	{
 		var var4 = this.api.kernel.OptionsManager.getOption("MapFilters");
 		var4[categoryID] = var3;
@@ -307,7 +304,7 @@ class dofus.graphics.gapi.ui.MapExplorer extends dofus.graphics.gapi.core.DofusA
 		var var5 = 0;
 		while(var5 < var4.length)
 		{
-			var var6 = new dofus.datacenter.(var4[var5]);
+			var var6 = new dofus.datacenter.(var4[var5]);
 			if((var6.superAreaID == this._dmMap.superarea || dofus.graphics.gapi.ui.MapExplorer.FILTER_CONQUEST_ID == categoryID && categoryID != 5) && var6.y != undefined)
 			{
 				var var7 = this._mnMap.addXtraClip(var6.gfx,var3,var6.x,var6.y,undefined,undefined,true);
@@ -361,8 +358,9 @@ class dofus.graphics.gapi.ui.MapExplorer extends dofus.graphics.gapi.core.DofusA
 		this._mnMap.createXtraLayer("highlight");
 		var var4 = this.dungeon.m;
 		var var5 = this.dungeonCurrentMap;
-		for(var var6 in var4)
+		for(var a in var4)
 		{
+			var var6 = var4[a];
 			if(var5.z == var6.z)
 			{
 				var var7 = this._mnMap.addXtraClip("UI_MapExplorerRectangle","dungeonMap",var6.x,var6.y);
@@ -483,21 +481,21 @@ class dofus.graphics.gapi.ui.MapExplorer extends dofus.graphics.gapi.core.DofusA
 				this._btnSelect.enabled = true;
 				this.hideArrows(true);
 				break;
-			case "_btnZoomMinous":
-				this.api.sounds.events.onMapButtonClick();
-				this._mnMap.interactionMode = "zoom-";
-				this._btnZoomPlus.selected = false;
-				this._btnMove.selected = false;
-				this._btnSelect.selected = false;
-				this._btnZoomPlus.enabled = true;
-				this._btnZoomMinous.enabled = false;
-				this._btnMove.enabled = true;
-				this._btnSelect.enabled = true;
-				this.hideArrows(true);
-				break;
 			default:
 				switch(null)
 				{
+					case "_btnZoomMinous":
+						this.api.sounds.events.onMapButtonClick();
+						this._mnMap.interactionMode = "zoom-";
+						this._btnZoomPlus.selected = false;
+						this._btnMove.selected = false;
+						this._btnSelect.selected = false;
+						this._btnZoomPlus.enabled = true;
+						this._btnZoomMinous.enabled = false;
+						this._btnMove.enabled = true;
+						this._btnSelect.enabled = true;
+						this.hideArrows(true);
+						break loop0;
 					case "_btnMove":
 						this.api.sounds.events.onMapButtonClick();
 						this._mnMap.interactionMode = "move";
@@ -573,12 +571,15 @@ class dofus.graphics.gapi.ui.MapExplorer extends dofus.graphics.gapi.core.DofusA
 					case this._btnSelect:
 						this.gapi.showTooltip(this.api.lang.getText("MAP_EXPLORER_SELECT"),var2.target,-20);
 						break loop0;
-					case this._btnCenterOnMe:
+					default:
+						if(var0 !== this._btnCenterOnMe)
+						{
+							var var4 = var2.target._name;
+							this.gapi.showTooltip(this.api.lang.getHintsCategory(Number(var4.substr(9,var4.length))).n,var2.target,-20);
+							break loop0;
+						}
 						this.gapi.showTooltip(this.api.lang.getText("MAP_EXPLORER_CENTER"),var2.target,-20);
 						break loop0;
-					default:
-						var var4 = var2.target._name;
-						this.gapi.showTooltip(this.api.lang.getHintsCategory(Number(var4.substr(9,var4.length))).n,var2.target,-20);
 				}
 		}
 	}

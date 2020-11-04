@@ -63,15 +63,13 @@ class dofus.graphics.gapi.ui.InventorySearch extends dofus.graphics.gapi.core.Do
 	function generateIndexes()
 	{
 		var var2 = new Object();
-		for(var k in this._aTypes)
+		for(var2[this._aTypes[k]] in this._aTypes)
 		{
-			var2[this._aTypes[k]] = true;
 		}
 		var var3 = this._oDataProvider;
 		this._aItems = new Array();
-		for(var k in var3)
+		for(var var4 in var3)
 		{
-			var var4 = var3[k].name;
 			var var5 = var3[k].unicID;
 			this._aItems.push({id:var5,name:var4.toUpperCase()});
 		}
@@ -79,7 +77,7 @@ class dofus.graphics.gapi.ui.InventorySearch extends dofus.graphics.gapi.core.Do
 	function searchItem(var2)
 	{
 		var var3 = var2.split(" ");
-		var var4 = new ank.utils.();
+		var var4 = new ank.utils.();
 		var var5 = new Object();
 		var var6 = 0;
 		var var7 = 0;
@@ -98,7 +96,7 @@ class dofus.graphics.gapi.ui.InventorySearch extends dofus.graphics.gapi.core.Do
 		{
 			if(var5[k] >= var6)
 			{
-				var4.push(new dofus.datacenter.(0,Number(k)));
+				var4.push(new dofus.datacenter.(0,Number(k)));
 			}
 		}
 		this._lstItems.dataProvider = var4;
@@ -140,14 +138,14 @@ class dofus.graphics.gapi.ui.InventorySearch extends dofus.graphics.gapi.core.Do
 	}
 	function change(var2)
 	{
-		var var3 = new ank.utils.(this._tiSearch.text).trim().toString();
+		var var3 = new ank.utils.(this._tiSearch.text).trim().toString();
 		if(var3.length >= dofus.graphics.gapi.ui.InventorySearch.MIN_SEARCH_CHAR)
 		{
 			this.searchItem(var3.toUpperCase());
 		}
 		else
 		{
-			this._lstItems.dataProvider = new ank.utils.();
+			this._lstItems.dataProvider = new ank.utils.();
 			if(this._lblSearchCount.text != undefined)
 			{
 				this._lblSearchCount.text = "";

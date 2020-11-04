@@ -37,7 +37,7 @@ class dofus.datacenter.Basics extends dofus.utils.ApiElement
 	}
 	function team(var2)
 	{
-		var var3 = new ank.utils.();
+		var var3 = new ank.utils.();
 		var var4 = this.api.datacenter.Sprites.getItems();
 		for(var i in var4)
 		{
@@ -69,15 +69,15 @@ class dofus.datacenter.Basics extends dofus.utils.ApiElement
 		delete this.aks_gameserver_ip;
 		delete this.aks_gameserver_port;
 		this.aks_rescue_count = -1;
-		this.aks_servers = new ank.utils.();
+		this.aks_servers = new ank.utils.();
 		delete this.aks_current_server;
-		delete this.aks_can_send_identity;
 		delete this.aks_identity;
 		if(this.aks_a_logs == undefined)
 		{
 			this.aks_a_logs = "";
 		}
 		this.aks_a_prompt = "";
+		this.aks_debug_command_line = "";
 		delete this.spellManager_errorMsg;
 		delete this.interactionsManager_path;
 		delete this.inventory_filter;

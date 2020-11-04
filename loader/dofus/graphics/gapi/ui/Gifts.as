@@ -57,6 +57,7 @@ class dofus.graphics.gapi.ui.Gifts extends dofus.graphics.gapi.core.DofusAdvance
 			var2 = var2 + 1;
 		}
 		this._cgGifts.addEventListener("selectItem",this);
+		this._cgGifts.multipleContainerSelectionEnabled = false;
 		this._btnClose.addEventListener("click",this);
 		this._btnSelect.addEventListener("click",this);
 	}

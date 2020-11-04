@@ -38,8 +38,9 @@ class dofus.graphics.gapi.ui.HouseIndoor extends dofus.graphics.gapi.core.DofusA
 		var var3 = this._parent._oHouse;
 		var var4 = this._parent.api;
 		var2.addStaticItem(var3.name);
-		for(var var5 in this._parent._aSkills)
+		for(var k in this._parent._aSkills)
 		{
+			var var5 = this._parent._aSkills[k];
 			var var6 = var5.getState(true,var3.localOwner,var3.isForSale,var3.isLocked,true);
 			if(var6 != "X")
 			{

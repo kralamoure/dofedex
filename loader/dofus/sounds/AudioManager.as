@@ -84,9 +84,8 @@ class dofus.sounds.AudioManager extends dofus.utils.ApiElement
 	function __set__musicMute(var2)
 	{
 		this._bMusicMute = var2;
-		for(var k in this._aSoundsCollection)
+		for(var var3 in this._aSoundsCollection)
 		{
-			var var3 = this._aSoundsCollection[k];
 			if(var3.tag == dofus.sounds.AudioManager.MUSIC_TAG)
 			{
 				var3.mute = this._bMusicMute;
@@ -120,9 +119,8 @@ class dofus.sounds.AudioManager extends dofus.utils.ApiElement
 	function __set__environmentVolume(var2)
 	{
 		this._nEnvironmentVolume = var2;
-		for(var k in this._aSoundsCollection)
+		for(var var3 in this._aSoundsCollection)
 		{
-			var var3 = this._aSoundsCollection[k];
 			if(var3.tag == dofus.sounds.AudioManager.ENVIRONMENT_TAG)
 			{
 				var3.volume = var3.baseVolume / 100 * this._nEnvironmentVolume;
@@ -154,9 +152,8 @@ class dofus.sounds.AudioManager extends dofus.utils.ApiElement
 	function __set__effectVolume(var2)
 	{
 		this._nEffectVolume = var2;
-		for(var k in this._aSoundsCollection)
+		for(var var3 in this._aSoundsCollection)
 		{
-			var var3 = this._aSoundsCollection[k];
 			if(var3.tag == dofus.sounds.AudioManager.EFFECT_TAG)
 			{
 				var3.volume = var3.baseVolume / 100 * this._nEffectVolume;
@@ -202,7 +199,7 @@ class dofus.sounds.AudioManager extends dofus.utils.ApiElement
 	}
 	function playSound(var2)
 	{
-		var var3 = new ank.utils.(var2);
+		var var3 = new ank.utils.(var2);
 		var var4 = var3.replace([" ","é","à","-"],["_","e","a","_"]).toUpperCase();
 		var var5 = this.api.lang.getEffectFromKeyname(var4);
 		if(var5 != undefined && !_global.isNaN(var5))
@@ -282,27 +279,33 @@ class dofus.sounds.AudioManager extends dofus.utils.ApiElement
 	{
 		this.playMusic(this._nLatestSavedMusic,var2);
 	}
-	function playEffect(var2, var3)
+	function playEffect(var2, var3, var4)
 	{
-		var var4 = this.getElementFromEffect(this.api.lang.getEffect(var2));
-		var4.tag = var3 != undefined?var3:dofus.sounds.AudioManager.EFFECT_TAG;
-		if((var var0 = var3) !== dofus.sounds.AudioManager.MUSIC_TAG)
+		if(var4 == undefined)
 		{
-			switch(null)
-			{
-				case dofus.sounds.AudioManager.ENVIRONMENT_TAG:
-					var4.mute = this._bEnvironmentMute;
-					break;
-				case dofus.sounds.AudioManager.EFFECT_TAG:
-				default:
-					var4.mute = this._bEffectMute;
-			}
+			var4 = false;
 		}
-		else
+		if(!var4 && !this.api.electron.isWindowFocused)
 		{
-			var4.mute = this._bMusicMute;
+			return undefined;
 		}
-		this.playElement(var4);
+		var var5 = this.getElementFromEffect(this.api.lang.getEffect(var2));
+		var5.tag = var3 != undefined?var3:dofus.sounds.AudioManager.EFFECT_TAG;
+		switch(var3)
+		{
+			case dofus.sounds.AudioManager.MUSIC_TAG:
+				var5.mute = this._bMusicMute;
+				break;
+			case dofus.sounds.AudioManager.ENVIRONMENT_TAG:
+				var5.mute = this._bEnvironmentMute;
+				break;
+			default:
+				if(var0 !== dofus.sounds.AudioManager.EFFECT_TAG)
+				{
+				}
+				var5.mute = this._bEffectMute;
+		}
+		this.playElement(var5);
 	}
 	function playEffectFromElement(var2)
 	{
@@ -317,9 +320,8 @@ class dofus.sounds.AudioManager extends dofus.utils.ApiElement
 	}
 	function stopAllSoundsWithTag(var2)
 	{
-		for(var k in this._aSoundsCollection)
+		for(var var3 in this._aSoundsCollection)
 		{
-			var var3 = this._aSoundsCollection[k];
 			if(var3.tag == var2)
 			{
 				var3.dispose();
@@ -328,9 +330,8 @@ class dofus.sounds.AudioManager extends dofus.utils.ApiElement
 	}
 	function stopAllSounds()
 	{
-		for(var k in this._aSoundsCollection)
+		for(var var2 in this._aSoundsCollection)
 		{
-			var var2 = this._aSoundsCollection[k];
 			var2.dispose();
 		}
 		_global.clearInterval(this._nEnvironmentNoisesTimer);
@@ -346,7 +347,7 @@ class dofus.sounds.AudioManager extends dofus.utils.ApiElement
 		}
 		var var6 = !var4?this.getNextSoundIndex():this.getNextMusicIndex();
 		var var7 = this.getSoundContainer(var6,var5);
-		return new dofus.sounds.(var6,var2,var7,var3);
+		return new dofus.sounds.(var6,var2,var7,var3);
 	}
 	function playElement(var2)
 	{

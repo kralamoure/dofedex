@@ -2,7 +2,7 @@ class dofus.datacenter.TutorialWaitingCase extends Object
 {
 	static var CASE_TIMEOUT = "TIMEOUT";
 	static var CASE_DEFAULT = "DEFAULT";
-	function TutorialWaitingCase(sCode, §\x1e\x02§, §\x0b\x06§)
+	function TutorialWaitingCase(sCode, §\x1e\x01§, §\n\x03§)
 	{
 		super();
 		this._sCode = sCode;

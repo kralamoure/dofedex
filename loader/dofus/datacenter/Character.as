@@ -1,11 +1,11 @@
 class dofus.datacenter.Character extends dofus.datacenter.PlayableCharacter
 {
 	var xtraClipTopAnimations = {staticF:true};
-	function Character(sID, clipClass, §\x1e\x13\x14§, cellNum, §\x11\x1b§, gfxID, §\x1e\r\x07§)
+	function Character(sID, clipClass, §\x1e\x12\x01§, §\x13\x05§, §\x10\x1c§, gfxID, §\x1e\x0b\x02§)
 	{
 		super();
 		this._title = var9;
-		this.initialize(sID,clipClass,var5,cellNum,var7,gfxID);
+		this.initialize(sID,clipClass,var5,var6,var7,gfxID);
 	}
 	function __get__speedModerator()
 	{

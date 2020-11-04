@@ -33,7 +33,7 @@ class dofus.utils.DofusTranslator extends dofus.utils.ApiElement
 		{
 			return "!" + var2 + "!";
 		}
-		return new ank.utils.(var7).replace(var4,var5);
+		return new ank.utils.(var7).replace(var4,var5);
 	}
 	function getConfigText(var2)
 	{
@@ -41,7 +41,7 @@ class dofus.utils.DofusTranslator extends dofus.utils.ApiElement
 		if(typeof var3 == "string")
 		{
 			var var4 = var3;
-			var var5 = new ank.utils.(var4);
+			var var5 = new ank.utils.(var4);
 			return var5.replace(["%CMNT%","%CMNTT%"],[this.api.datacenter.Basics.aks_community_id,this.api.datacenter.Basics.aks_detected_country.toLowerCase()]);
 		}
 		return var3;
@@ -258,8 +258,7 @@ class dofus.utils.DofusTranslator extends dofus.utils.ApiElement
 	function getEmoteID(var2)
 	{
 		var var3 = this.getValueFromSOXtra("EM");
-		§§enumerate(var3);
-		while((var var0 = §§enumeration()) != null)
+		for(var k in var3)
 		{
 			if(var3[k].s == var2)
 			{
@@ -390,22 +389,22 @@ class dofus.utils.DofusTranslator extends dofus.utils.ApiElement
 				return this.getText("KEY_F2");
 			case 114:
 				return this.getText("KEY_F3");
-			case 115:
-				return this.getText("KEY_F4");
 			default:
 				switch(null)
 				{
+					case 115:
+						return this.getText("KEY_F4");
 					case 116:
 						return this.getText("KEY_F5");
 					case 117:
 						return this.getText("KEY_F6");
 					case 118:
 						return this.getText("KEY_F7");
-					case 119:
-						return this.getText("KEY_F8");
 					default:
 						switch(null)
 						{
+							case 119:
+								return this.getText("KEY_F8");
 							case 120:
 								return this.getText("KEY_F9");
 							case 121:
@@ -425,11 +424,11 @@ class dofus.utils.DofusTranslator extends dofus.utils.ApiElement
 										return this.getText("KEY_INSERT");
 									case 36:
 										return this.getText("KEY_HOME");
-									case 33:
-										return this.getText("KEY_PAGE_UP");
 									default:
 										switch(null)
 										{
+											case 33:
+												return this.getText("KEY_PAGE_UP");
 											case 34:
 												return this.getText("KEY_PAGE_DOWN");
 											case 35:
@@ -438,11 +437,11 @@ class dofus.utils.DofusTranslator extends dofus.utils.ApiElement
 												return this.getText("KEY_LEFT");
 											case 38:
 												return this.getText("KEY_UP");
-											case 39:
-												return this.getText("KEY_RIGHT");
 											default:
 												switch(null)
 												{
+													case 39:
+														return this.getText("KEY_RIGHT");
 													case 40:
 														return this.getText("KEY_DOWN");
 													case 27:
@@ -451,21 +450,23 @@ class dofus.utils.DofusTranslator extends dofus.utils.ApiElement
 														return this.getText("KEY_BACKSPACE");
 													case 20:
 														return this.getText("KEY_CAPS_LOCK");
-													case 13:
-														return this.getText("KEY_ENTER");
 													default:
 														switch(null)
 														{
+															case 13:
+																return this.getText("KEY_ENTER");
 															case 32:
 																return this.getText("KEY_SPACE");
 															case 46:
 																return this.getText("KEY_DELETE");
 															case 144:
 																return this.getText("KEY_NUM_LOCK");
-															case -1:
-																return this.getText("KEY_UNDEFINED");
 															default:
-																return "(#" + String(var2) + ")";
+																if(var0 !== -1)
+																{
+																	return "(#" + String(var2) + ")";
+																}
+																return this.getText("KEY_UNDEFINED");
 														}
 												}
 										}
@@ -715,15 +716,16 @@ class dofus.utils.DofusTranslator extends dofus.utils.ApiElement
 	}
 	function fetchString(var2)
 	{
-		var var3 = new ank.utils.(var2);
+		var var3 = new ank.utils.(var2);
 		if(this.fetchIn == undefined || (this.fetchOut == undefined || this._nLastServerID != this.api.datacenter.Basics.aks_current_server.id))
 		{
 			this.fetchIn = new Array();
 			this.fetchOut = new Array();
 			var var4 = this.getServerSpecificTexts();
 			this._nLastServerID = this.api.datacenter.Basics.aks_current_server.id;
-			for(var var5 in var4)
+			for(var i in var4)
 			{
+				var var5 = this.getServerSpecificText(Number(i),this._nLastServerID);
 				if(var5 == undefined)
 				{
 					var5 = var4[i].d;

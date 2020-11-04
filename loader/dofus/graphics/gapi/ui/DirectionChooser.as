@@ -74,6 +74,7 @@ class dofus.graphics.gapi.ui.DirectionChooser extends dofus.graphics.gapi.core.D
 	function click(var2)
 	{
 		var var3 = 0;
+		loop0:
 		switch(var2.target)
 		{
 			case this._btnR:
@@ -87,21 +88,25 @@ class dofus.graphics.gapi.ui.DirectionChooser extends dofus.graphics.gapi.core.D
 				{
 					case this._btnB:
 						var3 = 2;
-						break;
+						break loop0;
 					case this._btnBL:
 						var3 = 3;
-						break;
+						break loop0;
 					case this._btnL:
 						var3 = 4;
-						break;
-					case this._btnTL:
-						var3 = 5;
-						break;
-					case this._btnT:
-						var3 = 6;
-						break;
-					case this._btnTR:
-						var3 = 7;
+						break loop0;
+					default:
+						switch(null)
+						{
+							case this._btnTL:
+								var3 = 5;
+								break;
+							case this._btnT:
+								var3 = 6;
+								break;
+							case this._btnTR:
+								var3 = 7;
+						}
 				}
 		}
 		this.api.network.Emotes.setDirection(var3);

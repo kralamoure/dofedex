@@ -15,11 +15,11 @@ class dofus.Constants extends Object
 	static var USING_UNPACKED_OBJECTS = true;
 	static var SAVING_THE_WORLD = false;
 	static var VERSION = 1;
-	static var SUBVERSION = 32;
-	static var SUBSUBVERSION = 0;
+	static var SUBVERSION = 33;
+	static var SUBSUBVERSION = 6;
 	static var BETAVERSION = 0;
 	static var ALPHA = false;
-	static var VERSIONDATE = "24/04/2020 16:18 GMT+1";
+	static var VERSIONDATE = "13/10/2020 10:18 GMT+1";
 	static var LANG_SHAREDOBJECT_NAME = "ANKLANGSO";
 	static var XTRA_SHAREDOBJECT_NAME = "ANKXTRASO";
 	static var OPTIONS_SHAREDOBJECT_NAME = "ANKOPTIONSSO";
@@ -76,6 +76,7 @@ class dofus.Constants extends Object
 	static var SOUND_EFFECTS_PACKAGE = dofus.Constants.AUDIO_PATH + "effects.swf";
 	static var SOUND_MUSICS_PACKAGE = dofus.Constants.AUDIO_PATH + "musics.swf";
 	static var XML_ADMIN_MENU_PATH = "menuadmin.xml";
+	static var XML_ADMIN_RIGHT_CLICK_MENU_PATH = "rc-menuadmin.xml";
 	static var MODULE_CORE = "core.swf";
 	static var MODULE_SOUNDS = "soma.swf";
 	static var MODULE_CORE_FILE = dofus.Constants.MODULE_PATH + dofus.Constants.MODULE_CORE;
@@ -152,6 +153,7 @@ class dofus.Constants extends Object
 	static var TRADE_CHAT_COLOR = "663300";
 	static var MEETIC_CHAT_COLOR = "0000CC";
 	static var ADMIN_CHAT_COLOR = "FF00FF";
+	static var COMMANDS_CHAT_COLOR = "E4287C";
 	static var CELL_PATH_COLOR = 16737792;
 	static var CELL_PATH_OVER_COLOR = 16737792;
 	static var CELL_PATH_USED_COLOR = 2385558;
@@ -190,7 +192,12 @@ class dofus.Constants extends Object
 	static var MAX_UPDATER_CONNECTION_TRY = 5;
 	static var EMBLEM_BACKS_COUNT = 17;
 	static var EMBLEM_UPS_COUNT = 104;
+	static var SELECT_MULTIPLE_ITEMS_KEY = Key.CONTROL;
 	static var CHAT_INSERT_ITEM_KEY = Key.SHIFT;
+	static var DELAYED_INVENTORY_ITEMS_VISUAL_REFRESH = 50;
+	static var DELAYED_CHAT_VISUAL_REFRESH = 50;
+	static var DELAYED_DEBUG_CONSOLE_VISUAL_REFRESH = 50;
+	static var INTERFACES_MANIPULATING_ITEMS = ["Storage","PlayerShop","BigStoreSell","NpcShop","PlayerShopModifier","TaxCollectorStorage","Inventory","Craft","Exchange","ForgemagusCraft","SecureCraft"];
 	function Constants()
 	{
 		super();
@@ -198,6 +205,19 @@ class dofus.Constants extends Object
 	static function __get__ZONE_COLOR()
 	{
 		return dofus.utils.Api.getInstance().lang.getConfigText("ZONE_COLOR");
+	}
+	static function isItemSuperTypeSkinable(var2)
+	{
+		switch(var2)
+		{
+			case 10:
+			case 11:
+			case 2:
+			case 7:
+				return true;
+			default:
+				return false;
+		}
 	}
 	static function getTeamFileFromType(var2, var3)
 	{
@@ -207,14 +227,15 @@ class dofus.Constants extends Object
 				if(var3 == 1)
 				{
 					var var4 = dofus.Constants.CHALLENGE_CLIP_FILE_ANGEL;
-					break;
 				}
-				if(var3 == 2)
+				else if(var3 == 2)
 				{
 					var4 = dofus.Constants.CHALLENGE_CLIP_FILE_DEMON;
-					break;
 				}
-				var4 = dofus.Constants.CHALLENGE_CLIP_FILE_NORMAL;
+				else
+				{
+					var4 = dofus.Constants.CHALLENGE_CLIP_FILE_NORMAL;
+				}
 				break;
 			case 1:
 				if(var3 == 1)
@@ -237,5 +258,27 @@ class dofus.Constants extends Object
 				var4 = dofus.Constants.CHALLENGE_CLIP_FILE_TAXCOLLECTOR;
 		}
 		return var4;
+	}
+	static function getElementColorById(var2)
+	{
+		if(var2 == undefined)
+		{
+			return undefined;
+		}
+		switch(var2)
+		{
+			case 0:
+				return "7D7D7D";
+			case 1:
+				return "AB5703";
+			case 2:
+				return "FF0000";
+			case 3:
+				return "1F8EFE";
+			case 4:
+				return "4FB24F";
+			default:
+				return undefined;
+		}
 	}
 }

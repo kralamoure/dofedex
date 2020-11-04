@@ -97,7 +97,7 @@ class dofus.graphics.gapi.ui.Party extends dofus.graphics.gapi.core.DofusAdvance
 	function init()
 	{
 		super.init(false,dofus.graphics.gapi.ui.Party.CLASS_NAME);
-		this._aMembers = new ank.utils.();
+		this._aMembers = new ank.utils.();
 	}
 	function destroy()
 	{
@@ -147,6 +147,7 @@ class dofus.graphics.gapi.ui.Party extends dofus.graphics.gapi.core.DofusAdvance
 				}
 				var8.setData(var7);
 				var8.isFollowing = var7.id == this._sFollowID;
+				var8.isLeader = var7.id == this._sLeaderID;
 				if(var8.isInGroup)
 				{
 					this._nLvlTotal = this._nLvlTotal + var7.level;
@@ -172,6 +173,7 @@ class dofus.graphics.gapi.ui.Party extends dofus.graphics.gapi.core.DofusAdvance
 					var12._visible = !this._btnOpenClose.selected;
 					var12.setData(this._aMembers[var10]);
 					var12.isFollowing = this._aMembers[var10].id == this._sFollowID;
+					var12.isLeader = this._aMembers[var10].id == this._sLeaderID;
 					if(var12.isInGroup)
 					{
 						var var4 = var12;
@@ -180,6 +182,7 @@ class dofus.graphics.gapi.ui.Party extends dofus.graphics.gapi.core.DofusAdvance
 				}
 			}
 		}
+		var ref = this;
 		this._mcInfo.onRollOver = function()
 		{
 			ref.over({target:this});
@@ -219,13 +222,8 @@ class dofus.graphics.gapi.ui.Party extends dofus.graphics.gapi.core.DofusAdvance
 			case this._mcInfo:
 				this.gapi.showTooltip("<b>" + this.api.lang.getText("INFORMATIONS") + "</b>\n" + this.api.lang.getText("TOTAL_LEVEL") + " : " + this._nLvlTotal + "\n" + this.api.lang.getText("TOTAL_DISCERNMENT") + " : " + this._nProspectionTotal,var2.target,20);
 				break;
-			default:
-				if(var0 !== this._btnBlockJoinerExceptParty)
-				{
-					break;
-				}
+			case this._btnBlockJoinerExceptParty:
 				this.gapi.showTooltip(this.api.lang.getText("FIGHT_OPTION_BLOCKJOINEREXCEPTPARTY"),var2.target,20);
-				break;
 		}
 	}
 	function out(var2)

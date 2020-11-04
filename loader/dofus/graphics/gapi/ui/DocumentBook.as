@@ -111,12 +111,12 @@ class dofus.graphics.gapi.ui.DocumentBook extends dofus.graphics.gapi.core.Dofus
 			case "_btnNext":
 				this.setLeftPageNumber(this._nCurrentLeftPageNum + 2);
 				break;
+			case "_btnClose":
+				this.callClose();
+				break;
 			default:
 				switch(null)
 				{
-					case "_btnClose":
-						this.callClose();
-						break;
 					case "_btnAskPageLeft":
 						this.askPage(1);
 						break;

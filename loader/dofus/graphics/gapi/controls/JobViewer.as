@@ -56,7 +56,7 @@ class dofus.graphics.gapi.controls.JobViewer extends dofus.graphics.gapi.core.Do
 		this._pbXP.value = this._oJob.xp;
 		this._mcXP.onRollOver = function()
 		{
-			this._parent._parent.gapi.showTooltip(new ank.utils.(this._parent._oJob.xp).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + " / " + new ank.utils.(this._parent._oJob.xpMax).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3),this,-10);
+			this._parent._parent.gapi.showTooltip(new ank.utils.(this._parent._oJob.xp).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3) + " / " + new ank.utils.(this._parent._oJob.xpMax).addMiddleChar(this._parent.api.lang.getConfigText("THOUSAND_SEPARATOR"),3),this,-10);
 		};
 		this._mcXP.onRollOut = function()
 		{

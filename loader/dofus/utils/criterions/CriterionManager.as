@@ -48,14 +48,13 @@ class dofus.utils.criterions.CriterionManager
 			{
 				if((var0 = var4) === dofus.utils.criterions.CriterionManager.TYPE_BASIC_EPISOD)
 				{
-					var var7 = new dofus.utils.criterions.basicCriterion.(var5,Number(var6));
+					var var7 = new dofus.utils.criterions.basicCriterion.(var5,Number(var6));
 				}
 			}
 		}
 		else if((var0 = var4) === dofus.utils.criterions.CriterionManager.TYPE_AREA_ALIGNMENT)
 		{
-			var7 = new dofus.utils.criterions.subareaCriterion.
-(var5,Number(var6));
+			var7 = new dofus.utils.criterions.subareaCriterion.(var5,Number(var6));
 		}
 		if(var7 == null || !var7.check())
 		{

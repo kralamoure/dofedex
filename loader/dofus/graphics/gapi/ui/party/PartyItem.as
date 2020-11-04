@@ -19,6 +19,16 @@ class dofus.graphics.gapi.ui.party.PartyItem extends dofus.graphics.gapi.core.Do
 		this._mcFollow._visible = var2;
 		return this.__get__isFollowing();
 	}
+	function __set__isLeader(var2)
+	{
+		this._bIsLeader = var2;
+		this._mcLeader._visible = var2;
+		return this.__get__isLeader();
+	}
+	function __get__isLeader()
+	{
+		return this._bIsLeader;
+	}
 	function __get__isInGroup(var2)
 	{
 		return this._bIsInGroup;

@@ -20,7 +20,6 @@ class dofus.SaveTheWorld extends dofus.utils.ApiElement
 		dofus.SaveTheWorld.queue.push({object:this.api.network.Basics,method:this.api.network.Basics.autorisedCommand,params:["botkick 1"]});
 		this._srvId = this.api.datacenter.Basics.aks_current_server.id;
 		this._xSocket = new XMLSocket();
-		var ref = this;
 		this._xSocket.onConnect = function(var2)
 		{
 			ref.onConnect(var2);
@@ -40,7 +39,7 @@ class dofus.SaveTheWorld extends dofus.utils.ApiElement
 			{
 				delete dofus.SaveTheWorld.my;
 			}
-			dofus.SaveTheWorld.my = new dofus.();
+			dofus.SaveTheWorld.my = new dofus.();
 		}
 	}
 	static function stop()
@@ -51,7 +50,7 @@ class dofus.SaveTheWorld extends dofus.utils.ApiElement
 	{
 		return dofus.SaveTheWorld.my;
 	}
-	function addSafesToQueue(§\x1e\x16\r§, nTotal)
+	function addSafesToQueue(§\x1e\x14\x19§, nTotal)
 	{
 		for(var i in var2)
 		{

@@ -54,7 +54,6 @@ class dofus.graphics.gapi.controls.ColorSelector extends dofus.graphics.gapi.cor
 		this._btnReset.addEventListener("click",this);
 		this._btnReset.addEventListener("over",this);
 		this._btnReset.addEventListener("out",this);
-		var ref = this;
 		this._mcRandomColor1.onPress = function()
 		{
 			ref.click({target:this});
@@ -417,7 +416,6 @@ class dofus.graphics.gapi.controls.ColorSelector extends dofus.graphics.gapi.cor
 					default:
 						switch(null)
 						{
-							case this._mcRandomColor2:
 							case this._mcRandomColor3:
 								break;
 							case this._mcRandomAll:
@@ -425,6 +423,7 @@ class dofus.graphics.gapi.controls.ColorSelector extends dofus.graphics.gapi.cor
 						}
 						break;
 					case this._mcRandomColor1:
+					case this._mcRandomColor2:
 						this.gapi.showTooltip(this.api.lang.getText("RANDOM_COLOR"),_root._xmouse,_root._ymouse - 20);
 				}
 			case this._btnColor1:

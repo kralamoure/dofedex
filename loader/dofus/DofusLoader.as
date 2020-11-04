@@ -74,7 +74,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 	function initLoader(var2)
 	{
 		this._sPrefixURL = this._url.substr(0,this._url.lastIndexOf("/") + 1);
-		_global.CONFIG = new dofus.utils.();
+		_global.CONFIG = new dofus.utils.();
 		this.clearlogs();
 		this.showMainLogger(false);
 		this.showShowLogsButton(false);
@@ -106,23 +106,23 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 	}
 	function initComponents()
 	{
-		this["\x1e\x0b\x01"].text = this.getText("SERVER");
-		this["\x1e\x0b\x02"].text = this.getText("CONFIGURATION");
-		this["\x1e\n\x18"]["\x1e\f\x18"].text = "Loading";
-		this["\x1e\x0b\b"].label = this.getText("VALID");
-		this["\x1e\x0b\b"].addEventListener("click",this);
+		this["\x1e\b\x19"].text = this.getText("SERVER");
+		this["\x1e\b\x1a"].text = this.getText("CONFIGURATION");
+		this["\x1e\b\x13"]["\x1e\n\x13"].text = "Loading";
+		this["\x1e\t\x03"].label = this.getText("VALID");
+		this["\x1e\t\x03"].addEventListener("click",this);
 		this._btnContinue.label = this.getText("CONTINUE");
 		this._btnContinue.addEventListener("click",this);
 		this._btnClearCache.label = this.getText("CLEAR_CACHE");
 		this._btnClearCache.addEventListener("click",this);
 		this._btnNext.label = this.getText("NEXT");
 		this._btnNext.addEventListener("click",this);
-		this["\x1e\x0b\x06"].label = this.getText("SHOW_LOGS");
-		this["\x1e\x0b\x06"].addEventListener("click",this);
-		this["\x1e\x0b\x07"].label = this.getText("COPY_LOGS");
-		this["\x1e\x0b\x07"].addEventListener("click",this);
-		this["\x1e\n\x1d"].addEventListener("itemSelected",this);
-		this["\x1e\n\x1c"].addEventListener("itemSelected",this);
+		this["\x1e\t\x01"].label = this.getText("SHOW_LOGS");
+		this["\x1e\t\x01"].addEventListener("click",this);
+		this["\x1e\t\x02"].label = this.getText("COPY_LOGS");
+		this["\x1e\t\x02"].addEventListener("click",this);
+		this["\x1e\b\x18"].addEventListener("itemSelected",this);
+		this["\x1e\b\x17"].addEventListener("itemSelected",this);
 		this.launchBannerAnim(true);
 	}
 	function initTexts()
@@ -337,7 +337,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 	}
 	function addToSaveLog(var2)
 	{
-		this._sLogs = this._sLogs + (new ank.utils.(var2).replace("&nbsp;"," ") + "\r\n");
+		this._sLogs = this._sLogs + (new ank.utils.(var2).replace("&nbsp;"," ") + GuildRights);
 	}
 	function logTitle(var2)
 	{
@@ -388,13 +388,13 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 			var5.push(var3[var6]);
 			var6 = var6 + 1;
 		}
-		return new ank.utils.(var2).replace(var4,var5);
+		return new ank.utils.(var2).replace(var4,var5);
 	}
 	function clearlogs()
 	{
-		this["\x1e\x0b\x05"].clear();
-		this["\x1e\x0b\x03"].clear();
-		this["\x1e\x0b\x04"].clear();
+		this["\x1e\b\x1d"].clear();
+		this["\x1e\b\x1b"].clear();
+		this["\x1e\b\x1c"].clear();
 	}
 	function setProgressBarValue(var2, var3)
 	{
@@ -403,14 +403,14 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 		{
 			var2 = var3;
 		}
-		this["\x1e\n\x19"]["\x0b\x15"]._width = var2 / var3 * 100;
-		this["\x1e\n\x19"]["\x1e\f\x17"].text = Math.floor(Number(this["\x1e\n\x19"]["\x0b\x15"]._width)) + "%";
+		this["\x1e\b\x14"]["\n\x12"]._width = var2 / var3 * 100;
+		this["\x1e\b\x14"]["\x1e\n\x12"].text = Math.floor(Number(this["\x1e\b\x14"]["\n\x12"]._width)) + "%";
 	}
 	function showProgressBar(var2)
 	{
-		if(this["\x1e\n\x19"]._visible != var2)
+		if(this["\x1e\b\x14"]._visible != var2)
 		{
-			this["\x1e\n\x19"]._visible = var2;
+			this["\x1e\b\x14"]._visible = var2;
 		}
 	}
 	function moveProgressBar(var2)
@@ -420,8 +420,8 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 	{
 		if(var2)
 		{
-			this._mcWaitBar = this.attachMovie("GrayWaitBar","_mcWaitBar",1000,{_x:this["\x1e\n\x19"]._x + this["\x1e\n\x19"]["\x0b\x14"]._x,_y:this["\x1e\n\x19"]._y + this["\x1e\n\x19"]["\x0b\x14"]._y});
-			this._mcWaitBar["\x1e\f\x18"].text = "Waiting";
+			this._mcWaitBar = this.attachMovie("GrayWaitBar","_mcWaitBar",1000,{_x:this["\x1e\b\x14"]._x + this["\x1e\b\x14"]["\n\x11"]._x,_y:this["\x1e\b\x14"]._y + this["\x1e\b\x14"]["\n\x11"]._y});
+			this._mcWaitBar["\x1e\n\x13"].text = "Waiting";
 		}
 		else
 		{
@@ -439,8 +439,8 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 		{
 			var2 = var3;
 		}
-		this["\x1e\n\x18"]["\x0b\x15"]._width = var2 / var3 * 100;
-		this["\x1e\n\x18"]["\x1e\f\x17"].text = Math.floor(Number(this["\x1e\n\x18"]["\x0b\x15"]._width)) + "%";
+		this["\x1e\b\x13"]["\n\x12"]._width = var2 / var3 * 100;
+		this["\x1e\b\x13"]["\x1e\n\x12"].text = Math.floor(Number(this["\x1e\b\x13"]["\n\x12"]._width)) + "%";
 	}
 	function showTotalBar(var2)
 	{
@@ -450,26 +450,26 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 			var var4 = (var3 & 16711680) >> 16;
 			var var5 = (var3 & 65280) >> 8;
 			var var6 = var3 & 255;
-			var var7 = new Color(this["\x1e\n\x18"]["\x0b\x15"]);
+			var var7 = new Color(this["\x1e\b\x13"]["\n\x12"]);
 			var var8 = new Object();
 			var8 = {ra:"0",rb:var4,ga:"0",gb:var5,ba:"0",bb:var6,aa:"100",ab:"0"};
 			var7.setTransform(var8);
-			this["\x1e\n\x1a"]._visible = true;
-			this["\x1e\n\x18"]._visible = true;
+			this["\x1e\b\x15"]._visible = true;
+			this["\x1e\b\x13"]._visible = true;
 		}
 		else
 		{
-			this["\x1e\n\x18"]._visible = false;
-			this["\x1e\n\x1a"]._visible = false;
+			this["\x1e\b\x13"]._visible = false;
+			this["\x1e\b\x15"]._visible = false;
 		}
 	}
 	function showConfigurationChoice(var2)
 	{
-		this["\x1e\x0b\x02"]._visible = var2;
-		this["\x1e\n\x1d"]._visible = var2;
-		this["\x1e\x0b\x01"]._visible = var2;
-		this["\x1e\n\x1c"]._visible = var2;
-		this["\x1e\x0b\b"]._visible = var2;
+		this["\x1e\b\x1a"]._visible = var2;
+		this["\x1e\b\x18"]._visible = var2;
+		this["\x1e\b\x19"]._visible = var2;
+		this["\x1e\b\x17"]._visible = var2;
+		this["\x1e\t\x03"]._visible = var2;
 	}
 	function showNextButton(var2)
 	{
@@ -477,7 +477,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 	}
 	function showShowLogsButton(var2)
 	{
-		this["\x1e\x0b\x06"]._visible = var2;
+		this["\x1e\t\x01"]._visible = var2;
 	}
 	function showContinueButton(var2)
 	{
@@ -489,15 +489,15 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 	}
 	function showCopyLogsButton(var2)
 	{
-		this["\x1e\x0b\x07"]._visible = var2;
+		this["\x1e\t\x02"]._visible = var2;
 	}
 	function showMainLogger(var2)
 	{
 		if(var2 == undefined)
 		{
-			var2 = !this["\x1e\x0b\x05"]._visible;
+			var2 = !this["\x1e\b\x1d"]._visible;
 		}
-		this["\x1e\x0b\x05"]._visible = var2;
+		this["\x1e\b\x1d"]._visible = var2;
 	}
 	function nonCriticalError(var2, var3)
 	{
@@ -514,9 +514,9 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 		{
 			var8 = this.replaceText(var7.fr,var5);
 		}
-		this["\x1e\x0b\x04"].log("<b>" + this.getText("ERROR") + "</b> : " + var8,"#FF0000","#DD0000");
+		this["\x1e\b\x1c"].log("<b>" + this.getText("ERROR") + "</b> : " + var8,"#FF0000","#DD0000");
 		var var9 = "<u><a href=\'" + var7["link" + _global.CONFIG.language] + "\' target=\'_blank\'>" + this.getText("LINK_HELP") + "</a></u>";
-		this["\x1e\x0b\x04"].log(var9,"#FF0000","#DD0000");
+		this["\x1e\b\x1c"].log(var9,"#FF0000","#DD0000");
 		this.addToSaveLog(var3 + "<b>" + this.getText("ERROR") + "</b> : " + var8);
 		this.showCopyLogsButton(true);
 		this.showShowLogsButton(true);
@@ -594,18 +594,18 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 				var var8 = "";
 				if(!var5)
 				{
-					var5 = this.attachMovie("LoadingBanner_" + _global.CONFIG.language,"_mcBanner",this.getNextHighestDepth(),this["\x1e\n\x1b"]);
+					var5 = this.attachMovie("LoadingBanner_" + _global.CONFIG.language,"_mcBanner",this.getNextHighestDepth(),this["\x1e\b\x16"]);
 				}
 				if(!var5)
 				{
-					var5 = this.attachMovie("LoadingBanner_" + var8,"_mcBanner",this.getNextHighestDepth(),this["\x1e\n\x1b"]);
+					var5 = this.attachMovie("LoadingBanner_" + var8,"_mcBanner",this.getNextHighestDepth(),this["\x1e\b\x16"]);
 				}
 				if(!var5)
 				{
-					var5 = this.attachMovie("LoadingBanner","_mcBanner",this.getNextHighestDepth(),this["\x1e\n\x1b"]);
+					var5 = this.attachMovie("LoadingBanner","_mcBanner",this.getNextHighestDepth(),this["\x1e\b\x16"]);
 				}
 				var5.cacheAsBitmap = true;
-				var5.swapDepths(this["\x1e\n\x1b"]);
+				var5.swapDepths(this["\x1e\b\x16"]);
 			}
 			else
 			{
@@ -613,7 +613,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 				{
 					return undefined;
 				}
-				this._mcBanner.swapDepths(this["\x1e\n\x1b"]);
+				this._mcBanner.swapDepths(this["\x1e\b\x16"]);
 				this._mcBanner.removeMovieClip();
 			}
 			this._bBannerDisplay = var3;
@@ -722,20 +722,20 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 	{
 		switch(var2.target)
 		{
-			case this["\x1e\x0b\b"]:
-				this.chooseConfiguration(this["\x1e\n\x1d"].selectedItem.data,this["\x1e\n\x1c"].selectedItem.data,true);
+			case this["\x1e\t\x03"]:
+				this.chooseConfiguration(this["\x1e\b\x18"].selectedItem.data,this["\x1e\b\x17"].selectedItem.data,true);
 				break;
 			case this._btnClearCache:
 				this.clearCache();
 				this.reboot();
 				break;
+			case this["\x1e\t\x02"]:
+				System.setClipboard(this._sLogs);
+				break;
 			default:
 				switch(null)
 				{
-					case this["\x1e\x0b\x07"]:
-						System.setClipboard(this._sLogs);
-						break;
-					case this["\x1e\x0b\x06"]:
+					case this["\x1e\t\x01"]:
 						this.showBanner(false);
 						this.showMainLogger();
 						break;
@@ -755,17 +755,14 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 						break;
 					case this._btnNext:
 						this.showNextButton(false);
-						if((var0 = this._sStep) !== "MODULE")
+						switch(this._sStep)
 						{
-							if(var0 !== "XTRA")
-							{
+							case "MODULE":
+								this.initCore(_global.MODULE_CORE);
 								break;
-							}
-							this.initAndLoginFinished();
-							break;
+							case "XTRA":
+								this.initAndLoginFinished();
 						}
-						this.initCore(_global.MODULE_CORE);
-						break;
 				}
 		}
 	}
@@ -773,10 +770,10 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 	{
 		switch(var2.target)
 		{
-			case this["\x1e\n\x1d"]:
+			case this["\x1e\b\x18"]:
 				this.selectConfiguration();
 				break;
-			case this["\x1e\n\x1c"]:
+			case this["\x1e\b\x17"]:
 				this.selectConnexionServer();
 		}
 	}
@@ -822,7 +819,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 	}
 	function showBasicInformations(var2)
 	{
-		this._currentLogger = this["\x1e\x0b\x03"];
+		this._currentLogger = this["\x1e\b\x1b"];
 		this.logTitle(this.getText("STARTING"));
 		this.log(this.TABULATION + "Dofus Retro <b>v" + dofus.Constants.VERSION + "." + dofus.Constants.SUBVERSION + "." + dofus.Constants.SUBSUBVERSION + "</b> " + (dofus.Constants.BETAVERSION <= 0?"":"(<font color=\"#FF0000\"><i><b>BETA " + dofus.Constants.BETAVERSION + "</b></i></font>) ") + "(<b>" + dofus.Constants.VERSIONDATE + "</b>" + (!dofus.Constants.ALPHA?"":" <font color=\"#00FF00\"><i><b>ALPHA BUILD</b></i></font>") + ")");
 		if(!this.checkFlashPlayer())
@@ -832,7 +829,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 			return undefined;
 		}
 		this.checkCacheVersion();
-		this._currentLogger = this["\x1e\x0b\x05"];
+		this._currentLogger = this["\x1e\b\x1d"];
 		if(var2)
 		{
 			this.addToQueue({object:this,method:this.loadConfig});
@@ -853,7 +850,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 		this.showWaitBar(true);
 		var2.load(dofus.Constants.CONFIG_XML_FILE);
 	}
-	function onConfigLoaded(§\x15\x0f§, xDoc)
+	function onConfigLoaded(§\x14\x17§, xDoc)
 	{
 		this.showWaitBar(false);
 		if(dofus.Constants.USE_JS_LOG && _global.CONFIG.isNewAccount)
@@ -870,124 +867,125 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 				return undefined;
 			}
 			_global.CONFIG.cacheAsBitmap = new Array();
-			var var5 = new ank.utils.();
+			var var5 = new ank.utils.();
 			var var6 = false;
 			while(var4 != null)
 			{
-				loop4:
-				switch(var4.nodeName)
+				if((var var0 = var4.nodeName) !== "delay")
 				{
-					case "delay":
-						_global.CONFIG.delay = var4.attributes.value;
-						break;
-					case "rdelay":
-						_global.CONFIG.rdelay = var4.attributes.value;
-						break;
-					case "rcount":
-						_global.CONFIG.rcount = var4.attributes.value;
-						break;
-					case "hardcore":
-						_global.CONFIG.onlyHardcore = true;
-						break;
-					default:
-						switch(null)
-						{
-							case "streaming":
-								_global.CONFIG.isStreaming = true;
-								if(var4.attributes.method)
-								{
-									_global.CONFIG.streamingMethod = var4.attributes.method;
-								}
-								else
-								{
-									_global.CONFIG.streamingMethod = "compact";
-								}
-								_root._misc.attachMovie("UI_Misc","miniClip",_root._misc.getNextHighestDepth());
-								break loop4;
-							case "expo":
-								_global.CONFIG.isExpo = true;
-								break loop4;
-							case "conf":
-								var var7 = var4.attributes.name;
-								var var8 = var4.attributes.type;
-								if(var7 != undefined && (dofus.Constants.TEST != true && var8 != "test" || dofus.Constants.TEST == true && var8 == "test"))
-								{
-									var var9 = new Object();
-									var9.name = var7;
-									var var10 = Number(var4.attributes.zaapconnectport);
-									var9.zaapConnectPort = !(var10 == undefined || _global.isNaN(var10))?var10:dofus.ZaapConnect.TCP_DEFAULT_PORT;
-									var9.debug = var4.attributes.boo == "1";
-									var9.debugRequests = var4.attributes.debugrequests == "1" || var4.attributes.debugrequests == "2";
-									var9.logRequests = var4.attributes.debugrequests == "2";
-									var9.connexionServers = new ank.utils.();
-									var9.dataServers = new Array();
-									var var11 = var4.firstChild;
-									while(var11 != null)
+					loop4:
+					switch(null)
+					{
+						case "rdelay":
+							_global.CONFIG.rdelay = var4.attributes.value;
+							break;
+						case "rcount":
+							_global.CONFIG.rcount = var4.attributes.value;
+							break;
+						case "hardcore":
+							_global.CONFIG.onlyHardcore = true;
+							break;
+						case "streaming":
+							_global.CONFIG.isStreaming = true;
+							if(var4.attributes.method)
+							{
+								_global.CONFIG.streamingMethod = var4.attributes.method;
+							}
+							else
+							{
+								_global.CONFIG.streamingMethod = "compact";
+							}
+							_root._misc.attachMovie("UI_Misc","miniClip",_root._misc.getNextHighestDepth());
+							break;
+						case "expo":
+							_global.CONFIG.isExpo = true;
+							break;
+						default:
+							switch(null)
+							{
+								case "conf":
+									var var7 = var4.attributes.name;
+									var var8 = var4.attributes.type;
+									if(var7 != undefined && (dofus.Constants.TEST != true && var8 != "test" || dofus.Constants.TEST == true && var8 == "test"))
 									{
-										switch(var11.nodeName)
+										var var9 = new Object();
+										var9.name = var7;
+										var var10 = Number(var4.attributes.zaapconnectport);
+										var9.zaapConnectPort = !(var10 == undefined || _global.isNaN(var10))?var10:dofus.ZaapConnect.TCP_DEFAULT_PORT;
+										var9.debug = var4.attributes.boo == "1";
+										var9.debugRequests = var4.attributes.debugrequests == "1" || var4.attributes.debugrequests == "2";
+										var9.logRequests = var4.attributes.debugrequests == "2";
+										var9.connexionServers = new ank.utils.();
+										var9.dataServers = new Array();
+										var var11 = var4.firstChild;
+										while(var11 != null)
 										{
-											case "dataserver":
-												var var12 = var11.attributes.url;
-												var var13 = var11.attributes.type;
-												var var14 = Number(var11.attributes.priority);
-												if(var12 != undefined && var12 != "")
-												{
-													var9.dataServers.push({url:var12,type:var13,priority:var14});
-													System.security.allowDomain(var12);
-												}
-												break;
-											case "connserver":
-												var var15 = var11.attributes.name;
-												var var16 = var11.attributes.ip;
-												var var17 = var11.attributes.port;
-												if(var15 != undefined && (var16 != "" && var17 != undefined))
-												{
-													var9.connexionServers.push({label:var15,data:{name:var15,ip:var16,port:var17}});
-												}
-												break;
-											default:
-												this.nonCriticalError(this.getText("UNKNOWN_TYPE_NODE") + " (" + var4.nodeName + ")",this.TABULATION);
+											switch(var11.nodeName)
+											{
+												case "dataserver":
+													var var12 = var11.attributes.url;
+													var var13 = var11.attributes.type;
+													var var14 = Number(var11.attributes.priority);
+													if(var12 != undefined && var12 != "")
+													{
+														var9.dataServers.push({url:var12,type:var13,priority:var14});
+														System.security.allowDomain(var12);
+													}
+													break;
+												case "connserver":
+													var var15 = var11.attributes.name;
+													var var16 = var11.attributes.ip;
+													var var17 = var11.attributes.port;
+													if(var15 != undefined && (var16 != "" && var17 != undefined))
+													{
+														var9.connexionServers.push({label:var15,data:{name:var15,ip:var16,port:var17}});
+													}
+													break;
+												default:
+													this.nonCriticalError(this.getText("UNKNOWN_TYPE_NODE") + " (" + var4.nodeName + ")",this.TABULATION);
+											}
+											var11 = var11.nextSibling;
 										}
-										var11 = var11.nextSibling;
+										if(var9.dataServers.length > 0)
+										{
+											var5.push({label:var9.name,data:var9});
+										}
 									}
-									if(var9.dataServers.length > 0)
-									{
-										var5.push({label:var9.name,data:var9});
-									}
-								}
-								break loop4;
-							case "languages":
-								_global.CONFIG.xmlLanguages = var4.attributes.value.split(",");
-								_global.CONFIG.skipLanguageVerification = var4.attributes.skipcheck == "true" || var4.attributes.skipcheck == "1";
-								break loop4;
-							case "cacheasbitmap":
-								var var18 = var4.firstChild;
-								while(var18 != null)
-								{
-									var var19 = var18.attributes.element;
-									var var20 = var18.attributes.value == "true";
-									_global.CONFIG.cacheAsBitmap[var19] = var20;
-									var18 = var18.nextSibling;
-								}
-								break loop4;
-							default:
-								if(var0 !== "servers")
-								{
-									this.nonCriticalError(this.getText("UNKNOWN_TYPE_NODE") + " (" + var4.nodeName + ")",this.TABULATION);
 									break loop4;
-								}
-								var var21 = var4.firstChild;
-								_global.CONFIG.customServersIP = new Array();
-								while(var21 != null)
-								{
-									var var22 = var21.attributes.id;
-									var var23 = var21.attributes.ip;
-									var var24 = var21.attributes.port;
-									_global.CONFIG.customServersIP[var22] = {ip:var23,port:var24};
-									var21 = var21.nextSibling;
-								}
-								break loop4;
-						}
+								case "languages":
+									_global.CONFIG.xmlLanguages = var4.attributes.value.split(",");
+									_global.CONFIG.skipLanguageVerification = var4.attributes.skipcheck == "true" || var4.attributes.skipcheck == "1";
+									break loop4;
+								case "cacheasbitmap":
+									var var18 = var4.firstChild;
+									while(var18 != null)
+									{
+										var var19 = var18.attributes.element;
+										var var20 = var18.attributes.value == "true";
+										_global.CONFIG.cacheAsBitmap[var19] = var20;
+										var18 = var18.nextSibling;
+									}
+									break loop4;
+								case "servers":
+									var var21 = var4.firstChild;
+									_global.CONFIG.customServersIP = new Array();
+									while(var21 != null)
+									{
+										var var22 = var21.attributes.id;
+										var var23 = var21.attributes.ip;
+										var var24 = var21.attributes.port;
+										_global.CONFIG.customServersIP[var22] = {ip:var23,port:var24};
+										var21 = var21.nextSibling;
+									}
+									break loop4;
+								default:
+									this.nonCriticalError(this.getText("UNKNOWN_TYPE_NODE") + " (" + var4.nodeName + ")",this.TABULATION);
+							}
+					}
+				}
+				else
+				{
+					_global.CONFIG.delay = var4.attributes.value;
 				}
 				var4 = var4.nextSibling;
 			}
@@ -1011,7 +1009,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 		else
 		{
 			this.logTitle(this.getText("CHOOSE_CONFIGURATION"));
-			this["\x1e\n\x1d"].dataProvider = var2;
+			this["\x1e\b\x18"].dataProvider = var2;
 			var var3 = this.getOptionsSharedObject().data.loaderLastConfName;
 			if(var3 != undefined)
 			{
@@ -1020,7 +1018,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 				{
 					if(var2[var4].data.name == var3)
 					{
-						this["\x1e\n\x1d"].selectedIndex = var4;
+						this["\x1e\b\x18"].selectedIndex = var4;
 						break;
 					}
 					var4 = var4 + 1;
@@ -1028,7 +1026,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 			}
 			else
 			{
-				this["\x1e\n\x1d"].selectedIndex = 0;
+				this["\x1e\b\x18"].selectedIndex = 0;
 			}
 			this.selectConfiguration();
 			this.showConfigurationChoice(true);
@@ -1036,10 +1034,10 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 	}
 	function selectConfiguration()
 	{
-		var var2 = this["\x1e\n\x1d"].selectedItem.data.connexionServers;
-		this["\x1e\n\x1c"].dataProvider = var2;
+		var var2 = this["\x1e\b\x18"].selectedItem.data.connexionServers;
+		this["\x1e\b\x17"].dataProvider = var2;
 		var var3 = this.getOptionsSharedObject();
-		var var4 = var3.data.loaderConf[this["\x1e\n\x1d"].selectedItem.label];
+		var var4 = var3.data.loaderConf[this["\x1e\b\x18"].selectedItem.label];
 		if(var4 != undefined)
 		{
 			var var5 = 0;
@@ -1047,7 +1045,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 			{
 				if(var2[var5].data.name == var4)
 				{
-					this["\x1e\n\x1c"].selectedIndex = var5;
+					this["\x1e\b\x17"].selectedIndex = var5;
 					break;
 				}
 				var5 = var5 + 1;
@@ -1055,9 +1053,9 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 		}
 		else if(var2.length > 0)
 		{
-			this["\x1e\n\x1c"].selectedIndex = 0;
+			this["\x1e\b\x17"].selectedIndex = 0;
 		}
-		var3.data.loaderLastConfName = this["\x1e\n\x1d"].selectedItem.label;
+		var3.data.loaderLastConfName = this["\x1e\b\x18"].selectedItem.label;
 		var3.flush();
 		this.selectConnexionServer();
 	}
@@ -1068,7 +1066,8 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 		{
 			var2.data.loaderConf = new Object();
 		}
-		var2.data.loaderConf[this["\x1e\n\x1d"].selectedItem.label] = this["\x1e\n\x1c"].selectedItem.label;
+		var2.data.loaderConf[this["\x1e\b\x18"].selectedItem.label] = this["\x1e\b\x17"].selectedItem.label;
+		var2.flush();
 	}
 	function chooseConfiguration(var2, var3, var4)
 	{
@@ -1218,7 +1217,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 	{
 		this._bUpdate = true;
 		this.showWaitBar(true);
-		var var3 = new dofus.utils.();
+		var var3 = new dofus.utils.();
 		var3.addListener(this);
 		var3.load(this.copyAndOrganizeDataServerList(),"lang/swf/lang_" + _global.CONFIG.language + "_" + var2 + ".swf",this._mcContainer,dofus.Constants.LANG_SHAREDOBJECT_NAME,"lang",_global.CONFIG.language);
 	}
@@ -1253,7 +1252,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 			this._bJsTimer = false;
 			this.getURL("javascript:stopTimer()");
 		}
-		if((this._bNonCriticalError || this._bUpdate) && dofus.Constants.DEBUG)
+		if((this._bNonCriticalError || this._bUpdate) && (dofus.Constants.DEBUG && dofus.Kernel.FAST_SWITCHING_SERVER_REQUEST == undefined))
 		{
 			this.showNextButton(true);
 			this.showCopyLogsButton(true);
@@ -1269,7 +1268,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 		Key.removeListener(this);
 		if((var var3 = dofus.DofusCore.getInstance()) == undefined)
 		{
-			var3 = new dofus.(var2);
+			var3 = new dofus.(var2);
 			if(Key.isDown(Key.SHIFT))
 			{
 				Stage.scaleMode = "exactFit";
@@ -1371,65 +1370,61 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 		}
 		else
 		{
-			while(true)
+			while(this._aXtraList.length > 0)
 			{
-				if(this._aXtraList.length > 0)
+				this.setTotalBarValue(10 + (90 - 90 / this._nTotalFile * (this._aXtraList.length - 1)),100);
+				this._aCurrentXtra = this._aXtraList.shift().split(",");
+				if(this._aXtraList.length > 0 && this._aCurrentXtra[2])
 				{
-					this.setTotalBarValue(10 + (90 - 90 / this._nTotalFile * (this._aXtraList.length - 1)),100);
-					this._aCurrentXtra = this._aXtraList.shift().split(",");
-					if(this._aXtraList.length > 0 && this._aCurrentXtra[2])
+					if(!this._bSkipDistantLoad)
 					{
-						if(!this._bSkipDistantLoad)
-						{
-							this._oCurrentXtraLoadFile = this._aCurrentXtra;
-						}
-						var var2 = this._aCurrentXtra[0];
-						var var3 = this._aCurrentXtra[1];
-						var var4 = this._aCurrentXtra[2];
-						if(var2 == "lang")
-						{
-							continue;
-						}
-						this["\x1e\n\x19"]["\x1e\f\x18"].text = var2;
-						if(_global.CONFIG.language == this.getLangSharedObject().data.LANGUAGE && Number(var4) == this._oXtraCurrentVersion[var2])
-						{
-							continue;
-						}
-						if(this._bLocalFileListLoaded)
-						{
-							if(this._bSkipDistantLoad)
-							{
-								if(this._oXtraCurrentVersion[var2] == 0)
-								{
-									var4 = this._mcLocalFileList.VERSIONS[_global.CONFIG.language][var2];
-									break;
-								}
-								continue;
-							}
-							break;
-						}
+						this._oCurrentXtraLoadFile = this._aCurrentXtra;
+					}
+					var var2 = this._aCurrentXtra[0];
+					var var3 = this._aCurrentXtra[1];
+					var var4 = this._aCurrentXtra[2];
+					if(var2 == "lang")
+					{
+						continue;
+					}
+					this["\x1e\b\x14"]["\x1e\n\x13"].text = var2;
+					if(_global.CONFIG.language == this.getLangSharedObject().data.LANGUAGE && Number(var4) == this._oXtraCurrentVersion[var2])
+					{
+						continue;
+					}
+					if(this._bLocalFileListLoaded)
+					{
 						if(this._bSkipDistantLoad)
 						{
-							return undefined;
+							if(this._oXtraCurrentVersion[var2] == 0)
+							{
+								var4 = this._mcLocalFileList.VERSIONS[_global.CONFIG.language][var2];
+							}
+							else
+							{
+								continue;
+							}
 						}
-						break;
 					}
-					continue;
+					else if(this._bSkipDistantLoad)
+					{
+						return undefined;
+					}
+					this._bUpdate = true;
+					this._aCurrentXtra[3] = this._aCurrentXtra[0] + "_" + this._aCurrentXtra[1] + "_" + this._aCurrentXtra[2];
+					this.log(this.TABULATION + this.getText("UPDATE_FILE",[var2]));
+					this.showWaitBar(true);
+					var var5 = new dofus.utils.();
+					var5.addListener(this);
+					if(dofus.Constants.USE_JS_LOG && _global.CONFIG.isNewAccount)
+					{
+						this.getURL("JavaScript:WriteLog(\'updateNextXtra;" + var2 + "_" + _global.CONFIG.language + "_" + var4 + "\')");
+					}
+					var5.load(this.copyAndOrganizeDataServerList(),"lang/swf/" + var2 + "_" + _global.CONFIG.language + "_" + var4 + ".swf",this._mcContainer,dofus.Constants.XTRA_SHAREDOBJECT_NAME,var2,_global.CONFIG.language,true);
+					return undefined;
 				}
-				this.noMoreXtra();
 			}
-			this._bUpdate = true;
-			this._aCurrentXtra[3] = this._aCurrentXtra[0] + "_" + this._aCurrentXtra[1] + "_" + this._aCurrentXtra[2];
-			this.log(this.TABULATION + this.getText("UPDATE_FILE",[var2]));
-			this.showWaitBar(true);
-			var var5 = new dofus.utils.();
-			var5.addListener(this);
-			if(dofus.Constants.USE_JS_LOG && _global.CONFIG.isNewAccount)
-			{
-				this.getURL("JavaScript:WriteLog(\'updateNextXtra;" + var2 + "_" + _global.CONFIG.language + "_" + var4 + "\')");
-			}
-			var5.load(this.copyAndOrganizeDataServerList(),"lang/swf/" + var2 + "_" + _global.CONFIG.language + "_" + var4 + ".swf",this._mcContainer,dofus.Constants.XTRA_SHAREDOBJECT_NAME,var2,_global.CONFIG.language,true);
-			return undefined;
+			this.noMoreXtra();
 		}
 	}
 	function noMoreXtra()
@@ -1439,7 +1434,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 		{
 			this.getURL("JavaScript:WriteLog(\'XtraLangLoadEnd\')");
 		}
-		if((this._bNonCriticalError || this._bUpdate) && dofus.Constants.DEBUG)
+		if((this._bNonCriticalError || this._bUpdate) && (dofus.Constants.DEBUG && dofus.Kernel.FAST_SWITCHING_SERVER_REQUEST == undefined))
 		{
 			this.showNextButton(true);
 			this.showCopyLogsButton(true);
@@ -1493,7 +1488,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 		var var5 = var3.getProgress(var4);
 		var2.setProgressBarValue(Number(var5.bytesLoaded),Number(var5.bytesTotal));
 	}
-	function onLoadError(§\x0b\x1c§, §\x10\x04§, §\x0e\x02§, oServer)
+	function onLoadError(§\n\x1c§, §\x0f\x05§, §\r\x02§, oServer)
 	{
 		_global.clearInterval(this._timedProgress);
 		this.showProgressBar(false);
@@ -1543,7 +1538,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 			_global["MODULE_" + this._aCurrentModule[4]] = var2;
 		}
 	}
-	function onLoadInit(§\x0b\x1c§, oServer)
+	function onLoadInit(§\n\x1c§, oServer)
 	{
 		this.showProgressBar(false);
 		switch(this._sStep)
@@ -1582,7 +1577,7 @@ class dofus.DofusLoader extends ank.utils.QueueEmbedMovieClip
 				break;
 		}
 	}
-	function onCorruptFile(§\x0b\x1c§, §\x1e\r\x04§, oServer)
+	function onCorruptFile(§\n\x1c§, §\x1e\n\x1c§, oServer)
 	{
 		switch(this._sStep)
 		{

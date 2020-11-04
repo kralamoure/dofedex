@@ -1,6 +1,6 @@
 class dofus.aks.Houses extends dofus.aks.Handler
 {
-	function Houses(var3, var4)
+	function Houses(var2, var3)
 	{
 		super.initialize(var3,var4);
 	}
@@ -40,7 +40,7 @@ class dofus.aks.Houses extends dofus.aks.Handler
 	{
 		if(var2.length == 0)
 		{
-			this.api.datacenter.Houses = new ank.utils.();
+			this.api.datacenter.Houses = new ank.utils.();
 			return undefined;
 		}
 		var var3 = var2.charAt(0) == "+";
@@ -59,7 +59,7 @@ class dofus.aks.Houses extends dofus.aks.Handler
 				var var12 = var11.getItemAt(var7);
 				if(var12 == undefined)
 				{
-					var12 = new dofus.datacenter.(var7);
+					var12 = new dofus.datacenter.(var7);
 				}
 				var12.localOwner = var3;
 				var12.isLocked = var8;
@@ -92,7 +92,7 @@ class dofus.aks.Houses extends dofus.aks.Handler
 		var var10 = (dofus.datacenter.House)this.api.datacenter.Houses.getItemAt(var4);
 		if(var10 == undefined)
 		{
-			var10 = new dofus.datacenter.(var4);
+			var10 = new dofus.datacenter.(var4);
 			this.api.datacenter.Houses.addItemAt(var4,var10);
 		}
 		var10.ownerName = var6;
@@ -108,7 +108,7 @@ class dofus.aks.Houses extends dofus.aks.Handler
 		var var6 = (dofus.datacenter.House)this.api.datacenter.Houses.getItemAt(var4);
 		if(var6 == undefined)
 		{
-			var6 = new dofus.datacenter.(var4);
+			var6 = new dofus.datacenter.(var4);
 			this.api.datacenter.Houses.addItemAt(var4,var6);
 		}
 		var6.isLocked = var5;
@@ -121,7 +121,7 @@ class dofus.aks.Houses extends dofus.aks.Handler
 		var var6 = (dofus.datacenter.House)this.api.datacenter.Houses.getItemAt(var4);
 		if(var6 == undefined)
 		{
-			var6 = new dofus.datacenter.(var4);
+			var6 = new dofus.datacenter.(var4);
 		}
 		var6.price = var5;
 		this.api.ui.loadUIComponent("HouseSale","HouseSale",{house:var6});
@@ -134,7 +134,7 @@ class dofus.aks.Houses extends dofus.aks.Handler
 		var var7 = (dofus.datacenter.House)this.api.datacenter.Houses.getItemAt(var5);
 		if(var7 == undefined)
 		{
-			var7 = new dofus.datacenter.(var5);
+			var7 = new dofus.datacenter.(var5);
 		}
 		var7.isForSale = var6 > 0;
 		var7.price = var6;
@@ -164,7 +164,7 @@ class dofus.aks.Houses extends dofus.aks.Handler
 			var var7 = (dofus.datacenter.House)this.api.datacenter.Houses.getItemAt(var5);
 			if(var7 == undefined)
 			{
-				var7 = new dofus.datacenter.(var5);
+				var7 = new dofus.datacenter.(var5);
 			}
 			var7.price = var6;
 			this.api.kernel.showMessage(this.api.lang.getText("INFORMATIONS"),this.api.lang.getText("HOUSE_BUY",[var7.name,var7.price]),"ERROR_BOX",{name:"BuyHouse"});
@@ -202,7 +202,7 @@ class dofus.aks.Houses extends dofus.aks.Handler
 		var var9 = (dofus.datacenter.House)this.api.datacenter.Houses.getItemAt(var4);
 		if(var9 == undefined)
 		{
-			var9 = new dofus.datacenter.(var4);
+			var9 = new dofus.datacenter.(var4);
 			this.api.datacenter.Houses.addItemAt(var4,var9);
 		}
 		var9.isShared = var5;

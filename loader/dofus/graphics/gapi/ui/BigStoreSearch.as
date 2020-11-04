@@ -84,7 +84,7 @@ class dofus.graphics.gapi.ui.BigStoreSearch extends dofus.graphics.gapi.core.Dof
 	function searchItem(var2)
 	{
 		var var3 = var2.split(" ");
-		var var4 = new ank.utils.();
+		var var4 = new ank.utils.();
 		var var5 = new Object();
 		var var6 = 0;
 		while(var6 < this._aItems.length)
@@ -97,12 +97,11 @@ class dofus.graphics.gapi.ui.BigStoreSearch extends dofus.graphics.gapi.core.Dof
 			}
 			var6 = var6 + 1;
 		}
-		§§enumerate(var5);
-		while((var var0 = §§enumeration()) != null)
+		for(var k in var5)
 		{
 			if(var5[k] == true)
 			{
-				var4.push(new dofus.datacenter.(0,Number(k)));
+				var4.push(new dofus.datacenter.(0,Number(k)));
 			}
 		}
 		this._lstItems.dataProvider = var4;
@@ -137,18 +136,19 @@ class dofus.graphics.gapi.ui.BigStoreSearch extends dofus.graphics.gapi.core.Dof
 			case "_btnView":
 				var var3 = this._lstItems.selectedItem;
 				this.api.network.Exchange.bigStoreSearch(var3.type,var3.unicID);
+				this.api.network.Exchange.getItemMiddlePriceInBigStore(var3.unicID);
 		}
 	}
 	function change(var2)
 	{
-		var var3 = new ank.utils.(this._tiSearch.text).trim().toString();
+		var var3 = new ank.utils.(this._tiSearch.text).trim().toString();
 		if(var3.length >= 2)
 		{
 			this.searchItem(var3.toUpperCase());
 		}
 		else
 		{
-			this._lstItems.dataProvider = new ank.utils.();
+			this._lstItems.dataProvider = new ank.utils.();
 			if(this._lblSearchCount.text != undefined)
 			{
 				this._lblSearchCount.text = "";

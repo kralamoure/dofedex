@@ -291,7 +291,7 @@ class ank.gapi.controls.ComboBox extends ank.gapi.core.UIBasicComponent
 		}
 		else
 		{
-			var var3 = new ank.utils.(String(this._sMcListParent));
+			var var3 = new ank.utils.(String(this._sMcListParent));
 			var var4 = var3.replace("this",String(this));
 			var2 = eval(String(var4));
 		}

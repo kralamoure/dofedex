@@ -3,7 +3,7 @@ class dofus.managers.GameActionsManager extends dofus.utils.ApiElement
 	static var STATE_TRANSMITTING = 2;
 	static var STATE_IN_PROGRESS = 1;
 	static var STATE_READY = 0;
-	function GameActionsManager(var3, var4)
+	function GameActionsManager(var2, var3)
 	{
 		super();
 		this.initialize(var3,var4);
@@ -68,7 +68,7 @@ class dofus.managers.GameActionsManager extends dofus.utils.ApiElement
 			var4.clearAllNextActions();
 			if(var3 == true)
 			{
-				var4.addAction(false,var5,var5.setAnim,["Static"]);
+				var4.addAction(125,false,var5,var5.setAnim,["Static"]);
 			}
 			this.clear();
 		}
@@ -92,16 +92,18 @@ class dofus.managers.GameActionsManager extends dofus.utils.ApiElement
 	}
 	function isWaiting(var2)
 	{
-		switch(this._state)
+		if((var var0 = this._state) !== dofus.managers.GameActionsManager.STATE_READY)
 		{
-			case dofus.managers.GameActionsManager.STATE_READY:
-				return false;
-			case dofus.managers.GameActionsManager.STATE_TRANSMITTING:
-			case dofus.managers.GameActionsManager.STATE_IN_PROGRESS:
-				return true;
-			default:
-				return false;
+			if(var0 !== dofus.managers.GameActionsManager.STATE_TRANSMITTING)
+			{
+				if(var0 !== dofus.managers.GameActionsManager.STATE_IN_PROGRESS)
+				{
+					return false;
+				}
+			}
+			return true;
 		}
+		return false;
 	}
 	function canCancel(var2)
 	{
@@ -113,17 +115,17 @@ class dofus.managers.GameActionsManager extends dofus.utils.ApiElement
 		{
 			return false;
 		}
-		if((var var0 = this._state) !== dofus.managers.GameActionsManager.STATE_TRANSMITTING)
+		switch(this._state)
 		{
-			if(var0 !== dofus.managers.GameActionsManager.STATE_READY)
-			{
+			case dofus.managers.GameActionsManager.STATE_TRANSMITTING:
+				return false;
+			default:
 				if(var0 !== dofus.managers.GameActionsManager.STATE_IN_PROGRESS)
 				{
 					return false;
 				}
-			}
-			return true;
+			case dofus.managers.GameActionsManager.STATE_READY:
+				return true;
 		}
-		return false;
 	}
 }

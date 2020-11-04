@@ -1,6 +1,6 @@
 class dofus.datacenter.ItemSet extends Object
 {
-	function ItemSet(var3, var4, var5)
+	function ItemSet(var2, var3, var4)
 	{
 		super();
 		this.initialize(var3,var4,var5);
@@ -66,8 +66,9 @@ class dofus.datacenter.ItemSet extends Object
 		var var3 = this.api.lang.getItemSetText(this._nID).i;
 		this._aItems = new Array();
 		var var4 = new Object();
-		for(var4[var2[k]] in var2)
+		for(var k in var2)
 		{
+			var4[var2[k]] = true;
 		}
 		var var5 = 0;
 		while(var5 < var3.length)
@@ -75,7 +76,7 @@ class dofus.datacenter.ItemSet extends Object
 			var var6 = Number(var3[var5]);
 			if(!_global.isNaN(var6))
 			{
-				var var7 = new dofus.datacenter.(0,var6,1);
+				var var7 = new dofus.datacenter.(0,var6,1);
 				var var8 = var4[var6] == true;
 				this._aItems.push({isEquiped:var8,item:var7});
 			}

@@ -1,13 +1,16 @@
 class dofus.graphics.gapi.controls.MiniMap extends dofus.graphics.gapi.core.DofusAdvancedComponent
 {
 	static var CLASS_NAME = "MiniMap";
-	static var HIDE_FLAG_ZONE = [[1,1,1,1,1,1,1],[1,1,1,1,1,1,1],[1,1,1,1,1,1,1],[1,0,0,1,0,0,1],[1,0,0,0,0,0,1],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,1],[1,0,0,0,0,0,1],[1,1,0,0,0,1,1]];
 	static var MAP_IMG_WIDTH = 15;
 	static var MAP_IMG_HEIGHT = 15;
+	static var SCALE_SMALL = 0;
+	static var SCALE_NORMAL = 1;
+	static var SCALE_BIG = 2;
 	var _aFlags = new Array();
 	var _nMapScale = 40;
 	var _nTileWidth = 40;
 	var _nTileHeight = 23;
+	var _nLastDoubleClick = 0;
 	function MiniMap()
 	{
 		super();
@@ -80,6 +83,37 @@ class dofus.graphics.gapi.controls.MiniMap extends dofus.graphics.gapi.core.Dofu
 			}
 		}
 	}
+	function setScale(var2, var3)
+	{
+		if(this._nScale == var2)
+		{
+			return undefined;
+		}
+		this._nScale = var2;
+		this.showScaledBackground();
+		if((var var0 = var2) !== dofus.graphics.gapi.controls.MiniMap.SCALE_SMALL)
+		{
+			if(var0 !== dofus.graphics.gapi.controls.MiniMap.SCALE_NORMAL)
+			{
+				if(var0 === dofus.graphics.gapi.controls.MiniMap.SCALE_BIG)
+				{
+					dofus.graphics.gapi.controls.MiniMap.HIDE_FLAG_ZONE = [[1,1,1,1,1,1,1],[1,1,1,1,1,1,1],[1,0,0,0,0,0,1],[1,0,0,0,0,0,1],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[1,0,0,0,0,0,1],[1,0,0,0,0,0,1],[1,1,0,0,0,1,1]];
+				}
+			}
+			else
+			{
+				dofus.graphics.gapi.controls.MiniMap.HIDE_FLAG_ZONE = [[1,1,1,1,1,1,1],[1,1,1,1,1,1,1],[1,1,1,1,1,1,1],[1,0,1,1,0,0,1],[1,0,0,0,0,0,1],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,1],[1,0,0,0,0,0,1],[1,1,0,0,0,1,1]];
+			}
+		}
+		else
+		{
+			dofus.graphics.gapi.controls.MiniMap.HIDE_FLAG_ZONE = [[1,1,1,1,1,1,1],[1,1,1,1,1,1,1],[1,1,1,1,1,1,1],[1,1,1,1,1,1,1],[1,1,0,0,0,1,1],[1,1,0,0,0,1,1],[1,1,0,0,0,1,1],[1,1,0,0,0,1,1],[1,1,0,0,0,1,1],[1,1,0,0,0,1,1],[1,1,0,0,0,1,1],[1,1,1,1,1,1,1],[1,1,1,1,1,1,1]];
+		}
+		if(var3)
+		{
+			this.updateFlagsDirections();
+		}
+	}
 	function clearFlag()
 	{
 		for(var i in this._mcFlagsDirection)
@@ -98,47 +132,62 @@ class dofus.graphics.gapi.controls.MiniMap extends dofus.graphics.gapi.core.Dofu
 		{
 			return undefined;
 		}
-		var var6 = this._mcFlagsDirection.getNextHighestDepth();
-		var var7 = this._mcFlagsDirection.attachMovie("FlagDirection","dir" + var6,var6);
-		var7.stop();
-		var var8 = (var4 & 16711680) >> 16;
-		var var9 = (var4 & 65280) >> 8;
-		var var10 = var4 & 255;
-		var var11 = new Color(var7._mcCursor._mc._mcColor);
-		var var12 = new Object();
-		var12 = {ra:0,ga:0,ba:0,rb:var8,gb:var9,bb:var10};
-		var11.setTransform(var12);
+		var var6 = (var4 & 16711680) >> 16;
+		var var7 = (var4 & 65280) >> 8;
+		var var8 = var4 & 255;
+		var var9 = var2 + "," + var3 + (!var5.length?"":" (" + var5 + ")");
+		var var10 = new Array();
+		var thisMiniMap = this;
+		var var11 = function()
+		{
+			thisMiniMap.dispatchEvent({type:"over"});
+			this.gapi.showTooltip(this.tooltipText,this,-20,{bXLimit:false,bYLimit:false});
+		};
+		var var12 = function()
+		{
+			this.gapi.hideTooltip();
+		};
+		var var13 = 0;
+		while(var13 <= 2)
+		{
+			var var14 = this._mcFlagsDirection.getNextHighestDepth();
+			var var15 = this._mcFlagsDirection.attachMovie(this.getDirectionLinkageByScale(var13),"dir" + var14,var14);
+			var15.stop();
+			var var16 = new Color(var15._mcCursor._mc._mcColor);
+			var var17 = new Object();
+			var17 = {ra:0,ga:0,ba:0,rb:var6,gb:var7,bb:var8};
+			var16.setTransform(var17);
+			var15.tooltipText = var9;
+			var15.gapi = this.gapi;
+			var15.mcTarget = var15._mcCursor;
+			var15.onRollOver = var11;
+			var15.onRollOut = var12;
+			var15._visible = false;
+			var10.push(var15);
+			var13 = var13 + 1;
+		}
 		if(!this._mcFlagsContainer)
 		{
 			this._mcFlagsContainer = this._mcFlags.createEmptyMovieClip("_mcFlagsContainer",1);
 		}
-		var var13 = this._nMapScale / 100 * this._nTileWidth;
-		var var14 = this._nMapScale / 100 * this._nTileHeight;
-		var6 = this._mcFlagsContainer.getNextHighestDepth();
-		var var15 = this._mcFlagsContainer.attachMovie("UI_MapExplorerFlag","flag" + var6,var6);
-		var15._x = var13 * var2 + var13 / 2;
-		var15._y = var14 * var3 + var14 / 2;
-		var15._xscale = this._nMapScale;
-		var15._yscale = this._nMapScale;
-		var11 = new Color(var15._mcColor);
-		var12 = new Object();
-		var12 = {ra:0,ga:0,ba:0,rb:var8,gb:var9,bb:var10};
-		var11.setTransform(var12);
-		this._aFlags.push({x:var2,y:var3,color:var4,mcDirection:var7});
-		var7.tooltipText = var2 + "," + var3 + (!var5.length?"":" (" + var5 + ")");
-		var15.tooltipText = var7.tooltipText;
-		var15.gapi = this.gapi;
-		var7.gapi = this.gapi;
-		var7.mcTarget = var7._mcCursor;
-		var15.mcTarget = var15;
-		var7.onRollOver = var15.onRollOver = function()
-		{
-			this.gapi.showTooltip(this.tooltipText,this,-20,{bXLimit:false,bYLimit:false});
-		};
-		var7.onRollOut = var15.onRollOut = function()
-		{
-			this.gapi.hideTooltip();
-		};
+		var var18 = this._nMapScale / 100 * this._nTileWidth;
+		var var19 = this._nMapScale / 100 * this._nTileHeight;
+		var var20 = this._mcFlagsContainer.getNextHighestDepth();
+		var var21 = this._mcFlagsContainer.attachMovie("UI_MapExplorerFlag","flag" + var20,var20);
+		var21._x = var18 * var2 + var18 / 2;
+		var21._y = var19 * var3 + var19 / 2;
+		var21._xscale = this._nMapScale;
+		var21._yscale = this._nMapScale;
+		var var22 = new Color(var21._mcColor);
+		var var23 = new Object();
+		var23 = {ra:0,ga:0,ba:0,rb:var6,gb:var7,bb:var8};
+		var22.setTransform(var23);
+		this._aFlags.push({x:var2,y:var3,color:var4,aDirections:var10});
+		var21.tooltipText = var9;
+		var21.gapi = this.gapi;
+		var21.mcTarget = var21;
+		var21.onRollOver = var11;
+		var21.onRollOut = var12;
 		this.updateMap();
 	}
 	function updateHints()
@@ -178,6 +227,7 @@ class dofus.graphics.gapi.controls.MiniMap extends dofus.graphics.gapi.core.Dofu
 	}
 	function createChildren()
 	{
+		this.setScale(dofus.graphics.gapi.controls.MiniMap.SCALE_NORMAL,false);
 		this.addToQueue({object:this,method:this.addListeners});
 		this.addToQueue({object:this,method:this.loadMap});
 		this.addToQueue({object:this,method:this.updateFlags});
@@ -204,12 +254,22 @@ class dofus.graphics.gapi.controls.MiniMap extends dofus.graphics.gapi.core.Dofu
 		{
 			this._mcBitmapContainer.onRelease = this.click;
 		}
+		var thisMiniMap = this;
+		this._mcBitmapContainer.onRollOut = function()
+		{
+			this.gapi.hideTooltip();
+		};
+		this._mcBitmapContainer.onRollOver = function()
+		{
+			thisMiniMap.dispatchEvent({type:"over"});
+		};
 		this._mcCursor._xscale = this._nMapScale;
 		this._mcCursor._yscale = this._nMapScale;
 		this._mcCursor.oMap = this._oMap;
 		this._mcCursor.gapi = this.gapi;
 		this._mcCursor.onRollOver = function()
 		{
+			thisMiniMap.dispatchEvent({type:"over"});
 			this.gapi.showTooltip(this.oMap.x + "," + this.oMap.y,this,-20,{bXLimit:false,bYLimit:false});
 		};
 		this._mcCursor.onRollOut = function()
@@ -249,18 +309,34 @@ class dofus.graphics.gapi.controls.MiniMap extends dofus.graphics.gapi.core.Dofu
 			var2 = var2 + 1;
 		}
 	}
+	function getDirectionLinkageByScale(var2)
+	{
+		switch(var2)
+		{
+			case dofus.graphics.gapi.controls.MiniMap.SCALE_SMALL:
+				return "FlagDirectionSmall";
+			case dofus.graphics.gapi.controls.MiniMap.SCALE_NORMAL:
+				return "FlagDirection";
+			default:
+				if(var0 !== dofus.graphics.gapi.controls.MiniMap.SCALE_BIG)
+				{
+					return undefined;
+				}
+				return "FlagDirectionBig";
+		}
+	}
 	function initDungeon()
 	{
 		this._mcBitmapContainer.removeMovieClip();
 		this._mcBitmapContainer = this._ldrBitmapMap.createEmptyMovieClip("_mcDongeonContainer",1);
-		this._mcBg.onRelease = this.click;
 		this._mcCursor._xscale = this._nMapScale;
 		this._mcCursor._yscale = this._nMapScale;
 		var var2 = this.dungeon.m;
 		var var3 = this.dungeonCurrentMap;
 		var var4 = 0;
-		for(var var5 in var2)
+		for(var a in var2)
 		{
+			var var5 = var2[a];
 			if(var3.z == var5.z)
 			{
 				var4;
@@ -273,8 +349,10 @@ class dofus.graphics.gapi.controls.MiniMap extends dofus.graphics.gapi.core.Dofu
 				{
 					var6.label = var5.n + " (" + var5.x + "," + var5.y + ")";
 					var6.gapi = this.gapi;
+					var thisMiniMap = this;
 					var6.onRollOver = function()
 					{
+						thisMiniMap.dispatchEvent({type:"over"});
 						this.gapi.showTooltip(this.label,this,-20,{bXLimit:false,bYLimit:false});
 					};
 					var6.onRollOut = function()
@@ -305,7 +383,7 @@ class dofus.graphics.gapi.controls.MiniMap extends dofus.graphics.gapi.core.Dofu
 		this.initDungeon();
 		this._nCurrentArea = -1;
 	}
-	function showHintsCategory(categoryID, §\x16\x05§)
+	function showHintsCategory(categoryID, §\x15\x0f§)
 	{
 		var var4 = this.api.kernel.OptionsManager.getOption("MapFilters");
 		var4[categoryID] = var3;
@@ -323,7 +401,7 @@ class dofus.graphics.gapi.controls.MiniMap extends dofus.graphics.gapi.core.Dofu
 			var var9 = 0;
 			for(; var9 < var6.length; var9 = var9 + 1)
 			{
-				var var10 = new dofus.datacenter.(var6[var9]);
+				var var10 = new dofus.datacenter.(var6[var9]);
 				if(var10.superAreaID === this._oMap.superarea)
 				{
 					var var11 = Math.sqrt(Math.pow(var10.x - this._oMap.x,2) + Math.pow(var10.y - this._oMap.y,2));
@@ -336,6 +414,7 @@ class dofus.graphics.gapi.controls.MiniMap extends dofus.graphics.gapi.core.Dofu
 					{
 						continue;
 					}
+					var thisMiniMap = this;
 					var var12 = this._mcHintsContainer[var5].attachMovie(var10.gfx,"hint" + var9,var9,{_xscale:this._nMapScale,_yscale:this._nMapScale});
 					var12._x = var7 * var10.x + var7 / 2;
 					var12._y = var8 * var10.y + var8 / 2;
@@ -343,6 +422,7 @@ class dofus.graphics.gapi.controls.MiniMap extends dofus.graphics.gapi.core.Dofu
 					var12.gapi = this.gapi;
 					var12.onRollOver = function()
 					{
+						thisMiniMap.dispatchEvent({type:"over"});
 						this.gapi.showTooltip(this.oHint.x + "," + this.oHint.y + " (" + this.oHint.name + ")",this,-20,{bXLimit:false,bYLimit:false});
 					};
 					var12.onRollOut = function()
@@ -413,34 +493,57 @@ class dofus.graphics.gapi.controls.MiniMap extends dofus.graphics.gapi.core.Dofu
 		this._mcFlagsContainer._x = this._mcBitmapContainer._x;
 		this._mcFlagsContainer._y = this._mcBitmapContainer._y;
 		this.drawMap();
-		for(var i in this._aFlags)
+		this.updateFlagsDirections();
+		this._mcBitmapContainer._visible = true;
+	}
+	function updateFlagsDirections()
+	{
+		for(var var2 in this._aFlags)
 		{
-			var var4 = this._aFlags[i].x - this._oMap.x;
-			var var5 = this._aFlags[i].y - this._oMap.y;
-			if(!(_global.isNaN(var5) || _global.isNaN(var4)))
+			var var3 = this._aFlags[i].y - this._oMap.y;
+			if(!(_global.isNaN(var3) || _global.isNaN(var2)))
 			{
-				if(dofus.graphics.gapi.controls.MiniMap.HIDE_FLAG_ZONE[var5 + 6][var4 + 3] == undefined || dofus.graphics.gapi.controls.MiniMap.HIDE_FLAG_ZONE[var5 + 6][var4 + 3] == 1)
+				var var4 = this._aFlags[i].aDirections;
+				if(dofus.graphics.gapi.controls.MiniMap.HIDE_FLAG_ZONE[var3 + 6][var2 + 3] == undefined || dofus.graphics.gapi.controls.MiniMap.HIDE_FLAG_ZONE[var3 + 6][var2 + 3] == 1)
 				{
-					this._aFlags[i].mcDirection._visible = true;
-					var var6 = Math.floor(Math.atan2(var5,var4) / Math.PI * 180);
-					if(var6 < 0)
+					var var5 = 0;
+					while(var5 < var4.length)
 					{
-						var6 = var6 + 360;
+						var var6 = var4[var5];
+						if(var5 != this._nScale)
+						{
+							var6._visible = false;
+						}
+						else
+						{
+							var6._visible = true;
+							var var7 = Math.floor(Math.atan2(var3,var2) / Math.PI * 180);
+							if(var7 < 0)
+							{
+								var7 = var7 + 360;
+							}
+							if(var7 > 360)
+							{
+								var7 = var7 - 360;
+							}
+							var6.gotoAndStop(var7 + 1);
+							var6._mcCursor.gotoAndStop(var7 + 1);
+						}
+						var5 = var5 + 1;
 					}
-					if(var6 > 360)
-					{
-						var6 = var6 - 360;
-					}
-					this._aFlags[i].mcDirection.gotoAndStop(var6 + 1);
-					this._aFlags[i].mcDirection._mcCursor.gotoAndStop(var6 + 1);
 				}
 				else
 				{
-					this._aFlags[i].mcDirection._visible = false;
+					var var8 = 0;
+					while(var8 < var4.length)
+					{
+						var var9 = var4[var8];
+						var9._visible = false;
+						var8 = var8 + 1;
+					}
 				}
 			}
 		}
-		this._mcBitmapContainer._visible = true;
 	}
 	function onClickTimer(var2)
 	{
@@ -471,14 +574,43 @@ class dofus.graphics.gapi.controls.MiniMap extends dofus.graphics.gapi.core.Dofu
 	{
 		this.initMap();
 	}
+	function showScaledBackground()
+	{
+		var var2 = [this._mcBgSmall,this._mcBg,this._mcBgBig];
+		var var3 = 0;
+		while(var3 < var2.length)
+		{
+			var var4 = var2[var3];
+			if(this._nScale == var3)
+			{
+				var4._visible = true;
+				var4.onRelease = this.click;
+			}
+			else
+			{
+				var4._visible = false;
+				delete register4.onRelease;
+			}
+			var3 = var3 + 1;
+		}
+	}
 	function click()
 	{
+		if(getTimer() - ank.gapi.controls.PopupMenu.LAST_POPUP_VALIDATION < ank.gapi.controls.PopupMenu.LAST_POPUP_VALIDATION_WAIT_DELAY)
+		{
+			return undefined;
+		}
+		if(getTimer() - this._nLastDoubleClick < 750)
+		{
+			return undefined;
+		}
 		var var2 = new Object();
 		var2.target = _global.API.ui.getUIComponent("Banner").illustration;
 		_global.API.ui.getUIComponent("Banner").click(var2);
 	}
 	function doubleClick(var2)
 	{
+		this._nLastDoubleClick = getTimer();
 		if(!this.api.datacenter.Game.isFight && _global.isNaN(this.dungeonID))
 		{
 			var var3 = var2.coordinates.x;
@@ -489,23 +621,44 @@ class dofus.graphics.gapi.controls.MiniMap extends dofus.graphics.gapi.core.Dofu
 			}
 		}
 	}
+	function getMcBg()
+	{
+		if((var var0 = this._nScale) !== dofus.graphics.gapi.controls.MiniMap.SCALE_BIG)
+		{
+			if(var0 !== dofus.graphics.gapi.controls.MiniMap.SCALE_NORMAL)
+			{
+				if(var0 !== dofus.graphics.gapi.controls.MiniMap.SCALE_SMALL)
+				{
+					return undefined;
+				}
+				return this._mcBgSmall;
+			}
+			return this._mcBg;
+		}
+		return this._mcBgBig;
+	}
+	function isHittingBackground()
+	{
+		return this.getMcBg().hitTest(_root._xmouse,_root._ymouse,true);
+	}
 	function onMouseUp()
 	{
-		if(this._mcBg.hitTest(_root._xmouse,_root._ymouse,true))
+		if(!this.isHittingBackground())
 		{
-			if(this._bTimerEnable != true)
-			{
-				this._bTimerEnable = true;
-				ank.utils.Timer.setTimer(this,"minimap",this,this.onClickTimer,ank.gapi.Gapi.DBLCLICK_DELAY,[true]);
-			}
-			else
-			{
-				this.onClickTimer(false);
-				var var2 = this._mcBitmapContainer._xmouse;
-				var var3 = this._mcBitmapContainer._ymouse;
-				var var4 = this.getCoordinatesFromReal(var2,var3);
-				this.doubleClick({coordinates:var4});
-			}
+			return undefined;
+		}
+		if(this._bTimerEnable != true)
+		{
+			this._bTimerEnable = true;
+			ank.utils.Timer.setTimer(this,"minimap",this,this.onClickTimer,ank.gapi.Gapi.DBLCLICK_DELAY,[true]);
+		}
+		else
+		{
+			this.onClickTimer(false);
+			var var2 = this._mcBitmapContainer._xmouse;
+			var var3 = this._mcBitmapContainer._ymouse;
+			var var4 = this.getCoordinatesFromReal(var2,var3);
+			this.doubleClick({coordinates:var4});
 		}
 	}
 }

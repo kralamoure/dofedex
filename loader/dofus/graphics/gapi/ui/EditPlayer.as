@@ -47,7 +47,6 @@ class dofus.graphics.gapi.ui.EditPlayer extends dofus.graphics.gapi.core.DofusAd
 	}
 	function addListeners()
 	{
-		var ref = this;
 		this._mcRandomName.onPress = function()
 		{
 			ref.click({target:this});
@@ -131,14 +130,13 @@ class dofus.graphics.gapi.ui.EditPlayer extends dofus.graphics.gapi.core.DofusAd
 			this._csColors.breed = var3;
 			this._csColors.sex = var4;
 			this._csColors.colors = [var2.color1,var2.color2,var2.color3];
-			this._svCharacter.spriteData = new ank.battlefield.datacenter.("1",undefined,dofus.Constants.CLIPS_PERSOS_PATH + var3 + var4 + ".swf",undefined,5);
+			this._svCharacter.spriteData = new ank.battlefield.datacenter.("1",undefined,dofus.Constants.CLIPS_PERSOS_PATH + var3 + var4 + ".swf",undefined,5);
 			this._svCharacter.setColors(this._oColors);
 		}
 		this._btnValidate.label = this.api.lang.getText("VALIDATE");
 	}
 	function showColorPosition(nIndex)
 	{
-		var bWhite = true;
 		this._nSavedColor = this._svCharacter.getColor(nIndex);
 		this.onEnterFrame = function()
 		{
@@ -165,12 +163,12 @@ class dofus.graphics.gapi.ui.EditPlayer extends dofus.graphics.gapi.core.DofusAd
 		}
 		if(this.api.lang.getConfigText("CHAR_NAME_FILTER") && !this.api.datacenter.Player.isAuthorized)
 		{
-			var var3 = new dofus.utils.nameChecker.	(var2);
+			var var3 = new dofus.utils.nameChecker.(var2);
 			var var4 = new dofus.utils.nameChecker.rules.NameCheckerCharacterNameRules();
 			var var5 = var3.isValidAgainstWithDetails(var4);
 			if(!var5.IS_SUCCESS)
 			{
-				this.api.kernel.showMessage(undefined,this.api.lang.getText("INVALID_CHARACTER_NAME") + "\r\n" + var5.toString("\r\n"),"ERROR_BOX");
+				this.api.kernel.showMessage(undefined,this.api.lang.getText("INVALID_CHARACTER_NAME") + GuildRights + var5.toString(GuildRights),"ERROR_BOX");
 				return undefined;
 			}
 		}

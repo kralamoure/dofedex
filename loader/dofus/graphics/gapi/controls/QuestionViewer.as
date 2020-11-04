@@ -39,7 +39,7 @@ class dofus.graphics.gapi.controls.QuestionViewer extends ank.gapi.core.UIBasicC
 		}
 		else if(this._oQuestion.responses.length == 0)
 		{
-			var var3 = new ank.utils.();
+			var var3 = new ank.utils.();
 			var3.push({label:this._parent.api.lang.getText("CONTINUE_TO_SPEAK"),id:-1});
 			var2 = var3;
 		}

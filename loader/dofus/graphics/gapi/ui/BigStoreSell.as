@@ -10,6 +10,22 @@ class dofus.graphics.gapi.ui.BigStoreSell extends dofus.graphics.gapi.core.Dofus
 		this._oData = var2;
 		return this.__get__data();
 	}
+	function __get__currentOverItem()
+	{
+		if(this._livInventory != undefined && this._livInventory.currentOverItem != undefined)
+		{
+			return this._livInventory.currentOverItem;
+		}
+		if(this._livInventory2 != undefined && this._livInventory2.currentOverItem != undefined)
+		{
+			return this._livInventory2.currentOverItem;
+		}
+		return undefined;
+	}
+	function __get__itemViewer()
+	{
+		return this._itvItemViewer;
+	}
 	function setMiddlePrice(var2, var3)
 	{
 		if(this._itvItemViewer.itemData.unicID == var2 && this._itvItemViewer.itemData != undefined)
@@ -41,6 +57,9 @@ class dofus.graphics.gapi.ui.BigStoreSell extends dofus.graphics.gapi.core.Dofus
 	{
 		this._livInventory.addEventListener("selectedItem",this);
 		this._livInventory2.addEventListener("selectedItem",this);
+		this._livInventory2.addEventListener("rollOverItem",this);
+		this._livInventory2.addEventListener("rollOutItem",this);
+		this._livInventory2.lstInventory.multipleSelection = true;
 		this._btnAdd.addEventListener("click",this);
 		this._btnRemove.addEventListener("click",this);
 		this._btnClose.addEventListener("click",this);
@@ -64,7 +83,7 @@ class dofus.graphics.gapi.ui.BigStoreSell extends dofus.graphics.gapi.core.Dofus
 	function initTexts()
 	{
 		this._btnAdd.label = this.api.lang.getText("PUT_ON_SELL");
-		this._btnRemove.label = this.api.lang.getText("REMOVE");
+		this.refreshRemoveButton();
 		this._btnSwitchToBuy.label = this.api.lang.getText("BIGSTORE_MODE_BUY");
 		this._lblQuantity.text = this.api.lang.getText("SET_QUANTITY") + " :";
 		this._lblPrice.text = this.api.lang.getText("SET_PRICE") + " :";
@@ -74,7 +93,7 @@ class dofus.graphics.gapi.ui.BigStoreSell extends dofus.graphics.gapi.core.Dofus
 	}
 	function populateComboBox(var2)
 	{
-		var var3 = new ank.utils.();
+		var var3 = new ank.utils.();
 		if(var2 >= this._oData.quantity1)
 		{
 			var3.push({label:"x" + this._oData.quantity1,index:1});
@@ -165,7 +184,6 @@ class dofus.graphics.gapi.ui.BigStoreSell extends dofus.graphics.gapi.core.Dofus
 	}
 	function setRemoveMode(var2)
 	{
-		this._btnRemove._visible = var2;
 		this._mcBuyArrow._visible = var2;
 		this._mcPrice._visible = false;
 		this._cbQuantity._visible = false;
@@ -192,7 +210,6 @@ class dofus.graphics.gapi.ui.BigStoreSell extends dofus.graphics.gapi.core.Dofus
 	}
 	function setBadItemMode(var2)
 	{
-		this._btnRemove._visible = false;
 		this._mcBuyArrow._visible = false;
 		this._mcPrice._visible = false;
 		this._cbQuantity._visible = false;
@@ -208,10 +225,19 @@ class dofus.graphics.gapi.ui.BigStoreSell extends dofus.graphics.gapi.core.Dofus
 		this._srBottom._visible = false;
 		this._lblTaxTimeValue._visible = false;
 		this._tiPrice._visible = false;
+		this.refreshRemoveButton();
 	}
 	function remove(var2)
 	{
-		this.api.network.Exchange.movementItem(false,var2.ID,var2.Quantity);
+		var var3 = new Array();
+		var var4 = 0;
+		while(var4 < var2.length)
+		{
+			var var5 = var2[var4];
+			var3.push({Add:false,ID:var5.ID,Quantity:var5.Quantity});
+			var4 = var4 + 1;
+		}
+		this.api.network.Exchange.movementItems(var3);
 	}
 	function calculateTax()
 	{
@@ -231,8 +257,28 @@ class dofus.graphics.gapi.ui.BigStoreSell extends dofus.graphics.gapi.core.Dofus
 	function askSell(var2, var3, var4)
 	{
 		var var5 = this._oData["quantity" + var3];
-		var var6 = this.gapi.loadUIComponent("AskYesNo","AskYesNoSell",{title:this.api.lang.getText("BIGSTORE"),text:this.api.lang.getText("DO_U_SELL_ITEM_BIGSTORE",["x" + var5 + " " + var2.name,var4]),params:{itemID:var2.ID,itemQuantity:var2.Quantity,quantity:var5,quantityIndex:var3,price:var4}});
+		var var6 = this.gapi.loadUIComponent("AskYesNo","AskYesNoSell",{title:this.api.lang.getText("BIGSTORE"),text:this.api.lang.getText("DO_U_SELL_ITEM_BIGSTORE",["x" + var5 + " " + var2.name,var4]),params:{item:var2,itemQuantity:var2.Quantity,quantity:var5,quantityIndex:var3,price:var4}});
 		var6.addEventListener("yes",this);
+	}
+	function refreshRemoveButton(var2)
+	{
+		if(var2 == undefined)
+		{
+			var2 = this._livInventory2.lstInventory.getSelectedItems().length;
+		}
+		if(this._sRemoveText == undefined)
+		{
+			this._sRemoveText = this.api.lang.getText("REMOVE");
+		}
+		this._btnRemove.enabled = var2 != undefined && (var2 == 0 && (this._oSelectedItem != undefined && this._mcBuyArrow._visible) || var2 > 0);
+		if(var2 == undefined || var2 <= 1)
+		{
+			this._btnRemove.label = this._sRemoveText;
+		}
+		else
+		{
+			this._btnRemove.label = this._sRemoveText + " (" + var2 + ")";
+		}
 	}
 	function onShortcut(var2)
 	{
@@ -248,24 +294,34 @@ class dofus.graphics.gapi.ui.BigStoreSell extends dofus.graphics.gapi.core.Dofus
 		switch(var2.target._name)
 		{
 			case "_btnRemove":
-				this.remove(this._oSelectedItem);
+				var var3 = this._livInventory2.lstInventory.getSelectedItems();
+				if(var3.length == 0 && this._oSelectedItem == undefined)
+				{
+					break;
+				}
+				if(var3.length == 0)
+				{
+					var3.push(this._oSelectedItem);
+				}
+				this.remove(var3);
 				this.hideItemViewer(true);
 				this.setRemoveMode(false);
+				this._btnAdd._visible = false;
 				break;
 			case "_btnAdd":
-				var var3 = Number(this._tiPrice.text);
-				var var4 = Number(this._cbQuantity.selectedItem.index);
-				if(_global.isNaN(var3) || var3 == 0)
+				var var4 = Number(this._tiPrice.text);
+				var var5 = Number(this._cbQuantity.selectedItem.index);
+				if(_global.isNaN(var4) || var4 == 0)
 				{
 					this.gapi.loadUIComponent("AskOk","AksOkBadPrice",{title:this.api.lang.getText("ERROR_WORD"),text:this.api.lang.getText("ERROR_INVALID_PRICE")});
 				}
-				else if(_global.isNaN(var4) || var4 == 0)
+				else if(_global.isNaN(var5) || var5 == 0)
 				{
 					this.gapi.loadUIComponent("AskOk","AksOkBadQuantity",{title:this.api.lang.getText("ERROR_WORD"),text:this.api.lang.getText("ERROR_INVALID_QUANTITY")});
 				}
 				else
 				{
-					this.askSell(this._oSelectedItem,var4,var3);
+					this.askSell(this._oSelectedItem,var5,var4);
 				}
 				break;
 			case "_btnClose":
@@ -293,9 +349,8 @@ class dofus.graphics.gapi.ui.BigStoreSell extends dofus.graphics.gapi.core.Dofus
 				var3 = var3 + ("\n" + this.api.lang.getText("BIGSTORE_MAX_SELL_TIME") + " : " + this._oData.maxSellTime + " " + ank.utils.PatternDecoder.combine(this.api.lang.getText("HOURS"),"m",this._oData.maxSellTime < 2));
 				var3 = var3 + ("\n\n" + this.api.lang.getText("BIGSTORE_TYPES") + " :");
 				var var4 = this._oData.types;
-				for(var k in var4)
+				for(var var3 in var4)
 				{
-					var3 = var3 + ("\n - " + this.api.lang.getItemTypeText(var4[k]).n);
 				}
 				this.gapi.showTooltip(var3,var2.target,20);
 				break;
@@ -306,6 +361,16 @@ class dofus.graphics.gapi.ui.BigStoreSell extends dofus.graphics.gapi.core.Dofus
 	function out(var2)
 	{
 		this.gapi.hideTooltip();
+	}
+	function rollOverItem(var2)
+	{
+		var var3 = var2.targets.length;
+		this.refreshRemoveButton(var3);
+	}
+	function rollOutItem(var2)
+	{
+		var var3 = var2.targets.length;
+		this.refreshRemoveButton(var3);
 	}
 	function selectedItem(var2)
 	{
@@ -367,6 +432,7 @@ class dofus.graphics.gapi.ui.BigStoreSell extends dofus.graphics.gapi.core.Dofus
 						}
 						this._livInventory2.setFilter(this._livInventory.currentFilterID);
 						this._tiPrice.setFocus();
+						this.refreshRemoveButton();
 						break;
 					case "_livInventory2":
 						this._lblQuantityValue.text = "x" + String(var2.item.Quantity);
@@ -375,6 +441,8 @@ class dofus.graphics.gapi.ui.BigStoreSell extends dofus.graphics.gapi.core.Dofus
 						this._tiPrice.text = var2.item.price;
 						this._livInventory.setFilter(this._livInventory2.currentFilterID);
 						this._lblTaxTimeValue.text = var2.item.remainingHours + "h";
+						var var4 = var2.targets.length;
+						this.refreshRemoveButton(var4);
 				}
 				this.api.network.Exchange.getItemMiddlePriceInBigStore(var2.item.unicID);
 			}
@@ -396,7 +464,7 @@ class dofus.graphics.gapi.ui.BigStoreSell extends dofus.graphics.gapi.core.Dofus
 	function yes(var2)
 	{
 		this._nQuantityIndex = var2.target.params.quantityIndex;
-		this.api.network.Exchange.movementItem(true,var2.target.params.itemID,var2.target.params.quantityIndex,var2.target.params.price);
+		this.api.network.Exchange.movementItem(true,var2.target.params.item,var2.target.params.quantityIndex,var2.target.params.price);
 		if(var2.target.params.itemQuantity - var2.target.params.quantity < var2.target.params.quantity)
 		{
 			this.setAddMode(false);

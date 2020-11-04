@@ -50,23 +50,19 @@ class dofus.graphics.gapi.controls.itemviewer.ItemViewerItem extends ank.gapi.co
 						case "F":
 							this.showLoader(true,"IconFireDommage");
 							break;
-						default:
-							switch(null)
-							{
-								case "E":
-									this.showLoader(true,"IconEarthDommage");
-									break;
-								case "A":
-									this.showLoader(true,"IconAirDommage");
-									break;
-								case "N":
-									this.showLoader(true,"IconNeutralDommage");
-							}
+						case "E":
+							this.showLoader(true,"IconEarthDommage");
+							break;
+						case "A":
+							this.showLoader(true,"IconAirDommage");
+							break;
+						case "N":
+							this.showLoader(true,"IconNeutralDommage");
 					}
 				}
 				else
 				{
-					loop3:
+					loop2:
 					switch(Number(var4.characteristic))
 					{
 						case 13:
@@ -75,48 +71,48 @@ class dofus.graphics.gapi.controls.itemviewer.ItemViewerItem extends ank.gapi.co
 						case 35:
 							this.showLoader(true,"IconWater");
 							break;
-						case 15:
-							this.showLoader(true,"IconFireBonus");
-							break;
 						default:
 							switch(null)
 							{
+								case 15:
+									this.showLoader(true,"IconFireBonus");
+									break loop2;
 								case 34:
 									this.showLoader(true,"IconFire");
-									break loop3;
+									break loop2;
 								case 10:
 									this.showLoader(true,"IconEarthBonus");
-									break loop3;
+									break loop2;
 								case 33:
 									this.showLoader(true,"IconEarth");
-									break loop3;
-								case 14:
-									this.showLoader(true,"IconAirBonus");
-									break loop3;
-								case 36:
-									this.showLoader(true,"IconAir");
-									break loop3;
+									break loop2;
 								default:
 									switch(null)
 									{
+										case 14:
+											this.showLoader(true,"IconAirBonus");
+											break loop2;
+										case 36:
+											this.showLoader(true,"IconAir");
+											break loop2;
 										case 37:
 											this.showLoader(true,"IconNeutral");
-											break loop3;
+											break loop2;
 										case 1:
 											this.showLoader(true,"Star");
-											break loop3;
+											break loop2;
 										case 11:
 											this.showLoader(true,"IconVita");
-											break loop3;
-										case 12:
-											this.showLoader(true,"IconWisdom");
-											break loop3;
-										case 44:
-											this.showLoader(true,"IconInit");
-											break loop3;
+											break loop2;
 										default:
 											switch(null)
 											{
+												case 12:
+													this.showLoader(true,"IconWisdom");
+													break;
+												case 44:
+													this.showLoader(true,"IconInit");
+													break;
 												case 48:
 													this.showLoader(true,"IconPP");
 													break;

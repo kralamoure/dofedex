@@ -14,13 +14,12 @@ class ank.battlefield.TextHandler
 	}
 	function clear()
 	{
-		§§enumerate(this._mcContainer);
-		while((var var0 = §§enumeration()) != null)
+		for(var k in this._mcContainer)
 		{
 			this._mcContainer[k].removeMovieClip();
 		}
 	}
-	function addBubble(sID, §\x1e\x1c\x11§, §\x1e\x1c\t§, §\x1e\x0e\x17§, §\x1e\f\x16§)
+	function addBubble(sID, §\x1e\x1b\x03§, §\x1e\x1a\x18§, §\x1e\f\x14§, §\x1e\n\x11§)
 	{
 		var var7 = (this._oDatacenter.Map.width - 1) * ank.battlefield.Constants.CELL_WIDTH;
 		this.removeBubble(sID);

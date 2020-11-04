@@ -21,7 +21,7 @@ class dofus.datacenter.Order extends Object
 	}
 	function __get__alignment()
 	{
-		return new dofus.datacenter.(this._oOrderInfos.a);
+		return new dofus.datacenter.(this._oOrderInfos.a);
 	}
 	function __get__iconFile()
 	{

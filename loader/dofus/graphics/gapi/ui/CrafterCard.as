@@ -106,16 +106,17 @@ class dofus.graphics.gapi.ui.CrafterCard extends dofus.graphics.gapi.core.DofusA
 			case "_btnClose":
 				this.unloadThis();
 				break;
+			case "_btnPrivateMessage":
+				this.api.kernel.GameManager.askPrivateMessage(this._oCrafter.name);
+				break;
 			default:
-				switch(null)
+				if(var0 !== "_btnLocate")
 				{
-					case "_btnPrivateMessage":
-						this.api.kernel.GameManager.askPrivateMessage(this._oCrafter.name);
-						break;
-					case "_btnLocate":
-						var var3 = this._oCrafter.coord;
-						this.api.kernel.GameManager.updateCompass(var3.x,var3.y,true);
+					break;
 				}
+				var var3 = this._oCrafter.coord;
+				this.api.kernel.GameManager.updateCompass(var3.x,var3.y,true);
+				break;
 		}
 	}
 }

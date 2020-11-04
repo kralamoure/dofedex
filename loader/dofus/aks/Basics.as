@@ -1,6 +1,6 @@
 class dofus.aks.Basics extends dofus.aks.Handler
 {
-	function Basics(var3, var4)
+	function Basics(var2, var3)
 	{
 		super.initialize(var3,var4);
 	}
@@ -52,6 +52,68 @@ class dofus.aks.Basics extends dofus.aks.Handler
 	{
 		this.aks.send("Bp" + this.api.network.getAveragePing() + "|" + this.api.network.getAveragePingPacketsCount() + "|" + this.api.network.getAveragePingBufferSize(),false);
 	}
+	function askReportInfos(var2, var3, var4)
+	{
+		this.aks.send("Br" + var2 + "|" + var3 + "|" + (!var4?"0":"1"));
+	}
+	function onReportInfos(var2)
+	{
+		var var3 = this.api.datacenter.Temporary.Report;
+		if(var3 == undefined)
+		{
+			return undefined;
+		}
+		var var4 = var2.charAt(0);
+		var var5 = var2.substring(1);
+		if((var var0 = var4) !== "t")
+		{
+			switch(null)
+			{
+				case "s":
+					if(var3.sanctionnatedAccounts == undefined)
+					{
+						var3.sanctionnatedAccounts = var5;
+					}
+					else
+					{
+						var3.sanctionnatedAccounts = var3.sanctionnatedAccounts + ("\n\n" + var5);
+					}
+					break;
+				case "p":
+					var3.penal = var5;
+					break;
+				case "f":
+					var3.findAccounts = var5;
+					break;
+				case "#":
+					this.api.ui.unloadUIComponent("FightsInfos");
+					var var7 = (dofus.graphics.gapi.ui.MakeReport)this.api.ui.getUIComponent("MakeReport");
+					if(var7 == undefined)
+					{
+						var var8 = var3.targetPseudos;
+						var var9 = var3.reason;
+						var var10 = var3.description;
+						var var11 = var3.jailDialog;
+						var var12 = var3.isAllAccounts;
+						var var13 = var3.penal;
+						var var14 = var3.findAccounts;
+						this.api.ui.loadUIComponent("MakeReport","MakeReport",{targetPseudos:var8,reason:var9,description:var10,jailDialog:var11,isAllAccounts:var12,penal:var13,findAccounts:var14});
+						break;
+					}
+					var7.update();
+					break;
+			}
+		}
+		else
+		{
+			var var6 = var5.split("|");
+			if(var3.targetAccountPseudo == undefined)
+			{
+				var3.targetAccountPseudo = var6[0];
+				var3.targetAccountId = var6[1];
+			}
+		}
+	}
 	function onPopupMessage(var2)
 	{
 		var var3 = var2;
@@ -77,13 +139,16 @@ class dofus.aks.Basics extends dofus.aks.Handler
 		{
 			var var4 = Number(var3.charAt(0));
 			var var5 = "DEBUG_LOG";
-			switch(var4)
+			if((var var0 = var4) !== 1)
 			{
-				case 1:
-					var5 = "DEBUG_ERROR";
-					break;
-				case 2:
+				if(var0 === 2)
+				{
 					var5 = "DEBUG_INFO";
+				}
+			}
+			else
+			{
+				var5 = "DEBUG_ERROR";
 			}
 			if(this.api.ui.getUIComponent("Debug") == undefined)
 			{
@@ -175,10 +240,10 @@ class dofus.aks.Basics extends dofus.aks.Handler
 				switch(var6)
 				{
 					case "1":
-						this.api.kernel.showMessage(undefined,this.api.lang.getText("I_AM_IN_SINGLE_GAME",[var7,var5,var8]),"INFO_CHAT");
+						this.api.kernel.showMessage(undefined,this.api.lang.getText("I_AM_IN_SINGLE_GAME",[var7,var5,var8]),"COMMANDS_CHAT");
 						break;
 					case "2":
-						this.api.kernel.showMessage(undefined,this.api.lang.getText("I_AM_IN_GAME",[var7,var5,var8]),"INFO_CHAT");
+						this.api.kernel.showMessage(undefined,this.api.lang.getText("I_AM_IN_GAME",[var7,var5,var8]),"COMMANDS_CHAT");
 				}
 			}
 			else
@@ -186,10 +251,10 @@ class dofus.aks.Basics extends dofus.aks.Handler
 				switch(var6)
 				{
 					case "1":
-						this.api.kernel.showMessage(undefined,this.api.lang.getText("IS_IN_SINGLE_GAME",[var7,var5,var8]),"INFO_CHAT");
+						this.api.kernel.showMessage(undefined,this.api.lang.getText("IS_IN_SINGLE_GAME",[var7,var5,var8]),"COMMANDS_CHAT");
 						break;
 					case "2":
-						this.api.kernel.showMessage(undefined,this.api.lang.getText("IS_IN_GAME",[var7,var5,var8]),"INFO_CHAT");
+						this.api.kernel.showMessage(undefined,this.api.lang.getText("IS_IN_GAME",[var7,var5,var8]),"COMMANDS_CHAT");
 				}
 			}
 		}

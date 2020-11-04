@@ -103,9 +103,8 @@ class ank.battlefield.datacenter.Cell extends Object
 	}
 	function removeAllSpritesOnID()
 	{
-		for(var k in this.allSpritesOn)
+		for(this.allSpritesOn[k] in this.allSpritesOn)
 		{
-			this.allSpritesOn[k] = undefined;
 			delete this.allSpritesOn.k;
 		}
 		delete this.allSpritesOn;
@@ -140,7 +139,8 @@ class ank.battlefield.datacenter.Cell extends Object
 		{
 			return false;
 		}
-		for(var k in this.allSpritesOn)
+		§§enumerate(this.allSpritesOn);
+		while((var var0 = §§enumeration()) != null)
 		{
 			if(this.allSpritesOn[k].hasCarriedChild())
 			{

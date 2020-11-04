@@ -52,16 +52,15 @@ class dofus.utils.Api extends Object
 	function initialize()
 	{
 		this._oConfig = _global.CONFIG;
-		this._oLang = new dofus.utils.();
+		this._oLang = new dofus.utils.();
 		this._oUI = dofus.DofusCore.getClip().GAPI;
 		this._oUI.api = this;
-		this._oKernel = new dofus.(this);
-		this._oElectron = new dofus.(this);
+		this._oElectron = new dofus.(this);
+		this._oKernel = new dofus.(this);
 		this._oSounds = dofus.sounds.AudioManager.getInstance();
 		_global.SOMA = this._oSounds;
-		this._oDatacenter = new dofus.datacenter.
-(this);
-		this._oNetwork = new dofus.aks.(this);
+		this._oDatacenter = new dofus.datacenter.(this);
+		this._oNetwork = new dofus.aks.(this);
 		this._oGfx = dofus.DofusCore.getClip().BATTLEFIELD;
 		if(this._oConfig.isStreaming && this._oConfig.streamingMethod == "explod")
 		{

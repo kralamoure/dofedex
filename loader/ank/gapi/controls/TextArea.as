@@ -12,6 +12,10 @@ class ank.gapi.controls.TextArea extends ank.gapi.core.UIBasicComponent
 	{
 		super();
 	}
+	function __get__tf()
+	{
+		return this._tText;
+	}
 	function __set__border(var2)
 	{
 		this._bBorder = var2;
@@ -346,7 +350,7 @@ class ank.gapi.controls.TextArea extends ank.gapi.core.UIBasicComponent
 			this.setSize(this.__width,this._tText.textHeight);
 			this.dispatchEvent({type:"resize"});
 		}
-		this.dispatchEvent({type:"change"});
+		this.dispatchEvent({type:"change",target:this});
 	}
 	function scroll(var2)
 	{

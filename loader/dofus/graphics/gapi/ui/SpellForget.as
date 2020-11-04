@@ -34,10 +34,9 @@ class dofus.graphics.gapi.ui.SpellForget extends dofus.graphics.gapi.core.DofusA
 	function initData()
 	{
 		var var2 = this.api.datacenter.Player.Spells;
-		var var3 = new ank.utils.();
-		for(var k in var2)
+		var var3 = new ank.utils.();
+		for(var var4 in var2)
 		{
-			var var4 = var2[k];
 			if(var4.classID != -1 && var4.level > 1)
 			{
 				var3.push(var4);
@@ -57,8 +56,12 @@ class dofus.graphics.gapi.ui.SpellForget extends dofus.graphics.gapi.core.DofusA
 				var var3 = (dofus.datacenter.Spell)this._lstSpells.selectedItem;
 				this.api.kernel.showMessage(this.api.lang.getText("SPELL_FORGET"),this.api.lang.getText("SPELL_FORGET_CONFIRM",[var3.name]),"CAUTION_YESNO",{name:"SpellForget",listener:this,params:{spell:var3}});
 				break;
+			default:
+				if(var0 !== this._btnCancel)
+				{
+					break;
+				}
 			case this._btnClose:
-			case this._btnCancel:
 				this.api.network.Spells.spellForget(-1);
 				this.unloadThis();
 		}

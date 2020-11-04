@@ -212,7 +212,7 @@ class dofus.graphics.gapi.ui.CreateCharacter extends dofus.graphics.gapi.core.Do
 		{
 			return undefined;
 		}
-		this._svCharacter.spriteData = new ank.battlefield.datacenter.("1",undefined,dofus.Constants.CLIPS_PERSOS_PATH + var2 + var3 + ".swf",undefined,5);
+		this._svCharacter.spriteData = new ank.battlefield.datacenter.("1",undefined,dofus.Constants.CLIPS_PERSOS_PATH + var2 + var3 + ".swf",undefined,5);
 		this._ldrClassIcon.contentPath = dofus.Constants.BREEDS_SYMBOL_PATH + var2 + ".swf";
 		var var4 = 0;
 		while(var4 < dofus.Constants.GUILD_ORDER.length)
@@ -261,6 +261,7 @@ class dofus.graphics.gapi.ui.CreateCharacter extends dofus.graphics.gapi.core.Do
 	}
 	function showColorPosition(nIndex)
 	{
+		var bWhite = true;
 		this._nSavedColor = this._svCharacter.getColor(nIndex);
 		this.onEnterFrame = function()
 		{
@@ -287,12 +288,12 @@ class dofus.graphics.gapi.ui.CreateCharacter extends dofus.graphics.gapi.core.Do
 		}
 		if(this.api.lang.getConfigText("CHAR_NAME_FILTER") && !this.api.datacenter.Player.isAuthorized)
 		{
-			var var3 = new dofus.utils.nameChecker.	(var2);
+			var var3 = new dofus.utils.nameChecker.(var2);
 			var var4 = new dofus.utils.nameChecker.rules.NameCheckerCharacterNameRules();
 			var var5 = var3.isValidAgainstWithDetails(var4);
 			if(!var5.IS_SUCCESS)
 			{
-				this.api.kernel.showMessage(undefined,this.api.lang.getText("INVALID_CHARACTER_NAME") + "\r\n" + var5.toString("\r\n"),"ERROR_BOX");
+				this.api.kernel.showMessage(undefined,this.api.lang.getText("INVALID_CHARACTER_NAME") + GuildRights + var5.toString(GuildRights),"ERROR_BOX");
 				return undefined;
 			}
 		}
@@ -338,28 +339,25 @@ class dofus.graphics.gapi.ui.CreateCharacter extends dofus.graphics.gapi.core.Do
 			case this._mcLeft:
 				this._csBreedSelection.slide(-1);
 				break;
-			case this._mcMaleButton:
-				this.setClass(this._nBreed,0);
-				break;
 			default:
 				switch(null)
 				{
+					case this._mcMaleButton:
+						this.setClass(this._nBreed,0);
+						break loop0;
 					case this._mcFemaleButton:
 						this.setClass(this._nBreed,1);
-						break loop0;
-					case this._mcSpellButton2:
-					case this._mcSpellButton:
-						this.api.ui.loadUIComponent("SpellViewerOnCreate","SpellViewerOnCreate",{breed:this._nBreed});
 						break loop0;
 					default:
 						switch(null)
 						{
+							case this._mcSpellButton:
 							case this._mcHistoryButton:
 								this.api.ui.loadUIComponent("HistoryViewerOnCreate","HistoryViewerOnCreate",{breed:this._nBreed});
-								break;
+								break loop0;
 							case this._btnValidate:
 								this.validateCreation();
-								break;
+								break loop0;
 							case this._btnBack:
 								if(this.api.datacenter.Basics.createCharacter)
 								{
@@ -370,15 +368,22 @@ class dofus.graphics.gapi.ui.CreateCharacter extends dofus.graphics.gapi.core.Do
 									this.api.datacenter.Basics.ignoreCreateCharacter = true;
 									this.api.network.Account.getCharactersForced();
 								}
-								break;
-							case this._mcRandomName:
+								break loop0;
+							default:
+								if(var0 !== this._mcRandomName)
+								{
+									break loop0;
+								}
 								if(this._nLastRegenerateTimer + dofus.graphics.gapi.ui.CreateCharacter.NAME_GENERATION_DELAY < getTimer())
 								{
 									this.api.network.Account.getRandomCharacterName();
 									this._nLastRegenerateTimer = getTimer();
-									break;
+									break loop0;
 								}
+								break loop0;
 						}
+					case this._mcSpellButton2:
+						this.api.ui.loadUIComponent("SpellViewerOnCreate","SpellViewerOnCreate",{breed:this._nBreed});
 				}
 		}
 	}
@@ -393,12 +398,12 @@ class dofus.graphics.gapi.ui.CreateCharacter extends dofus.graphics.gapi.core.Do
 			case this._mcRandomName:
 				this.gapi.showTooltip(this.api.lang.getText("RANDOM_NICKNAME"),_root._xmouse,_root._ymouse - 20);
 				break;
-			case this._mcMaleButton:
-				this.gapi.showTooltip(this.api.lang.getText("ANIMAL_MEN"),_root._xmouse,_root._ymouse - 20);
-				break;
 			default:
 				switch(null)
 				{
+					case this._mcMaleButton:
+						this.gapi.showTooltip(this.api.lang.getText("ANIMAL_MEN"),_root._xmouse,_root._ymouse - 20);
+						break loop0;
 					case this._mcFemaleButton:
 						this.gapi.showTooltip(this.api.lang.getText("ANIMAL_WOMEN"),_root._xmouse,_root._ymouse - 20);
 						break loop0;

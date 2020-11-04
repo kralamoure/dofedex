@@ -1,6 +1,6 @@
 class dofus.datacenter.Crafter extends Object
 {
-	function Crafter(sId, §\x1e\x11\x13§)
+	function Crafter(sId, §\x1e\x0f\x19§)
 	{
 		super();
 		this.api = _global.API;

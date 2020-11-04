@@ -1,6 +1,6 @@
 class dofus.aks.Dialog extends dofus.aks.Handler
 {
-	function Dialog(var3, var4)
+	function Dialog(var2, var3)
 	{
 		super.initialize(var3,var4);
 	}
@@ -48,7 +48,7 @@ class dofus.aks.Dialog extends dofus.aks.Handler
 		var var5 = Number(var4[0]);
 		var var6 = var4[1].split(",");
 		var var7 = var3[1].split(";");
-		var var8 = new dofus.datacenter.(var5,var7,var6);
+		var var8 = new dofus.datacenter.(var5,var7,var6);
 		this.api.ui.getUIComponent("NpcDialog").setQuestion(var8);
 	}
 	function onPause()

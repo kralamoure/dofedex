@@ -102,19 +102,19 @@ class dofus.graphics.gapi.ui.MainMenu extends dofus.graphics.gapi.core.DofusAdva
 			case this._btnOptions:
 				this.gapi.loadUIComponent("Options","Options",{_y:(this.gapi.screenHeight != 432?0:-50)},{bAlwaysOnTop:true});
 				break;
+			case this._btnHelp:
+				if(this.api.ui.getUIComponent("Banner") != undefined)
+				{
+					this.gapi.loadUIComponent("KnownledgeBase","KnownledgeBase");
+				}
+				else
+				{
+					_root.getURL(this.api.lang.getConfigText("TUTORIAL_FILE"),"_blank");
+				}
+				break;
 			default:
 				switch(null)
 				{
-					case this._btnHelp:
-						if(this.api.ui.getUIComponent("Banner") != undefined)
-						{
-							this.gapi.loadUIComponent("KnownledgeBase","KnownledgeBase");
-						}
-						else
-						{
-							_root.getURL(this.api.lang.getConfigText("TUTORIAL_FILE"),"_blank");
-						}
-						break;
 					case this._btnSubscribe:
 						_root.getURL(this.api.lang.getConfigText("PAY_LINK"),"_blank");
 						break;
@@ -133,19 +133,19 @@ class dofus.graphics.gapi.ui.MainMenu extends dofus.graphics.gapi.core.DofusAdva
 			case this._btnOptions:
 				this.api.ui.showTooltip(this.api.lang.getText("MAIN_MENU_OPTIONS"),var2.target,20,{bXLimit:true,bYLimit:true});
 				break;
+			case this._btnHelp:
+				if(this.api.ui.getUIComponent("Banner") != undefined)
+				{
+					this.api.ui.showTooltip(this.api.lang.getText("KB_TITLE"),var2.target,20,{bXLimit:true,bYLimit:true});
+				}
+				else
+				{
+					this.api.ui.showTooltip(this.api.lang.getText("MAIN_MENU_HELP"),var2.target,20,{bXLimit:true,bYLimit:true});
+				}
+				break;
 			default:
 				switch(null)
 				{
-					case this._btnHelp:
-						if(this.api.ui.getUIComponent("Banner") != undefined)
-						{
-							this.api.ui.showTooltip(this.api.lang.getText("KB_TITLE"),var2.target,20,{bXLimit:true,bYLimit:true});
-						}
-						else
-						{
-							this.api.ui.showTooltip(this.api.lang.getText("MAIN_MENU_HELP"),var2.target,20,{bXLimit:true,bYLimit:true});
-						}
-						break;
 					case this._btnBugs:
 						this.api.ui.showTooltip(this.api.lang.getText("MAIN_MENU_BUGS"),var2.target,20,{bXLimit:true,bYLimit:true});
 						break;

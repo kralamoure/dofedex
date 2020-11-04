@@ -1,6 +1,6 @@
 class dofus.aks.Conquest extends dofus.aks.Handler
 {
-	function Conquest(var3, var4)
+	function Conquest(var2, var3)
 	{
 		super.initialize(var3,var4);
 	}
@@ -61,17 +61,17 @@ class dofus.aks.Conquest extends dofus.aks.Handler
 	{
 		var var3 = var2.split(";");
 		var var4 = String(var3[0]).split(",");
-		var var5 = new dofus.datacenter.();
+		var var5 = new dofus.datacenter.();
 		var5.xp = Number(var4[0]);
 		var5.drop = Number(var4[1]);
 		var5.recolte = Number(var4[2]);
 		var4 = String(var3[1]).split(",");
-		var var6 = new dofus.datacenter.();
+		var var6 = new dofus.datacenter.();
 		var6.xp = Number(var4[0]);
 		var6.drop = Number(var4[1]);
 		var6.recolte = Number(var4[2]);
 		var4 = String(var3[2]).split(",");
-		var var7 = new dofus.datacenter.();
+		var var7 = new dofus.datacenter.();
 		var7.xp = Number(var4[0]);
 		var7.drop = Number(var4[1]);
 		var7.recolte = Number(var4[2]);
@@ -88,18 +88,19 @@ class dofus.aks.Conquest extends dofus.aks.Handler
 	function onWorldData(var2)
 	{
 		var var3 = var2.split("|");
-		var var4 = new dofus.datacenter.();
+		var var4 = new dofus.datacenter.();
 		var4.ownedAreas = Number(var3[0]);
 		var4.totalAreas = Number(var3[1]);
 		var4.possibleAreas = Number(var3[2]);
 		var var5 = var3[3];
 		var var6 = var5.split(";");
-		var4.areas = new ank.utils.();
-		for(var var7 in var6)
+		var4.areas = new ank.utils.();
+		for(var i in var6)
 		{
+			var var7 = String(var6[i]).split(",");
 			if(var7.length >= 5)
 			{
-				var var8 = new dofus.datacenter.(Number(var7[0]),Number(var7[1]),Number(var7[2]) == 1,Number(var7[3]),Number(var7[4]) == 1);
+				var var8 = new dofus.datacenter.(Number(var7[0]),Number(var7[1]),Number(var7[2]) == 1,Number(var7[3]),Number(var7[4]) == 1);
 				var4.areas.push(var8);
 			}
 		}
@@ -108,12 +109,13 @@ class dofus.aks.Conquest extends dofus.aks.Handler
 		var4.totalVillages = Number(var3[5]);
 		var var9 = var3[6];
 		var var10 = var9.split(";");
-		var4.villages = new ank.utils.();
-		for(var var11 in var10)
+		var4.villages = new ank.utils.();
+		for(var i in var10)
 		{
+			var var11 = String(var10[i]).split(",");
 			if(var11.length == 4)
 			{
-				var var12 = new dofus.datacenter.(Number(var11[0]),Number(var11[1]),Number(var11[2]) == 1,Number(var11[3]) == 1);
+				var var12 = new dofus.datacenter.	(Number(var11[0]),Number(var11[1]),Number(var11[2]) == 1,Number(var11[3]) == 1);
 				var4.villages.push(var12);
 			}
 		}
@@ -143,11 +145,19 @@ class dofus.aks.Conquest extends dofus.aks.Handler
 			var var10 = new Object();
 			switch(var4)
 			{
+				default:
+					if(var0 !== -3)
+					{
+						var5.sharePropertiesWithTab(var10);
+					}
+					else
+					{
+						break;
+					}
 				case -1:
 				case -2:
-				case -3:
-					var10.error = var4;
 			}
+			var10.error = var4;
 			var5.sharePropertiesWithTab(var10);
 		}
 	}

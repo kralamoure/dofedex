@@ -1,6 +1,7 @@
 class dofus.graphics.gapi.ui.PlayerShop extends dofus.graphics.gapi.core.DofusAdvancedComponent
 {
 	static var CLASS_NAME = "PlayerShop";
+	static var DELAY_BEFORE_CAN_SWITCH_MERCHANT = 500;
 	function PlayerShop()
 	{
 		super();
@@ -14,6 +15,22 @@ class dofus.graphics.gapi.ui.PlayerShop extends dofus.graphics.gapi.core.DofusAd
 	{
 		this._colors = var2;
 		return this.__get__colors();
+	}
+	function __get__currentOverItem()
+	{
+		if(this._livInventory != undefined && this._livInventory.currentOverItem != undefined)
+		{
+			return this._livInventory.currentOverItem;
+		}
+		if(this._livInventory2 != undefined && this._livInventory2.currentOverItem != undefined)
+		{
+			return this._livInventory2.currentOverItem;
+		}
+		return undefined;
+	}
+	function __get__itemViewer()
+	{
+		return this._itvItemViewer;
 	}
 	function init()
 	{
@@ -32,13 +49,29 @@ class dofus.graphics.gapi.ui.PlayerShop extends dofus.graphics.gapi.core.DofusAd
 		this.hideItemViewer(true);
 		this.setBuyMode(false);
 	}
+	function destroy()
+	{
+		if(this._timerSwitchMerchant == undefined)
+		{
+			return undefined;
+		}
+		_global.clearTimeout(this._timerSwitchMerchant);
+	}
+	function activateSwitchMerchantButtons()
+	{
+		this._btnViewNextMerchant.enabled = true;
+		this._btnViewPreviousMerchant.enabled = true;
+	}
 	function addListeners()
 	{
 		this._livInventory.addEventListener("selectedItem",this);
 		this._livInventory2.addEventListener("selectedItem",this);
 		this._btnBuy.addEventListener("click",this);
+		this._btnViewNextMerchant.addEventListener("click",this);
+		this._btnViewPreviousMerchant.addEventListener("click",this);
 		this._btnClose.addEventListener("click",this);
 		this._ldrArtwork.addEventListener("complete",this);
+		this._ldrArtwork.addEventListener("click",this);
 		if(this._oData != undefined)
 		{
 			this._oData.addEventListener("modelChanged",this);
@@ -47,10 +80,13 @@ class dofus.graphics.gapi.ui.PlayerShop extends dofus.graphics.gapi.core.DofusAd
 		{
 			ank.utils.Logger.err("[PlayerShop] il n\'y a pas de data");
 		}
+		this._timerSwitchMerchant = _global.setTimeout(this,"activateSwitchMerchantButtons",dofus.graphics.gapi.ui.PlayerShop.DELAY_BEFORE_CAN_SWITCH_MERCHANT);
 	}
 	function initTexts()
 	{
 		this._btnBuy.label = this.api.lang.getText("BUY");
+		this._btnViewNextMerchant.label = this.api.lang.getText("NEXT_WORD");
+		this._btnViewPreviousMerchant.label = this.api.lang.getText("PREVIOUS_WORD");
 		this._winInventory.title = this.api.datacenter.Player.data.name;
 		this._winInventory2.title = this._oData.name;
 	}
@@ -116,6 +152,63 @@ class dofus.graphics.gapi.ui.PlayerShop extends dofus.graphics.gapi.core.DofusAd
 		var9 = {ra:0,ga:0,ba:0,rb:var5,gb:var6,bb:var7};
 		var8.setTransform(var9);
 	}
+	function switchMerchant(var2)
+	{
+		var var3 = this.api.datacenter.Temporary.Shop.id;
+		var var4 = new Array();
+		var var5 = this.api.gfx.spriteHandler.getSprites().getItems();
+		for(var sID in var5)
+		{
+			var var6 = var5[sID];
+			if(var6 instanceof dofus.datacenter.OfflineCharacter)
+			{
+				var4.push({id:sID,cellNum:var6.cellNum});
+			}
+		}
+		var var7 = undefined;
+		if(var4.length > 1)
+		{
+			var4.sortOn(["id"],Array.NUMERIC);
+			var var8 = 0;
+			while(var8 < var4.length)
+			{
+				var var9 = var4[var8].id;
+				if(var9 == var3)
+				{
+					if(var2)
+					{
+						if(var8 - 1 >= 0)
+						{
+							var7 = var4[var8 - 1];
+						}
+						else
+						{
+							var7 = var4[var4.length - 1];
+						}
+					}
+					else if(var8 + 1 < var4.length)
+					{
+						var7 = var4[var8 + 1];
+					}
+					else
+					{
+						var7 = var4[0];
+					}
+					break;
+				}
+				var8 = var8 + 1;
+			}
+		}
+		if(var7 == null)
+		{
+			this.api.kernel.showMessage(undefined,this.api.lang.getText("NO_OTHER_MERCHANT_ON_MAP"),"ERROR_CHAT");
+			return undefined;
+		}
+		this._btnViewNextMerchant.enabled = false;
+		this._btnViewPreviousMerchant.enabled = false;
+		this.api.network.Exchange.leave();
+		this.api.kernel.GameManager.startExchange(4,var7.id,var7.cellNum);
+	}
 	function modelChanged(var2)
 	{
 		this._livInventory2.dataProvider = this._oData.inventory;
@@ -124,18 +217,31 @@ class dofus.graphics.gapi.ui.PlayerShop extends dofus.graphics.gapi.core.DofusAd
 	{
 		switch(var2.target._name)
 		{
-			case "_btnBuy":
-				if(this._oSelectedItem.Quantity > 1)
-				{
-					this.askQuantity(this._oSelectedItem.Quantity,this._oSelectedItem.price);
-				}
-				else
-				{
-					this.validateBuy(1);
-				}
+			case "_ldrArtwork":
+				this.api.kernel.GameManager.showPlayerPopupMenu(undefined,this._oData.name);
 				break;
-			case "_btnClose":
-				this.callClose();
+			case "_btnViewPreviousMerchant":
+				this.switchMerchant(true);
+				break;
+			case "_btnViewNextMerchant":
+				this.switchMerchant(false);
+				break;
+			default:
+				switch(null)
+				{
+					case "_btnBuy":
+						if(this._oSelectedItem.Quantity > 1)
+						{
+							this.askQuantity(this._oSelectedItem.Quantity,this._oSelectedItem.price);
+						}
+						else
+						{
+							this.validateBuy(1);
+						}
+						break;
+					case "_btnClose":
+						this.callClose();
+				}
 		}
 	}
 	function selectedItem(var2)

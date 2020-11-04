@@ -52,7 +52,7 @@ class dofus.graphics.gapi.ui.ChooseServer extends dofus.graphics.gapi.core.Dofus
 		this._lblCopyright.text = this.api.lang.getText("COPYRIGHT");
 		if(!this.api.config.isStreaming)
 		{
-			this._lblLogin.text = this.api.lang.getText("PSEUDO_DOFUS",[this.api.datacenter.Basics.dofusPseudo]);
+			this._lblLogin.text = this.api.datacenter.Basics.dofusPseudo;
 		}
 		else
 		{
@@ -82,7 +82,7 @@ class dofus.graphics.gapi.ui.ChooseServer extends dofus.graphics.gapi.core.Dofus
 				this.getURL(var2,"_blank");
 			}
 		};
-		this._eaFavoriteServers = new ank.utils.();
+		this._eaFavoriteServers = new ank.utils.();
 		var var2 = 0;
 		while(var2 < this._eaServers.length)
 		{
@@ -184,7 +184,7 @@ class dofus.graphics.gapi.ui.ChooseServer extends dofus.graphics.gapi.core.Dofus
 			var var3 = this.api.datacenter.Basics.aks_servers.findFirstItem("id",var2).item;
 			if(var3.state == dofus.datacenter.Server.SERVER_ONLINE)
 			{
-				var var4 = new dofus.datacenter.	(var2,1,0);
+				var var4 = new dofus.datacenter.(var2,1,0);
 				if(var4.isAllowed())
 				{
 					this.api.datacenter.Basics.aks_current_server = var4;

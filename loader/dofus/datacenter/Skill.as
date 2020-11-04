@@ -27,7 +27,7 @@ class dofus.datacenter.Skill extends Object
 		{
 			return null;
 		}
-		return new dofus.datacenter.(0,this._oSkillText.i);
+		return new dofus.datacenter.(0,this._oSkillText.i);
 	}
 	function __get__interactiveObject()
 	{
@@ -133,19 +133,19 @@ class dofus.datacenter.Skill extends Object
 						return var12;
 					}
 					break;
+				case "S":
+					if(var15)
+					{
+						var4 = !var4;
+					}
+					if(!var4)
+					{
+						return var12;
+					}
+					break;
 				default:
 					switch(null)
 					{
-						case "S":
-							if(var15)
-							{
-								var4 = !var4;
-							}
-							if(!var4)
-							{
-								return var12;
-							}
-							break;
 						case "L":
 							if(var15)
 							{

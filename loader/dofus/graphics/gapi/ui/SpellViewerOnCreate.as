@@ -91,6 +91,7 @@ class dofus.graphics.gapi.ui.SpellViewerOnCreate extends dofus.graphics.gapi.cor
 			var3.addEventListener("over",this);
 			var3.addEventListener("out",this);
 			var3.addEventListener("click",this);
+			var3.addEventListener("onContentLoaded",this);
 			var2 = var2 + 1;
 		}
 	}
@@ -107,6 +108,7 @@ class dofus.graphics.gapi.ui.SpellViewerOnCreate extends dofus.graphics.gapi.cor
 			var5._alpha = var4 >= 3?0:100;
 			var4 = var4 + 1;
 		}
+		this._mcSpellDesc._ldrSpellBig.addEventListener("complete",this);
 		this.showSpellInfo(var3[0],1);
 	}
 	function showSpellInfo(var2, var3)
@@ -136,6 +138,11 @@ class dofus.graphics.gapi.ui.SpellViewerOnCreate extends dofus.graphics.gapi.cor
 			this._mcSpellDesc._lblSpellAP.text = "";
 			this._mcSpellDesc._txtSpellDescription.text = "";
 			this._mcSpellDesc._ldrSpellBig.contentPath = "";
+			if(dofus.Constants.DOUBLEFRAMERATE && this._mcSpellDesc._ldrSpellBig.loaded)
+			{
+				var var7 = this.api.kernel.OptionsManager.getOption("RemasteredSpellIconsPack");
+				this._mcSpellDesc._ldrSpellBig.content.gotoAndStop(var7);
+			}
 		}
 		else if(this._mcSpellDesc._lblSpellName.text != undefined)
 		{
@@ -157,6 +164,44 @@ class dofus.graphics.gapi.ui.SpellViewerOnCreate extends dofus.graphics.gapi.cor
 			default:
 				this.showSpellInfo(var2.target.params.spellID,1);
 		}
+	}
+	function refreshSpellsPack()
+	{
+		if(!dofus.Constants.DOUBLEFRAMERATE)
+		{
+			return undefined;
+		}
+		var var2 = this.api.kernel.OptionsManager.getOption("RemasteredSpellIconsPack");
+		var var3 = 0;
+		while(var3 < dofus.graphics.gapi.ui.SpellViewerOnCreate.SPELLS_DISPLAYED)
+		{
+			var var4 = this["_ctr" + var3];
+			var var5 = var4.content;
+			var5.gotoAndStop(var2);
+			var3 = var3 + 1;
+		}
+		var var6 = this._mcSpellDesc._ldrSpellBig;
+		var6.content.gotoAndStop(var2);
+	}
+	function complete(var2)
+	{
+		if(!dofus.Constants.DOUBLEFRAMERATE)
+		{
+			return undefined;
+		}
+		var var3 = var2.clip;
+		var var4 = this.api.kernel.OptionsManager.getOption("RemasteredSpellIconsPack");
+		var3.gotoAndStop(var4);
+	}
+	function onContentLoaded(var2)
+	{
+		if(!dofus.Constants.DOUBLEFRAMERATE)
+		{
+			return undefined;
+		}
+		var var3 = var2.content;
+		var var4 = this.api.kernel.OptionsManager.getOption("RemasteredSpellIconsPack");
+		var3.gotoAndStop(var4);
 	}
 	function over(var2)
 	{

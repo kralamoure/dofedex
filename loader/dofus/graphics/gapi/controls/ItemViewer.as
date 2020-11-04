@@ -110,14 +110,8 @@ class dofus.graphics.gapi.controls.ItemViewer extends dofus.graphics.gapi.core.D
 		this._btnTabConditions.addEventListener("click",this);
 		this._pbEthereal.addEventListener("over",this);
 		this._pbEthereal.addEventListener("out",this);
-		this._ldrTwoHanded.onRollOver = function()
-		{
-			this._parent.over({target:this});
-		};
-		this._ldrTwoHanded.onRollOut = function()
-		{
-			this._parent.out({target:this});
-		};
+		this._ldrTwoHanded.addEventListener("over",this);
+		this._ldrTwoHanded.addEventListener("out",this);
 	}
 	function showItemData(var2)
 	{
@@ -126,7 +120,13 @@ class dofus.graphics.gapi.controls.ItemViewer extends dofus.graphics.gapi.core.D
 			this._lblName.text = var2.name;
 			if(dofus.Constants.DEBUG)
 			{
-				this._lblName.text = this._lblName.text + (" (" + var2.unicID + ")");
+				var var3 = " (" + var2.unicID;
+				if(var2.ID != 0)
+				{
+					var3 = var3 + (", " + var2.ID);
+				}
+				var3 = var3 + ")";
+				this._lblName.text = this._lblName.text + var3;
 			}
 			if(var2.style == "")
 			{
@@ -154,15 +154,15 @@ class dofus.graphics.gapi.controls.ItemViewer extends dofus.graphics.gapi.core.D
 				}
 				this._btnTabCharacteristics._visible = false;
 			}
-			this._lblPrice.text = var2.price != undefined?new ank.utils.(var2.price).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3):"";
+			this._lblPrice.text = var2.price != undefined?new ank.utils.(var2.price).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3):"";
 			this._lblWeight.text = var2.weight + " " + ank.utils.PatternDecoder.combine(this._parent.api.lang.getText("PODS"),"m",var2.weight < 2);
 			if(var2.isEthereal)
 			{
-				var var3 = var2.etherealResistance;
-				this._pbEthereal.maximum = var3.param3;
-				this._pbEthereal.value = var3.param2;
+				var var4 = var2.etherealResistance;
+				this._pbEthereal.maximum = var4.param3;
+				this._pbEthereal.value = var4.param2;
 				this._pbEthereal._visible = true;
-				if(var3.param2 < 4)
+				if(var4.param2 < 4)
 				{
 					this._pbEthereal.styleName = "EtherealCriticalProgressBar";
 				}
@@ -192,14 +192,13 @@ class dofus.graphics.gapi.controls.ItemViewer extends dofus.graphics.gapi.core.D
 	}
 	function updateCurrentTabInformations()
 	{
-		var var2 = new ank.utils.();
+		var var2 = new ank.utils.();
 		if((var var0 = this._sCurrentTab) !== "Effects")
 		{
 			switch(null)
 			{
 				case "Characteristics":
-					§§enumerate(this._oItem.characteristics);
-					while((var0 = §§enumeration()) != null)
+					for(var s in this._oItem.characteristics)
 					{
 						if(this._oItem.characteristics[s].length > 0)
 						{
@@ -208,8 +207,7 @@ class dofus.graphics.gapi.controls.ItemViewer extends dofus.graphics.gapi.core.D
 					}
 					break;
 				case "Conditions":
-					§§enumerate(this._oItem.conditions);
-					while((var var0 = §§enumeration()) != null)
+					for(var s in this._oItem.conditions)
 					{
 						if(this._oItem.conditions[s].length > 0)
 						{
@@ -264,7 +262,7 @@ class dofus.graphics.gapi.controls.ItemViewer extends dofus.graphics.gapi.core.D
 						var var4 = this.api.lang.getItemStats(this._oItem.unicID);
 						if(var4 != undefined)
 						{
-							var var5 = new ank.utils.();
+							var var5 = new ank.utils.();
 							var var6 = new Array();
 							var var7 = var4.split(",");
 							var var8 = 0;
@@ -309,25 +307,45 @@ class dofus.graphics.gapi.controls.ItemViewer extends dofus.graphics.gapi.core.D
 				{
 					break;
 				}
-				var var11 = this.api.ui.createPopupMenu();
-				var11.addStaticItem(this._oItem.name);
-				if(this._bUseButton && this._oItem.canUse)
-				{
-					var11.addItem(this._parent.api.lang.getText("CLICK_TO_USE"),this,this.dispatchEvent,[{type:"useItem",item:this._oItem}]);
-				}
-				var11.addItem(this._parent.api.lang.getText("CLICK_TO_INSERT"),this.api.kernel.GameManager,this.api.kernel.GameManager.insertItemInChat,[this._oItem]);
-				if(this._bTargetButton && this._oItem.canTarget)
-				{
-					var11.addItem(this._parent.api.lang.getText("CLICK_TO_TARGET"),this,this.dispatchEvent,[{type:"targetItem",item:this._oItem}]);
-				}
-				var11.addItem(this._parent.api.lang.getText("ASSOCIATE_RECEIPTS"),this.api.ui,this.api.ui.loadUIComponent,["ItemUtility","ItemUtility",{item:this._oItem}]);
-				if(this._bDestroyButton && this._oItem.canDestroy)
-				{
-					var11.addItem(this._parent.api.lang.getText("CLICK_TO_DESTROY"),this,this.dispatchEvent,[{type:"destroyItem",item:this._oItem}]);
-				}
-				var11.show(_root._xmouse,_root._ymouse);
+				this.createActionPopupMenu(this._oItem);
 				break;
 		}
+	}
+	function createActionPopupMenu(var2)
+	{
+		var var3 = this.api.ui.createPopupMenu();
+		var3.addStaticItem(var2.name);
+		if(this._bUseButton && var2.canUse)
+		{
+			var3.addItem(this.api.lang.getText("CLICK_TO_USE"),this,this.dispatchEvent,[{type:"useItem",item:var2}]);
+		}
+		var3.addItem(this.api.lang.getText("CLICK_TO_INSERT"),this.api.kernel.GameManager,this.api.kernel.GameManager.insertItemInChat,[var2]);
+		if(this._bTargetButton && var2.canTarget)
+		{
+			var3.addItem(this.api.lang.getText("CLICK_TO_TARGET"),this,this.dispatchEvent,[{type:"targetItem",item:var2}]);
+		}
+		var3.addItem(this.api.lang.getText("ASSOCIATE_RECEIPTS"),this.api.ui,this.api.ui.loadUIComponent,["ItemUtility","ItemUtility",{item:var2}]);
+		if(this._bDestroyButton)
+		{
+			if(var2.canDestroy)
+			{
+				var3.addItem(this.api.lang.getText("CLICK_TO_DESTROY"),this,this.dispatchEvent,[{type:"destroyItem",item:var2}]);
+			}
+			if(var2.hasCustomGfx())
+			{
+				var3.addItem(this.api.lang.getText("CLICK_TO_DESTROY_MIMIBIOTE"),this,this.dispatchEvent,[{type:"destroyMimibiote",item:var2}]);
+			}
+		}
+		for(var s in var2.effects)
+		{
+			var var4 = var2.effects[s];
+			if(var4.type == 995)
+			{
+				var3.addItem(this.api.lang.getText("VIEW_MOUNT_DETAILS"),this.api.network.Mount,this.api.network.Mount.data,[var4.param1,var4.param2]);
+				break;
+			}
+		}
+		var3.show(_root._xmouse,_root._ymouse);
 	}
 	function over(var2)
 	{

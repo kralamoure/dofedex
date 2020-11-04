@@ -4,17 +4,17 @@ class dofus.datacenter.Team extends ank.battlefield.datacenter.Sprite
 	static var OPT_BLOCK_SPECTATOR = "BlockSpectator";
 	static var OPT_BLOCK_JOINER_EXCEPT_PARTY_MEMBER = "BlockJoinerExceptPartyMember";
 	static var OPT_NEED_HELP = "NeedHelp";
-	function Team(sID, §\x0f\x12§, §\x1e\x13\x14§, §\b\x18§, §\b\x06§, §\x1e\x1d\x06§, §\n\x03§)
+	function Team(sID, §\x0e\x13§, §\x1e\x12\x01§, §\x07\x14§, §\x07\x02§, §\x1e\x1b\x16§, §\b\x1d§)
 	{
 		super();
 		this.initialize(sID,var4,var5,var6,var7,var8,var9);
 	}
-	function initialize(sID, §\x0f\x12§, §\x1e\x13\x14§, §\b\x18§, §\b\x06§, §\x1e\x1d\x06§, §\n\x03§)
+	function initialize(sID, §\x0e\x13§, §\x1e\x12\x01§, §\x07\x14§, §\x07\x02§, §\x1e\x1b\x16§, §\b\x1d§)
 	{
 		super.initialize(sID,var4,var5,var6);
 		this.color1 = var7;
 		this._nType = Number(var8);
-		this._oAlignment = new dofus.datacenter.(Number(var9));
+		this._oAlignment = new dofus.datacenter.(Number(var9));
 		this._aPlayers = new Object();
 		this.options = new Object();
 	}
@@ -50,9 +50,8 @@ class dofus.datacenter.Team extends ank.battlefield.datacenter.Sprite
 	function __get__totalLevel()
 	{
 		var var2 = 0;
-		for(var k in this._aPlayers)
+		for(var var2 in this._aPlayers)
 		{
-			var2 = var2 + Number(this._aPlayers[k].level);
 		}
 		return var2;
 	}
@@ -72,7 +71,8 @@ class dofus.datacenter.Team extends ank.battlefield.datacenter.Sprite
 	function __get__enemyTeam()
 	{
 		var var2 = this._oChallenge.teams;
-		for(var k in var2)
+		§§enumerate(var2);
+		while((var var0 = §§enumeration()) != null)
 		{
 			if(k != this.id)
 			{

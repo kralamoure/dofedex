@@ -2,7 +2,7 @@ class dofus.managers.NightManager
 {
 	static var STATE_COLORS = [undefined,dofus.Constants.NIGHT_COLOR];
 	static var _sSelf = null;
-	function NightManager(var3)
+	function NightManager(var2)
 	{
 		dofus.managers.NightManager._sSelf = this;
 		this._oApi = var2;
@@ -10,11 +10,11 @@ class dofus.managers.NightManager
 	function __get__time()
 	{
 		var var2 = this.getCurrentTime();
-		if(new ank.utils.(var2[1]).addLeftChar("0",2) == "undefined")
+		if(new ank.utils.(var2[1]).addLeftChar("0",2) == "undefined")
 		{
 			return "";
 		}
-		return new ank.utils.(var2[0]).addLeftChar("0",2) + ":" + new ank.utils.(var2[1]).addLeftChar("0",2);
+		return new ank.utils.(var2[0]).addLeftChar("0",2) + ":" + new ank.utils.(var2[1]).addLeftChar("0",2);
 	}
 	function __get__date()
 	{
@@ -29,7 +29,7 @@ class dofus.managers.NightManager
 	}
 	function setReferenceTime(var2)
 	{
-		this._cdDate = new ank.utils.(var2,this._aMonths,this._nYearOffset);
+		this._cdDate = new ank.utils.(var2,this._aMonths,this._nYearOffset);
 		this.clear();
 		this.setState();
 	}

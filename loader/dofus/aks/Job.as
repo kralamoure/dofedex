@@ -1,10 +1,10 @@
 class dofus.aks.Job extends dofus.aks.Handler
 {
-	function Job(var3, var4)
+	function Job(var2, var3)
 	{
 		super.initialize(var3,var4);
 	}
-	function changeJobStats(§\x05\x10§, §\x1e\x18\x12§, minSlots)
+	function changeJobStats(§\x04\x05§, §\x1e\x17\x03§, minSlots)
 	{
 		this.aks.send("JO" + var2 + "|" + var3 + "|" + minSlots);
 	}
@@ -17,7 +17,7 @@ class dofus.aks.Job extends dofus.aks.Handler
 		{
 			var var6 = var3[var5].split(";");
 			var var7 = Number(var6[0]);
-			var var8 = new ank.utils.();
+			var var8 = new ank.utils.();
 			var var9 = var6[1].split(",");
 			var var10 = var9.length;
 			while(true)
@@ -26,7 +26,7 @@ class dofus.aks.Job extends dofus.aks.Handler
 				if(var10-- > 0)
 				{
 					var var11 = var9[var10].split("~");
-					var8.push(new dofus.datacenter.(var11[0],var11[1],var11[2],var11[3],var11[4]));
+					var8.push(new dofus.datacenter.(var11[0],var11[1],var11[2],var11[3],var11[4]));
 					continue;
 				}
 				break;
@@ -99,6 +99,6 @@ class dofus.aks.Job extends dofus.aks.Handler
 		var var4 = Number(var3[0]);
 		var var5 = Number(var3[1]);
 		var var6 = Number(var3[2]);
-		this.api.datacenter.Player.Jobs[var4].options = new dofus.datacenter.(var5,var6);
+		this.api.datacenter.Player.Jobs[var4].options = new dofus.datacenter.(var5,var6);
 	}
 }

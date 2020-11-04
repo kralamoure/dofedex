@@ -18,6 +18,14 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 	{
 		super();
 	}
+	function __get__currentOverItem()
+	{
+		return this._oOverItem;
+	}
+	function __get__itemViewer()
+	{
+		return this._itvItemViewer;
+	}
 	function __set__maxItem(var2)
 	{
 		this._nMaxItem = Number(var2);
@@ -123,12 +131,20 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 		this._cgGrid.addEventListener("dropItem",this);
 		this._cgGrid.addEventListener("dragItem",this);
 		this._cgGrid.addEventListener("selectItem",this);
+		this._cgGrid.addEventListener("overItem",this);
+		this._cgGrid.addEventListener("outItem",this);
 		this._cgLocal.addEventListener("dblClickItem",this);
 		this._cgLocal.addEventListener("dropItem",this);
 		this._cgLocal.addEventListener("dragItem",this);
 		this._cgLocal.addEventListener("selectItem",this);
+		this._cgLocal.addEventListener("overItem",this);
+		this._cgLocal.addEventListener("outItem",this);
 		this._cgDistant.addEventListener("selectItem",this);
+		this._cgDistant.addEventListener("overItem",this);
+		this._cgDistant.addEventListener("outItem",this);
 		this._cgCoop.addEventListener("selectItem",this);
+		this._cgCoop.addEventListener("overItem",this);
+		this._cgCoop.addEventListener("outItem",this);
 		this._btnFilterEquipement.addEventListener("click",this);
 		this._btnFilterNonEquipement.addEventListener("click",this);
 		this._btnFilterRessoureces.addEventListener("click",this);
@@ -175,6 +191,12 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 		{
 			this._parent.switchPayBar(1);
 		};
+		this._cgCoop.multipleContainerSelectionEnabled = false;
+		this._cgDistant.multipleContainerSelectionEnabled = false;
+		this._cgGrid.multipleContainerSelectionEnabled = false;
+		this._cgLocal.multipleContainerSelectionEnabled = false;
+		this._cgPay.multipleContainerSelectionEnabled = false;
+		this._cgPayIfSuccess.multipleContainerSelectionEnabled = false;
 	}
 	function initTexts()
 	{
@@ -191,7 +213,7 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 		this._winCraftViewer.title = this.api.lang.getText("RECEIPTS_FROM_JOB");
 		this._lblSkill.text = this.api.lang.getText("SKILL") + " : " + this.api.lang.getSkillText(this._nSkillId).d;
 		this._winDistant.title = this.api.datacenter.Sprites.getItemAt(this.api.datacenter.Exchange.distantPlayerID).name;
-		this._lblKama.text = new ank.utils.(this.api.datacenter.Player.Kama).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
+		this._lblKama.text = new ank.utils.(this.api.datacenter.Player.Kama).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
 		this._mcPayKama._visible = this.isClient;
 		this._mcPayIfSuccessKama._visible = this.isClient;
 		this._lblPay.text = this.api.lang.getText("PAY");
@@ -237,8 +259,8 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 	{
 		var var2 = this.api.datacenter.Basics[dofus.graphics.gapi.ui.SecureCraft.CLASS_NAME + "_subfilter_" + this._btnSelectedFilterButton._name];
 		this._nSelectedTypeID = var2 != undefined?var2:0;
-		var var3 = new ank.utils.();
-		var var4 = new ank.utils.();
+		var var3 = new ank.utils.();
+		var var4 = new ank.utils.();
 		var var5 = new Object();
 		for(var k in this._eaDataProvider)
 		{
@@ -292,7 +314,8 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 	}
 	function getQtyIn(var2, var3)
 	{
-		for(var qtc in var2)
+		§§enumerate(var2);
+		while((var var0 = §§enumeration()) != null)
 		{
 			if(var2[qtc].unicID == var3)
 			{
@@ -334,16 +357,24 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 			this._itvItemViewer.itemData = var2;
 		}
 	}
-	function updatePayData()
+	function updatePayData(var2)
 	{
 		this._cgPay.dataProvider = this._eaPayDataProvider;
+		if(!var2)
+		{
+			return undefined;
+		}
 		this.switchToPayMode(true);
 		this.hideButtonValidate(true);
 		ank.utils.Timer.setTimer(this,"securecraft",this,this.hideButtonValidate,dofus.graphics.gapi.ui.SecureCraft.DELAY_BEFORE_VALIDATE,[false]);
 	}
-	function updatePayIfSuccessData()
+	function updatePayIfSuccessData(var2)
 	{
 		this._cgPayIfSuccess.dataProvider = this._eaPayIfSuccessDataProvider;
+		if(!var2)
+		{
+			return undefined;
+		}
 		this.switchToPayMode(true);
 		this.hideButtonValidate(true);
 		ank.utils.Timer.setTimer(this,"securecraft",this,this.hideButtonValidate,dofus.graphics.gapi.ui.SecureCraft.DELAY_BEFORE_VALIDATE,[false]);
@@ -392,7 +423,7 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 			case "_cgGrid":
 				if(!this._bPayMode)
 				{
-					this.api.network.Exchange.movementItem(false,var3.ID,var4);
+					this.api.network.Exchange.movementItem(false,var3,var4);
 				}
 				else
 				{
@@ -400,7 +431,7 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 				}
 				break;
 			case "_cgLocal":
-				this.api.network.Exchange.movementItem(true,var3.ID,var4);
+				this.api.network.Exchange.movementItem(true,var3,var4);
 				break;
 			case "_cgPay":
 				this.api.network.Exchange.movementPayItem(1,true,var3.ID,var4);
@@ -445,7 +476,7 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 			var var3 = this.attachMovie("CraftViewer","_cvCraftViewer",this.getNextHighestDepth());
 			var3._x = this._mcPlacer._x;
 			var3._y = this._mcPlacer._y;
-			var3.skill = new dofus.datacenter.(this._nSkillId,this._nMaxItem);
+			var3.skill = new dofus.datacenter.(this._nSkillId,this._nMaxItem);
 		}
 		else
 		{
@@ -470,7 +501,7 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 		while(var2 < this._eaLocalDataProvider.length)
 		{
 			var var3 = this._eaLocalDataProvider[var2];
-			this.api.network.Exchange.movementItem(false,var3.ID,var3.Quantity);
+			this.api.network.Exchange.movementItem(false,var3,var3.Quantity);
 			var2 = var2 + 1;
 		}
 	}
@@ -490,7 +521,7 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 			{
 				if(var4.item.Quantity >= var3.quantity)
 				{
-					this.api.network.Exchange.movementItem(true,var4.item.ID,var3.quantity);
+					this.api.network.Exchange.movementItem(true,var4.item,var3.quantity);
 				}
 				else
 				{
@@ -521,7 +552,7 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 		var var2 = this.api.kernel.GameManager.analyseReceipts(this.getTotalCraftInventory(),this._nSkillId,this._nMaxItem);
 		if(var2 != undefined)
 		{
-			this.showPreview(new dofus.datacenter.(-1,var2,1,0,"",0),true);
+			this.showPreview(new dofus.datacenter.(-1,var2,1,0,"",0),true);
 		}
 		else
 		{
@@ -673,7 +704,6 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 	{
 		if(this._nLastRegenerateTimer + dofus.graphics.gapi.ui.SecureCraft.NAME_GENERATION_DELAY < getTimer())
 		{
-			this.api.network.Account.getRandomCharacterName();
 			this._nLastRegenerateTimer = getTimer();
 			var var3 = this.api.lang.getSkillText(this._nSkillId).cl;
 			var var4 = 0;
@@ -753,7 +783,7 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 	}
 	function kamaChanged(var2)
 	{
-		this._lblKama.text = new ank.utils.(var2.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
+		this._lblKama.text = new ank.utils.(var2.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
 	}
 	function modelChanged(var2)
 	{
@@ -769,7 +799,7 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 				this.updatePreview();
 				if(this._eaDistantDataProvider.length > 0)
 				{
-					this._cgCoop.dataProvider = new ank.utils.();
+					this._cgCoop.dataProvider = new ank.utils.();
 				}
 				break;
 			default:
@@ -784,25 +814,26 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 						this.updatePreview();
 						break loop0;
 					case this._eaPayDataProvider:
-						this.updatePayData();
-						break loop0;
-					case this._eaPayIfSuccessDataProvider:
-						this.updatePayIfSuccessData();
+						this.updatePayData(true);
 						break loop0;
 					default:
-						if(var0 !== this._eaReadyDataProvider)
+						switch(null)
 						{
-							this.updateData();
-							this.updateLocalData();
-							this.updateDistantData();
-							this.updateCoopData();
-							this.updatePayData();
-							this.updatePayIfSuccessData();
-							this.updatePreview();
-							break loop0;
+							case this._eaPayIfSuccessDataProvider:
+								this.updatePayIfSuccessData(true);
+								break loop0;
+							case this._eaReadyDataProvider:
+								this.updateReadyState();
+								break loop0;
+							default:
+								this.updateData();
+								this.updateLocalData();
+								this.updateDistantData();
+								this.updateCoopData();
+								this.updatePayData();
+								this.updatePayIfSuccessData();
+								this.updatePreview();
 						}
-						this.updateReadyState();
-						break loop0;
 				}
 		}
 	}
@@ -885,14 +916,9 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 					this._aSelectedSuperTypes = dofus.graphics.gapi.ui.SecureCraft.FILTER_NONEQUIPEMENT;
 					this._lblFilter.text = this.api.lang.getText("NONEQUIPEMENT");
 					break;
-				default:
-					if(var0 !== "_btnFilterRessoureces")
-					{
-						break;
-					}
+				case "_btnFilterRessoureces":
 					this._aSelectedSuperTypes = dofus.graphics.gapi.ui.SecureCraft.FILTER_RESSOURECES;
 					this._lblFilter.text = this.api.lang.getText("RESSOURECES");
-					break;
 			}
 			this.updateData(true);
 		}
@@ -900,6 +926,17 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 		{
 			var2.target.selected = true;
 		}
+	}
+	function overItem(var2)
+	{
+		var var3 = var2.target.contentData;
+		var3.showStatsTooltip(var2.target,var2.target.contentData.style);
+		this._oOverItem = var3;
+	}
+	function outItem(var2)
+	{
+		this.gapi.hideTooltip();
+		this._oOverItem = undefined;
 	}
 	function dblClickItem(var2)
 	{
@@ -911,45 +948,45 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 		var var4 = !Key.isDown(Key.CONTROL)?1:var3.Quantity;
 		var var5 = var2.owner._name;
 		this._sCurrentDragSource = var5;
-		switch(var5)
+		if((var var0 = var5) !== "_cgGrid")
 		{
-			case "_cgGrid":
-				if(!this.canDropInGarbage(var3))
-				{
-					return undefined;
-				}
-				if(!this.canUseItemInCraft(var3))
-				{
-					this.api.kernel.showMessage(undefined,this.api.lang.getText("WRONG_ITEM_TYPE"),"ERROR_CHAT");
-					return undefined;
-				}
-				if(!this._bPayMode)
-				{
-					var var6 = "_cgLocal";
-				}
-				else if(this.isClient)
-				{
-					var6 = this._nPayBar != 1?"_cgPayIfSuccess":"_cgPay";
-				}
-				else
-				{
-					return undefined;
-				}
-				break;
-			case "_cgLocal":
-				var6 = "_cgGrid";
-				break;
-			default:
-				switch(null)
-				{
-					case "_cgPay":
-						this.switchPayBar(1);
-						var6 = "_cgGrid";
-						break;
-					case "_cgPayIfSuccess":
-						this.switchPayBar(2);
-						var6 = "_cgGrid";
-				}
+			switch(null)
+			{
+				case "_cgLocal":
+					var var6 = "_cgGrid";
+					break;
+				case "_cgPay":
+					this.switchPayBar(1);
+					var6 = "_cgGrid";
+					break;
+				case "_cgPayIfSuccess":
+					this.switchPayBar(2);
+					var6 = "_cgGrid";
+			}
+		}
+		else
+		{
+			if(!this.canDropInGarbage(var3))
+			{
+				return undefined;
+			}
+			if(!this.canUseItemInCraft(var3))
+			{
+				this.api.kernel.showMessage(undefined,this.api.lang.getText("WRONG_ITEM_TYPE"),"ERROR_CHAT");
+				return undefined;
+			}
+			if(!this._bPayMode)
+			{
+				var6 = "_cgLocal";
+			}
+			else if(this.isClient)
+			{
+				var6 = this._nPayBar != 1?"_cgPayIfSuccess":"_cgPay";
+			}
+			else
+			{
+				return undefined;
+			}
 		}
 		this.validateDrop(var6,var3,var4);
 	}
@@ -1005,7 +1042,11 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 				}
 				this.switchPayBar(1);
 				break;
-			case "_cgPayIfSuccess":
+			default:
+				if(var0 !== "_cgPayIfSuccess")
+				{
+					break;
+				}
 				if(this._sCurrentDragSource == "_cgPay" || this._sCurrentDragSource == "_cgPayIfSuccess")
 				{
 					return undefined;
@@ -1076,9 +1117,9 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 		}
 		if(this.isClient)
 		{
-			this._lblKama.text = new ank.utils.(this.api.datacenter.Player.Kama - this._nKamaPayment - this._nKamaPaymentIfSuccess).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
+			this._lblKama.text = new ank.utils.(this.api.datacenter.Player.Kama - this._nKamaPayment - this._nKamaPaymentIfSuccess).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
 		}
-		this._lblPayKama.text = new ank.utils.(var2.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
+		this._lblPayKama.text = new ank.utils.(var2.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
 		this.hideButtonValidate(true);
 		ank.utils.Timer.setTimer(this,"securecraft",this,this.hideButtonValidate,dofus.graphics.gapi.ui.SecureCraft.DELAY_BEFORE_VALIDATE,[false]);
 	}
@@ -1093,9 +1134,9 @@ class dofus.graphics.gapi.ui.SecureCraft extends dofus.graphics.gapi.core.DofusA
 		}
 		if(this.isClient)
 		{
-			this._lblKama.text = new ank.utils.(this.api.datacenter.Player.Kama - this._nKamaPayment - this._nKamaPaymentIfSuccess).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
+			this._lblKama.text = new ank.utils.(this.api.datacenter.Player.Kama - this._nKamaPayment - this._nKamaPaymentIfSuccess).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
 		}
-		this._lblPayIfSuccessKama.text = new ank.utils.(var2.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
+		this._lblPayIfSuccessKama.text = new ank.utils.(var2.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
 		this.hideButtonValidate(true);
 		ank.utils.Timer.setTimer(this,"securecraft",this,this.hideButtonValidate,dofus.graphics.gapi.ui.SecureCraft.DELAY_BEFORE_VALIDATE,[false]);
 	}

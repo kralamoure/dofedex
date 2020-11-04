@@ -6,7 +6,7 @@ class dofus.managers.KeyManager extends dofus.utils.ApiElement
 	var _bShiftDown = true;
 	static var _sSelf = null;
 	var _nLastTriggerShow = 0;
-	function KeyManager(var3)
+	function KeyManager(var2)
 	{
 		super();
 		dofus.managers.KeyManager._sSelf = this;
@@ -31,9 +31,7 @@ class dofus.managers.KeyManager extends dofus.utils.ApiElement
 		Key.addListener(this);
 		this._aAnyTimeShortcuts = new Array();
 		this._aNoChatShortcuts = new Array();
-		this._so = SharedObject.getLocal(this.api.datacenter.Player.login + dofus.Constants.GLOBAL_SO_SHORTCUTS_NAME);
-		this._nCurrentSet = this.api.kernel.OptionsManager.getOption("ShortcutSet");
-		this.loadShortcuts();
+		this.addToQueue({object:this,method:this.loadShortcuts});
 	}
 	function addShortcutsListener(var2, var3)
 	{
@@ -220,6 +218,10 @@ class dofus.managers.KeyManager extends dofus.utils.ApiElement
 		{
 			return false;
 		}
+		if(var2 == "SEND_CHAT_MSG")
+		{
+			return false;
+		}
 		if(this._aListening == undefined)
 		{
 			return true;
@@ -267,7 +269,7 @@ class dofus.managers.KeyManager extends dofus.utils.ApiElement
 		{
 			return undefined;
 		}
-		var2 = new ank.utils.(var2).trim().toString();
+		var2 = new ank.utils.(var2).trim().toString();
 		if(var2.length == 0)
 		{
 			return undefined;
@@ -296,53 +298,63 @@ class dofus.managers.KeyManager extends dofus.utils.ApiElement
 	}
 	function loadShortcuts()
 	{
-		var var2 = this.api.lang.getKeyboardShortcuts();
+		var var2 = this.api.datacenter.Basics.dofusPseudo;
+		if(var2 != undefined)
+		{
+			var var3 = var2 + "_" + dofus.Constants.GLOBAL_SO_SHORTCUTS_NAME;
+			this._so = SharedObject.getLocal(var3);
+		}
+		if(this._nCurrentSet == undefined)
+		{
+			this._nCurrentSet = this.api.kernel.OptionsManager.getOption("ShortcutSet");
+		}
+		var var4 = this.api.lang.getKeyboardShortcuts();
 		this._aNoChatShortcuts = new Array();
 		this._aAnyTimeShortcuts = new Array();
-		for(var k in var2)
+		for(var k in var4)
 		{
-			var var3 = this.api.lang.getKeyboardShortcutsKeys(this._nCurrentSet,k);
-			var var4 = this.getCustomShortcut(k,false);
-			if(var4 != undefined && !var2[k].s)
+			var var5 = this.api.lang.getKeyboardShortcutsKeys(this._nCurrentSet,k);
+			var var6 = this.getCustomShortcut(k,false);
+			if(var6 != undefined && !var4[k].s)
 			{
-				if(var3.o)
+				if(var5.o)
 				{
-					this._aNoChatShortcuts.push({k:var4.k,c:var4.c,o:var3.o,d:k,l:var4.i,s:var2[k].s});
+					this._aNoChatShortcuts.push({k:var6.k,c:var6.c,o:var5.o,d:k,l:var6.i,s:var4[k].s});
 				}
 				else
 				{
-					this._aAnyTimeShortcuts.push({k:var4.k,c:var4.c,o:var3.o,d:k,l:var4.i,s:var2[k].s});
+					this._aAnyTimeShortcuts.push({k:var6.k,c:var6.c,o:var5.o,d:k,l:var6.i,s:var4[k].s});
 				}
 			}
-			else if(var3.o)
+			else if(var5.o)
 			{
-				this._aNoChatShortcuts.push({k:var3.k,c:var3.c,o:var3.o,d:k,l:var3.s,s:var2[k].s});
+				this._aNoChatShortcuts.push({k:var5.k,c:var5.c,o:var5.o,d:k,l:var5.s,s:var4[k].s});
 			}
-			else if(var3.k != undefined)
+			else if(var5.k != undefined)
 			{
-				this._aAnyTimeShortcuts.push({k:var3.k,c:var3.c,o:var3.o,d:k,l:var3.s,s:var2[k].s});
+				this._aAnyTimeShortcuts.push({k:var5.k,c:var5.c,o:var5.o,d:k,l:var5.s,s:var4[k].s});
 			}
-			var var5 = this.getCustomShortcut(k,true);
-			if(var5 != undefined && !var2[k].s)
+			var var7 = this.getCustomShortcut(k,true);
+			if(var7 != undefined && !var4[k].s)
 			{
-				if(var3.o)
+				if(var5.o)
 				{
-					this._aNoChatShortcuts.push({k:var5.k,c:var5.c,o:var3.o,d:k,l:var5.i,s:var2[k].s});
-				}
-				else
-				{
-					this._aAnyTimeShortcuts.push({k:var5.k,c:var5.c,o:var3.o,d:k,l:var5.i,s:var2[k].s});
-				}
-			}
-			else if(!_global.isNaN(var3.k2) && var3.k2 != undefined)
-			{
-				if(var3.o)
-				{
-					this._aNoChatShortcuts.push({k:var3.k2,c:var3.c2,o:var3.o,d:k,l:var3.s2,s:var2[k].s});
+					this._aNoChatShortcuts.push({k:var7.k,c:var7.c,o:var5.o,d:k,l:var7.i,s:var4[k].s});
 				}
 				else
 				{
-					this._aAnyTimeShortcuts.push({k:var3.k2,c:var3.c2,o:var3.o,d:k,l:var3.s2,s:var2[k].s});
+					this._aAnyTimeShortcuts.push({k:var7.k,c:var7.c,o:var5.o,d:k,l:var7.i,s:var4[k].s});
+				}
+			}
+			else if(!_global.isNaN(var5.k2) && var5.k2 != undefined)
+			{
+				if(var5.o)
+				{
+					this._aNoChatShortcuts.push({k:var5.k2,c:var5.c2,o:var5.o,d:k,l:var5.s2,s:var4[k].s});
+				}
+				else
+				{
+					this._aAnyTimeShortcuts.push({k:var5.k2,c:var5.c2,o:var5.o,d:k,l:var5.s2,s:var4[k].s});
 				}
 			}
 		}
@@ -353,18 +365,18 @@ class dofus.managers.KeyManager extends dofus.utils.ApiElement
 			this._aAnyTimeShortcuts.push({k:13,c:1,o:true,d:"GUILD_MESSAGE"});
 			this._aAnyTimeShortcuts.push({k:13,c:0,o:true,d:"ACCEPT_CURRENT_DIALOG"});
 			this._aAnyTimeShortcuts.push({k:70,c:1,o:true,d:"FULLSCREEN"});
-			var var6 = this.api.lang.getDefaultConsoleShortcuts();
-			var var7 = 0;
-			while(var7 < var6.length)
+			var var8 = this.api.lang.getDefaultConsoleShortcuts();
+			var var9 = 0;
+			while(var9 < var8.length)
 			{
-				this._aAnyTimeShortcuts.push({k:var6[var7].k,c:1,o:true,d:"CONSOLE"});
-				var7 = var7 + 1;
+				this._aAnyTimeShortcuts.push({k:var8[var9].k,c:1,o:true,d:"CONSOLE"});
+				var9 = var9 + 1;
 			}
-			var var8 = 0;
-			while(var8 < var6.length)
+			var var10 = 0;
+			while(var10 < var8.length)
 			{
-				this._aAnyTimeShortcuts.push({k:var6[var8].k,c:2,o:true,d:"CONSOLESIZE"});
-				var8 = var8 + 1;
+				this._aAnyTimeShortcuts.push({k:var8[var10].k,c:2,o:true,d:"CONSOLESIZE"});
+				var10 = var10 + 1;
 			}
 		}
 	}
@@ -391,21 +403,18 @@ class dofus.managers.KeyManager extends dofus.utils.ApiElement
 							var8 = true;
 						}
 						break;
-					default:
-						if(var0 !== 3)
-						{
-							if(!var4 && !var5)
-							{
-								var8 = true;
-								break;
-							}
-							break;
-						}
+					case 3:
 						if(var4 && var5)
 						{
 							var8 = true;
 						}
 						break;
+					default:
+						if(!var4 && !var5)
+						{
+							var8 = true;
+							break;
+						}
 				}
 				if(var8)
 				{
@@ -437,6 +446,11 @@ class dofus.managers.KeyManager extends dofus.utils.ApiElement
 			return undefined;
 		}
 		this._bPressedKeys[var2] = true;
+		if(this.api.gfx.mapHandler.showingFightCells && !this.api.datacenter.Game.isFight)
+		{
+			this.api.gfx.unSelect(true);
+			this.api.gfx.mapHandler.showingFightCells = false;
+		}
 		if(this.api.gfx.spriteHandler.isShowingMonstersTooltip)
 		{
 			this.api.gfx.spriteHandler.showMonstersTooltip(false);
@@ -444,6 +458,10 @@ class dofus.managers.KeyManager extends dofus.utils.ApiElement
 		if(this.api.gfx.spriteHandler.isPlayerSpritesHidden)
 		{
 			this.api.gfx.spriteHandler.hidePlayerSprites(false);
+		}
+		if(this.api.kernel.AdminManager.updateSearch(var3,var2))
+		{
+			return undefined;
 		}
 		if(!this.processShortcuts(this._aAnyTimeShortcuts,var2,var4,var5))
 		{
@@ -464,6 +482,11 @@ class dofus.managers.KeyManager extends dofus.utils.ApiElement
 	}
 	function onKeyUp()
 	{
+		if(this.api.gfx.mapHandler.showingFightCells && !this.api.datacenter.Game.isFight)
+		{
+			this.api.gfx.unSelect(true);
+			this.api.gfx.mapHandler.showingFightCells = false;
+		}
 		if(this.api.gfx.spriteHandler.isShowingMonstersTooltip)
 		{
 			this.api.gfx.spriteHandler.showMonstersTooltip(false);
@@ -525,12 +548,17 @@ class dofus.managers.KeyManager extends dofus.utils.ApiElement
 						var3 = false;
 						break loop0;
 					case "SHOWTRIGGERS":
+						if(this.api.datacenter.Game.isFight || getTimer() - this._nLastTriggerShow < dofus.Constants.CLICK_MIN_DELAY)
+						{
+							break loop0;
+						}
 						if(!this.api.datacenter.Game.isFight)
 						{
 							if(getTimer() - this._nLastTriggerShow >= dofus.Constants.CLICK_MIN_DELAY)
 							{
 								this._nLastTriggerShow = getTimer();
 								this.api.gfx.mapHandler.showTriggers();
+								this.api.gfx.mapHandler.showFightCells();
 							}
 							var3 = false;
 						}
@@ -539,46 +567,50 @@ class dofus.managers.KeyManager extends dofus.utils.ApiElement
 						this.api.gfx.spriteHandler.hidePlayerSprites(true);
 						var3 = false;
 						break loop0;
-					case "TRANSPARENCY":
-						this.api.kernel.OptionsManager.setOption("Transparency",!this.api.gfx.bGhostView);
-						var3 = false;
-						break loop0;
-					case "SPRITEINFOS":
-						this.api.kernel.OptionsManager.setOption("SpriteInfos");
-						var3 = false;
-						break loop0;
-					case "COORDS":
-						this.api.kernel.OptionsManager.setOption("MapInfos");
-						var3 = false;
-						break loop0;
-					case "STRINGCOURSE":
-						this.api.kernel.OptionsManager.setOption("StringCourse");
-						var3 = false;
-						break loop0;
-					case "BUFF":
-						this.api.kernel.OptionsManager.setOption("Buff");
-						var3 = false;
-						break loop0;
 					default:
 						switch(null)
 						{
-							case "MOVABLEBAR":
-								this.api.kernel.OptionsManager.setOption("MovableBar",!this.api.kernel.OptionsManager.getOption("MovableBar"));
+							case "TRANSPARENCY":
+								this.api.kernel.OptionsManager.setOption("Transparency",!this.api.gfx.bGhostView);
 								var3 = false;
-								break;
-							case "MOUNTING":
-								this.api.network.Mount.ride();
+								break loop0;
+							case "SPRITEINFOS":
+								this.api.kernel.OptionsManager.setOption("SpriteInfos");
 								var3 = false;
-								break;
-							case "FULLSCREEN":
-								this.api.kernel.GameManager.isFullScreen = var0 = !this.api.kernel.GameManager.isFullScreen;
-								getURL("FSCommand:" add "fullscreen",var0);
+								break loop0;
+							case "COORDS":
+								this.api.kernel.OptionsManager.setOption("MapInfos");
 								var3 = false;
-								break;
-							case "ALLOWSCALE":
-								this.api.kernel.GameManager.isAllowingScale = var0 = !this.api.kernel.GameManager.isAllowingScale;
-								getURL("FSCommand:" add "allowscale",var0);
+								break loop0;
+							case "STRINGCOURSE":
+								this.api.kernel.OptionsManager.setOption("StringCourse");
 								var3 = false;
+								break loop0;
+							case "BUFF":
+								this.api.kernel.OptionsManager.setOption("Buff");
+								var3 = false;
+								break loop0;
+							default:
+								switch(null)
+								{
+									case "MOVABLEBAR":
+										this.api.kernel.OptionsManager.setOption("MovableBar",!this.api.kernel.OptionsManager.getOption("MovableBar"));
+										var3 = false;
+										break;
+									case "MOUNTING":
+										this.api.network.Mount.ride();
+										var3 = false;
+										break;
+									case "FULLSCREEN":
+										this.api.kernel.GameManager.isFullScreen = var0 = !this.api.kernel.GameManager.isFullScreen;
+										getURL("FSCommand:" add "fullscreen",var0);
+										var3 = false;
+										break;
+									case "ALLOWSCALE":
+										this.api.kernel.GameManager.isAllowingScale = var0 = !this.api.kernel.GameManager.isAllowingScale;
+										getURL("FSCommand:" add "allowscale",var0);
+										var3 = false;
+								}
 						}
 				}
 		}

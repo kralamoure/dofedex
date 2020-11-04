@@ -1,12 +1,12 @@
 class dofus.managers.EffectsManager extends dofus.utils.ApiElement
 {
-	function EffectsManager(oSprite, §\x1e\x1b\x1b§)
+	function EffectsManager(oSprite, §\x1e\x1a\r§)
 	{
 		super();
 		var var5 = new flash.display.BitmapData();
 		this.initialize(oSprite,var4);
 	}
-	function initialize(oSprite, §\x1e\x1b\x1b§)
+	function initialize(oSprite, §\x1e\x1a\r§)
 	{
 		super.initialize(var4);
 		this._oSprite = oSprite;

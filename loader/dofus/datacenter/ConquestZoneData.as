@@ -1,6 +1,6 @@
 class dofus.datacenter.ConquestZoneData extends dofus.utils.ApiElement
 {
-	function ConquestZoneData(§\r\x1b§, alignment, fighting, prism, attackable)
+	function ConquestZoneData(§\f\x1b§, alignment, fighting, prism, attackable)
 	{
 		super();
 		this._nSubAreaId = var3;
@@ -50,6 +50,9 @@ class dofus.datacenter.ConquestZoneData extends dofus.utils.ApiElement
 		{
 			if(var3.areas.findFirstItem("id",var2[s]).item.alignment == this.api.datacenter.Player.alignment.index)
 			{
+				while(§§pop() != null)
+				{
+				}
 				return true;
 			}
 		}

@@ -161,8 +161,8 @@ class dofus.graphics.gapi.controls.InventoryViewer extends dofus.graphics.gapi.c
 	{
 		var var2 = this.api.datacenter.Basics[dofus.graphics.gapi.controls.InventoryViewer.CLASS_NAME + "_subfilter_" + this._btnSelectedFilterButton._name + "_" + this._name];
 		this._nSelectedTypeID = var2 != undefined?var2:0;
-		var var3 = new ank.utils.();
-		var var4 = new ank.utils.();
+		var var3 = new ank.utils.();
+		var var4 = new ank.utils.();
 		var var5 = new Object();
 		for(var k in this._eaDataProvider)
 		{
@@ -237,7 +237,7 @@ class dofus.graphics.gapi.controls.InventoryViewer extends dofus.graphics.gapi.c
 		}
 		else
 		{
-			this._lblKama.text = new ank.utils.(var2.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
+			this._lblKama.text = new ank.utils.(var2.value).addMiddleChar(this.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
 		}
 	}
 	function click(var2)
@@ -316,16 +316,15 @@ class dofus.graphics.gapi.controls.InventoryViewer extends dofus.graphics.gapi.c
 			case this._btnFilterNonEquipement:
 				this.api.ui.showTooltip(this.api.lang.getText("NONEQUIPEMENT"),var2.target,-20);
 				break;
-			case this._btnFilterRessoureces:
-				this.api.ui.showTooltip(this.api.lang.getText("RESSOURECES"),var2.target,-20);
-				break;
 			default:
-				if(var0 !== this._btnMoreChoice)
+				switch(null)
 				{
-					break;
+					case this._btnFilterRessoureces:
+						this.api.ui.showTooltip(this.api.lang.getText("RESSOURECES"),var2.target,-20);
+						break;
+					case this._btnMoreChoice:
+						this.api.ui.showTooltip(this.api.lang.getText("SEARCH_AND_SORT"),var2.target,-20);
 				}
-				this.api.ui.showTooltip(this.api.lang.getText("SEARCH_AND_SORT"),var2.target,-20);
-				break;
 		}
 	}
 	function out(var2)

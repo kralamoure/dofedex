@@ -13,7 +13,7 @@ class dofus.graphics.gapi.controls.listinventoryviewer.ListInventoryViewerItem e
 	{
 		if(var2)
 		{
-			this._lblPrice.text = !var2?"":new ank.utils.(var4.price).addMiddleChar(this._mcList.gapi.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
+			this._lblPrice.text = !var2?"":new ank.utils.(var4.price).addMiddleChar(this._mcList.gapi.api.lang.getConfigText("THOUSAND_SEPARATOR"),3);
 			var var5 = this._lblPrice.textWidth;
 			this._lblName.text = !var2?"":(var4.Quantity <= 1?"":"x" + var4.Quantity + " ") + var4.name;
 			this._lblName.setSize(this.__width - var5 - 30,this.__height);

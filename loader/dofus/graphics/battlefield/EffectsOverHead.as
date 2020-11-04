@@ -35,9 +35,8 @@ class dofus.graphics.battlefield.EffectsOverHead extends MovieClip
 		}
 		var var5 = 0;
 		var var6 = 0;
-		for(var j in this._aEffectsQty)
+		for(var var3 in this._aEffectsQty)
 		{
-			var3 = this._aEffectsQty[j].effect;
 			var var7 = new MovieClipLoader();
 			var7.addListener(this);
 			this._mcEffects.createEmptyMovieClip("_mcEffect" + j,Number(j));

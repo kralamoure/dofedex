@@ -1,7 +1,7 @@
 class dofus.datacenter.Document extends Object
 {
 	static var MAX_CHAPTER_ON_PAGE = 13;
-	function Document(var3)
+	function Document(var2)
 	{
 		super();
 		this.initialize(var3);
@@ -46,7 +46,7 @@ class dofus.datacenter.Document extends Object
 		this._sAuthor = var2.author;
 		this._sCSS = dofus.Constants.STYLES_PATH + var2.style + ".css";
 		this._aChapters = var2.chapters;
-		this._aPages = new ank.utils.();
+		this._aPages = new ank.utils.();
 		switch(this._sType)
 		{
 			case "book":

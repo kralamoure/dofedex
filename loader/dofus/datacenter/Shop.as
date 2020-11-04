@@ -5,6 +5,15 @@ class dofus.datacenter.Shop extends Object
 		super();
 		this.initialize();
 	}
+	function __set__id(sID)
+	{
+		this._sID = sID;
+		return this.__get__id();
+	}
+	function __get__id()
+	{
+		return this._sID;
+	}
 	function __set__name(var2)
 	{
 		this._sName = var2;

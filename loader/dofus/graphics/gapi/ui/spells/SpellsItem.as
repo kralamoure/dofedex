@@ -22,18 +22,23 @@ class dofus.graphics.gapi.ui.spells.SpellsItem extends ank.gapi.core.UIBasicComp
 			this._lblRange.text = (var4.rangeMin == 0?"":var4.rangeMin + "-") + var4.rangeMax + " " + var5.lang.getText("RANGE");
 			this._lblAP.text = var4.apCost + " " + var5.lang.getText("AP");
 			this._ldrIcon.contentPath = var4.iconFile;
-			var var6 = this._mcList._parent._parent.canBoost(var4) && var5.datacenter.Basics.canUseSeeAllSpell;
-			var var7 = this._mcList._parent._parent.getCostForBoost(var4);
+			if(dofus.Constants.DOUBLEFRAMERATE && this._ldrIcon.loaded)
+			{
+				var var6 = var5.kernel.OptionsManager.getOption("RemasteredSpellIconsPack");
+				this._ldrIcon.content.gotoAndStop(var6);
+			}
+			var var7 = this._mcList._parent._parent.canBoost(var4) && var5.datacenter.Basics.canUseSeeAllSpell;
+			var var8 = this._mcList._parent._parent.getCostForBoost(var4);
 			this._btnBoost.enabled = true;
-			this._btnBoost._visible = var6;
-			this._lblBoost.text = !(var7 != -1 && var5.datacenter.Basics.canUseSeeAllSpell)?"":var5.lang.getText("POINT_NEED_TO_BOOST_SPELL",[var7]);
+			this._btnBoost._visible = var7;
+			this._lblBoost.text = !(var8 != -1 && var5.datacenter.Basics.canUseSeeAllSpell)?"":var5.lang.getText("POINT_NEED_TO_BOOST_SPELL",[var8]);
 			if(var5.datacenter.Player.Level < var4._minPlayerLevel)
 			{
-				var var8 = 50;
-				this._lblName._alpha = var8;
-				this._ldrIcon._alpha = var8;
-				this._lblAP._alpha = var8;
-				this._lblRange._alpha = var8;
+				var var9 = 50;
+				this._lblName._alpha = var9;
+				this._ldrIcon._alpha = var9;
+				this._lblAP._alpha = var9;
+				this._lblRange._alpha = var9;
 				this._lblLevel._visible = false;
 				this._lblBoost._visible = false;
 				this._btnBoost._visible = false;
@@ -71,9 +76,21 @@ class dofus.graphics.gapi.ui.spells.SpellsItem extends ank.gapi.core.UIBasicComp
 	}
 	function addListeners()
 	{
+		this._ldrIcon.addEventListener("complete",this);
 		this._btnBoost.addEventListener("click",this);
 		this._btnBoost.addEventListener("over",this);
 		this._btnBoost.addEventListener("out",this);
+	}
+	function complete(var2)
+	{
+		if(!dofus.Constants.DOUBLEFRAMERATE)
+		{
+			return undefined;
+		}
+		var var3 = this._mcList._parent._parent.api;
+		var var4 = var2.clip;
+		var var5 = var3.kernel.OptionsManager.getOption("RemasteredSpellIconsPack");
+		var4.gotoAndStop(var5);
 	}
 	function click(var2)
 	{

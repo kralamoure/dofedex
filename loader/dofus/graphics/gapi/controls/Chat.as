@@ -149,12 +149,15 @@ class dofus.graphics.gapi.controls.Chat extends dofus.graphics.gapi.core.DofusAd
 				this.api.sounds.events.onBannerChatButtonClick();
 				this.hideSmileys(this._bSmileysOpened);
 				break;
-			case "_btnOpenClose":
+			default:
+				if(var0 !== "_btnOpenClose")
+				{
+					this.dispatchEvent({type:"filterChanged",filter:Number(var2.target._name.substr(10)),selected:var2.target.selected});
+					break;
+				}
 				this.api.sounds.events.onBannerChatButtonClick();
 				this.open(!var2.target.selected);
 				break;
-			default:
-				this.dispatchEvent({type:"filterChanged",filter:Number(var2.target._name.substr(10)),selected:var2.target.selected});
 		}
 	}
 	function over(var2)

@@ -1,6 +1,6 @@
-class dofus.graphics.gapi.ui.NpcDialog["\x0f\t"] extends ank.gapi.core.UIBasicComponent
+class dofus.graphics.gapi.ui.fightsinfos.FightsInfosFightItem extends ank.gapi.core.UIBasicComponent
 {
-	function §\x0f\t§()
+	function FightsInfosFightItem()
 	{
 		super();
 	}

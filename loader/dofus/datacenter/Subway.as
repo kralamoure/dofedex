@@ -1,6 +1,6 @@
 class dofus.datacenter.Subway extends dofus.datacenter.Hint
 {
-	function Subway(§\x12\x0b§, cost)
+	function Subway(§\x11\r§, cost)
 	{
 		super(var3);
 		this._nCost = cost;

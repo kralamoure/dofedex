@@ -17,6 +17,8 @@
   •
   <a href="#language-files">Language files</a>
   •
+  <a href="#maps">Maps</a>
+  •
   <a href="#contributors">Contributors</a>
   •
   <a href="#contributing">Contributing</a>
@@ -26,6 +28,10 @@
 
 | Version | Classic | Remastered |
 | - | - | - |
+| [1.35.1](https://www.dofus.com/fr/forum/1751-dofus-retro/2358329-dofus-retro-ilyzaelle-tan-mise-jour-1-35?page=1#entry12962150) | [Download](https://github.com/dofera/dofedex/releases/download/1.35.1/dofus-1.35.1.zip) | [Download](https://github.com/dofera/dofedex/releases/download/1.35.1-remastered/dofus-1.35.1-remastered.zip) |
+| [1.35.0](https://www.dofus.com/fr/forum/1751-dofus-retro/2358329-dofus-retro-ilyzaelle-tan-mise-jour-1-35) | [Download](https://github.com/dofera/dofedex/releases/download/1.35.0/dofus-1.35.0.zip) | [Download](https://github.com/dofera/dofedex/releases/download/1.35.0-remastered/dofus-1.35.0-remastered.zip) |
+| 1.34.13 | [Download](https://github.com/dofera/dofedex/releases/download/1.34.13/dofus-1.34.13.zip) | [Download](https://github.com/dofera/dofedex/releases/download/1.34.13-remastered/dofus-1.34.13-remastered.zip) |
+| 1.34.12 | [Download](https://github.com/dofera/dofedex/releases/download/1.34.12/dofus-1.34.12.zip) | [Download](https://github.com/dofera/dofedex/releases/download/1.34.12-remastered/dofus-1.34.12-remastered.zip) |
 | 1.34.11 | [Download](https://github.com/dofera/dofedex/releases/download/1.34.11/dofus-1.34.11.zip) | [Download](https://github.com/dofera/dofedex/releases/download/1.34.11-remastered/dofus-1.34.11-remastered.zip) |
 | [1.34.6](https://www.dofus.com/fr/forum/1751-dofus-retro/2348287-dofus-retro-mise-jour-1-34?page=1#entry12915054) | [Download](https://github.com/dofera/dofedex/releases/download/1.34.6/dofus-1.34.6.zip) | [Download](https://github.com/dofera/dofedex/releases/download/1.34.6-remastered/dofus-1.34.6-remastered.zip) |
 | 1.34.5 | [Download](https://github.com/dofera/dofedex/releases/download/1.34.5/dofus-1.34.5.zip) | [Download](https://github.com/dofera/dofedex/releases/download/1.34.5-remastered/dofus-1.34.5-remastered.zip) |
@@ -45,12 +51,9 @@
 | [1.32.0](https://www.dofus.com/fr/mmorpg/actualites/news/1155616-maj-1-32-demain-serveurs-retro) | Download | [Download](https://github.com/dofera/dofedex/releases/download/1.32.0-remastered/dofus-1.32.0-remastered.zip) |
 | [1.31.3](https://www.dofus.com/fr/forum/1747-actualite/2323644-maj-dofus-retro-1-31-3) | Download | [Download](https://github.com/dofera/dofedex/releases/download/1.31.3-remastered/dofus-1.31.3-remastered.zip) |
 | [1.31.2](https://www.dofus.com/fr/forum/1751-dofus-retro/2321937-maj-dofus-retro-1-31-2-remastered) | - | [Download](https://github.com/dofera/dofedex/releases/download/1.31.2-remastered/dofus-1.31.2-remastered.zip) |
-
-| Version | Classic |
-| - | - |
-| [1.31.0](https://www.dofus.com/fr/forum/1751-dofus-retro/2319640-maj-dofus-retro-1-31) | [Download](https://github.com/dofera/dofedex/releases/download/1.31.0/dofus-1.31.0.zip) |
-| 1.30.21 | [Download](https://github.com/dofera/dofedex/releases/download/1.30.21/dofus-1.30.21.zip) |
-| 1.30.18 | [Download](https://github.com/dofera/dofedex/releases/download/1.30.18/dofus-1.30.18.zip) |
+| [1.31.0](https://www.dofus.com/fr/forum/1751-dofus-retro/2319640-maj-dofus-retro-1-31) | [Download](https://github.com/dofera/dofedex/releases/download/1.31.0/dofus-1.31.0.zip) | - |
+| 1.30.21 | [Download](https://github.com/dofera/dofedex/releases/download/1.30.21/dofus-1.30.21.zip) | - |
+| 1.30.18 | [Download](https://github.com/dofera/dofedex/releases/download/1.30.18/dofus-1.30.18.zip) | - |
 
 | Version | Alpha | Classic |
 | - | - | - |
@@ -79,7 +82,14 @@
 | [1.21.0](https://www.dofus.com/fr/forum/1750-dofus/117027-version-1-21-disponible-18-12-07) | [Download](https://github.com/dofera/dofedex/releases/download/1.21.0/dofus-1.21.0.zip) |
 | [1.20.0](https://www.dofus.com/fr/forum/1750-dofus/104993-nouvelle-extension-ile-otomai) | [Download](https://github.com/dofera/dofedex/releases/download/1.20.0/dofus-1.20.0.zip) |
 | [1.19.0](https://www.dofus.com/fr/forum/1750-dofus/91090-mise-jour-1-19) | [Download](https://github.com/dofera/dofedex/releases/download/1.19.0/dofus-1.19.0.zip) |
+
+
+| Version | Beta |
+| - | - |
 | [1.18.3](https://www.dofus.com/fr/forum/1750-dofus/88301-nouvelle-version-1-18-3-beta-disponible-serveur-test) | Download |
+
+| Version | Legacy |
+| - | - |
 | [1.18.2](https://www.dofus.com/fr/forum/1750-dofus/85187-version-1-18-2) | [Download](https://github.com/dofera/dofedex/releases/download/1.18.2/dofus-1.18.2.zip) |
 | [1.18.1](https://www.dofus.com/fr/forum/1750-dofus/78713-version-optionelle-1-18-1) | [Download](https://github.com/dofera/dofedex/releases/download/1.18.1/dofus-1.18.1.zip) |
 | [1.18.0](https://www.dofus.com/fr/forum/1750-dofus/78106-version-1-18-incarnam) | [Download](https://github.com/dofera/dofedex/releases/download/1.18.0/dofus-1.18.0.zip) |
@@ -90,6 +100,15 @@
 | [1.16.2](https://www.dofus.com/fr/forum/1750-dofus/62128-details-informations-propos-prochaine-mise-jour-1-16-2-dofus) | [Download](https://github.com/dofera/dofedex/releases/download/1.16.2/dofus-1.16.2.zip) |
 | [1.15.4](https://www.dofus.com/fr/forum/1750-dofus/57000-nouveau-client-facultatif-1-15-4) | [Download](https://github.com/dofera/dofedex/releases/download/1.15.4/dofus-1.15.4.zip) |
 | [1.15.3](https://www.dofus.com/fr/forum/1750-dofus/55914-prochaine-mise-jour-client-1-15-3) | Download |
+| [1.15.2](https://www.dofus.com/fr/forum/1750-dofus/53773-nouvelle-extension-chevaucheurs-dragodindes) | Download |
+
+| Version | Beta |
+| - | - |
+| [1.15.1](https://www.dofus.com/fr/forum/1750-dofus/54142-mise-jour-serveurs-06-10-06) | Download |
+| [1.15.0](https://www.dofus.com/fr/forum/1750-dofus/53773-nouvelle-extension-chevaucheurs-dragodindes) | Download |
+
+| Version | Legacy |
+| - | - |
 | [1.14.2](https://www.dofus.com/fr/forum/1750-dofus/51513-nouveau-client-dofus-1-14-2) | Download |
 | [1.14.1](https://www.dofus.com/fr/forum/1750-dofus/44277-nouvelle-version-1-14-1-maintenances) | Download |
 | [1.14.0](https://www.dofus.com/fr/forum/1750-dofus/42374-nouvelle-version-1-14-dofus) | Download |
@@ -118,10 +137,15 @@
 
 | Version | Beta |
 | - | - |
-| [11](https://web.archive.org/web/20040605182939/http://dofus.com/?page=informations&rubrique=news&contenu=news_display&idnews=82) | Download |
-| 7 | [Download](https://github.com/dofera/dofedex/releases/download/7b/dofus-7b.zip) |
-| 5 | [Download](https://github.com/dofera/dofedex/releases/download/5b/dofus-5b.zip) |
-
+| 14b | Download |
+| [13b](https://web.archive.org/web/20040706115519/http://www.dofus.com/index.php?page=informations&rubrique=betatests&ssrubrique=beta13&contenu=beta13) | Download |
+| 12b | Download |
+| [11b](https://web.archive.org/web/20040605182939/http://dofus.com/?page=informations&rubrique=news&contenu=news_display&idnews=82) | Download |
+| 10b | Download |
+| [9.1b](https://web.archive.org/web/20040423032957/http://dofus.com/?page=informations&rubrique=news&contenu=news_display&idnews=57) | Download |
+| [9b](https://web.archive.org/web/20040504015817/http://dofus.com/?page=informations&rubrique=news&contenu=news_display&idnews=56) | Download |
+| 7b | [Download](https://github.com/dofera/dofedex/releases/download/7b/dofus-7b.zip) |
+| 5b | [Download](https://github.com/dofera/dofedex/releases/download/5b/dofus-5b.zip) |
 
 ## Deobfuscated loaders
 
@@ -133,13 +157,17 @@
 
 ## Language files
 
-- [Deutsch](https://github.com/dofera/dofedex/tree/master/langs/de)
-- [English](https://github.com/dofera/dofedex/tree/master/langs/en)
-- [Español](https://github.com/dofera/dofedex/tree/master/langs/es)
-- [Français](https://github.com/dofera/dofedex/tree/master/langs/fr)
-- [Italiano](https://github.com/dofera/dofedex/tree/master/langs/it)
-- [Nederlands](https://github.com/dofera/dofedex/tree/master/langs/nl)
-- [Português](https://github.com/dofera/dofedex/tree/master/langs/pt)
+- [Deutsch](https://github.com/dofera/dofedex/tree/master/lang/de)
+- [English](https://github.com/dofera/dofedex/tree/master/lang/en)
+- [Español](https://github.com/dofera/dofedex/tree/master/lang/es)
+- [Français](https://github.com/dofera/dofedex/tree/master/lang/fr)
+- [Italiano](https://github.com/dofera/dofedex/tree/master/lang/it)
+- [Nederlands](https://github.com/dofera/dofedex/tree/master/lang/nl)
+- [Português](https://github.com/dofera/dofedex/tree/master/lang/pt)
+
+## Maps
+
+`https://github.com/dofera/dofedex/tree/master/maps/{map-id}`
 
 ## Contributors
 
